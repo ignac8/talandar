@@ -2,7 +2,7 @@ package bwmcts.test;
 
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
-import jnibwapi.model.Race;
+import jnibwapi.Race;
 import jnibwapi.types.BulletType;
 import jnibwapi.types.DamageType;
 import jnibwapi.types.DamageType.DamageTypes;

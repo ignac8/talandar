@@ -2,7 +2,7 @@ package bwmcts.combat;
 
 import bwmcts.sparcraft.Position;
 import jnibwapi.JNIBWAPI;
-import jnibwapi.model.Unit;
+import jnibwapi.Unit;
 import jnibwapi.util.BWColor;
 
 import java.util.HashMap;

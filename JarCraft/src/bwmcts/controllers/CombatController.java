@@ -9,7 +9,7 @@ import bwmcts.uct.guctcd.GUCTCD;
 import bwmcts.uct.iuctcd.IUCTCD;
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
-import jnibwapi.model.Unit;
+import jnibwapi.Unit;
 import jnibwapi.util.BWColor;
 
 public class CombatController implements BWAPIEventListener {

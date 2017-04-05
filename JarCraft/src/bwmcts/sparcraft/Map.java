@@ -36,7 +36,7 @@ public class Map {
         resetVectors();
     }
 
-    public Map(jnibwapi.model.Map map) {
+    public Map(jnibwapi.Map map) {
         _walkTileWidth = map.getWalkWidth();
         _walkTileHeight = map.getWalkHeight();
         _buildTileWidth = map.getWidth();
@@ -138,7 +138,7 @@ public class Map {
     public void setUnitData(JNIBWAPI game) {
         _unitData = new boolean[getBuildTileWidth()][getBuildTileHeight()];//true
 
-        for (jnibwapi.model.Unit unit : game.getAllUnits()) {
+        for (jnibwapi.Unit unit : game.getAllUnits()) {
 
             if (!game.getUnitType(unit.getID()).isBuilding()) {
                 addUnit(new Unit(game.getUnitType(unit.getTypeID()), unit.getPlayerID(), new Position(unit.getX(), unit.getY())));
@@ -153,7 +153,7 @@ public class Map {
     public void setBuildingData(JNIBWAPI game) {
         _buildingData = new boolean[getBuildTileWidth()][getBuildTileHeight()];// true));
 
-        for (jnibwapi.model.Unit unit : game.getAllUnits()) {
+        for (jnibwapi.Unit unit : game.getAllUnits()) {
             if (game.getUnitType(unit.getID()).isBuilding()) {
                 addUnit(new Unit(game.getUnitType(unit.getTypeID()), unit.getPlayerID(), new Position(unit.getX(), unit.getY())));
             }

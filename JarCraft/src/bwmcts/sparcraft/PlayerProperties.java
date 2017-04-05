@@ -5,7 +5,7 @@
  **/
 package bwmcts.sparcraft;
 
-import jnibwapi.model.Player;
+import jnibwapi.Player;
 import jnibwapi.types.TechType;
 import jnibwapi.types.TechType.TechTypes;
 import jnibwapi.types.UpgradeType;

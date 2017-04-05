@@ -527,7 +527,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     //Code from UalbertaBot
-    public void setUnitCooldown(JNIBWAPI bwapi, jnibwapi.model.Unit unit) {
+    public void setUnitCooldown(JNIBWAPI bwapi, jnibwapi.Unit unit) {
         int attackCooldown = 0;
         int moveCooldown = 0;
 

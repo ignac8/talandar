@@ -54,7 +54,7 @@ public class GameState {
 
         _units = new Unit[Constants.Num_Players][Constants.Max_Moves];
         int i = 0;
-        for (jnibwapi.model.Unit u : bwapi.getMyUnits()) {
+        for (jnibwapi.Unit u : bwapi.getMyUnits()) {
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());
             _units[bwapi.getSelf().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShield(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount());
             _units[bwapi.getSelf().getID()][i].setUnitCooldown(bwapi, u);
@@ -62,7 +62,7 @@ public class GameState {
             i++;
         }
         i = 0;
-        for (jnibwapi.model.Unit u : bwapi.getEnemyUnits()) {
+        for (jnibwapi.Unit u : bwapi.getEnemyUnits()) {
 
             //TODO
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());

@@ -187,7 +187,7 @@ public class UctLogic extends Player implements ICombatLogic {
     }
 
     public void drawUnitOneInfo(JNIBWAPI bwapi) {
-        jnibwapi.model.Unit my = bwapi.getUnit(0);
+        jnibwapi.Unit my = bwapi.getUnit(0);
 
         bwapi.drawText(0, 0, "isMoving: " + my.isMoving(), false);
         bwapi.drawText(0, 20, "isattacking: " + my.isAttacking(), false);
