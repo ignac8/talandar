@@ -39,7 +39,7 @@ public class NoOverKillAttackValueLogic implements ICombatLogic {
 
         List<Unit> enemyUnits = bwapi.getEnemyUnits();
 
-        //bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.YELLOW, false, false);
+        //bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.Yellow, false, false);
 
         Position position = new Position(unit.getX(), unit.getY());
 
@@ -79,7 +79,7 @@ public class NoOverKillAttackValueLogic implements ICombatLogic {
 
                 if (damagePerFrame / enemy.getHitPoints() > highestValue) {
                     if (attackedUnits.containsKey(enemy.getID()) &&
-                            attackedUnits.get(enemy.getID()) >= enemy.getHitPoints() + enemy.getShield()) {
+                            attackedUnits.get(enemy.getID()) >= enemy.getHitPoints() + enemy.getShields()) {
                         continue;
                     } else {
                         highestValue = damagePerFrame / enemy.getHitPoints();

@@ -63,11 +63,11 @@ public class PlayerProperties {
 
     public void Capture(Player player) {
         for (int i = 0; i < NUM_UPGRADES; i++) {
-            upgradeLevel[i] = player.upgradeLevel(i);
+            upgradeLevel[i] = player.getUpgradeLevel(i);
         }
 
         for (int i = 0; i < NUM_TECHS; i++) {
-            hasResearched[i] = player.hasResearched(i);
+            hasResearched[i] = player.isResearched(i);
         }
     }
 

@@ -32,7 +32,7 @@ public class AttackClosestLogic implements ICombatLogic {
 
         List<Unit> enemyUnits = bwapi.getEnemyUnits();
 
-        //bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.YELLOW, false, false);
+        //bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.Yellow, false, false);
 
         Position position = new Position(unit.getX(), unit.getY());
 

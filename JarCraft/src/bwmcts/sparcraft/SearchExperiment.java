@@ -611,8 +611,8 @@ public class SearchExperiment {
                 Position u1 = new Position(mid.getX() + r.getX(), mid.getY() + r.getY());
                 Position u2 = new Position(mid.getX() - r.getX(), mid.getY() - r.getY());
 
-                state.addUnit(type, Players.Player_One.getID(), u1);
-                state.addUnit(type, Players.Player_Two.getID(), u2);
+                state.addUnit(type, Players.Player_One.ordinal(), u1);
+                state.addUnit(type, Players.Player_Two.ordinal(), u2);
             }
         }
 
@@ -637,10 +637,10 @@ public class SearchExperiment {
                 Position r = new Position((rand.nextInt() % (2 * xLimit)) - xLimit, (rand.nextInt() % (2 * yLimit)) - yLimit);
                 Position u1 = new Position(Math.abs(cx1 + r.getX()), Math.abs(cy1 + r.getY()));
                 Position u2 = new Position(Math.abs(cx2 - r.getX()), Math.abs(cy2 - r.getY()));
-                state.addUnit(type, Players.Player_One.getID(), u1);
-                state.addUnit(type, Players.Player_Two.getID(), u2);
-                state2.addUnit(type, Players.Player_One.getID(), u2);
-                state2.addUnit(type, Players.Player_Two.getID(), u1);
+                state.addUnit(type, Players.Player_One.ordinal(), u1);
+                state.addUnit(type, Players.Player_Two.ordinal(), u2);
+                state2.addUnit(type, Players.Player_One.ordinal(), u2);
+                state2.addUnit(type, Players.Player_Two.ordinal(), u1);
             }
         }
 

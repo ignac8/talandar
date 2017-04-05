@@ -6,6 +6,7 @@
 package bwmcts.sparcraft;
 
 import jnibwapi.JNIBWAPI;
+import jnibwapi.Player;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
 
@@ -56,7 +57,7 @@ public class GameState {
         int i = 0;
         for (jnibwapi.Unit u : bwapi.getMyUnits()) {
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());
-            _units[bwapi.getSelf().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShield(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount());
+            _units[bwapi.getSelf().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShields(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount());
             _units[bwapi.getSelf().getID()][i].setUnitCooldown(bwapi, u);
 
             i++;
@@ -67,7 +68,7 @@ public class GameState {
             //TODO
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());
 
-            _units[bwapi.getEnemies().get(0).getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShield(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount() + u.getGroundWeaponCooldown());
+            _units[bwapi.getEnemies().iterator().next().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShields(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount() + u.getGroundWeaponCooldown());
 
             i++;
         }
@@ -83,7 +84,7 @@ public class GameState {
         _neutralUnits = new ArrayList<Unit>();
 
         _numUnits = new int[2];
-        _numUnits[bwapi.getEnemies().get(0).getID()] = bwapi.getEnemyUnits().size();
+        _numUnits[bwapi.getEnemies().iterator().next().getID()] = bwapi.getEnemyUnits().size();
         _numUnits[bwapi.getSelf().getID()] = bwapi.getMyUnits().size();
         //_numUnits=new int[]{bwapi.getMyUnits().size(),bwapi.getEnemyUnits().size()};
         _prevNumUnits = new int[]{_numUnits[0], _numUnits[1]};
@@ -150,7 +151,7 @@ public class GameState {
     }
 
     public boolean isTerminal() {
-        if (playerDead(Players.Player_One.getID()) || playerDead(Players.Player_Two.getID())) {
+        if (playerDead(Players.Player_One.ordinal()) || playerDead(Players.Player_Two.ordinal())) {
             return true;
         }
 
@@ -167,11 +168,11 @@ public class GameState {
 
         // at this point we know everyone must be immobile, so check for attack deadlock
         Unit unit1, unit2;
-        for (int u1 = 0; u1 < numUnits(Players.Player_One.getID()); u1++) {
-            unit1 = getUnit(Players.Player_One.getID(), u1);
+        for (int u1 = 0; u1 < numUnits(Players.Player_One.ordinal()); u1++) {
+            unit1 = getUnit(Players.Player_One.ordinal(), u1);
 
-            for (int u2 = 0; u2 < numUnits(Players.Player_Two.getID()); u2++) {
-                unit2 = getUnit(Players.Player_Two.getID(), u2);
+            for (int u2 = 0; u2 < numUnits(Players.Player_Two.ordinal()); u2++) {
+                unit2 = getUnit(Players.Player_Two.ordinal(), u2);
 
                 // if anyone can attack anyone else
                 if (unit1.canAttackTarget(unit2, _currentTime) || unit2.canAttackTarget(unit1, _currentTime)) {
@@ -234,7 +235,7 @@ public class GameState {
 
         // Calculate the unitID for this unit
         // This will just be the current total number of units in the state
-        int unitID = _numUnits[Players.Player_One.getID()] + _numUnits[Players.Player_Two.getID()];
+        int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
 
         // Set the unit and it's unitID
         u.setUnitID(unitID);
@@ -261,7 +262,7 @@ public class GameState {
 
         // Calculate the unitID for this unit
         // This will just be the current total number of units in the state
-        int unitID = _numUnits[Players.Player_One.getID()] + _numUnits[Players.Player_Two.getID()];
+        int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
 
         // Set the unit and it's unitID
         _units[playerID][_numUnits[playerID]] = new Unit(unitType, playerID, pos);
@@ -659,7 +660,7 @@ public class GameState {
     public void makeMoves(List<UnitAction> moves) {
         if (moves.size() > 0) {
             //if (getUnit(moves.get(0)._player,moves.get(0)._unit).firstTimeFree()!=_currentTime)
-            if (whoCanMove().getID() == getEnemy(moves.get(0).player())) {
+            if (whoCanMove().ordinal() == getEnemy(moves.get(0).player())) {
                 //throw new Exception("GameState Error - Called makeMove() for a player that cannot currently move");
                 //System.out.print(" GameState Error - Called makeMove() for a player that cannot currently move ");
                 return;

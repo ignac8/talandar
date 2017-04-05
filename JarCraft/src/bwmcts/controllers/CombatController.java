@@ -9,6 +9,7 @@ import bwmcts.uct.guctcd.GUCTCD;
 import bwmcts.uct.iuctcd.IUCTCD;
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
+import jnibwapi.Position;
 import jnibwapi.Unit;
 import jnibwapi.util.BWColor;
 
@@ -19,7 +20,7 @@ public class CombatController implements BWAPIEventListener {
     private ICombatLogic combatLogic;
 
     public CombatController() {
-        bwapi = new JNIBWAPI(this);
+        bwapi = new JNIBWAPI(this, false);
 
         //combatLogic = new NoOverKillAttackValueLogic();
         //combatLogic = new AttackValueLogic();
@@ -39,6 +40,21 @@ public class CombatController implements BWAPIEventListener {
 
     }
 
+    @Override
+    public void matchStart() {
+
+    }
+
+    @Override
+    public void matchFrame() {
+
+    }
+
+    @Override
+    public void matchEnd(boolean winner) {
+
+    }
+
     // Method called at the beginning of the game.
     public void gameStarted() {
         System.out.println("Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -55,7 +71,7 @@ public class CombatController implements BWAPIEventListener {
         //bwapi.drawIDs(true);
         //bwapi.drawHealth(true);
         // analyze the map
-        bwapi.loadMapData(true);
+        bwapi.loadMapData();
         bwapi.enablePerfectInformation();
 
         //combatLogic =new GuctcdLogic(bwapi,new GUCTCD(1.6,20,bwapi.getEnemies().get(0).getID(),bwapi.getSelf().getID(),500,false));
@@ -120,6 +136,11 @@ public class CombatController implements BWAPIEventListener {
     public void playerLeft(int id) {
     }
 
+    @Override
+    public void nukeDetect(Position p) {
+
+    }
+
     public void unitCreate(int unitID) {
     }
 
@@ -138,11 +159,41 @@ public class CombatController implements BWAPIEventListener {
     public void unitMorph(int unitID) {
     }
 
+    @Override
+    public void unitRenegade(int unitID) {
+
+    }
+
+    @Override
+    public void saveGame(String gameName) {
+
+    }
+
+    @Override
+    public void unitComplete(int unitID) {
+
+    }
+
+    @Override
+    public void playerDropped(int playerID) {
+
+    }
+
     public void unitShow(int unitID) {
 
     }
 
     public void keyPressed(int keyCode) {
+    }
+
+    @Override
+    public void sendText(String text) {
+
+    }
+
+    @Override
+    public void receiveText(String text) {
+
     }
 
     // Returns the id of a unit of a given type, that is closest to a pixel position (x,y), or -1 if we
@@ -168,10 +219,10 @@ public class CombatController implements BWAPIEventListener {
         // Draw our home position.
         //bwapi.drawText(new Point(5,0), "Our home position: "+String.valueOf(homePositionX)+","+String.valueOf(homePositionY), true);
 
-        // Draw circles over workers (blue if they're gathering minerals, green if gas, yellow if they're constructing).
+        // Draw circles over workers (blue if they're gathering minerals, green if gas, Yellow if they're constructing).
         for (Unit u : bwapi.getMyUnits()) {
-            if (u.isGatheringMinerals()) bwapi.drawCircle(u.getX(), u.getY(), 12, BWColor.BLUE, false, false);
-            else if (u.isGatheringGas()) bwapi.drawCircle(u.getX(), u.getY(), 12, BWColor.GREEN, false, false);
+            if (u.isGatheringMinerals()) bwapi.drawCircle(u.getX(), u.getY(), 12, BWColor.Blue.getID(), false, false);
+            else if (u.isGatheringGas()) bwapi.drawCircle(u.getX(), u.getY(), 12, BWColor.Green.getID(), false, false);
         }
 
     }

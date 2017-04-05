@@ -183,16 +183,31 @@ public class Test implements BWAPIEventListener {
 		*/
     }
 
+    @Override
+    public void matchStart() {
+
+    }
+
+    @Override
+    public void matchFrame() {
+
+    }
+
+    @Override
+    public void matchEnd(boolean winner) {
+
+    }
+
     private void PortfolioTest(Player p1, Player p2) throws Exception {
         int tanks = 8;
         int marines = 32;
         int firebats = 16;
-        HashMap<UnitTypes, Integer> unitsA = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsA = new HashMap<>();
         unitsA.put(UnitTypes.Terran_Siege_Tank_Tank_Mode, tanks);
         unitsA.put(UnitTypes.Terran_Marine, marines);
         unitsA.put(UnitTypes.Terran_Firebat, firebats);
 
-        HashMap<UnitTypes, Integer> unitsB = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsB = new HashMap<>();
         unitsB.put(UnitTypes.Terran_Siege_Tank_Tank_Mode, tanks);
         unitsB.put(UnitTypes.Terran_Marine, marines);
         unitsB.put(UnitTypes.Terran_Firebat, firebats);
@@ -209,8 +224,8 @@ public class Test implements BWAPIEventListener {
     }
 
     private void testPortfolioGame(Player p1, Player p2,
-                                   HashMap<UnitTypes, Integer> unitsA,
-                                   HashMap<UnitTypes, Integer> unitsB) throws Exception {
+                                   HashMap<UnitType, Integer> unitsA,
+                                   HashMap<UnitType, Integer> unitsB) throws Exception {
 
         GameState initialState = gameState(unitsA, unitsB);
 
@@ -271,12 +286,12 @@ public class Test implements BWAPIEventListener {
 
     private double runSimulator(Player p1, Player p2, int i, int moveLimit) throws Exception {
 
-        HashMap<UnitTypes, Integer> unitsA = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsA = new HashMap<>();
         unitsA.put(UnitTypes.Terran_Siege_Tank_Tank_Mode, i);
         unitsA.put(UnitTypes.Terran_Marine, i * 4);
         unitsA.put(UnitTypes.Terran_Firebat, i * 2);
 
-        HashMap<UnitTypes, Integer> unitsB = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsB = new HashMap<>();
         unitsB.put(UnitTypes.Terran_Siege_Tank_Tank_Mode, i);
         unitsB.put(UnitTypes.Terran_Marine, i * 4);
         unitsB.put(UnitTypes.Terran_Firebat, i * 2);
@@ -499,7 +514,7 @@ public class Test implements BWAPIEventListener {
         // Marines
         for (int i = 0; i < 8; i++) {
 
-            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Marine.getID()), Players.Player_One.getID(),
+            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Marine.getID()), Players.Player_One.ordinal(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
             u._currentHP = (int) (Math.random() * 50);
             try {
@@ -511,7 +526,7 @@ public class Test implements BWAPIEventListener {
 
         // Firebats
         for (int i = 0; i < 8; i++) {
-            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Firebat.getID()), Players.Player_One.getID(),
+            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Firebat.getID()), Players.Player_One.ordinal(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
             u._currentHP = (int) (Math.random() * 60);
             try {
@@ -523,7 +538,7 @@ public class Test implements BWAPIEventListener {
 
         // Medics
         for (int i = 0; i < 8; i++) {
-            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Medic.getID()), Players.Player_One.getID(),
+            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Medic.getID()), Players.Player_One.ordinal(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
             u._currentHP = (int) (Math.random() * 50);
             try {
@@ -590,12 +605,12 @@ public class Test implements BWAPIEventListener {
 
     float testDragoonZealotGames(Player p1, Player p2, int n, int games) throws Exception {
 
-        HashMap<UnitTypes, Integer> unitsA = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsA = new HashMap<>();
         unitsA.put(UnitTypes.Protoss_Dragoon, n / 2);
         unitsA.put(UnitTypes.Protoss_Zealot, n / 2);
         //unitsA.put(UnitTypes.Terran_Firebat, firebats);
 
-        HashMap<UnitTypes, Integer> unitsB = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsB = new HashMap<>();
         unitsB.put(UnitTypes.Protoss_Dragoon, n / 2);
         unitsB.put(UnitTypes.Protoss_Zealot, n / 2);
         //unitsB.put(UnitTypes.Terran_Firebat, firebats);
@@ -633,12 +648,12 @@ public class Test implements BWAPIEventListener {
 
     float testRealisticGames(Player p1, Player p2, int marines, int firebats, int tanks, int games) throws Exception {
 
-        HashMap<UnitTypes, Integer> unitsA = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsA = new HashMap<>();
         unitsA.put(UnitTypes.Terran_Siege_Tank_Tank_Mode, tanks);
         unitsA.put(UnitTypes.Terran_Marine, marines);
         //unitsA.put(UnitTypes.Terran_Firebat, firebats);
 
-        HashMap<UnitTypes, Integer> unitsB = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsB = new HashMap<>();
         unitsB.put(UnitTypes.Terran_Siege_Tank_Tank_Mode, tanks);
         unitsB.put(UnitTypes.Terran_Marine, marines);
         //unitsB.put(UnitTypes.Terran_Firebat, firebats);
@@ -673,7 +688,7 @@ public class Test implements BWAPIEventListener {
     /**********************
      ***  ONE TYPE TEST ***
      **********************/
-    private void oneTypeTest(Player p1, Player p2, UnitTypes type, int runs) {
+    private void oneTypeTest(Player p1, Player p2, UnitType type, int runs) {
 
         for (int i = 1; i < 16; i++) {
             try {
@@ -686,11 +701,11 @@ public class Test implements BWAPIEventListener {
     }
 
 
-    float oneTypeGames(Player p1, Player p2, int units, UnitTypes type, int games) throws Exception {
+    float oneTypeGames(Player p1, Player p2, int units, UnitType type, int games) throws Exception {
 
-        HashMap<UnitTypes, Integer> unitsA = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsA = new HashMap<>();
         unitsA.put(type, units);
-        HashMap<UnitTypes, Integer> unitsB = new HashMap<UnitType.UnitTypes, Integer>();
+        HashMap<UnitType, Integer> unitsB = new HashMap<>();
         unitsB.put(type, units);
 
         Constants.Max_Units = units * 2;
@@ -721,7 +736,7 @@ public class Test implements BWAPIEventListener {
 
     }
 
-    int testGame(Player p1, Player p2, HashMap<UnitTypes, Integer> unitsA, HashMap<UnitTypes, Integer> unitsB) throws Exception {
+    int testGame(Player p1, Player p2, HashMap<UnitType, Integer> unitsA, HashMap<UnitType, Integer> unitsB) throws Exception {
 
         GameState initialState = gameState(unitsA, unitsB);
 
@@ -748,7 +763,7 @@ public class Test implements BWAPIEventListener {
         // you can access the resulting game state after g has been played via getState
         GameState finalState = g.getState();
         // you can now evaluate the state however you wish. let's use an LTD2 evaluation from the point of view of player one
-        StateEvalScore score = finalState.eval(Players.Player_One.getID(), EvaluationMethods.LTD2);
+        StateEvalScore score = finalState.eval(Players.Player_One.ordinal(), EvaluationMethods.LTD2);
         // StateEvalScore has two components, a numerical score and a number of Movement actions performed by each player
         // with this evaluation, positive val means win, negative means loss, 0 means tie
         return score._val;
@@ -788,8 +803,8 @@ public class Test implements BWAPIEventListener {
 
     }
 
-    private GameState gameState(HashMap<UnitTypes, Integer> unitsA,
-                                HashMap<UnitTypes, Integer> unitsB) throws Exception {
+    private GameState gameState(HashMap<UnitType, Integer> unitsA,
+                                HashMap<UnitType, Integer> unitsB) throws Exception {
 
         // GameState only has a default constructor, you must add units to it manually
         GameState state = new GameState();
@@ -801,10 +816,10 @@ public class Test implements BWAPIEventListener {
         int startY = 30;
         int unitsPerLine = 16;
 
-        for (UnitTypes type : unitsA.keySet()) {
+        for (UnitType type : unitsA.keySet()) {
 
             try {
-                state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_One.getID(), new Position(startXA, startY + space));
+                state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_One.ordinal(), new Position(startXA, startY + space));
             } catch (Exception e) {
             }
 
@@ -812,7 +827,7 @@ public class Test implements BWAPIEventListener {
                 int x = startXA - (i / unitsPerLine) * space;
                 int y = startY + space * (i % unitsPerLine) + space;
                 try {
-                    state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_One.getID(), new Position(x, y));
+                    state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_One.ordinal(), new Position(x, y));
                 } catch (Exception e) {
                     //e.printStackTrace();
                 }
@@ -822,10 +837,10 @@ public class Test implements BWAPIEventListener {
 
         }
 
-        for (UnitTypes type : unitsB.keySet()) {
+        for (UnitType type : unitsB.keySet()) {
 
             try {
-                state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_Two.getID(), new Position(startXB, startY + space));
+                state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_Two.ordinal(), new Position(startXB, startY + space));
             } catch (Exception e) {
             }
 
@@ -833,7 +848,7 @@ public class Test implements BWAPIEventListener {
                 int x = startXB + (i / unitsPerLine) * space;
                 int y = startY + space * (i % unitsPerLine) + space;
                 try {
-                    state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_Two.getID(), new Position(x, y));
+                    state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_Two.ordinal(), new Position(x, y));
                 } catch (Exception e) {
                     //e.printStackTrace();
                 }
@@ -864,31 +879,27 @@ public class Test implements BWAPIEventListener {
     }
 
     @Override
-    public void gameStarted() {
-    }
-
-    @Override
-    public void gameUpdate() {
-    }
-
-    @Override
-    public void gameEnded() {
-    }
-
-    @Override
     public void keyPressed(int keyCode) {
     }
 
     @Override
-    public void matchEnded(boolean winner) {
+    public void sendText(String text) {
+
     }
+
+    @Override
+    public void receiveText(String text) {
+
+    }
+
 
     @Override
     public void playerLeft(int id) {
     }
 
     @Override
-    public void nukeDetect(int x, int y) {
+    public void nukeDetect(jnibwapi.Position p) {
+
     }
 
     @Override
@@ -921,5 +932,25 @@ public class Test implements BWAPIEventListener {
 
     @Override
     public void unitMorph(int unitID) {
+    }
+
+    @Override
+    public void unitRenegade(int unitID) {
+
+    }
+
+    @Override
+    public void saveGame(String gameName) {
+
+    }
+
+    @Override
+    public void unitComplete(int unitID) {
+
+    }
+
+    @Override
+    public void playerDropped(int playerID) {
+
     }
 }

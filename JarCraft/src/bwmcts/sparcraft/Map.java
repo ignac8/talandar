@@ -46,7 +46,7 @@ public class Map {
 
         for (int x = 0; x < _walkTileWidth; x++) {
             for (int y = 0; y < _walkTileHeight; y++) {
-                setMapData(x, y, map.isWalkable(x, y));
+                setMapData(x, y, map.isWalkable(new jnibwapi.Position(x, y)));
             }
         }
     }

@@ -33,7 +33,7 @@ public class AttackValueLogic implements ICombatLogic {
 
         List<Unit> enemyUnits = bwapi.getEnemyUnits();
 
-        bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.YELLOW, false, false);
+        bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.Yellow.getID(), false, false);
 
         Position position = new Position(unit.getX(), unit.getY());
 

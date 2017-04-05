@@ -24,7 +24,7 @@ public class UpgradeType {
     private int upgradeTimeFactor;
     private int maxRepeats;
     private int whatUpgradesTypeID;
-    private UpgradeType(int ID) {
+    public UpgradeType(int ID) {
         this.ID = ID;
         idToUpgradeType.put(ID, this);
     }

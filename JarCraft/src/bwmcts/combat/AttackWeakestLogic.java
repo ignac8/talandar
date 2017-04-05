@@ -33,7 +33,7 @@ public class AttackWeakestLogic implements ICombatLogic {
 
         List<Unit> enemyUnits = bwapi.getEnemyUnits();
 
-        bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.YELLOW, false, false);
+        bwapi.drawCircle(unit.getX(), unit.getY(), 6, BWColor.Yellow.getID(), false, false);
 
         Position position = new Position(unit.getX(), unit.getY());
 
@@ -68,7 +68,7 @@ public class AttackWeakestLogic implements ICombatLogic {
 
             if (inRange(bwapi, enemy, distance, groundRange, airRange)) {
 
-                if (enemy.getHitPoints() + enemy.getShield() < lowestHP) {
+                if (enemy.getHitPoints() + enemy.getShields() < lowestHP) {
                     lowestHP = enemy.getHitPoints();
                     bestEnemy = enemy;
                 }
@@ -98,9 +98,9 @@ public class AttackWeakestLogic implements ICombatLogic {
         if (attackingUnits.containsKey(unit.getID())) {
             Unit newTarget = bwapi.getUnit(attackingUnits.get(unit.getID()));
             if (outOfRange)
-                bwapi.drawLine(unit.getX(), unit.getY(), newTarget.getX(), newTarget.getY(), BWColor.GREEN, false);
+                bwapi.drawLine(unit.getX(), unit.getY(), newTarget.getX(), newTarget.getY(), BWColor.Green.getID(), false);
             else
-                bwapi.drawLine(unit.getX(), unit.getY(), newTarget.getX(), newTarget.getY(), BWColor.RED, false);
+                bwapi.drawLine(unit.getX(), unit.getY(), newTarget.getX(), newTarget.getY(), BWColor.Red.getID(), false);
         }
     }
 

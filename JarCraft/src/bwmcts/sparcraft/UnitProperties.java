@@ -39,7 +39,7 @@ public class UnitProperties {
     }
 
     public static void Init(JNIBWAPI bwapi) {
-        for (UnitTypes type : UnitTypes.values()) {
+        for (UnitType type : UnitTypes.getAllUnitTypes()) {
             props[type.getID()] = new UnitProperties(bwapi);
             props[type.getID()].SetType(bwapi.getUnitType(type.getID()));
         }

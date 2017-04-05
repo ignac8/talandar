@@ -41,7 +41,7 @@ public class WeaponProperties {
     }
 
     public static void Init(JNIBWAPI bwapi) {
-        for (WeaponTypes type : WeaponTypes.values()) {
+        for (WeaponType type : WeaponTypes.getAllWeaponTypes()) {
             props[type.getID()] = new WeaponProperties(bwapi);
             props[type.getID()].SetType(bwapi.getWeaponType(type.getID()));
         }

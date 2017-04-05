@@ -6,6 +6,7 @@
 package bwmcts.sparcraft;
 
 import jnibwapi.JNIBWAPI;
+import jnibwapi.types.UnitCommandType;
 import jnibwapi.types.UnitCommandType.UnitCommandTypes;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
@@ -531,7 +532,7 @@ public class Unit implements Comparable<Unit> {
         int attackCooldown = 0;
         int moveCooldown = 0;
 
-        UnitCommandTypes lastCommand = UnitCommandTypes.values()[unit.getLastCommandID()];
+        UnitCommandType lastCommand = (UnitCommandType) UnitCommandTypes.getAllUnitCommandTypes().toArray()[unit.getLastCommandID()];
         int lastCommandFrame = unit.getLastCommandFrame();
         int currentFrame = bwapi.getFrameCount();
         int framesSinceCommand = currentFrame - lastCommandFrame;

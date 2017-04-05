@@ -9,11 +9,11 @@ import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
 
 public class AnimationFrameData {
-    public static int[][] attackFrameData = new int[UnitTypes.values().length][2];
+    public static int[][] attackFrameData = new int[UnitTypes.getAllUnitTypes().size()][2];
 
     public static void Init() {
         // allocate the vector according to UnitType size
-        for (int i = 0; i < UnitTypes.values().length; i++) {
+        for (int i = 0; i < UnitTypes.getAllUnitTypes().size(); i++) {
             attackFrameData[i] = new int[]{0, 0};
         }
 

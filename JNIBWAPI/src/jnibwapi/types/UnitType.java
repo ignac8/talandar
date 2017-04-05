@@ -77,7 +77,8 @@ public class UnitType {
     private boolean spell;
     private String name;
     private Map<Integer, Integer> requiredUnits = new HashMap<>();
-    private UnitType(int ID) {
+
+    public UnitType(int ID) {
         this.ID = ID;
         idToUnitType.put(ID, this);
     }
@@ -406,6 +407,14 @@ public class UnitType {
     @Override
     public String toString() {
         return getName() + " (" + getID() + ")";
+    }
+
+    public boolean isCanAttackGround() {
+        return groundWeaponID != 0;
+    }
+
+    public boolean isCanAttackAir() {
+        return airWeaponID != 0;
     }
 
     public static class UnitTypes {

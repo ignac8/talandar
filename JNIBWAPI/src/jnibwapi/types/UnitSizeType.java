@@ -16,7 +16,7 @@ public class UnitSizeType {
     private static Map<Integer, UnitSizeType> idToUnitSizeType = new HashMap<>();
     private String name;
     private int ID;
-    private UnitSizeType(int ID) {
+    public UnitSizeType(int ID) {
         this.ID = ID;
         idToUnitSizeType.put(ID, this);
     }

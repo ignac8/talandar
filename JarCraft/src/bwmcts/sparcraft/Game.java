@@ -153,7 +153,7 @@ public class Game {
 
         Players random = Math.random() >= 0.5 ? Players.Player_One : Players.Player_Two;
 
-        return whoCanMove == Players.Player_Both ? random.getID() : whoCanMove.getID();
+        return whoCanMove == Players.Player_Both ? random.ordinal() : whoCanMove.ordinal();
     }
 
 }

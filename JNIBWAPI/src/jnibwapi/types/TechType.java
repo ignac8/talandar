@@ -27,7 +27,7 @@ public class TechType {
     private int getWeaponID;
     private boolean targetsUnits;
     private boolean targetsPosition;
-    private TechType(int ID) {
+    public TechType(int ID) {
         this.ID = ID;
         idToTechType.put(ID, this);
     }

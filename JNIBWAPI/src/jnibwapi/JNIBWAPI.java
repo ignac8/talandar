@@ -591,7 +591,7 @@ public class JNIBWAPI {
         drawBox(topLeft.getPX(), topLeft.getPY(), bottomRight.getPX(), bottomRight.getPY(), bWColor.getID(), fill, screenCoords);
     }
 
-    private native void drawCircle(int x, int y, int radius, int color, boolean fill, boolean screenCoords);
+    public native void drawCircle(int x, int y, int radius, int color, boolean fill, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawCircle
@@ -602,7 +602,7 @@ public class JNIBWAPI {
         drawCircle(p.getPX(), p.getPY(), radius, bWColor.getID(), fill, screenCoords);
     }
 
-    private native void drawLine(int x1, int y1, int x2, int y2, int color, boolean screenCoords);
+    public native void drawLine(int x1, int y1, int x2, int y2, int color, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawLine
@@ -624,7 +624,7 @@ public class JNIBWAPI {
         drawDot(p.getPX(), p.getPY(), bWColor.getID(), screenCoords);
     }
 
-    private native void drawText(int x, int y, String msg, boolean screenCoords);
+    public native void drawText(int x, int y, String msg, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawText
@@ -1118,7 +1118,7 @@ public class JNIBWAPI {
     /**
      * Loads type data from BWAPI.
      */
-    private void loadTypeData() {
+    public void loadTypeData() {
         // race types
         int[] raceTypeData = getRaceTypes();
         for (int index = 0; index < raceTypeData.length; index += RaceType.numAttributes) {
@@ -1205,7 +1205,7 @@ public class JNIBWAPI {
      * <p>
      * TODO: figure out how to use BWTA's internal map storage
      */
-    private void loadMapData() {
+    public void loadMapData() {
         String mapName = new String(getMapName(), charset);
         map = new Map(getMapWidth(), getMapHeight(), mapName, getMapFileName(), getMapHash(),
                 getHeightData(), getBuildableData(), getWalkableData());

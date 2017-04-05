@@ -39,7 +39,7 @@ public class WeaponType {
     private boolean targetsTerrain;
     private boolean targetsOrgOrMech;
     private boolean targetsOwn;
-    private WeaponType(int ID) {
+    public WeaponType(int ID) {
         this.ID = ID;
         idToWeaponType.put(ID, this);
     }

@@ -80,25 +80,25 @@ public class UctLogic extends Player implements ICombatLogic {
     private int getColor(Integer i) {
         switch (i) {
             case 0:
-                return BWColor.CYAN;
+                return BWColor.Cyan.getID();
             case 1:
-                return BWColor.GREEN;
+                return BWColor.Green.getID();
             case 2:
-                return BWColor.WHITE;
+                return BWColor.White.getID();
             case 3:
-                return BWColor.PURPLE;
+                return BWColor.Purple.getID();
             case 4:
-                return BWColor.ORANGE;
+                return BWColor.Orange.getID();
             case 5:
-                return BWColor.YELLOW;
+                return BWColor.Yellow.getID();
             case 6:
-                return BWColor.TEAL;
+                return BWColor.Teal.getID();
             case 7:
-                return BWColor.RED;
+                return BWColor.Red.getID();
             case 8:
-                return BWColor.BLUE;
+                return BWColor.Blue.getID();
             default:
-                return BWColor.BLACK;
+                return BWColor.Black.getID();
         }
     }
 
