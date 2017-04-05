@@ -16,7 +16,7 @@ public class OrderType {
     private static Map<Integer, OrderType> idToOrderType = new HashMap<>();
     private String name;
     private int ID;
-    private OrderType(int ID) {
+    public OrderType(int ID) {
         this.ID = ID;
         idToOrderType.put(ID, this);
     }

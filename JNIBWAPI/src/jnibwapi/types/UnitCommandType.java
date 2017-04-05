@@ -16,7 +16,7 @@ public class UnitCommandType {
     private static Map<Integer, UnitCommandType> idToUnitCommandType = new HashMap<>();
     private String name;
     private int ID;
-    private UnitCommandType(int ID) {
+    public UnitCommandType(int ID) {
         this.ID = ID;
         idToUnitCommandType.put(ID, this);
     }

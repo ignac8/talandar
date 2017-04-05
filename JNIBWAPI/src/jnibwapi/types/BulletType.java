@@ -16,7 +16,7 @@ public class BulletType {
     private static Map<Integer, BulletType> idToBulletType = new HashMap<>();
     private String name;
     private int ID;
-    private BulletType(int ID) {
+    public BulletType(int ID) {
         this.ID = ID;
         idToBulletType.put(ID, this);
     }

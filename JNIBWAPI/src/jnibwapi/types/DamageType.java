@@ -16,7 +16,7 @@ public class DamageType {
     private static Map<Integer, DamageType> idToDamageType = new HashMap<>();
     private String name;
     private int ID;
-    private DamageType(int ID) {
+    public DamageType(int ID) {
         this.ID = ID;
         idToDamageType.put(ID, this);
     }

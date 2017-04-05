@@ -16,7 +16,7 @@ public class ExplosionType {
     private static Map<Integer, ExplosionType> idToExplosionType = new HashMap<>();
     private String name;
     private int ID;
-    private ExplosionType(int ID) {
+    public ExplosionType(int ID) {
         this.ID = ID;
         idToExplosionType.put(ID, this);
     }

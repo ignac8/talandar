@@ -2,7 +2,8 @@
  * This file is based on and translated from the open source project: Sparcraft
  * https://code.google.com/p/sparcraft/
  * author of the source: David Churchill
- **/
+ **//*
+
 package bwmcts.sparcraft;
 
 import bwmcts.sparcraft.players.Player;
@@ -77,9 +78,11 @@ public class SearchExperiment {
 
     }
 
-    /**
+    */
+/**
      * @param args
-     */
+     *//*
+
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 
@@ -423,19 +426,20 @@ public class SearchExperiment {
         } else if (playerModelString.equals("Random")) {
             player.add(new Player_Random(playerID));
         }
-        /*else if (playerModelID == PlayerModels.PortfolioGreedySearch)
-	    { 
+        */
+/*else if (playerModelID == PlayerModels.PortfolioGreedySearch)
+	    {
 	        String enemyPlayerModel;
 	        int timeLimit=0;
 	        int iterations=1;
 	        int responses=0;
-	
+
 	        //iss >> timeLimit;
 	        //iss >> enemyPlayerModel;
 	        //iss >> iterations;
 	        //iss >> responses;
-	
-	        players[playerID].push_back(PlayerPtr(new Player_PortfolioGreedySearch(playerID, PlayerModels::getID(enemyPlayerModel), iterations, responses, timeLimit))); 
+
+	        players[playerID].push_back(PlayerPtr(new Player_PortfolioGreedySearch(playerID, PlayerModels::getID(enemyPlayerModel), iterations, responses, timeLimit)));
 	    }
 	    else if (playerModelID == PlayerModels.AlphaBeta)
 	    {
@@ -447,7 +451,7 @@ public class SearchExperiment {
 	        String     playoutScript2;
 	        String     playerToMoveMethod;
 	        String     opponentModelScript;
-	
+
 	        // read in the values
 	        //iss >> timeLimitMS;
 	        //iss >> maxChildren;
@@ -457,7 +461,7 @@ public class SearchExperiment {
 	        //iss >> playoutScript2;
 	        //iss >> playerToMoveMethod;
 	        //iss >> opponentModelScript;
-	
+
 	        // convert them to the proper enum types
 	        //int moveOrderingID      = MoveOrderMethod::getID(moveOrdering);
 	        //int evalMethodID        = EvaluationMethods::getID(evalMethod);
@@ -465,14 +469,14 @@ public class SearchExperiment {
 	        //int playoutScriptID2    = PlayerModels::getID(playoutScript2);
 	        //int playerToMoveID      = PlayerToMove::getID(playerToMoveMethod);
 	        //int opponentModelID     = PlayerModels::getID(opponentModelScript);
-	
+
 	        // construct the parameter object
 	        AlphaBetaSearchParameters params;
-	
+
 	        // give the default parameters we can't set via options
 		    params.setMaxDepth(50);
 	        params.setSearchMethod(SearchMethods::IDAlphaBeta);
-	
+
 	        // set the parameters from the options in the file
 		    params.setMaxPlayer(playerID);
 		    params.setTimeLimit(timeLimitMS);
@@ -481,7 +485,7 @@ public class SearchExperiment {
 	        params.setEvalMethod(evalMethodID);
 	        params.setSimScripts(playoutScriptID1, playoutScriptID2);
 	        params.setPlayerToMoveMethod(playerToMoveID);
-		
+
 	        // add scripts for move ordering
 	        if (moveOrderingID == MoveOrderMethod::ScriptFirst)
 	        {
@@ -490,7 +494,7 @@ public class SearchExperiment {
 	            //params.addOrderedMoveScript(PlayerModels::Cluster);
 	            //params.addOrderedMoveScript(PlayerModels::AttackWeakest);
 	        }
-	
+
 	        // set opponent modeling if it's not none
 	        if (opponentModelID != PlayerModels::None)
 	        {
@@ -505,9 +509,9 @@ public class SearchExperiment {
 	                params.setPlayerModel(0, playoutScriptID1);
 	            }
 	        }
-	
+
 	        PlayerPtr abPlayer(new Player_AlphaBeta(playerID, params, TTPtr((TranspositionTable *)NULL)));
-	        players[playerID].push_back(abPlayer); 
+	        players[playerID].push_back(abPlayer);
 	    }
 	    else if (playerModelID == PlayerModels.UCT)
 	    {
@@ -521,7 +525,7 @@ public class SearchExperiment {
 	        std::string     playoutScript2;
 	        std::string     playerToMoveMethod;
 	        std::string     opponentModelScript;
-	
+
 	        // read in the values
 	        iss >> timeLimitMS;
 	        iss >> cValue;
@@ -533,7 +537,7 @@ public class SearchExperiment {
 	        iss >> playoutScript2;
 	        iss >> playerToMoveMethod;
 	        iss >> opponentModelScript;
-	
+
 	        // convert them to the proper enum types
 	        int moveOrderingID      = MoveOrderMethod::getID(moveOrdering);
 	        int evalMethodID        = EvaluationMethods::getID(evalMethod);
@@ -541,10 +545,10 @@ public class SearchExperiment {
 	        int playoutScriptID2    = PlayerModels::getID(playoutScript2);
 	        int playerToMoveID      = PlayerToMove::getID(playerToMoveMethod);
 	        int opponentModelID     = PlayerModels::getID(opponentModelScript);
-	
+
 	        // construct the parameter object
 	        UCTSearchParameters params;
-	
+
 	        // set the parameters from the options in the file
 		    params.setTimeLimit(timeLimitMS);
 	        params.setCValue(cValue);
@@ -556,7 +560,7 @@ public class SearchExperiment {
 	        params.setSimScripts(playoutScriptID1, playoutScriptID2);
 	        params.setPlayerToMoveMethod(playerToMoveID);
 	        //params.setGraphVizFilename("__uct.txt");
-	
+
 	        // add scripts for move ordering
 	        if (moveOrderingID == MoveOrderMethod::ScriptFirst)
 	        {
@@ -564,7 +568,7 @@ public class SearchExperiment {
 	            params.addOrderedMoveScript(PlayerModels::KiterDPS);
 	            //params.addOrderedMoveScript(PlayerModels::Cluster);
 	        }
-		
+
 	        // set opponent modeling if it's not none
 	        if (opponentModelID != PlayerModels::None)
 	        {
@@ -579,10 +583,11 @@ public class SearchExperiment {
 	                params.setPlayerModel(0, playoutScriptID1);
 	            }
 	        }
-	
+
 	        PlayerPtr uctPlayer(new Player_UCT(playerID, params));
-	        players[playerID].push_back(uctPlayer); 
-	    }*/
+	        players[playerID].push_back(uctPlayer);
+	    }*//*
+
         else {
             System.out.println("Invalid Player Type in Configuration File: " + playerModelString);
         }
@@ -651,56 +656,57 @@ public class SearchExperiment {
         states.add(state2);
     }
 
-    public String[][] getExpDescription(int p1Ind, int p2Ind, int state) {/*
+    public String[][] getExpDescription(int p1Ind, int p2Ind, int state) {*/
+/*
 	    // 2-column description vector
 	    svv desc(2, sv());
-	
+
 	    std::stringstream ss;
-	
+
 	    desc[0].push_back("Player 1:");
 	    desc[0].push_back("Player 2:");
 	    desc[0].push_back("State #:");
 	    desc[0].push_back("Units:");
-	
+
 	    for (size_t p1(0); p1 < players[0].size(); ++p1)
 		{
 	        std::stringstream ss;
 	        ss << "P1 " << p1 << ":";
 	        desc[0].push_back(ss.str());
 	    }
-	
+
 	    for (size_t p2(0); p2 < players[1].size(); ++p2)
 		{
 	        std::stringstream ss;
 	        ss << "P2 " << p2 << ":";
 	        desc[0].push_back(ss.str());
 	    }
-	
+
 	    for (size_t p1(0); p1 < players[0].size(); ++p1)
 		{
 	        for (size_t p2(0); p2 < players[1].size(); ++p2)
 		    {
-	            std::stringstream ps;    
+	            std::stringstream ps;
 	            ps << p1 << " vs " << p2;
 	            desc[0].push_back(ps.str());
 	        }
 	    }
-	
+
 	    ss << PlayerModels::getName(players[0][p1Ind]->getType());        desc[1].push_back(ss.str()); ss.str(std::string());
 	    ss << PlayerModels::getName(players[1][p2Ind]->getType());        desc[1].push_back(ss.str()); ss.str(std::string());
 	    ss << state << " of " << states.size();                         desc[1].push_back(ss.str()); ss.str(std::string());
 	    ss << states[state].numUnits(0);                                desc[1].push_back(ss.str()); ss.str(std::string());
-	
+
 	    for (size_t p1(0); p1 < players[0].size(); ++p1)
 		{
 	        desc[1].push_back(PlayerModels::getName(players[0][p1]->getType()));
 	    }
-	
+
 	    for (size_t p2(0); p2 < players[1].size(); ++p2)
 		{
 	        desc[1].push_back(PlayerModels::getName(players[1][p2]->getType()));
 	    }
-	
+
 	    char buf[30];
 		for (size_t p1(0); p1 < players[0].size(); ++p1)
 		{
@@ -711,13 +717,14 @@ public class SearchExperiment {
 	            {
 	                score = ((double)numWins[p1][p2] / (double)(numGames[p1][p2])) + 0.5*((double)numDraws[p1][p2] / (double)numGames[p1][p2]);
 	            }
-	
+
 	            sprintf(buf, "%.7lf", score);
 			    desc[1].push_back(std::string(buf));
 	        }
 		}
-	
-	    return desc;*/
+
+	    return desc;*//*
+
         return null;
     }
 
@@ -825,3 +832,4 @@ public class SearchExperiment {
         return results.toString();
     }
 }
+*/
