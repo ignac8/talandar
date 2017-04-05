@@ -35,26 +35,26 @@ public class WeaponProperties {
     };
 
     public WeaponProperties(JNIBWAPI bwapi) {
-        rangeUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.ordinal());
-        speedUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.ordinal());
+        rangeUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.getID());
+        speedUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.getID());
 
     }
 
     public static void Init(JNIBWAPI bwapi) {
         for (WeaponTypes type : WeaponTypes.values()) {
-            props[type.ordinal()] = new WeaponProperties(bwapi);
-            props[type.ordinal()].SetType(bwapi.getWeaponType(type.ordinal()));
+            props[type.getID()] = new WeaponProperties(bwapi);
+            props[type.getID()].SetType(bwapi.getWeaponType(type.getID()));
         }
 
-        props[WeaponTypes.Gauss_Rifle.ordinal()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.U_238_Shells.ordinal()), 5);    // Terran Marine ground/air attack
+        props[WeaponTypes.Gauss_Rifle.getID()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.U_238_Shells.getID()), 5);    // Terran Marine ground/air attack
 
-        props[WeaponTypes.Hellfire_Missile_Pack.ordinal()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.Charon_Boosters.ordinal()), 8);    // Terran Goliath air attack
+        props[WeaponTypes.Hellfire_Missile_Pack.getID()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.Charon_Boosters.getID()), 8);    // Terran Goliath air attack
 
-        props[WeaponTypes.Claws.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Adrenal_Glands.ordinal()), 6);    // Zerg Zergling ground attack
+        props[WeaponTypes.Claws.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Adrenal_Glands.getID()), 6);    // Zerg Zergling ground attack
 
-        props[WeaponTypes.Needle_Spines.ordinal()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.Grooved_Spines.ordinal()), 5); // Zerg Hydralisk ground/air attack
+        props[WeaponTypes.Needle_Spines.getID()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.Grooved_Spines.getID()), 5); // Zerg Hydralisk ground/air attack
 
-        props[WeaponTypes.Phase_Disruptor.ordinal()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.Singularity_Charge.ordinal()), 6);    // Protoss Dragoon ground/air attack
+        props[WeaponTypes.Phase_Disruptor.getID()].SetRangeUpgrade(bwapi.getUpgradeType(UpgradeTypes.Singularity_Charge.getID()), 6);    // Protoss Dragoon ground/air attack
     }
 
     public static WeaponProperties Get(WeaponType type) {

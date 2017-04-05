@@ -49,15 +49,15 @@ public class PlayerProperties {
     }
 
     public void SetUpgradeLevel(UpgradeType upgrade, int level) {
-        assert (upgrade.getID() != UpgradeTypes.None.ordinal());
-        assert (upgrade.getID() != UpgradeTypes.Unknown.ordinal());
+        assert (upgrade.getID() != UpgradeTypes.None.getID());
+        assert (upgrade.getID() != UpgradeTypes.Unknown.getID());
         assert (level >= 0 && level <= upgrade.getMaxRepeats());
         upgradeLevel[upgrade.getID()] = level;
     }
 
     public void SetResearched(TechType tech, boolean researched) {
-        assert (tech.getID() != TechTypes.None.ordinal());
-        assert (tech.getID() != TechTypes.Unknown.ordinal());
+        assert (tech.getID() != TechTypes.None.getID());
+        assert (tech.getID() != TechTypes.Unknown.getID());
         hasResearched[tech.getID()] = researched;
     }
 

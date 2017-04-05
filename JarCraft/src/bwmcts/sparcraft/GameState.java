@@ -150,7 +150,7 @@ public class GameState {
     }
 
     public boolean isTerminal() {
-        if (playerDead(Players.Player_One.ordinal()) || playerDead(Players.Player_Two.ordinal())) {
+        if (playerDead(Players.Player_One.getID()) || playerDead(Players.Player_Two.getID())) {
             return true;
         }
 
@@ -167,11 +167,11 @@ public class GameState {
 
         // at this point we know everyone must be immobile, so check for attack deadlock
         Unit unit1, unit2;
-        for (int u1 = 0; u1 < numUnits(Players.Player_One.ordinal()); u1++) {
-            unit1 = getUnit(Players.Player_One.ordinal(), u1);
+        for (int u1 = 0; u1 < numUnits(Players.Player_One.getID()); u1++) {
+            unit1 = getUnit(Players.Player_One.getID(), u1);
 
-            for (int u2 = 0; u2 < numUnits(Players.Player_Two.ordinal()); u2++) {
-                unit2 = getUnit(Players.Player_Two.ordinal(), u2);
+            for (int u2 = 0; u2 < numUnits(Players.Player_Two.getID()); u2++) {
+                unit2 = getUnit(Players.Player_Two.getID(), u2);
 
                 // if anyone can attack anyone else
                 if (unit1.canAttackTarget(unit2, _currentTime) || unit2.canAttackTarget(unit1, _currentTime)) {
@@ -234,7 +234,7 @@ public class GameState {
 
         // Calculate the unitID for this unit
         // This will just be the current total number of units in the state
-        int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
+        int unitID = _numUnits[Players.Player_One.getID()] + _numUnits[Players.Player_Two.getID()];
 
         // Set the unit and it's unitID
         u.setUnitID(unitID);
@@ -261,7 +261,7 @@ public class GameState {
 
         // Calculate the unitID for this unit
         // This will just be the current total number of units in the state
-        int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
+        int unitID = _numUnits[Players.Player_One.getID()] + _numUnits[Players.Player_Two.getID()];
 
         // Set the unit and it's unitID
         _units[playerID][_numUnits[playerID]] = new Unit(unitType, playerID, pos);
@@ -533,8 +533,8 @@ public class GameState {
         int enemyPlayer = getEnemy(playerIndex);
 
         // make sure this player can move right now
-        //int canMove=whoCanMove().ordinal();
-	    /*if (whoCanMove().ordinal() == enemyPlayer)
+        //int canMove=whoCanMove().getID();
+	    /*if (whoCanMove().getID() == enemyPlayer)
 	    {
 	    	System.out.println("GameState Error - Called generateMoves() for a player that cannot currently move");
 	        return;//throw new Exception("GameState Error - Called generateMoves() for a player that cannot currently move");
@@ -599,7 +599,7 @@ public class GameState {
                 }
             }
             // generate the wait move if it can't attack yet
-            else if (unit._unitType.getID() != UnitTypes.Terran_Medic.ordinal()) {
+            else if (unit._unitType.getID() != UnitTypes.Terran_Medic.getID()) {
                 actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.RELOAD, 0, unit.pos()));
             }
 
@@ -659,7 +659,7 @@ public class GameState {
     public void makeMoves(List<UnitAction> moves) {
         if (moves.size() > 0) {
             //if (getUnit(moves.get(0)._player,moves.get(0)._unit).firstTimeFree()!=_currentTime)
-            if (whoCanMove().ordinal() == getEnemy(moves.get(0).player())) {
+            if (whoCanMove().getID() == getEnemy(moves.get(0).player())) {
                 //throw new Exception("GameState Error - Called makeMove() for a player that cannot currently move");
                 //System.out.print(" GameState Error - Called makeMove() for a player that cannot currently move ");
                 return;

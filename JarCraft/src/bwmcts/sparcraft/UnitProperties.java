@@ -30,71 +30,71 @@ public class UnitProperties {
 
 
     public UnitProperties(JNIBWAPI bwapi) {
-        capacityUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.ordinal());
-        maxEnergyUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.ordinal());
-        sightUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.ordinal());
-        extraArmorUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.ordinal());
-        speedUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.ordinal());
+        capacityUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.getID());
+        maxEnergyUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.getID());
+        sightUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.getID());
+        extraArmorUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.getID());
+        speedUpgrade = bwapi.getUpgradeType(UpgradeTypes.None.getID());
         capacity[0] = capacity[1] = 0;
     }
 
     public static void Init(JNIBWAPI bwapi) {
         for (UnitTypes type : UnitTypes.values()) {
-            props[type.ordinal()] = new UnitProperties(bwapi);
-            props[type.ordinal()].SetType(bwapi.getUnitType(type.ordinal()));
+            props[type.getID()] = new UnitProperties(bwapi);
+            props[type.getID()].SetType(bwapi.getUnitType(type.getID()));
         }
 
-        double standardSpeed = bwapi.getUnitType(UnitTypes.Terran_SCV.ordinal()).getTopSpeed();
+        double standardSpeed = bwapi.getUnitType(UnitTypes.Terran_SCV.getID()).getTopSpeed();
 
-        props[UnitTypes.Terran_Ghost.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Moebius_Reactor.ordinal()));
-        props[UnitTypes.Terran_Ghost.ordinal()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Ocular_Implants.ordinal()), 11);
+        props[UnitTypes.Terran_Ghost.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Moebius_Reactor.getID()));
+        props[UnitTypes.Terran_Ghost.getID()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Ocular_Implants.getID()), 11);
 
-        props[UnitTypes.Terran_Medic.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Caduceus_Reactor.ordinal()));
+        props[UnitTypes.Terran_Medic.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Caduceus_Reactor.getID()));
 
-        props[UnitTypes.Terran_Vulture.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Ion_Thrusters.ordinal()), standardSpeed * 1.881);
+        props[UnitTypes.Terran_Vulture.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Ion_Thrusters.getID()), standardSpeed * 1.881);
 
-        props[UnitTypes.Terran_Wraith.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Apollo_Reactor.ordinal()));
+        props[UnitTypes.Terran_Wraith.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Apollo_Reactor.getID()));
 
-        props[UnitTypes.Terran_Battlecruiser.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Colossus_Reactor.ordinal()));
-        props[UnitTypes.Terran_Science_Vessel.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Titan_Reactor.ordinal()));
-
-
-        props[UnitTypes.Zerg_Zergling.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Metabolic_Boost.ordinal()), standardSpeed * 1.615);
-
-        props[UnitTypes.Zerg_Hydralisk.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Muscular_Augments.ordinal()), standardSpeed * 1.105);
-
-        props[UnitTypes.Zerg_Ultralisk.ordinal()].SetExtraArmorUpgrade(bwapi.getUpgradeType(UpgradeTypes.Chitinous_Plating.ordinal()), 2);
-        props[UnitTypes.Zerg_Ultralisk.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Anabolic_Synthesis.ordinal()), standardSpeed * 1.556);
-
-        props[UnitTypes.Zerg_Defiler.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Metasynaptic_Node.ordinal()));
-
-        props[UnitTypes.Zerg_Overlord.ordinal()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Antennae.ordinal()), 11);
-        props[UnitTypes.Zerg_Overlord.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Pneumatized_Carapace.ordinal()), bwapi.getUnitType(UnitTypes.Protoss_Carrier.ordinal()).getTopSpeed());
-
-        props[UnitTypes.Zerg_Queen.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gamete_Meiosis.ordinal()));
+        props[UnitTypes.Terran_Battlecruiser.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Colossus_Reactor.getID()));
+        props[UnitTypes.Terran_Science_Vessel.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Titan_Reactor.getID()));
 
 
-        props[UnitTypes.Protoss_Zealot.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Leg_Enhancements.ordinal()), standardSpeed * 1.167);
+        props[UnitTypes.Zerg_Zergling.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Metabolic_Boost.getID()), standardSpeed * 1.615);
 
-        props[UnitTypes.Protoss_High_Templar.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Khaydarin_Amulet.ordinal()));
+        props[UnitTypes.Zerg_Hydralisk.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Muscular_Augments.getID()), standardSpeed * 1.105);
 
-        props[UnitTypes.Protoss_Reaver.ordinal()].SetCapacityUpgrade(bwapi.getUpgradeType(UpgradeTypes.Reaver_Capacity.ordinal()), 5, 10);
+        props[UnitTypes.Zerg_Ultralisk.getID()].SetExtraArmorUpgrade(bwapi.getUpgradeType(UpgradeTypes.Chitinous_Plating.getID()), 2);
+        props[UnitTypes.Zerg_Ultralisk.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Anabolic_Synthesis.getID()), standardSpeed * 1.556);
 
-        props[UnitTypes.Protoss_Dark_Archon.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Argus_Talisman.ordinal()));
+        props[UnitTypes.Zerg_Defiler.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Metasynaptic_Node.getID()));
 
-        props[UnitTypes.Protoss_Observer.ordinal()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Sensor_Array.ordinal()), 11);
-        props[UnitTypes.Protoss_Observer.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gravitic_Boosters.ordinal()), bwapi.getUnitType(UnitTypes.Protoss_Corsair.ordinal()).getTopSpeed());
+        props[UnitTypes.Zerg_Overlord.getID()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Antennae.getID()), 11);
+        props[UnitTypes.Zerg_Overlord.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Pneumatized_Carapace.getID()), bwapi.getUnitType(UnitTypes.Protoss_Carrier.getID()).getTopSpeed());
 
-        props[UnitTypes.Protoss_Shuttle.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gravitic_Drive.ordinal()), bwapi.getUnitType(UnitTypes.Protoss_Corsair.ordinal()).getTopSpeed());
+        props[UnitTypes.Zerg_Queen.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gamete_Meiosis.getID()));
 
-        props[UnitTypes.Protoss_Scout.ordinal()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Apial_Sensors.ordinal()), 10);
-        props[UnitTypes.Protoss_Scout.ordinal()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gravitic_Thrusters.ordinal()), bwapi.getUnitType(UnitTypes.Protoss_Corsair.ordinal()).getTopSpeed());
 
-        props[UnitTypes.Protoss_Corsair.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Argus_Jewel.ordinal()));
+        props[UnitTypes.Protoss_Zealot.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Leg_Enhancements.getID()), standardSpeed * 1.167);
 
-        props[UnitTypes.Protoss_Carrier.ordinal()].SetCapacityUpgrade(bwapi.getUpgradeType(UpgradeTypes.Carrier_Capacity.ordinal()), 4, 8);
+        props[UnitTypes.Protoss_High_Templar.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Khaydarin_Amulet.getID()));
 
-        props[UnitTypes.Protoss_Arbiter.ordinal()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Khaydarin_Core.ordinal()));
+        props[UnitTypes.Protoss_Reaver.getID()].SetCapacityUpgrade(bwapi.getUpgradeType(UpgradeTypes.Reaver_Capacity.getID()), 5, 10);
+
+        props[UnitTypes.Protoss_Dark_Archon.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Argus_Talisman.getID()));
+
+        props[UnitTypes.Protoss_Observer.getID()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Sensor_Array.getID()), 11);
+        props[UnitTypes.Protoss_Observer.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gravitic_Boosters.getID()), bwapi.getUnitType(UnitTypes.Protoss_Corsair.getID()).getTopSpeed());
+
+        props[UnitTypes.Protoss_Shuttle.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gravitic_Drive.getID()), bwapi.getUnitType(UnitTypes.Protoss_Corsair.getID()).getTopSpeed());
+
+        props[UnitTypes.Protoss_Scout.getID()].SetSightUpgrade(bwapi.getUpgradeType(UpgradeTypes.Apial_Sensors.getID()), 10);
+        props[UnitTypes.Protoss_Scout.getID()].SetSpeedUpgrade(bwapi.getUpgradeType(UpgradeTypes.Gravitic_Thrusters.getID()), bwapi.getUnitType(UnitTypes.Protoss_Corsair.getID()).getTopSpeed());
+
+        props[UnitTypes.Protoss_Corsair.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Argus_Jewel.getID()));
+
+        props[UnitTypes.Protoss_Carrier.getID()].SetCapacityUpgrade(bwapi.getUpgradeType(UpgradeTypes.Carrier_Capacity.getID()), 4, 8);
+
+        props[UnitTypes.Protoss_Arbiter.getID()].SetEnergyUpgrade(bwapi.getUpgradeType(UpgradeTypes.Khaydarin_Core.getID()));
     }
 
     public static UnitProperties Get(UnitType type2) {

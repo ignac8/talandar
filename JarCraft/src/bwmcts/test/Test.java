@@ -499,7 +499,7 @@ public class Test implements BWAPIEventListener {
         // Marines
         for (int i = 0; i < 8; i++) {
 
-            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Marine.ordinal()), Players.Player_One.ordinal(),
+            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Marine.getID()), Players.Player_One.getID(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
             u._currentHP = (int) (Math.random() * 50);
             try {
@@ -511,7 +511,7 @@ public class Test implements BWAPIEventListener {
 
         // Firebats
         for (int i = 0; i < 8; i++) {
-            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Firebat.ordinal()), Players.Player_One.ordinal(),
+            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Firebat.getID()), Players.Player_One.getID(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
             u._currentHP = (int) (Math.random() * 60);
             try {
@@ -523,7 +523,7 @@ public class Test implements BWAPIEventListener {
 
         // Medics
         for (int i = 0; i < 8; i++) {
-            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Medic.ordinal()), Players.Player_One.ordinal(),
+            Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Medic.getID()), Players.Player_One.getID(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
             u._currentHP = (int) (Math.random() * 50);
             try {
@@ -748,7 +748,7 @@ public class Test implements BWAPIEventListener {
         // you can access the resulting game state after g has been played via getState
         GameState finalState = g.getState();
         // you can now evaluate the state however you wish. let's use an LTD2 evaluation from the point of view of player one
-        StateEvalScore score = finalState.eval(Players.Player_One.ordinal(), EvaluationMethods.LTD2);
+        StateEvalScore score = finalState.eval(Players.Player_One.getID(), EvaluationMethods.LTD2);
         // StateEvalScore has two components, a numerical score and a number of Movement actions performed by each player
         // with this evaluation, positive val means win, negative means loss, 0 means tie
         return score._val;
@@ -804,7 +804,7 @@ public class Test implements BWAPIEventListener {
         for (UnitTypes type : unitsA.keySet()) {
 
             try {
-                state.addUnit(bwapi.getUnitType(type.ordinal()), Players.Player_One.ordinal(), new Position(startXA, startY + space));
+                state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_One.getID(), new Position(startXA, startY + space));
             } catch (Exception e) {
             }
 
@@ -812,7 +812,7 @@ public class Test implements BWAPIEventListener {
                 int x = startXA - (i / unitsPerLine) * space;
                 int y = startY + space * (i % unitsPerLine) + space;
                 try {
-                    state.addUnit(bwapi.getUnitType(type.ordinal()), Players.Player_One.ordinal(), new Position(x, y));
+                    state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_One.getID(), new Position(x, y));
                 } catch (Exception e) {
                     //e.printStackTrace();
                 }
@@ -825,7 +825,7 @@ public class Test implements BWAPIEventListener {
         for (UnitTypes type : unitsB.keySet()) {
 
             try {
-                state.addUnit(bwapi.getUnitType(type.ordinal()), Players.Player_Two.ordinal(), new Position(startXB, startY + space));
+                state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_Two.getID(), new Position(startXB, startY + space));
             } catch (Exception e) {
             }
 
@@ -833,7 +833,7 @@ public class Test implements BWAPIEventListener {
                 int x = startXB + (i / unitsPerLine) * space;
                 int y = startY + space * (i % unitsPerLine) + space;
                 try {
-                    state.addUnit(bwapi.getUnitType(type.ordinal()), Players.Player_Two.ordinal(), new Position(x, y));
+                    state.addUnit(bwapi.getUnitType(type.getID()), Players.Player_Two.getID(), new Position(x, y));
                 } catch (Exception e) {
                     //e.printStackTrace();
                 }

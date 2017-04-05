@@ -203,7 +203,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     public boolean canAttackNow() {
-        return _unitType.getID() != UnitTypes.Terran_Medic.ordinal() && _timeCanAttack <= _timeCanMove;
+        return _unitType.getID() != UnitTypes.Terran_Medic.getID() && _timeCanAttack <= _timeCanMove;
     }
 
     public boolean canMoveNow() {
@@ -220,7 +220,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     public boolean canHeal() {
-        return _unitType.getID() == UnitTypes.Terran_Medic.ordinal();
+        return _unitType.getID() == UnitTypes.Terran_Medic.getID();
     }
 
     public boolean canAttackTarget(Unit unit, int gameTime) {
@@ -338,13 +338,13 @@ public class Unit implements Comparable<Unit> {
 
     // health and damage related functions
     public int damage() {
-        return _unitType.getID() == UnitTypes.Protoss_Zealot.ordinal() ?
+        return _unitType.getID() == UnitTypes.Protoss_Zealot.getID() ?
                 2 * WeaponProperties.Get(_unitType.getGroundWeaponID()).type.getDamageAmount() :
                 WeaponProperties.Get(_unitType.getGroundWeaponID()).type.getDamageAmount();
     }
 
     public int damageGround() {
-        return _unitType.getID() == UnitTypes.Protoss_Zealot.ordinal() ?
+        return _unitType.getID() == UnitTypes.Protoss_Zealot.getID() ?
                 2 * WeaponProperties.Get(_unitType.getGroundWeaponID()).type.getDamageAmount() :
                 WeaponProperties.Get(_unitType.getGroundWeaponID()).type.getDamageAmount();
     }

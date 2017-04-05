@@ -264,13 +264,13 @@ public class SearchExperiment {
                 String upgradeName = data[i++];
                 int upgradeLevel = Integer.parseInt(data[i++]);
 
-                PlayerProperties.Get(playerID).SetUpgradeLevel(bwapi.getUpgradeType(UpgradeType.UpgradeTypes.valueOf(upgradeName).ordinal()), upgradeLevel);
+                PlayerProperties.Get(playerID).SetUpgradeLevel(bwapi.getUpgradeType(UpgradeType.UpgradeTypes.valueOf(upgradeName).getID()), upgradeLevel);
             } else if (option.equals("PlayerTech")) {
                 int playerID = Integer.parseInt(data[i++]);
                 String techName = data[i++];
 
 
-                PlayerProperties.Get(playerID).SetResearched(bwapi.getTechType(TechType.TechTypes.valueOf(techName).ordinal()), true);
+                PlayerProperties.Get(playerID).SetResearched(bwapi.getTechType(TechType.TechTypes.valueOf(techName).getID()), true);
             } else {
                 System.out.println("Invalid Option in Configuration File: " + option);
                 return;
@@ -374,7 +374,7 @@ public class SearchExperiment {
 
     //BWAPI unittype
     public UnitType getUnitType(JNIBWAPI bwapi, String unitTypeString) {
-        UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypeString).ordinal());
+        UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypeString).getID());
 
         //System::checkSupportedUnitType(type);
 
@@ -603,7 +603,7 @@ public class SearchExperiment {
 
         // for each unit type to add
         for (int i = 0; i < unitTypes.size(); i++) {
-            UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).ordinal());
+            UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).getID());
 
             // add the symmetric unit for each count in the numUnits Vector
             for (int u = 0; u < numUnits.get(i); u++) {
@@ -611,8 +611,8 @@ public class SearchExperiment {
                 Position u1 = new Position(mid.getX() + r.getX(), mid.getY() + r.getY());
                 Position u2 = new Position(mid.getX() - r.getX(), mid.getY() - r.getY());
 
-                state.addUnit(type, Players.Player_One.ordinal(), u1);
-                state.addUnit(type, Players.Player_Two.ordinal(), u2);
+                state.addUnit(type, Players.Player_One.getID(), u1);
+                state.addUnit(type, Players.Player_Two.getID(), u2);
             }
         }
 
@@ -630,17 +630,17 @@ public class SearchExperiment {
         // for each unit type to add
         for (int i = 0; i < unitTypes.size(); i++) {
 
-            UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).ordinal());
+            UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).getID());
 
             // add the symmetric unit for each count in the numUnits Vector
             for (int u = 0; u < numUnits.get(i); u++) {
                 Position r = new Position((rand.nextInt() % (2 * xLimit)) - xLimit, (rand.nextInt() % (2 * yLimit)) - yLimit);
                 Position u1 = new Position(Math.abs(cx1 + r.getX()), Math.abs(cy1 + r.getY()));
                 Position u2 = new Position(Math.abs(cx2 - r.getX()), Math.abs(cy2 - r.getY()));
-                state.addUnit(type, Players.Player_One.ordinal(), u1);
-                state.addUnit(type, Players.Player_Two.ordinal(), u2);
-                state2.addUnit(type, Players.Player_One.ordinal(), u2);
-                state2.addUnit(type, Players.Player_Two.ordinal(), u1);
+                state.addUnit(type, Players.Player_One.getID(), u1);
+                state.addUnit(type, Players.Player_Two.getID(), u2);
+                state2.addUnit(type, Players.Player_One.getID(), u2);
+                state2.addUnit(type, Players.Player_Two.getID(), u1);
             }
         }
 

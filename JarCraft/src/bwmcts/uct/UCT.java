@@ -36,8 +36,8 @@ public abstract class UCT {
     protected float evaluate(GameState state) {
 
         // get the players
-        Player p1 = new Player_NoOverKillAttackValue(Players.Player_One.ordinal());
-        Player p2 = new Player_NoOverKillAttackValue(Players.Player_Two.ordinal());
+        Player p1 = new Player_NoOverKillAttackValue(Players.Player_One.getID());
+        Player p2 = new Player_NoOverKillAttackValue(Players.Player_Two.getID());
 
         // contruct the game
         Game g = new Game(state, p1, p2, config.getSimulationSteps(), false);

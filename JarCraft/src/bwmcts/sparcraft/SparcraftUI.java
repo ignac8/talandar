@@ -2,6 +2,7 @@ package bwmcts.sparcraft;
 
 import bwmcts.combat.UctLogic;
 import bwmcts.sparcraft.players.Player;
+import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ public class SparcraftUI extends JComponent {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.getContentPane().add(this);
         f.setVisible(true);
-        for (UnitTypes u : UnitTypes.values()) {
+        for (UnitType u : UnitTypes.getAllUnitTypes()) {
 
             images.put(u.toString(), Toolkit.getDefaultToolkit().getImage(dirPath + "units\\" + u.toString() + ".png"));
         }
