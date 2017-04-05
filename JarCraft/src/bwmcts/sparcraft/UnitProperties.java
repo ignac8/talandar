@@ -5,11 +5,11 @@
  **/
 package bwmcts.sparcraft;
 
-import javabot.JNIBWAPI;
-import javabot.types.UnitType;
-import javabot.types.UnitType.UnitTypes;
-import javabot.types.UpgradeType;
-import javabot.types.UpgradeType.UpgradeTypes;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.types.UnitType;
+import jnibwapi.types.UnitType.UnitTypes;
+import jnibwapi.types.UpgradeType;
+import jnibwapi.types.UpgradeType.UpgradeTypes;
 
 public class UnitProperties {
     static UnitProperties[] props = new UnitProperties[256];

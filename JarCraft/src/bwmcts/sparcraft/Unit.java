@@ -5,11 +5,11 @@
  **/
 package bwmcts.sparcraft;
 
-import javabot.JNIBWAPI;
-import javabot.types.UnitCommandType.UnitCommandTypes;
-import javabot.types.UnitType;
-import javabot.types.UnitType.UnitTypes;
-import javabot.types.WeaponType;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.types.UnitCommandType.UnitCommandTypes;
+import jnibwapi.types.UnitType;
+import jnibwapi.types.UnitType.UnitTypes;
+import jnibwapi.types.WeaponType;
 
 public class Unit implements Comparable<Unit> {
     public int _currentHP;                // current HP of the unit
@@ -527,7 +527,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     //Code from UalbertaBot
-    public void setUnitCooldown(JNIBWAPI bwapi, javabot.model.Unit unit) {
+    public void setUnitCooldown(JNIBWAPI bwapi, jnibwapi.model.Unit unit) {
         int attackCooldown = 0;
         int moveCooldown = 0;
 

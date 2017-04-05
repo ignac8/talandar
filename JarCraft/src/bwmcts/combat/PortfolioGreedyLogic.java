@@ -22,7 +22,7 @@ import bwmcts.sparcraft.players.Player_ClusteredUnitStateToUnitAction;
 import bwmcts.sparcraft.players.Player_Kite;
 import bwmcts.sparcraft.players.Player_NoOverKillAttackValue;
 import bwmcts.uct.UnitStateTypes;
-import javabot.JNIBWAPI;
+import jnibwapi.JNIBWAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -22,10 +22,11 @@ import bwmcts.uct.guctcd.ClusteringConfig;
 import bwmcts.uct.guctcd.GUCTCD;
 import bwmcts.uct.rguctcd.RGUCTCD;
 import bwmcts.uct.uctcd.UCTCD;
-import javabot.BWAPIEventListener;
-import javabot.JNIBWAPI;
-import javabot.types.UnitType;
-import javabot.types.UnitType.UnitTypes;
+
+import jnibwapi.JNIBWAPI;
+import jnibwapi.types.UnitType;
+import jnibwapi.types.UnitType.UnitTypes;
+import jnibwapi.BWAPIEventListener;
 
 import java.io.BufferedWriter;
 import java.io.File;

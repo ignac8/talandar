@@ -5,12 +5,12 @@
  **/
 package bwmcts.sparcraft;
 
-import javabot.JNIBWAPI;
-import javabot.types.UnitSizeType;
-import javabot.types.UpgradeType;
-import javabot.types.UpgradeType.UpgradeTypes;
-import javabot.types.WeaponType;
-import javabot.types.WeaponType.WeaponTypes;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.types.UnitSizeType;
+import jnibwapi.types.UpgradeType;
+import jnibwapi.types.UpgradeType.UpgradeTypes;
+import jnibwapi.types.WeaponType;
+import jnibwapi.types.WeaponType.WeaponTypes;
 
 public class WeaponProperties {
     static WeaponProperties[] props = new WeaponProperties[256];

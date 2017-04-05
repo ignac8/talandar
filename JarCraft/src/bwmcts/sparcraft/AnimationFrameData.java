@@ -5,8 +5,8 @@
  **/
 package bwmcts.sparcraft;
 
-import javabot.types.UnitType;
-import javabot.types.UnitType.UnitTypes;
+import jnibwapi.types.UnitType;
+import jnibwapi.types.UnitType.UnitTypes;
 
 public class AnimationFrameData {
     public static int[][] attackFrameData = new int[UnitTypes.values().length][2];

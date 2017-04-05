@@ -1,8 +1,8 @@
 package bwmcts.combat;
 
 import bwmcts.sparcraft.Position;
-import javabot.JNIBWAPI;
-import javabot.model.Unit;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.model.Unit;
 
 import java.util.HashMap;
 import java.util.List;

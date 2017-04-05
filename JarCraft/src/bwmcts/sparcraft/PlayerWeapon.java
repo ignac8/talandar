@@ -5,8 +5,8 @@
  **/
 package bwmcts.sparcraft;
 
-import javabot.types.UnitSizeType;
-import javabot.types.WeaponType;
+import jnibwapi.types.UnitSizeType;
+import jnibwapi.types.WeaponType;
 
 public class PlayerWeapon {
     PlayerProperties player;

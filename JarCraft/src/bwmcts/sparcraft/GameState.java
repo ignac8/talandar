@@ -5,9 +5,9 @@
  **/
 package bwmcts.sparcraft;
 
-import javabot.JNIBWAPI;
-import javabot.types.UnitType;
-import javabot.types.UnitType.UnitTypes;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.types.UnitType;
+import jnibwapi.types.UnitType.UnitTypes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class GameState {
 
         _units = new Unit[Constants.Num_Players][Constants.Max_Moves];
         int i = 0;
-        for (javabot.model.Unit u : bwapi.getMyUnits()) {
+        for (jnibwapi.model.Unit u : bwapi.getMyUnits()) {
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());
             _units[bwapi.getSelf().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShield(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount());
             _units[bwapi.getSelf().getID()][i].setUnitCooldown(bwapi, u);
@@ -62,7 +62,7 @@ public class GameState {
             i++;
         }
         i = 0;
-        for (javabot.model.Unit u : bwapi.getEnemyUnits()) {
+        for (jnibwapi.model.Unit u : bwapi.getEnemyUnits()) {
 
             //TODO
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());

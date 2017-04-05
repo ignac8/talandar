@@ -2,7 +2,7 @@ package bwmcts.clustering;
 
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
-import javabot.types.UnitType;
+import jnibwapi.types.UnitType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

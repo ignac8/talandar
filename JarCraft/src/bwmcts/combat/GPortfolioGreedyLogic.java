@@ -9,7 +9,7 @@
 //import java.util.HashMap;
 //import java.util.List;
 //
-//import javabot.JNIBWAPI;
+//import jnibwapi.JNIBWAPI;
 //import bwmcts.clustering.UPGMA;
 //import bwmcts.mcts.UnitState;
 //import bwmcts.mcts.UnitStateTypes;

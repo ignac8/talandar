@@ -1,6 +1,6 @@
 package bwmcts.combat;
 
-import javabot.JNIBWAPI;
+import jnibwapi.JNIBWAPI;
 
 public interface ICombatLogic {
 

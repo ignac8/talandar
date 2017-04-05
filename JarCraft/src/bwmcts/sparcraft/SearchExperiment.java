@@ -12,11 +12,11 @@ import bwmcts.sparcraft.players.Player_KiteDPS;
 import bwmcts.sparcraft.players.Player_NoOverKillAttackValue;
 import bwmcts.sparcraft.players.Player_Random;
 import bwmcts.test.JNIBWAPI_LOAD;
-import javabot.JNIBWAPI;
-import javabot.types.TechType;
-import javabot.types.UnitType;
-import javabot.types.UnitType.UnitTypes;
-import javabot.types.UpgradeType;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.types.TechType;
+import jnibwapi.types.UnitType;
+import jnibwapi.types.UnitType.UnitTypes;
+import jnibwapi.types.UpgradeType;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -5,12 +5,12 @@
  **/
 package bwmcts.sparcraft;
 
-import javabot.model.Player;
-import javabot.types.TechType;
-import javabot.types.TechType.TechTypes;
-import javabot.types.UpgradeType;
-import javabot.types.UpgradeType.UpgradeTypes;
-import javabot.types.WeaponType;
+import jnibwapi.model.Player;
+import jnibwapi.types.TechType;
+import jnibwapi.types.TechType.TechTypes;
+import jnibwapi.types.UpgradeType;
+import jnibwapi.types.UpgradeType.UpgradeTypes;
+import jnibwapi.types.WeaponType;
 
 public class PlayerProperties {
 

@@ -7,10 +7,10 @@ import bwmcts.uct.UctConfig;
 import bwmcts.uct.guctcd.ClusteringConfig;
 import bwmcts.uct.guctcd.GUCTCD;
 import bwmcts.uct.iuctcd.IUCTCD;
-import javabot.BWAPIEventListener;
-import javabot.JNIBWAPI;
-import javabot.model.Unit;
-import javabot.util.BWColor;
+import jnibwapi.BWAPIEventListener;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.model.Unit;
+import jnibwapi.util.BWColor;
 
 public class CombatController implements BWAPIEventListener {
 

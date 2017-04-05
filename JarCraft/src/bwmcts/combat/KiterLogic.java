@@ -5,7 +5,7 @@
  **/
 package bwmcts.combat;
 
-import javabot.JNIBWAPI;
+import jnibwapi.JNIBWAPI;
 
 public class KiterLogic implements ICombatLogic {
 

@@ -2,7 +2,7 @@ package bwmcts.sparcraft;
 
 import bwmcts.combat.UctLogic;
 import bwmcts.sparcraft.players.Player;
-import javabot.types.UnitType.UnitTypes;
+import jnibwapi.types.UnitType.UnitTypes;
 
 import javax.swing.*;
 import java.awt.*;

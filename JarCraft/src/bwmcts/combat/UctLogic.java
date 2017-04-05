@@ -14,8 +14,8 @@ import bwmcts.uct.UCT;
 import bwmcts.uct.flatguctcd.FlatGUCTCD;
 import bwmcts.uct.guctcd.GUCTCD;
 import bwmcts.uct.rguctcd.RGUCTCD;
-import javabot.JNIBWAPI;
-import javabot.util.BWColor;
+import jnibwapi.JNIBWAPI;
+import jnibwapi.util.BWColor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -187,7 +187,7 @@ public class UctLogic extends Player implements ICombatLogic {
     }
 
     public void drawUnitOneInfo(JNIBWAPI bwapi) {
-        javabot.model.Unit my = bwapi.getUnit(0);
+        jnibwapi.model.Unit my = bwapi.getUnit(0);
 
         bwapi.drawText(0, 0, "isMoving: " + my.isMoving(), false);
         bwapi.drawText(0, 20, "isattacking: " + my.isAttacking(), false);
