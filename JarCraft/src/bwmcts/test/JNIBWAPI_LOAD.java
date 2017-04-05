@@ -61,7 +61,7 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
         
         for (int index = 0; index < unitTypeData.length; index += UnitType.numAttributes) {
             UnitType type = new UnitType(index);
-            type.initialize(unitTypeData, index, null, null);
+            type.initialize(unitTypeData, index, null, new int[0]);
             unitTypes.put(type.getID(), type);
         }
 

@@ -1,5 +1,6 @@
 package jnibwapi;
 
+import com.google.gson.Gson;
 import jnibwapi.types.BulletType;
 import jnibwapi.types.BulletType.BulletTypes;
 import jnibwapi.types.DamageType;
@@ -35,6 +36,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -103,6 +106,7 @@ public class JNIBWAPI {
     private HashMap<Integer, Player> players = new HashMap<>();
     private HashSet<Player> allies = new HashSet<>();
     private HashSet<Player> enemies = new HashSet<>();
+
     /**
      * Instantiates a BWAPI instance, but does not connect to the bridge. To connect, the start
      * method must be invoked.
@@ -1200,6 +1204,37 @@ public class JNIBWAPI {
         // event types - no extra data to load
     }
 
+    public void dumpGameData() {
+        Gson gson = new Gson();
+        String raceTypes = gson.toJson(getRaceTypes());
+        String unitTypes = gson.toJson(getUnitTypes());
+        String techTypes = gson.toJson(getTechTypes());
+        String upgradeTypes = gson.toJson(getUpgradeTypes());
+        String weaponTypes = gson.toJson(getWeaponTypes());
+        String unitSizeTypes = gson.toJson(getUnitSizeTypes());
+        String bulletTypes = gson.toJson(getBulletTypes());
+        String damageTypes = gson.toJson(getDamageTypes());
+        String explosionTypes = gson.toJson(getExplosionTypes());
+        String unitCommandTypes = gson.toJson(getUnitCommandTypes());
+        String orderTypes = gson.toJson(getOrderTypes());
+        try {
+            Files.write(Paths.get("raceTypes.json"), raceTypes.getBytes());
+            Files.write(Paths.get("unitTypes.json"), unitTypes.getBytes());
+            Files.write(Paths.get("techTypes.json"), techTypes.getBytes());
+            Files.write(Paths.get("upgradeTypes.json"), upgradeTypes.getBytes());
+            Files.write(Paths.get("unitSizeTypes.json"), unitSizeTypes.getBytes());
+            Files.write(Paths.get("bulletTypes.json"), bulletTypes.getBytes());
+            Files.write(Paths.get("weaponTypes.json"), weaponTypes.getBytes());
+            Files.write(Paths.get("damageTypes.json"), damageTypes.getBytes());
+            Files.write(Paths.get("explosionTypes.json"), explosionTypes.getBytes());
+            Files.write(Paths.get("unitCommandTypes.json"), unitCommandTypes.getBytes());
+            Files.write(Paths.get("orderTypes.json"), orderTypes.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Data dumped!");
+    }
+
     /**
      * Loads map data and (if enableBWTA is true) BWTA data.
      * <p>
@@ -1309,6 +1344,7 @@ public class JNIBWAPI {
      */
     private void connected() {
         try {
+            dumpGameData();
             loadTypeData();
             listener.connected();
         } catch (Throwable t) {
