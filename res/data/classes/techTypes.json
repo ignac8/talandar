@@ -1,0 +1,37 @@
+{"name":"Stim Packs","ID":0,"raceID":1,"mineralPrice":100,"gasPrice":100,"researchTime":1200,"energyUsed":0,"whatResearchesTypeID":112,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Lockdown","ID":1,"raceID":1,"mineralPrice":200,"gasPrice":200,"researchTime":1500,"energyUsed":100,"whatResearchesTypeID":117,"getWeaponID":32,"targetsUnits":true,"targetsPosition":false}
+{"name":"EMP Shockwave","ID":2,"raceID":1,"mineralPrice":200,"gasPrice":200,"researchTime":1800,"energyUsed":100,"whatResearchesTypeID":116,"getWeaponID":33,"targetsUnits":true,"targetsPosition":true}
+{"name":"Spider Mines","ID":3,"raceID":1,"mineralPrice":100,"gasPrice":100,"researchTime":1200,"energyUsed":0,"whatResearchesTypeID":120,"getWeaponID":6,"targetsUnits":false,"targetsPosition":true}
+{"name":"Scanner Sweep","ID":4,"raceID":1,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":50,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":true,"targetsPosition":true}
+{"name":"Tank Siege Mode","ID":5,"raceID":1,"mineralPrice":150,"gasPrice":150,"researchTime":1200,"energyUsed":0,"whatResearchesTypeID":120,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Defensive Matrix","ID":6,"raceID":1,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":100,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":true,"targetsPosition":false}
+{"name":"Irradiate","ID":7,"raceID":1,"mineralPrice":200,"gasPrice":200,"researchTime":1200,"energyUsed":75,"whatResearchesTypeID":116,"getWeaponID":34,"targetsUnits":true,"targetsPosition":false}
+{"name":"Yamato Gun","ID":8,"raceID":1,"mineralPrice":100,"gasPrice":100,"researchTime":1800,"energyUsed":150,"whatResearchesTypeID":118,"getWeaponID":30,"targetsUnits":true,"targetsPosition":false}
+{"name":"Cloaking Field","ID":9,"raceID":1,"mineralPrice":150,"gasPrice":150,"researchTime":1500,"energyUsed":25,"whatResearchesTypeID":115,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Personnel Cloaking","ID":10,"raceID":1,"mineralPrice":100,"gasPrice":100,"researchTime":1200,"energyUsed":25,"whatResearchesTypeID":117,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Burrowing","ID":11,"raceID":0,"mineralPrice":100,"gasPrice":100,"researchTime":1200,"energyUsed":0,"whatResearchesTypeID":131,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Infestation","ID":12,"raceID":0,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":0,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":true,"targetsPosition":false}
+{"name":"Spawn Broodlings","ID":13,"raceID":0,"mineralPrice":100,"gasPrice":100,"researchTime":1200,"energyUsed":150,"whatResearchesTypeID":138,"getWeaponID":57,"targetsUnits":true,"targetsPosition":false}
+{"name":"Dark Swarm","ID":14,"raceID":0,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":100,"whatResearchesTypeID":228,"getWeaponID":59,"targetsUnits":true,"targetsPosition":true}
+{"name":"Plague","ID":15,"raceID":0,"mineralPrice":200,"gasPrice":200,"researchTime":1500,"energyUsed":150,"whatResearchesTypeID":136,"getWeaponID":60,"targetsUnits":true,"targetsPosition":true}
+{"name":"Consume","ID":16,"raceID":0,"mineralPrice":100,"gasPrice":100,"researchTime":1500,"energyUsed":0,"whatResearchesTypeID":136,"getWeaponID":61,"targetsUnits":true,"targetsPosition":false}
+{"name":"Ensnare","ID":17,"raceID":0,"mineralPrice":100,"gasPrice":100,"researchTime":1200,"energyUsed":75,"whatResearchesTypeID":138,"getWeaponID":58,"targetsUnits":true,"targetsPosition":true}
+{"name":"Parasite","ID":18,"raceID":0,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":75,"whatResearchesTypeID":228,"getWeaponID":56,"targetsUnits":true,"targetsPosition":false}
+{"name":"Psionic Storm","ID":19,"raceID":2,"mineralPrice":200,"gasPrice":200,"researchTime":1800,"energyUsed":75,"whatResearchesTypeID":165,"getWeaponID":84,"targetsUnits":true,"targetsPosition":true}
+{"name":"Hallucination","ID":20,"raceID":2,"mineralPrice":150,"gasPrice":150,"researchTime":1200,"energyUsed":100,"whatResearchesTypeID":165,"getWeaponID":130,"targetsUnits":true,"targetsPosition":false}
+{"name":"Recall","ID":21,"raceID":2,"mineralPrice":150,"gasPrice":150,"researchTime":1800,"energyUsed":150,"whatResearchesTypeID":170,"getWeaponID":130,"targetsUnits":true,"targetsPosition":true}
+{"name":"Stasis Field","ID":22,"raceID":2,"mineralPrice":150,"gasPrice":150,"researchTime":1500,"energyUsed":100,"whatResearchesTypeID":170,"getWeaponID":83,"targetsUnits":true,"targetsPosition":true}
+{"name":"Archon Warp","ID":23,"raceID":2,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":0,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":true,"targetsPosition":false}
+{"name":"Restoration","ID":24,"raceID":1,"mineralPrice":100,"gasPrice":100,"researchTime":1200,"energyUsed":50,"whatResearchesTypeID":112,"getWeaponID":102,"targetsUnits":true,"targetsPosition":false}
+{"name":"Disruption Web","ID":25,"raceID":2,"mineralPrice":200,"gasPrice":200,"researchTime":1200,"energyUsed":125,"whatResearchesTypeID":169,"getWeaponID":101,"targetsUnits":true,"targetsPosition":true}
+{"ID":26,"raceID":0,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":0,"whatResearchesTypeID":0,"getWeaponID":0,"targetsUnits":false,"targetsPosition":false}
+{"name":"Mind Control","ID":27,"raceID":2,"mineralPrice":200,"gasPrice":200,"researchTime":1800,"energyUsed":150,"whatResearchesTypeID":165,"getWeaponID":105,"targetsUnits":true,"targetsPosition":false}
+{"name":"Dark Archon Meld","ID":28,"raceID":2,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":0,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":true,"targetsPosition":false}
+{"name":"Feedback","ID":29,"raceID":2,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":50,"whatResearchesTypeID":228,"getWeaponID":106,"targetsUnits":true,"targetsPosition":false}
+{"name":"Optical Flare","ID":30,"raceID":1,"mineralPrice":100,"gasPrice":100,"researchTime":1800,"energyUsed":75,"whatResearchesTypeID":112,"getWeaponID":107,"targetsUnits":true,"targetsPosition":false}
+{"name":"Maelstrom","ID":31,"raceID":2,"mineralPrice":100,"gasPrice":100,"researchTime":1500,"energyUsed":100,"whatResearchesTypeID":165,"getWeaponID":108,"targetsUnits":true,"targetsPosition":true}
+{"name":"Lurker Aspect","ID":32,"raceID":0,"mineralPrice":200,"gasPrice":200,"researchTime":1800,"energyUsed":0,"whatResearchesTypeID":135,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Healing","ID":34,"raceID":1,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":1,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":true,"targetsPosition":true}
+{"name":"None","ID":44,"raceID":5,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":0,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Unknown","ID":45,"raceID":6,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":0,"whatResearchesTypeID":228,"getWeaponID":130,"targetsUnits":false,"targetsPosition":false}
+{"name":"Nuclear Strike","ID":46,"raceID":1,"mineralPrice":0,"gasPrice":0,"researchTime":0,"energyUsed":0,"whatResearchesTypeID":228,"getWeaponID":31,"targetsUnits":true,"targetsPosition":true}

@@ -14,6 +14,7 @@ import jnibwapi.types.UnitSizeType;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UpgradeType;
 import jnibwapi.types.WeaponType;
+import utils.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -138,23 +139,11 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
         }
     }
 
-    private int[] readDataFromFile(String filename) {
-        try {
-            //String s = Files.readAllLines(Paths.get("res/" + filename + ".json")).stream().reduce((a, b) -> a + b).get();
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("res\\" + filename + ".json")));
-            String readLine = "";
-            StringBuilder result = new StringBuilder();
-            while ((readLine = bufferedReader.readLine()) != null) {
-                result.append(readLine);
-            }
-            Gson gson = new Gson();
-            List<Integer> list = gson.fromJson(result.toString(), new TypeToken<List<Integer>>() {
-            }.getType());
-            return list.stream().mapToInt(a -> a).toArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    private int[] readDataFromFile(String fileName) {
+        //String s = Files.readAllLines(Paths.get("res/" + fileName + ".json")).stream().reduce((a, b) -> a + b).get();
+        String result = FileUtils.loadFile("res\\" + fileName + ".json").stream().reduce((a, b) -> a + b).get();
+        List<Integer> list = FileUtils.fromJson(result, new TypeToken<List<Integer>>() {}.getType());
+        return list.stream().mapToInt(a -> a).toArray();
     }
 
     // type data accessors

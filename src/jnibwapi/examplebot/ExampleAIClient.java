@@ -1,4 +1,4 @@
-package exampletbot;
+package jnibwapi.examplebot;
 
 import java.util.HashSet;
 

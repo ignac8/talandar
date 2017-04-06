@@ -1,4 +1,4 @@
-package exampletbot;
+package jnibwapi.examplebot;
 
 /**
  * Example of a Java AI Client that does nothing.

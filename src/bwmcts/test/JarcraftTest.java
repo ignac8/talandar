@@ -39,7 +39,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class Test implements BWAPIEventListener {
+public class JarcraftTest implements BWAPIEventListener {
 
     private static boolean graphics = false;
 
@@ -49,7 +49,7 @@ public class Test implements BWAPIEventListener {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Create TC instance");
-        Test tc = new Test();
+        JarcraftTest tc = new JarcraftTest();
         //tc.bwapi=new JNIBWAPI(tc);
         //tc.bwapi.start();
 
@@ -60,7 +60,7 @@ public class Test implements BWAPIEventListener {
         PlayerProperties.Init();
         WeaponProperties.Init(tc.bwapi);
         UnitProperties.Init(tc.bwapi);
-        graphics = true;
+        graphics = false;
 
         Constants.Max_Units = 300;
         Constants.Max_Moves = Constants.Max_Units + Constants.Num_Directions + 1;

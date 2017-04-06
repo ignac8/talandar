@@ -1,6 +1,5 @@
 package jnibwapi;
 
-import com.google.gson.Gson;
 import jnibwapi.types.BulletType;
 import jnibwapi.types.BulletType.BulletTypes;
 import jnibwapi.types.DamageType;
@@ -26,6 +25,8 @@ import jnibwapi.types.WeaponType;
 import jnibwapi.types.WeaponType.WeaponTypes;
 import jnibwapi.util.BWColor;
 import jnibwapi.util.ErrorCode;
+import utils.FilePaths;
+import utils.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,14 +37,13 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -1204,36 +1204,54 @@ public class JNIBWAPI {
         // event types - no extra data to load
     }
 
-    public void dumpGameData() {
-        Gson gson = new Gson();
-        String raceTypes = gson.toJson(getRaceTypes());
-        String unitTypes = gson.toJson(getUnitTypes());
-        String techTypes = gson.toJson(getTechTypes());
-        String upgradeTypes = gson.toJson(getUpgradeTypes());
-        String weaponTypes = gson.toJson(getWeaponTypes());
-        String unitSizeTypes = gson.toJson(getUnitSizeTypes());
-        String bulletTypes = gson.toJson(getBulletTypes());
-        String damageTypes = gson.toJson(getDamageTypes());
-        String explosionTypes = gson.toJson(getExplosionTypes());
-        String unitCommandTypes = gson.toJson(getUnitCommandTypes());
-        String orderTypes = gson.toJson(getOrderTypes());
-        try {
-            Files.write(Paths.get("raceTypes.json"), raceTypes.getBytes());
-            Files.write(Paths.get("unitTypes.json"), unitTypes.getBytes());
-            Files.write(Paths.get("techTypes.json"), techTypes.getBytes());
-            Files.write(Paths.get("upgradeTypes.json"), upgradeTypes.getBytes());
-            Files.write(Paths.get("unitSizeTypes.json"), unitSizeTypes.getBytes());
-            Files.write(Paths.get("bulletTypes.json"), bulletTypes.getBytes());
-            Files.write(Paths.get("weaponTypes.json"), weaponTypes.getBytes());
-            Files.write(Paths.get("damageTypes.json"), damageTypes.getBytes());
-            Files.write(Paths.get("explosionTypes.json"), explosionTypes.getBytes());
-            Files.write(Paths.get("unitCommandTypes.json"), unitCommandTypes.getBytes());
-            Files.write(Paths.get("orderTypes.json"), orderTypes.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void dumpGameDataArrays() {
+        dumpGameDataArray(getRaceTypes(), FilePaths.RACE_TYPES_ARRAY);
+        dumpGameDataArray(getUnitTypes(), FilePaths.UNIT_TYPES_ARRAY);
+        dumpGameDataArray(getTechTypes(), FilePaths.TECH_TYPES_ARRAY);
+        dumpGameDataArray(getUpgradeTypes(), FilePaths.UPGRADE_TYPES_ARRAY);
+        dumpGameDataArray(getWeaponTypes(), FilePaths.WEAPON_TYPES_ARRAY);
+        dumpGameDataArray(getUnitSizeTypes(), FilePaths.UNIT_SIZE_TYPES_ARRAY);
+        dumpGameDataArray(getBulletTypes(), FilePaths.BULLET_TYPES_ARRAY);
+        dumpGameDataArray(getDamageTypes(), FilePaths.DAMAGE_TYPES_ARRAY);
+        dumpGameDataArray(getExplosionTypes(), FilePaths.EXPLOSION_TYPES_ARRAY);
+        dumpGameDataArray(getUnitCommandTypes(), FilePaths.UNIT_COMMAND_TYPES_ARRAY);
+        dumpGameDataArray(getOrderTypes(), FilePaths.ORDER_TYPES_ARRAY);
         System.out.println("Data dumped!");
     }
+
+    private void dumpGameDataArray(int[] dataArray, String fileName) {
+        String json = FileUtils.toJson(dataArray);
+        List<String> jsonList = new ArrayList<>();
+        jsonList.add(json);
+        FileUtils.saveFile(fileName, jsonList);
+    }
+
+    private void dumpGameDataClasses() {
+        dumpGameDataClass(RaceTypes.getAllRaceTypes(), FilePaths.RACE_TYPES_CLASS);
+        dumpGameDataClass(UnitTypes.getAllUnitTypes(), FilePaths.UNIT_TYPES_CLASS);
+        dumpGameDataClass(TechTypes.getAllTechTypes(), FilePaths.TECH_TYPES_CLASS);
+        dumpGameDataClass(UpgradeTypes.getAllUpgradeTypes(), FilePaths.UPGRADE_TYPES_CLASS);
+        dumpGameDataClass(WeaponTypes.getAllWeaponTypes(), FilePaths.WEAPON_TYPES_CLASS);
+        dumpGameDataClass(UnitSizeTypes.getAllUnitSizeTypes(), FilePaths.UNIT_SIZE_TYPES_CLASS);
+        dumpGameDataClass(BulletTypes.getAllBulletTypes(), FilePaths.BULLET_TYPES_CLASS);
+        dumpGameDataClass(DamageTypes.getAllDamageTypes(), FilePaths.DAMAGE_TYPES_CLASS);
+        dumpGameDataClass(ExplosionTypes.getAllExplosionTypes(), FilePaths.EXPLOSION_TYPES_CLASS);
+        dumpGameDataClass(UnitCommandTypes.getAllUnitCommandTypes(), FilePaths.UNIT_COMMAND_TYPES_CLASS);
+        dumpGameDataClass(OrderTypes.getAllOrderTypes(), FilePaths.ORDER_TYPES_CLASS);
+        System.out.println("Data dumped!");
+    }
+
+    private <T> void dumpGameDataClass(Collection<T> gameDataClass, String fileName) {
+        Iterator<T> iterator = gameDataClass.iterator();
+        List<String> jsonList = new ArrayList<>();
+        while (iterator.hasNext()) {
+            T gameData = iterator.next();
+            String json = FileUtils.toJson(gameData);
+            jsonList.add(json);
+        }
+        FileUtils.saveFile(fileName, jsonList);
+    }
+
 
     /**
      * Loads map data and (if enableBWTA is true) BWTA data.
@@ -1344,8 +1362,9 @@ public class JNIBWAPI {
      */
     private void connected() {
         try {
-            dumpGameData();
             loadTypeData();
+            dumpGameDataArrays();
+            dumpGameDataClasses();
             listener.connected();
         } catch (Throwable t) {
             t.printStackTrace();
