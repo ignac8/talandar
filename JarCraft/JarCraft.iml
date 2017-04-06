@@ -9,5 +9,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="JNIBWAPI" />
+    <orderEntry type="module" module-name="Talandar" />
+    <orderEntry type="library" name="gson-2.8.1-SNAPSHOT" level="project" />
   </component>
 </module>

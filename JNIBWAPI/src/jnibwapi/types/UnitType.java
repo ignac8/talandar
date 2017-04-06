@@ -143,10 +143,10 @@ public class UnitType {
         flyingBuilding = data[index++] == 1;
         spell = data[index++] == 1;
 
-        this.name = name;
-        for (int i = 0; i < requiredUnits.length; i += 2) {
-            this.requiredUnits.put(requiredUnits[i], requiredUnits[i + 1]);
-        }
+//        this.name = name;
+//        for (int i = 0; i < requiredUnits.length; i += 2) {
+//            this.requiredUnits.put(requiredUnits[i], requiredUnits[i + 1]);
+//        }
     }
 
     public int getID() {
