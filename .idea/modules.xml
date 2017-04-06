@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JNIBWAPI/JNIBWAPI.iml" filepath="$PROJECT_DIR$/JNIBWAPI/JNIBWAPI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/JarCraft/JarCraft.iml" filepath="$PROJECT_DIR$/JarCraft/JarCraft.iml" />
       <module fileurl="file://$PROJECT_DIR$/Talandar.iml" filepath="$PROJECT_DIR$/Talandar.iml" />
     </modules>
   </component>

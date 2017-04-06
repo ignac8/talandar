@@ -40,16 +40,16 @@ import java.util.List;
  */
 public class JNIBWAPI_LOAD extends JNIBWAPI {
 
-    private HashMap<Integer, UnitType> unitTypes = new HashMap<Integer, UnitType>();
-    private HashMap<Integer, TechType> techTypes = new HashMap<Integer, TechType>();
-    private HashMap<Integer, UpgradeType> upgradeTypes = new HashMap<Integer, UpgradeType>();
-    private HashMap<Integer, WeaponType> weaponTypes = new HashMap<Integer, WeaponType>();
-    private HashMap<Integer, UnitSizeType> unitSizeTypes = new HashMap<Integer, UnitSizeType>();
-    private HashMap<Integer, BulletType> bulletTypes = new HashMap<Integer, BulletType>();
-    private HashMap<Integer, DamageType> damageTypes = new HashMap<Integer, DamageType>();
-    private HashMap<Integer, ExplosionType> explosionTypes = new HashMap<Integer, ExplosionType>();
-    private HashMap<Integer, UnitCommandType> unitCommandTypes = new HashMap<Integer, UnitCommandType>();
-    private HashMap<Integer, OrderType> orderTypes = new HashMap<Integer, OrderType>();
+    private HashMap<Integer, UnitType> unitTypes = new HashMap<>();
+    private HashMap<Integer, TechType> techTypes = new HashMap<>();
+    private HashMap<Integer, UpgradeType> upgradeTypes = new HashMap<>();
+    private HashMap<Integer, WeaponType> weaponTypes = new HashMap<>();
+    private HashMap<Integer, UnitSizeType> unitSizeTypes = new HashMap<>();
+    private HashMap<Integer, BulletType> bulletTypes = new HashMap<>();
+    private HashMap<Integer, DamageType> damageTypes = new HashMap<>();
+    private HashMap<Integer, ExplosionType> explosionTypes = new HashMap<>();
+    private HashMap<Integer, UnitCommandType> unitCommandTypes = new HashMap<>();
+    private HashMap<Integer, OrderType> orderTypes = new HashMap<>();
 
     public JNIBWAPI_LOAD(BWAPIEventListener listener) {
         super(listener, false);
