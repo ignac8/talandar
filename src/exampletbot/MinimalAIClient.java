@@ -1,4 +1,4 @@
-package bot;
+package exampletbot;
 
 /**
  * Example of a Java AI Client that does nothing.

@@ -1,4 +1,4 @@
-package bot;
+package exampletbot;
 
 import java.util.HashSet;
 
