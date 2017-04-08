@@ -25,7 +25,6 @@ import jnibwapi.types.WeaponType;
 import jnibwapi.types.WeaponType.WeaponTypes;
 import jnibwapi.util.BWColor;
 import jnibwapi.util.ErrorCode;
-import utils.FilePaths;
 import utils.FileUtils;
 
 import java.io.BufferedReader;
@@ -46,6 +45,41 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import static jnibwapi.types.BulletType.BulletTypes.getAllBulletTypes;
+import static jnibwapi.types.DamageType.DamageTypes.getAllDamageTypes;
+import static jnibwapi.types.ExplosionType.ExplosionTypes.getAllExplosionTypes;
+import static jnibwapi.types.OrderType.OrderTypes.getAllOrderTypes;
+import static jnibwapi.types.RaceType.RaceTypes.getAllRaceTypes;
+import static jnibwapi.types.TechType.TechTypes.getAllTechTypes;
+import static jnibwapi.types.UnitCommandType.UnitCommandTypes.getAllUnitCommandTypes;
+import static jnibwapi.types.UnitSizeType.UnitSizeTypes.getAllUnitSizeTypes;
+import static jnibwapi.types.UnitType.UnitTypes.getAllUnitTypes;
+import static jnibwapi.types.UpgradeType.UpgradeTypes.getAllUpgradeTypes;
+import static jnibwapi.types.WeaponType.WeaponTypes.getAllWeaponTypes;
+import static utils.FilePaths.BULLET_TYPES_ARRAY;
+import static utils.FilePaths.BULLET_TYPES_CLASS;
+import static utils.FilePaths.DAMAGE_TYPES_ARRAY;
+import static utils.FilePaths.DAMAGE_TYPES_CLASS;
+import static utils.FilePaths.EXPLOSION_TYPES_ARRAY;
+import static utils.FilePaths.EXPLOSION_TYPES_CLASS;
+import static utils.FilePaths.ORDER_TYPES_ARRAY;
+import static utils.FilePaths.ORDER_TYPES_CLASS;
+import static utils.FilePaths.RACE_TYPES_ARRAY;
+import static utils.FilePaths.RACE_TYPES_CLASS;
+import static utils.FilePaths.TECH_TYPES_ARRAY;
+import static utils.FilePaths.TECH_TYPES_CLASS;
+import static utils.FilePaths.UNIT_COMMAND_TYPES_ARRAY;
+import static utils.FilePaths.UNIT_COMMAND_TYPES_CLASS;
+import static utils.FilePaths.UNIT_SIZE_TYPES_ARRAY;
+import static utils.FilePaths.UNIT_SIZE_TYPES_CLASS;
+import static utils.FilePaths.UNIT_TYPES_ARRAY;
+import static utils.FilePaths.UNIT_TYPES_CLASS;
+import static utils.FilePaths.UPGRADE_TYPES_ARRAY;
+import static utils.FilePaths.UPGRADE_TYPES_CLASS;
+import static utils.FilePaths.WEAPON_TYPES_ARRAY;
+import static utils.FilePaths.WEAPON_TYPES_CLASS;
+import static utils.FileUtils.saveFile;
 
 /**
  * JNI interface for the Brood War API.<br>
@@ -930,59 +964,59 @@ public class JNIBWAPI {
     // Old ___Types() methods no longer needed (call method body directly).
     @Deprecated
     public Collection<UnitType> unitTypes() {
-        return UnitTypes.getAllUnitTypes();
+        return getAllUnitTypes();
     }
 
     @Deprecated
     public Collection<RaceType> raceTypes() {
-        return RaceTypes.getAllRaceTypes();
+        return getAllRaceTypes();
     }
 
     @Deprecated
     public Collection<TechType> techTypes() {
-        return TechTypes.getAllTechTypes();
+        return getAllTechTypes();
     }
 
     @Deprecated
     public Collection<UpgradeType> upgradeTypes() {
-        return UpgradeTypes.getAllUpgradeTypes();
+        return getAllUpgradeTypes();
     }
 
     @Deprecated
     public Collection<WeaponType> weaponTypes() {
-        return WeaponTypes.getAllWeaponTypes();
+        return getAllWeaponTypes();
     }
 
     @Deprecated
     public Collection<UnitSizeType> unitSizeTypes() {
-        return UnitSizeTypes.getAllUnitSizeTypes();
+        return getAllUnitSizeTypes();
     }
 
     @Deprecated
     public Collection<BulletType> bulletTypes() {
-        return BulletTypes.getAllBulletTypes();
+        return getAllBulletTypes();
     }
 
     @Deprecated
     public Collection<DamageType> damageTypes() {
-        return DamageTypes.getAllDamageTypes();
+        return getAllDamageTypes();
     }
 
     @Deprecated
     public Collection<ExplosionType> explosionTypes() {
-        return ExplosionTypes.getAllExplosionTypes();
+        return getAllExplosionTypes();
     }
 
     // ID Lookup Methods (should not usually be needed)
 
     @Deprecated
     public Collection<UnitCommandType> unitCommandTypes() {
-        return UnitCommandTypes.getAllUnitCommandTypes();
+        return getAllUnitCommandTypes();
     }
 
     @Deprecated
     public Collection<OrderType> orderTypes() {
-        return OrderTypes.getAllOrderTypes();
+        return getAllOrderTypes();
     }
 
     // game state accessors
@@ -1205,17 +1239,17 @@ public class JNIBWAPI {
     }
 
     private void dumpGameDataArrays() {
-        dumpGameDataArray(getRaceTypes(), FilePaths.RACE_TYPES_ARRAY);
-        dumpGameDataArray(getUnitTypes(), FilePaths.UNIT_TYPES_ARRAY);
-        dumpGameDataArray(getTechTypes(), FilePaths.TECH_TYPES_ARRAY);
-        dumpGameDataArray(getUpgradeTypes(), FilePaths.UPGRADE_TYPES_ARRAY);
-        dumpGameDataArray(getWeaponTypes(), FilePaths.WEAPON_TYPES_ARRAY);
-        dumpGameDataArray(getUnitSizeTypes(), FilePaths.UNIT_SIZE_TYPES_ARRAY);
-        dumpGameDataArray(getBulletTypes(), FilePaths.BULLET_TYPES_ARRAY);
-        dumpGameDataArray(getDamageTypes(), FilePaths.DAMAGE_TYPES_ARRAY);
-        dumpGameDataArray(getExplosionTypes(), FilePaths.EXPLOSION_TYPES_ARRAY);
-        dumpGameDataArray(getUnitCommandTypes(), FilePaths.UNIT_COMMAND_TYPES_ARRAY);
-        dumpGameDataArray(getOrderTypes(), FilePaths.ORDER_TYPES_ARRAY);
+        dumpGameDataArray(getRaceTypes(), RACE_TYPES_ARRAY);
+        dumpGameDataArray(getUnitTypes(), UNIT_TYPES_ARRAY);
+        dumpGameDataArray(getTechTypes(), TECH_TYPES_ARRAY);
+        dumpGameDataArray(getUpgradeTypes(), UPGRADE_TYPES_ARRAY);
+        dumpGameDataArray(getWeaponTypes(), WEAPON_TYPES_ARRAY);
+        dumpGameDataArray(getUnitSizeTypes(), UNIT_SIZE_TYPES_ARRAY);
+        dumpGameDataArray(getBulletTypes(), BULLET_TYPES_ARRAY);
+        dumpGameDataArray(getDamageTypes(), DAMAGE_TYPES_ARRAY);
+        dumpGameDataArray(getExplosionTypes(), EXPLOSION_TYPES_ARRAY);
+        dumpGameDataArray(getUnitCommandTypes(), UNIT_COMMAND_TYPES_ARRAY);
+        dumpGameDataArray(getOrderTypes(), ORDER_TYPES_ARRAY);
         System.out.println("Data dumped!");
     }
 
@@ -1223,21 +1257,21 @@ public class JNIBWAPI {
         String json = FileUtils.toJson(dataArray);
         List<String> jsonList = new ArrayList<>();
         jsonList.add(json);
-        FileUtils.saveFile(fileName, jsonList);
+        saveFile(fileName, jsonList);
     }
 
     private void dumpGameDataClasses() {
-        dumpGameDataClass(RaceTypes.getAllRaceTypes(), FilePaths.RACE_TYPES_CLASS);
-        dumpGameDataClass(UnitTypes.getAllUnitTypes(), FilePaths.UNIT_TYPES_CLASS);
-        dumpGameDataClass(TechTypes.getAllTechTypes(), FilePaths.TECH_TYPES_CLASS);
-        dumpGameDataClass(UpgradeTypes.getAllUpgradeTypes(), FilePaths.UPGRADE_TYPES_CLASS);
-        dumpGameDataClass(WeaponTypes.getAllWeaponTypes(), FilePaths.WEAPON_TYPES_CLASS);
-        dumpGameDataClass(UnitSizeTypes.getAllUnitSizeTypes(), FilePaths.UNIT_SIZE_TYPES_CLASS);
-        dumpGameDataClass(BulletTypes.getAllBulletTypes(), FilePaths.BULLET_TYPES_CLASS);
-        dumpGameDataClass(DamageTypes.getAllDamageTypes(), FilePaths.DAMAGE_TYPES_CLASS);
-        dumpGameDataClass(ExplosionTypes.getAllExplosionTypes(), FilePaths.EXPLOSION_TYPES_CLASS);
-        dumpGameDataClass(UnitCommandTypes.getAllUnitCommandTypes(), FilePaths.UNIT_COMMAND_TYPES_CLASS);
-        dumpGameDataClass(OrderTypes.getAllOrderTypes(), FilePaths.ORDER_TYPES_CLASS);
+        dumpGameDataClass(getAllRaceTypes(), RACE_TYPES_CLASS);
+        dumpGameDataClass(getAllUnitTypes(), UNIT_TYPES_CLASS);
+        dumpGameDataClass(getAllTechTypes(), TECH_TYPES_CLASS);
+        dumpGameDataClass(getAllUpgradeTypes(), UPGRADE_TYPES_CLASS);
+        dumpGameDataClass(getAllWeaponTypes(), WEAPON_TYPES_CLASS);
+        dumpGameDataClass(getAllUnitSizeTypes(), UNIT_SIZE_TYPES_CLASS);
+        dumpGameDataClass(getAllBulletTypes(), BULLET_TYPES_CLASS);
+        dumpGameDataClass(getAllDamageTypes(), DAMAGE_TYPES_CLASS);
+        dumpGameDataClass(getAllExplosionTypes(), EXPLOSION_TYPES_CLASS);
+        dumpGameDataClass(getAllUnitCommandTypes(), UNIT_COMMAND_TYPES_CLASS);
+        dumpGameDataClass(getAllOrderTypes(), ORDER_TYPES_CLASS);
         System.out.println("Data dumped!");
     }
 
@@ -1249,7 +1283,7 @@ public class JNIBWAPI {
             String json = FileUtils.toJson(gameData);
             jsonList.add(json);
         }
-        FileUtils.saveFile(fileName, jsonList);
+        saveFile(fileName, jsonList);
     }
 
 
