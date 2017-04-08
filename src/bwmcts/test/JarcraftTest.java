@@ -59,7 +59,7 @@ public class JarcraftTest implements BWAPIEventListener {
         PlayerProperties.Init();
         WeaponProperties.Init(tc.bwapi);
         UnitProperties.Init(tc.bwapi);
-        graphics = false;
+        graphics = true;
 
         Constants.Max_Units = 300;
         Constants.Max_Moves = Constants.Max_Units + Constants.Num_Directions + 1;

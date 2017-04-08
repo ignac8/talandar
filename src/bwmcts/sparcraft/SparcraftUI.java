@@ -37,7 +37,7 @@ public class SparcraftUI extends JComponent {
         f.setVisible(true);
         for (UnitType u : UnitTypes.getAllUnitTypes()) {
 
-            images.put(u.toString(), Toolkit.getDefaultToolkit().getImage(dirPath + "units\\" + u.toString() + ".png"));
+            images.put(u.toString(), Toolkit.getDefaultToolkit().getImage(dirPath + "units\\" + u.getName().replaceAll(" ", "_") + ".png"));
         }
         int i = (int) (Math.random() * 10 % 4);
         background = Toolkit.getDefaultToolkit().getImage(dirPath + "ground\\ground" + (i > 0 ? i : "") + ".png");
@@ -78,7 +78,7 @@ public class SparcraftUI extends JComponent {
         int k = 0;
         for (Unit a : _state.getAllUnit()[0]) {
             if (a != null && a.isAlive()) {
-                Image i = images.get(a.type().getName().replaceAll(" ", "_"));
+                Image i = images.get(a.type().toString());
                 Position p = a.currentPosition(_state.getTime());
                 if (i != null) {
                     drawImageOnPosition(g, i, p);
@@ -95,7 +95,7 @@ public class SparcraftUI extends JComponent {
         g.setColor(Color.red);
         for (Unit a : _state.getAllUnit()[1]) {
             if (a != null && a.isAlive()) {
-                Image i = images.get(a.type().getName().replaceAll(" ", "_"));
+                Image i = images.get(a.type().toString());
                 Position p = a.currentPosition(_state.getTime());
                 if (i != null) {
                     drawImageOnPosition(g, i, p);
