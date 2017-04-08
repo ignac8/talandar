@@ -1,7 +1,5 @@
 package bwmcts.test;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.BulletType;
@@ -14,15 +12,23 @@ import jnibwapi.types.UnitSizeType;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UpgradeType;
 import jnibwapi.types.WeaponType;
-import utils.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import static utils.FilePaths.BULLET_TYPES_CLASS;
+import static utils.FilePaths.DAMAGE_TYPES_CLASS;
+import static utils.FilePaths.EXPLOSION_TYPES_CLASS;
+import static utils.FilePaths.ORDER_TYPES_CLASS;
+import static utils.FilePaths.TECH_TYPES_CLASS;
+import static utils.FilePaths.UNIT_COMMAND_TYPES_CLASS;
+import static utils.FilePaths.UNIT_SIZE_TYPES_CLASS;
+import static utils.FilePaths.UNIT_TYPES_CLASS;
+import static utils.FilePaths.UPGRADE_TYPES_CLASS;
+import static utils.FilePaths.WEAPON_TYPES_CLASS;
+import static utils.FileUtils.fromJson;
+import static utils.FileUtils.loadFile;
 
 /**
  * JNI interface for the Brood War API.
@@ -59,91 +65,84 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
 
     public void loadTypeData() {
         // unit types
-        int[] unitTypeData = readDataFromFile("unitTypes");
-        for (int index = 0; index < unitTypeData.length; index += UnitType.numAttributes) {
-            UnitType type = new UnitType(unitTypeData[index]);
-            type.initialize(unitTypeData, index, null, null);
-            unitTypes.put(type.getID(), type);
+        List<String> unitTypeJsons = loadFile(UNIT_TYPES_CLASS);
+        for (String unitTypeJson : unitTypeJsons) {
+            UnitType unitType = fromJson(unitTypeJson, UnitType.class);
+            unitType.putIntoMap();
+            unitTypes.put(unitType.getID(), unitType);
         }
 
         // tech types
-        int[] techTypeData = readDataFromFile("techTypes");
-        for (int index = 0; index < techTypeData.length; index += TechType.numAttributes) {
-            TechType type = new TechType(techTypeData[index]);
-            type.initialize(techTypeData, index, null);
-            techTypes.put(type.getID(), type);
+        List<String> techTypeJsons = loadFile(TECH_TYPES_CLASS);
+        for (String techTypeJson : techTypeJsons) {
+            TechType techType = fromJson(techTypeJson, TechType.class);
+            techType.putIntoMap();
+            techTypes.put(techType.getID(), techType);
         }
 
         // upgrade types
-        int[] upgradeTypeData = readDataFromFile("upgradeTypes");
-        for (int index = 0; index < upgradeTypeData.length; index += UpgradeType.numAttributes) {
-            UpgradeType type = new UpgradeType(upgradeTypeData[index]);
-            type.initialize(upgradeTypeData, index, null);
-            upgradeTypes.put(type.getID(), type);
+        List<String> upgradeTypeJsons = loadFile(UPGRADE_TYPES_CLASS);
+        for (String upgradeTypeJson : upgradeTypeJsons) {
+            UpgradeType upgradeType = fromJson(upgradeTypeJson, UpgradeType.class);
+            upgradeType.putIntoMap();
+            upgradeTypes.put(upgradeType.getID(), upgradeType);
         }
 
         // weapon types
-        int[] weaponTypeData = readDataFromFile("weaponTypes");
-        for (int index = 0; index < weaponTypeData.length; index += WeaponType.numAttributes) {
-            WeaponType type = new WeaponType(weaponTypeData[index]);
-            type.initialize(weaponTypeData, index, null);
-            weaponTypes.put(type.getID(), type);
+        List<String> weaponTypeJsons = loadFile(WEAPON_TYPES_CLASS);
+        for (String weaponTypeJson : weaponTypeJsons) {
+            WeaponType weaponType = fromJson(weaponTypeJson, WeaponType.class);
+            weaponType.putIntoMap();
+            weaponTypes.put(weaponType.getID(), weaponType);
         }
 
         // unit size types
-        int[] unitSizeTypeData = readDataFromFile("unitSizeTypes");
-        for (int index = 0; index < unitSizeTypeData.length; index += UnitSizeType.numAttributes) {
-            UnitSizeType type = new UnitSizeType(unitSizeTypeData[index]);
-            type.initialize(unitSizeTypeData, index, null);
-            unitSizeTypes.put(type.getID(), type);
+        List<String> unitSizeTypeJsons = loadFile(UNIT_SIZE_TYPES_CLASS);
+        for (String unitSizeTypeJson : unitSizeTypeJsons) {
+            UnitSizeType unitSizeType = fromJson(unitSizeTypeJson, UnitSizeType.class);
+            unitSizeType.putIntoMap();
+            unitSizeTypes.put(unitSizeType.getID(), unitSizeType);
         }
 
         // bullet types
-        int[] bulletTypeData = readDataFromFile("bulletTypes");
-        for (int index = 0; index < bulletTypeData.length; index += BulletType.numAttributes) {
-            BulletType type = new BulletType(bulletTypeData[index]);
-            type.initialize(bulletTypeData, index, null);
-            bulletTypes.put(type.getID(), type);
+        List<String> bulletTypeJsons = loadFile(BULLET_TYPES_CLASS);
+        for (String bulletTypeJson : bulletTypeJsons) {
+            BulletType bulletType = fromJson(bulletTypeJson, BulletType.class);
+            bulletType.putIntoMap();
+            bulletTypes.put(bulletType.getID(), bulletType);
         }
 
         // damage types
-        int[] damageTypeData = readDataFromFile("damageTypes");
-        for (int index = 0; index < damageTypeData.length; index += DamageType.numAttributes) {
-            DamageType type = new DamageType(damageTypeData[index]);
-            type.initialize(damageTypeData, index, null);
-            damageTypes.put(type.getID(), type);
+        List<String> damageTypeJsons = loadFile(DAMAGE_TYPES_CLASS);
+        for (String damageTypeJson : damageTypeJsons) {
+            DamageType damageType = fromJson(damageTypeJson, DamageType.class);
+            damageType.putIntoMap();
+            damageTypes.put(damageType.getID(), damageType);
         }
 
         // explosion types
-        int[] explosionTypeData = readDataFromFile("explosionTypes");
-        for (int index = 0; index < explosionTypeData.length; index += ExplosionType.numAttributes) {
-            ExplosionType type = new ExplosionType(explosionTypeData[index]);
-            type.initialize(explosionTypeData, index, null);
-            explosionTypes.put(type.getID(), type);
+        List<String> explosionTypeJsons = loadFile(EXPLOSION_TYPES_CLASS);
+        for (String explosionTypeJson : explosionTypeJsons) {
+            ExplosionType explosionType = fromJson(explosionTypeJson, ExplosionType.class);
+            explosionType.putIntoMap();
+            explosionTypes.put(explosionType.getID(), explosionType);
         }
 
         // unitCommand types
-        int[] unitCommandData = readDataFromFile("unitCommandTypes");
-        for (int index = 0; index < unitCommandData.length; index += UnitCommandType.numAttributes) {
-            UnitCommandType type = new UnitCommandType(unitCommandData[index]);
-            type.initialize(unitCommandData, index, null);
-            unitCommandTypes.put(type.getID(), type);
+        List<String> unitCommandTypeJsons = loadFile(UNIT_COMMAND_TYPES_CLASS);
+        for (String unitCommandTypeJson : unitCommandTypeJsons) {
+            UnitCommandType unitCommandType = fromJson(unitCommandTypeJson, UnitCommandType.class);
+            unitCommandType.putIntoMap();
+            unitCommandTypes.put(unitCommandType.getID(), unitCommandType);
         }
 
         // order types
-        int[] orderTypeData = readDataFromFile("orderTypes");
-        for (int index = 0; index < orderTypeData.length; index += OrderType.numAttributes) {
-            OrderType type = new OrderType(orderTypeData[index]);
-            type.initialize(orderTypeData, index, null);
-            orderTypes.put(type.getID(), type);
+        List<String> orderTypeJsons = loadFile(ORDER_TYPES_CLASS);
+        for (String orderTypeJson : orderTypeJsons) {
+            OrderType orderType = fromJson(orderTypeJson, OrderType.class);
+            orderType.putIntoMap();
+            orderTypes.put(orderType.getID(), orderType);
         }
-    }
-
-    private int[] readDataFromFile(String fileName) {
-        //String s = Files.readAllLines(Paths.get("res/" + fileName + ".json")).stream().reduce((a, b) -> a + b).get();
-        String result = FileUtils.loadFile("res\\" + fileName + ".json").stream().reduce((a, b) -> a + b).get();
-        List<Integer> list = FileUtils.fromJson(result, new TypeToken<List<Integer>>() {}.getType());
-        return list.stream().mapToInt(a -> a).toArray();
     }
 
     // type data accessors
