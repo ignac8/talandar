@@ -48,6 +48,10 @@ public class TechType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToTechType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }

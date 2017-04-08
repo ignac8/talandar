@@ -149,6 +149,10 @@ public class UnitType {
         }
     }
 
+    public void putIntoMap() {
+        idToUnitType.put(ID, this);
+    }
+
     public int getID() {
         return ID;
     }

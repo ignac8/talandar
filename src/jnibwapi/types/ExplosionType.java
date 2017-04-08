@@ -27,6 +27,10 @@ public class ExplosionType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToExplosionType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }

@@ -45,6 +45,10 @@ public class UpgradeType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToUpgradeType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }

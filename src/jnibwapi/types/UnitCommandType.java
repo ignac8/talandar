@@ -27,6 +27,10 @@ public class UnitCommandType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToUnitCommandType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }

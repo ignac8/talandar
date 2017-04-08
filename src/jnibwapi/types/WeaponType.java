@@ -39,6 +39,7 @@ public class WeaponType {
     private boolean targetsTerrain;
     private boolean targetsOrgOrMech;
     private boolean targetsOwn;
+
     public WeaponType(int ID) {
         this.ID = ID;
         idToWeaponType.put(ID, this);
@@ -72,6 +73,10 @@ public class WeaponType {
         targetsOwn = data[index++] == 1;
 
         this.name = name;
+    }
+
+    public void putIntoMap() {
+        idToWeaponType.put(ID, this);
     }
 
     public String getName() {

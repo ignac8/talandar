@@ -27,6 +27,10 @@ public class UnitSizeType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToUnitSizeType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }

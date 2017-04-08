@@ -27,6 +27,10 @@ public class DamageType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToDamageType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }

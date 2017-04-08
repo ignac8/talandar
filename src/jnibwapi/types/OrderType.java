@@ -27,6 +27,10 @@ public class OrderType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToOrderType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }

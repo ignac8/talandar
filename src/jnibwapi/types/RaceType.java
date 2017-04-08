@@ -37,6 +37,10 @@ public class RaceType {
         this.name = name;
     }
 
+    public void putIntoMap() {
+        idToRaceType.put(ID, this);
+    }
+
     public String getName() {
         return name;
     }
