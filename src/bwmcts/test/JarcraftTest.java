@@ -22,11 +22,10 @@ import bwmcts.uct.guctcd.ClusteringConfig;
 import bwmcts.uct.guctcd.GUCTCD;
 import bwmcts.uct.rguctcd.RGUCTCD;
 import bwmcts.uct.uctcd.UCTCD;
-
+import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
-import jnibwapi.BWAPIEventListener;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -124,7 +123,7 @@ public class JarcraftTest implements BWAPIEventListener {
     @Override
     public void connected() {
         /*
-		System.out.println("BWAPI connected");
+        System.out.println("BWAPI connected");
 		bwapi.loadTypeData();
 		try {
 		AnimationFrameData.Init();
@@ -330,7 +329,7 @@ public class JarcraftTest implements BWAPIEventListener {
      * @param p2
      * @throws Exception
      */
-	/*
+    /*
 	private void upgmaTest(Player p1, Player p2, int runs, int numClusters) throws Exception {
 		
 		p1.setID(0);
