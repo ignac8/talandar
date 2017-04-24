@@ -40,10 +40,10 @@ public class FileUtils {
                 file.getParentFile().mkdirs();
             }
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            for (int counter = 0; counter < fileContent.size(); counter++) {
-                String line = fileContent.get(counter);
+            for (int i = 0; i < fileContent.size(); i++) {
+                String line = fileContent.get(i);
                 writer.write(line);
-                if (counter < fileContent.size() - 1) {
+                if (i < fileContent.size() - 1) {
                     writer.newLine();
                 }
             }
