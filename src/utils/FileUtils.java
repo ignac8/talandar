@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FileUtils {
 
-    private static Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
     public static List<String> loadFile(String fileName) {
         try {
@@ -54,14 +54,14 @@ public class FileUtils {
     }
 
     public static Gson getGson() {
-        return gson;
+        return GSON;
     }
 
     public static <T> String toJson(T t) {
-        return gson.toJson(t);
+        return GSON.toJson(t);
     }
 
     public static <T> T fromJson(String json, Type type) {
-        return gson.fromJson(json, type);
+        return GSON.fromJson(json, type);
     }
 }

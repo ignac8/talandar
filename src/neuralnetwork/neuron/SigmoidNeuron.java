@@ -4,7 +4,7 @@ import org.apache.commons.math3.analysis.function.Sigmoid;
 
 public class SigmoidNeuron extends CalculableNeuron {
 
-    private static final Sigmoid sigmoid = new Sigmoid();
+    private static final Sigmoid SIGMOID = new Sigmoid();
 
     public SigmoidNeuron() {
         super();
@@ -12,7 +12,7 @@ public class SigmoidNeuron extends CalculableNeuron {
 
     @Override
     protected double activation(double value) {
-        return sigmoid.value(value);
+        return SIGMOID.value(value);
     }
 
 
