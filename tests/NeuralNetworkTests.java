@@ -35,7 +35,7 @@ public class NeuralNetworkTests {
         neuralNetwork.calculate();
         assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), is(1.0));
 
-        
+
     }
 
     @Test
