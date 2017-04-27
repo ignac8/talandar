@@ -17,8 +17,7 @@ import static utils.RandomUtils.nextRealDouble;
 public class NeuralNetworkTests {
 
     @Test
-    public void calculationTest()
-    {
+    public void calculationTest() {
         List<Integer> hiddenLayersSizes = new ArrayList<>();
         hiddenLayersSizes.add(1);
         MyNeuralNetwork neuralNetwork = new MyNeuralNetwork(1, hiddenLayersSizes, 1);
@@ -70,7 +69,7 @@ public class NeuralNetworkTests {
 
         MyNeuralNetwork copiedNeuralNetwork = new MyNeuralNetwork(neuralNetwork);
         for (int i = 0; i < neuralNetwork.getOutputLayer().size(); i++) {
-            assertThat(neuralNetwork.getOutputLayer().get(i).getBias(), 
+            assertThat(neuralNetwork.getOutputLayer().get(i).getBias(),
                     is(copiedNeuralNetwork.getOutputLayer().get(i).getBias()));
         }
         for (int i = 0; i < neuralNetwork.getHiddenLayers().size(); i++) {
@@ -87,7 +86,7 @@ public class NeuralNetworkTests {
                 }
             }
         }
-        
+
     }
 
     @Test
@@ -133,7 +132,7 @@ public class NeuralNetworkTests {
         }
         layerTest(outputLayer, hiddenLayers.get(hiddenLayers.size() - 1));
     }
-    
+
     private <T extends Neuron> void layerTest(List<CalculableNeuron> layerTestedFor, List<T> layerTestedAgainst) {
         for (CalculableNeuron neuron : layerTestedFor) {
             List<Connection> connections = neuron.getConnections();

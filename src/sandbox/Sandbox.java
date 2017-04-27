@@ -5,7 +5,6 @@ import bwmcts.sparcraft.Game;
 import bwmcts.sparcraft.GameState;
 import bwmcts.sparcraft.Map;
 import bwmcts.sparcraft.PlayerProperties;
-import bwmcts.sparcraft.SparcraftUI;
 import bwmcts.sparcraft.UnitProperties;
 import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.sparcraft.players.Player;
@@ -26,7 +25,7 @@ public class Sandbox {
         UnitProperties.Init(jnibwapi);
 
         GameState initialState = new GameState();
-        initialState.setMap(new Map(25 ,25));
+        initialState.setMap(new Map(25, 25));
 
         Player player1 = new MyPlayer();
         Player player2 = new MyPlayer();

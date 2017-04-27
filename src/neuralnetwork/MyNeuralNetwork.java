@@ -22,7 +22,6 @@ public class MyNeuralNetwork extends NeuralNetwork {
     }
 
 
-
     public MyNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
         this();
         setUpMyNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize);
@@ -118,7 +117,7 @@ public class MyNeuralNetwork extends NeuralNetwork {
 
     @Override
     public void calculate() {
-        for (List<CalculableNeuron> hiddenLayer: hiddenLayers) {
+        for (List<CalculableNeuron> hiddenLayer : hiddenLayers) {
             for (Neuron neuron : hiddenLayer) {
                 neuron.calculate();
             }
