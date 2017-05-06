@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import static java.lang.System.currentTimeMillis;
-
 import static utils.FileUtils.saveGraphToFile;
-
 import static utils.FileUtils.toJson;
 
 public class Solver implements Callable<NeuralNetwork> {
@@ -52,7 +50,7 @@ public class Solver implements Callable<NeuralNetwork> {
     public NeuralNetwork call() {
         while (!done()) {
             for (Operator operator : operators) {
-                    neuralNetworks = operator.call(neuralNetworks);
+                neuralNetworks = operator.call(neuralNetworks);
             }
             evaluate();
         }

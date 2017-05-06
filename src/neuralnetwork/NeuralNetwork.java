@@ -2,7 +2,6 @@ package neuralnetwork;
 
 import neuralnetwork.neuron.CalculableNeuron;
 import neuralnetwork.neuron.InputNeuron;
-import solver.FitnessEvaluator;
 
 import java.util.ArrayList;
 import java.util.List;

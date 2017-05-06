@@ -74,7 +74,6 @@ public class ReverseEngineering implements BWAPIEventListener {
         p2 = new SimplePlayer(1, tc.bwapi);
 
 
-
         tc.buf = new StringBuffer();
         System.out.println("Player0: " + p1.toString());
         System.out.println("Player1: " + p2.toString());
