@@ -14,25 +14,25 @@ import java.util.List;
 public abstract class Player {
     //Sparcraft players
 
-    public int _id = 0;
+    public int playerId = 0;
 
     public Player() {
 
     }
 
     public Player(int id) {
-        _id = id;
+        playerId = id;
     }
 
     public void getMoves(GameState state, HashMap<Integer, List<UnitAction>> moves, List<UnitAction> moveVec) {
 
     }
 
-    public int ID() {
-        return _id;
+    public int getId() {
+        return playerId;
     }
 
     public void setID(int id) {
-        _id = id;
+        playerId = id;
     }
 }

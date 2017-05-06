@@ -17,7 +17,7 @@ import java.util.List;
 public class RandomScriptLogic extends Player implements ICombatLogic {
 
     public RandomScriptLogic(int id) {
-        this._id = id;
+        this.playerId = id;
     }
 
     @Override
@@ -42,12 +42,12 @@ public class RandomScriptLogic extends Player implements ICombatLogic {
 
         map = new HashMap<Integer, List<UnitAction>>();
         try {
-            state.generateMoves(map, this._id);
+            state.generateMoves(map, this.playerId);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return getRandomMove(this._id, map);
+        return getRandomMove(this.playerId, map);
     }
 
     private List<UnitState> getRandomMove(int playerToMove, HashMap<Integer, List<UnitAction>> map) {

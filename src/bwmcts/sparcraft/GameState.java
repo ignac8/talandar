@@ -6,7 +6,6 @@
 package bwmcts.sparcraft;
 
 import jnibwapi.JNIBWAPI;
-import jnibwapi.Player;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
 
@@ -175,7 +174,7 @@ public class GameState {
                 unit2 = getUnit(Players.Player_Two.ordinal(), u2);
 
                 // if anyone can attack anyone else
-                if (unit1.canAttackTarget(unit2, _currentTime) || unit2.canAttackTarget(unit1, _currentTime)) {
+                if (unit1.canBeAttackedByUnit(unit2, _currentTime) || unit2.canBeAttackedByUnit(unit1, _currentTime)) {
                     // then there is no deadlock
                     return false;
                 }
@@ -205,7 +204,7 @@ public class GameState {
         int closestDist = 0;
 
         for (int u = 0; u < numUnits(enemyPlayer); u++) {
-            int dist = unit.getDistanceSqToUnit(getUnit(enemyPlayer, u), _currentTime);
+            int dist = unit.getDistanceSq(getUnit(enemyPlayer, u), _currentTime);
 
             if (dist > closestDist) {
                 closestDist = dist;
@@ -231,13 +230,13 @@ public class GameState {
 
     public void addUnit(Unit u) throws Exception {
         checkFull(u.player());
-        //System::checkSupportedUnitType(u.type());
+        //System::checkSupportedUnitType(u.getType());
 
-        // Calculate the unitID for this unit
+        // Calculate the unitId for this unit
         // This will just be the current total number of units in the state
         int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
 
-        // Set the unit and it's unitID
+        // Set the unit and it's unitId
         u.setUnitID(unitID);
 
         _units[u.player()][_numUnits[u.player()]] = u;
@@ -251,20 +250,20 @@ public class GameState {
         calculateStartingHealth();
 
         if (!checkUniqueUnitIDs()) {
-            throw new Exception("GameState has non-unique Unit ID values");
+            throw new Exception("GameState has non-unique Unit getId values");
         }
 
     }
 
     public void addUnit(UnitType unitType, int playerID, Position pos) {
         checkFull(playerID);
-        //System::checkSupportedUnitType(type);
+        //System::checkSupportedUnitType(getType);
 
-        // Calculate the unitID for this unit
+        // Calculate the unitId for this unit
         // This will just be the current total number of units in the state
         int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
 
-        // Set the unit and it's unitID
+        // Set the unit and it's unitId
         _units[playerID][_numUnits[playerID]] = new Unit(unitType, playerID, pos);
         _units[playerID][_numUnits[playerID]].setUnitID(unitID);
         // Increment the number of units this player has
@@ -281,7 +280,7 @@ public class GameState {
 
     public void addUnitWithID(Unit u) {
         checkFull(u.player());
-        //  System::checkSupportedUnitType(u.type());
+        //  System::checkSupportedUnitType(u.getType());
 
         // Simply add the unit to the array
         _units[u.player()][_numUnits[u.player()]] = u;
@@ -576,9 +575,9 @@ public class GameState {
                 for (int u = 0; u < _numUnits[enemyPlayer]; u++) {
                     enemyUnit = getUnit(enemyPlayer, u);
 
-                    if (unit.canAttackTarget(enemyUnit, _currentTime)) {
-                        actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.ATTACK, u, enemyUnit.pos()));
-                        //moves.add(UnitAction(unitIndex, playerIndex, UnitActionTypes::ATTACK, unit.ID()));
+                    if (unit.canBeAttackedByUnit(enemyUnit, _currentTime)) {
+                        actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.ATTACK, u, enemyUnit.getPosition()));
+                        //moves.add(UnitAction(unitIndex, playerIndex, UnitActionTypes::ATTACK, unit.getId()));
                     }
                 }
             } else if (unit.canHealNow()) {
@@ -591,8 +590,8 @@ public class GameState {
                     Unit ourUnit = getUnit(playerIndex, u);
                     if (ourUnit != null && ourUnit.isAlive()) {
                         if (unit.canHealTarget(ourUnit, _currentTime)) {
-                            actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.HEAL, u, unit.pos()));
-                            //moves.add(UnitAction(unitIndex, playerIndex, UnitActionTypes::HEAL, unit.ID()));
+                            actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.HEAL, u, unit.getPosition()));
+                            //moves.add(UnitAction(unitIndex, playerIndex, UnitActionTypes::HEAL, unit.getId()));
                         }
                     } else {
                         break;
@@ -600,8 +599,8 @@ public class GameState {
                 }
             }
             // generate the wait move if it can't attack yet
-            else if (unit._unitType.getID() != UnitTypes.Terran_Medic.getID()) {
-                actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.RELOAD, 0, unit.pos()));
+            else if (unit.unitType.getID() != UnitTypes.Terran_Medic.getID()) {
+                actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.RELOAD, 0, unit.getPosition()));
             }
 
             // generate movement moves
@@ -638,7 +637,7 @@ public class GameState {
 	                }*/
 
                     // the final destination position of the unit
-                    Position dest = new Position(unit.pos().x + moveDistance * Constants.Move_DirX[d], unit.pos().y + moveDistance * Constants.Move_DirY[d]);
+                    Position dest = new Position(unit.getPosition().x + moveDistance * Constants.Move_DirX[d], unit.getPosition().y + moveDistance * Constants.Move_DirY[d]);
 
                     // if that poisition on the map is walkable
                     if (isWalkable(dest) || (unit.type().isFlyer() && isFlyable(dest))) {
@@ -650,7 +649,7 @@ public class GameState {
 
             // if no moves were generated for this unit, it must be issued a 'PASS' move
             if (actionTemp.isEmpty()) {
-                actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.PASS, 0, unit.pos()));
+                actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.PASS, 0, unit.getPosition()));
             }
             moves.put(unitIndex, actionTemp);
         }
@@ -659,7 +658,7 @@ public class GameState {
 
     public void makeMoves(List<UnitAction> moves) {
         if (moves.size() > 0) {
-            //if (getUnit(moves.get(0)._player,moves.get(0)._unit).firstTimeFree()!=_currentTime)
+            //if (getUnit(moves.get(0).playerId,moves.get(0).unitId).firstTimeFree()!=_currentTime)
             if (whoCanMove().ordinal() == getEnemy(moves.get(0).player())) {
                 //throw new Exception("GameState Error - Called makeMove() for a player that cannot currently move");
                 //System.out.print(" GameState Error - Called makeMove() for a player that cannot currently move ");
@@ -672,7 +671,7 @@ public class GameState {
         for (int m = 0; m < moves.size(); m++) {
             //performUnitAction(moves.get(m));
             move = moves.get(m);
-            ourUnit = getUnit(move._player, move._unit);
+            ourUnit = getUnit(move.playerId, move.unitId);
             //int player		= ourUnit.player();
             if (moved.containsKey(ourUnit)) {
                 continue;
@@ -680,10 +679,10 @@ public class GameState {
                 moved.put(ourUnit, true);
             }
 
-            if (move._moveType == UnitActionTypes.ATTACK) {
+            if (move.moveType == UnitActionTypes.ATTACK) {
                 //int enemyPlayer  =;
-                enemyUnit = getUnit(getEnemy(move._player), move._moveIndex);
-                //Unit & enemyUnit(getUnitByID(enemyPlayer ,move._moveIndex));
+                enemyUnit = getUnit(getEnemy(move.playerId), move.moveIndex);
+                //Unit & enemyUnit(getUnitByID(enemyPlayer ,move.moveIndex));
 
                 // attack the unit
                 ourUnit.attack(move, _currentTime);
@@ -698,14 +697,14 @@ public class GameState {
                         _numUnits[enemyUnit.player()]--;
                     }
                 }
-            } else if (move._moveType == UnitActionTypes.MOVE) {
-                //_numMovements[move._player]++;
+            } else if (move.moveType == UnitActionTypes.MOVE) {
+                //_numMovements[move.playerId]++;
 
                 ourUnit.move(move, _currentTime);
-            } else if (move._moveType == UnitActionTypes.RELOAD) {
+            } else if (move.moveType == UnitActionTypes.RELOAD) {
                 ourUnit.waitUntilAttack(move, _currentTime);
-            } else if (move._moveType == UnitActionTypes.HEAL) {
-                Unit ourOtherUnit = getUnit(move._player, move._moveIndex);
+            } else if (move.moveType == UnitActionTypes.HEAL) {
+                Unit ourOtherUnit = getUnit(move.playerId, move.moveIndex);
 
                 // attack the unit
                 ourUnit.heal(move, ourOtherUnit, _currentTime);
@@ -713,7 +712,7 @@ public class GameState {
                 if (ourOtherUnit.isAlive()) {
                     ourOtherUnit.takeHeal(ourUnit);
                 }
-            } else if (move._moveType == UnitActionTypes.PASS) {
+            } else if (move.moveType == UnitActionTypes.PASS) {
                 ourUnit.pass(move, _currentTime);
             }
 
@@ -754,7 +753,7 @@ public class GameState {
         // check to see if all units are on walkable tiles
         for (int p = 0; p < Constants.Num_Players; p++) {
             for (int u = 0; u < numUnits(p); u++) {
-                Position pos = getUnit(p, u).pos();
+                Position pos = getUnit(p, u).getPosition();
 
                 if (!isWalkable(pos)) {
                     throw new Exception("Unit is on non-walkable map tile: " + pos.toString());
@@ -796,7 +795,7 @@ public class GameState {
             for (int u = 0; u < _numUnits[p]; u++) {
                 Unit unit = getUnit(p, u);
 
-                System.out.printf("  P%d %5d %5d    (%3d, %3d)     %s_%d\n", unit.player(), unit.currentHP(), unit.firstTimeFree(), unit.x(), unit.y(), unit.name(), unit._unitID);
+                System.out.printf("  P%d %5d %5d    (%3d, %3d)     %s_%d\n", unit.player(), unit.currentHP(), unit.firstTimeFree(), unit.x(), unit.y(), unit.name(), unit.unitId);
             }
         }
     }

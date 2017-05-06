@@ -33,7 +33,7 @@ public class Player_NoOverKillAttackValue extends Player {
 
         for (int u = 0; u < state.numUnits(enemy); u++) {
 
-            hpRemaining[u] = state.getUnit(enemy, u)._currentHP;
+            hpRemaining[u] = state.getUnit(enemy, u).currentHP;
 
         }
 
@@ -75,7 +75,7 @@ public class Player_NoOverKillAttackValue extends Player {
                 move = movesForU.get(m);
 
                 //timeOnHpCopying+=System.nanoTime()-g;
-                if ((move._moveType == UnitActionTypes.ATTACK) && (hpRemaining[move.index()] > 0)) {
+                if ((move.moveType == UnitActionTypes.ATTACK) && (hpRemaining[move.index()] > 0)) {
 
                     dpsHPValue = (state.getUnit(enemy, move.index()).dpf / hpRemaining[move.index()]);
 
@@ -86,7 +86,7 @@ public class Player_NoOverKillAttackValue extends Player {
                         //foundUnitAction = true;
                     }
 
-                } else if (move._moveType == UnitActionTypes.HEAL) {
+                } else if (move.moveType == UnitActionTypes.HEAL) {
 
                     dpsHPValue = (state.getUnit(move.player(), move.index()).dpf / hpRemaining[move.index()]);
 
@@ -105,16 +105,16 @@ public class Player_NoOverKillAttackValue extends Player {
 
                     }
 
-                    if (move._moveType == UnitActionTypes.RELOAD) {
-                        if (ourUnit.canAttackTarget(closestUnit, state._currentTime)) {
+                    if (move.moveType == UnitActionTypes.RELOAD) {
+                        if (ourUnit.canBeAttackedByUnit(closestUnit, state._currentTime)) {
                             //closestMoveIndex = m;
                             passiveMove = move;
                             break;
                         }
-                    } else if (move._moveType == UnitActionTypes.MOVE) {
+                    } else if (move.moveType == UnitActionTypes.MOVE) {
 
-                        dist = closestUnit.getDistanceSqToPosition(ourUnit.pos().getX() + Constants.Move_DirX[move.index()],
-                                ourUnit.pos().getY() + Constants.Move_DirY[move.index()], state.getTime());
+                        dist = closestUnit.getDistanceSq(ourUnit.getPosition().getX() + Constants.Move_DirX[move.index()],
+                                ourUnit.getPosition().getY() + Constants.Move_DirY[move.index()], state.getTime());
 
                         if (dist < closestMoveDist) {
                             closestMoveDist = dist;
@@ -128,8 +128,8 @@ public class Player_NoOverKillAttackValue extends Player {
             if (actionMove != null) {
                 //if (foundUnitAction){
                 //actionMove = movesForU.get(actionMoveIndex);
-                if (actionMove._moveType == UnitActionTypes.ATTACK) {
-                    //hpRemaining[theMove.index()] -= state.getUnit(_id, theMove.unit()).damage();
+                if (actionMove.moveType == UnitActionTypes.ATTACK) {
+                    //hpRemaining[theMove.index()] -= state.getUnit(playerId, theMove.unit()).damage();
                     hpRemaining[actionMove.index()] -= ourUnit.damage;
                 }
                 moveVec.add(actionMove);

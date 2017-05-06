@@ -17,66 +17,66 @@ import java.util.List;
 
 public class Player_AttackClosest extends Player {
 
-    private int _id = 0;
+    private int id = 0;
 
     public Player_AttackClosest(int playerID) {
-        _id = playerID;
+        id = playerID;
         setID(playerID);
     }
 
     public void getMoves(GameState state, HashMap<Integer, List<UnitAction>> moves, List<UnitAction> moveVec) {
         moveVec.clear();
-        for (int u = 0; u < moves.size(); u++) {
+        for (int unitIndex = 0; unitIndex < moves.size(); unitIndex++) {
             boolean foundUnitAction = false;
             int actionMoveIndex = 0;
             int closestMoveIndex = 0;
             int actionDistance = Integer.MAX_VALUE;
             int closestMoveDist = Integer.MAX_VALUE;
 
-            Unit ourUnit = state.getUnit(ID(), u);
+            Unit ourUnit = state.getUnit(getId(), unitIndex);
 
-            Unit closestUnit = ourUnit.canHeal() ? state.getClosestOurUnit(ID(), u) : state.getClosestEnemyUnit(_id, u);
-            for (int m = 0; m < moves.get(u).size(); m++) {
-                UnitAction move = moves.get(u).get(m);
+            Unit closestUnit = ourUnit.canHeal() ? state.getClosestOurUnit(getId(), unitIndex) : state.getClosestEnemyUnit(id, unitIndex);
+            for (int moveIndex = 0; moveIndex < moves.get(unitIndex).size(); moveIndex++) {
+                UnitAction move = moves.get(unitIndex).get(moveIndex);
 
-                if (move.type() == UnitActionTypes.ATTACK) {
+                if (move.getType() == UnitActionTypes.ATTACK) {
                     Unit target = state.getUnit(GameState.getEnemy(move.player()), move.index());
-                    int dist = ourUnit.getDistanceSqToUnit(target, state.getTime());
+                    int dist = ourUnit.getDistanceSq(target, state.getTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
-                        actionMoveIndex = m;
+                        actionMoveIndex = moveIndex;
                         foundUnitAction = true;
                     }
                 }
-                if (move.type() == UnitActionTypes.HEAL) {
+                if (move.getType() == UnitActionTypes.HEAL) {
                     Unit target = state.getUnit(move.player(), move.index());
-                    int dist = ourUnit.getDistanceSqToUnit(target, state.getTime());
+                    int dist = ourUnit.getDistanceSq(target, state.getTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
-                        actionMoveIndex = m;
+                        actionMoveIndex = moveIndex;
                         foundUnitAction = true;
                     }
-                } else if (move.type() == UnitActionTypes.RELOAD) {
-                    if (ourUnit.canAttackTarget(closestUnit, state.getTime())) {
-                        closestMoveIndex = m;
+                } else if (move.getType() == UnitActionTypes.RELOAD) {
+                    if (ourUnit.canBeAttackedByUnit(closestUnit, state.getTime())) {
+                        closestMoveIndex = moveIndex;
                         break;
                     }
-                } else if (move.type() == UnitActionTypes.MOVE) {
-                    Position ourDest = new Position(ourUnit.pos().getX() + Constants.Move_Dir[move.index()][0], ourUnit.pos().getY() + Constants.Move_Dir[move.index()][1]);
-                    int dist = closestUnit.getDistanceSqToPosition(ourDest, state.getTime());
+                } else if (move.getType() == UnitActionTypes.MOVE) {
+                    Position ourDest = new Position(ourUnit.getPosition().getX() + Constants.Move_Dir[move.index()][0], ourUnit.getPosition().getY() + Constants.Move_Dir[move.index()][1]);
+                    int dist = closestUnit.getDistanceSq(ourDest, state.getTime());
 
                     if (dist < closestMoveDist) {
                         closestMoveDist = dist;
-                        closestMoveIndex = m;
+                        closestMoveIndex = moveIndex;
                     }
                 }
             }
 
             int bestMoveIndex = foundUnitAction ? actionMoveIndex : closestMoveIndex;
 
-            moveVec.add(moves.get(u).get(bestMoveIndex));
+            moveVec.add(moves.get(unitIndex).get(bestMoveIndex));
         }
     }
 

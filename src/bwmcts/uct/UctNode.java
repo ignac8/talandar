@@ -119,7 +119,7 @@ public class UctNode {
         for (int n = 0; n < level; n++) {
             out += "\t";
         }
-        out += "<node label=" + label + " score=" + totalScore / visits + " visited=" + visits + " type=" + type + " playerToMove=" + movingPlayerIndex + " moves=" + moveString();
+        out += "<node label=" + label + " score=" + totalScore / visits + " visited=" + visits + " getType=" + type + " playerToMove=" + movingPlayerIndex + " moves=" + moveString();
 
         if (children.isEmpty()) {
             out += "/>\n";

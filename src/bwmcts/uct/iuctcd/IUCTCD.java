@@ -180,7 +180,7 @@ public class IUCTCD extends UCT {
             if (actions.isEmpty())
                 continue;
 
-            UnitState state = new UnitState(type, actions.get(0)._unit, actions.get(0)._player);
+            UnitState state = new UnitState(type, actions.get(0).unitId, actions.get(0).playerId);
             states.add(state);
 
         }

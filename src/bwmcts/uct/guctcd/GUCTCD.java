@@ -350,7 +350,7 @@ public class GUCTCD extends UCT {
 
         // Loop through the map
         for (Integer i : map.keySet()) {
-            int u = map.get(i).get(0)._unit;
+            int u = map.get(i).get(0).unitId;
             int unitId = state.getUnit(player, u).getId();
             if (attackingUnits.contains(unitId))
                 attackingMap.put(i, map.get(i));

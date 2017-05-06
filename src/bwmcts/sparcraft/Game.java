@@ -77,13 +77,13 @@ public class Game {
             moves_A.clear();
             moves_B.clear();
 
-            state.generateMoves(moves_A, toMove.ID());
+            state.generateMoves(moves_A, toMove.getId());
 
 
             // if both players can move, generate the other player's moves
             if (state.bothCanMove()) {
 
-                state.generateMoves(moves_B, enemy.ID());
+                state.generateMoves(moves_B, enemy.getId());
 
                 enemy.getMoves(state, moves_B, scriptMoves_B);
 

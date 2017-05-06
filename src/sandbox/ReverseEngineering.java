@@ -17,12 +17,11 @@ import bwmcts.sparcraft.UnitProperties;
 import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.sparcraft.players.Player;
 import bwmcts.sparcraft.players.Player_AttackClosest;
+import bwmcts.sparcraft.players.Player_Kite;
 import bwmcts.test.JNIBWAPI_LOAD;
 import bwmcts.uct.UctConfig;
-import bwmcts.uct.flatguctcd.FlatGUCTCD;
 import bwmcts.uct.guctcd.ClusteringConfig;
 import bwmcts.uct.guctcd.GUCTCD;
-import bwmcts.uct.rguctcd.RGUCTCD;
 import bwmcts.uct.uctcd.UCTCD;
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
@@ -71,9 +70,10 @@ public class ReverseEngineering implements BWAPIEventListener {
 
         Player p2 = new UctLogic(tc.bwapi, new UCTCD(new UctConfig(1)), 40);
 
-        p1 = new MyPlayer(0, tc.bwapi);
         p1 = new Player_AttackClosest(0);
-        p2 = new Player_AttackClosest(1);
+       // p1 = new Player_AttackClosest(0);
+        p2 = new MyPlayer(1, tc.bwapi);
+
 
 
         tc.buf = new StringBuffer();
@@ -82,7 +82,7 @@ public class ReverseEngineering implements BWAPIEventListener {
         tc.buf.append("Player0: " + p1.toString() + "\r\n");
         tc.buf.append("Player1: " + p2.toString() + "\r\n");
 
-        tc.dragoonZTest(p1, p2, 100, new int[]{4, 8, 16, 32, 48, 64, 80, 96, 112, 128, 144});
+        tc.dragoonZTest(p1, p2, 100, new int[]{6, 8, 16, 32, 48, 64, 80, 96, 112, 128, 144});
 
         try {
             String player0 = p1.toString();
@@ -129,12 +129,12 @@ public class ReverseEngineering implements BWAPIEventListener {
     float testDragoonZealotGames(Player p1, Player p2, int n, int games) throws Exception {
 
         HashMap<UnitType, Integer> unitsA = new HashMap<>();
-        unitsA.put(UnitTypes.Protoss_Dragoon, n / 2);
+        //unitsA.put(UnitTypes.Protoss_Dragoon, n / 2);
         unitsA.put(UnitTypes.Protoss_Zealot, n / 2);
 
         HashMap<UnitType, Integer> unitsB = new HashMap<>();
         unitsB.put(UnitTypes.Protoss_Dragoon, n / 2);
-        unitsB.put(UnitTypes.Protoss_Zealot, n / 2);
+        //unitsB.put(UnitTypes.Protoss_Zealot, n / 2);
 
         Constants.Max_Units = n * 2;
         Constants.Max_Moves = Constants.Max_Units + Constants.Num_Directions + 1;
@@ -196,10 +196,10 @@ public class ReverseEngineering implements BWAPIEventListener {
     private void shufflePositions(GameState state, int amount) {
 
         for (Unit unit : state.getAllUnit()[0]) {
-            if (unit == null || unit.pos() == null)
+            if (unit == null || unit.getPosition() == null)
                 continue;
-            int x = unit.pos().getX();
-            int y = unit.pos().getY();
+            int x = unit.getPosition().getX();
+            int y = unit.getPosition().getY();
             int rX = (int) ((-amount) / 2 + Math.random() * amount);
             int rY = (int) ((-amount) / 2 + Math.random() * amount);
             int newX = x + rX;
@@ -207,22 +207,22 @@ public class ReverseEngineering implements BWAPIEventListener {
 
             if (newX > 30 && newX < state.getMap().getPixelWidth() - 30 &&
                     newY > 30 && newY < state.getMap().getPixelHeight() - 30) {
-                unit.pos().setX(x + rX);
-                unit.pos().setY(y + rY);
+                unit.getPosition().setX(x + rX);
+                unit.getPosition().setY(y + rY);
             }
 
         }
 
         for (Unit unit : state.getAllUnit()[1]) {
-            if (unit == null || unit.pos() == null)
+            if (unit == null || unit.getPosition() == null)
                 continue;
 
-            int x = unit.pos().getX();
-            int y = unit.pos().getY();
+            int x = unit.getPosition().getX();
+            int y = unit.getPosition().getY();
             int rX = (int) ((-amount) / 2 + Math.random() * amount);
             int rY = (int) ((-amount) / 2 + Math.random() * amount);
-            unit.pos().setX(x + rX);
-            unit.pos().setY(y + rY);
+            unit.getPosition().setX(x + rX);
+            unit.getPosition().setY(y + rY);
         }
 
     }

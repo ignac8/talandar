@@ -8,66 +8,66 @@ package bwmcts.sparcraft;
 
 public class UnitAction {
 
-    public int _unit;
-    public int _player;
-    public int _moveIndex;
-    public UnitActionTypes _moveType;
-    public Position _p;
+    public int unitId;
+    public int playerId;
+    public int moveIndex;
+    public UnitActionTypes moveType;
+    public Position position;
 
     public UnitAction() {
-        _unit = 255;
-        _player = 255;
-        _moveType = UnitActionTypes.NONE;
-        _moveIndex = 255;
+        unitId = 255;
+        playerId = 255;
+        moveType = UnitActionTypes.NONE;
+        moveIndex = 255;
 
     }
 
     public UnitAction(int unitIndex, int player, UnitActionTypes type, int moveIndex, Position dest) {
-        _unit = unitIndex;
-        _player = player;
-        _moveType = type;
-        _moveIndex = moveIndex;
-        _p = dest;
+        unitId = unitIndex;
+        playerId = player;
+        moveType = type;
+        this.moveIndex = moveIndex;
+        position = dest;
     }
 
     public UnitAction(int unitIndex, int player, UnitActionTypes type, int moveIndex) {
-        _unit = unitIndex;
-        _player = player;
-        _moveType = type;
-        _moveIndex = moveIndex;
+        unitId = unitIndex;
+        playerId = player;
+        moveType = type;
+        this.moveIndex = moveIndex;
     }
 
 
     public int unit() {
-        return _unit;
+        return unitId;
     }
 
     public int player() {
-        return _player;
+        return playerId;
     }
 
     public int index() {
-        return _moveIndex;
+        return moveIndex;
     }
 
     public Position pos() {
-        return _p;
+        return position;
     }
 
-    public UnitActionTypes type() {
-        return _moveType;
+    public UnitActionTypes getType() {
+        return moveType;
     }
 
     public String moveString() {
-        if (_moveType == UnitActionTypes.ATTACK) {
+        if (moveType == UnitActionTypes.ATTACK) {
             return "ATTACK";
-        } else if (_moveType == UnitActionTypes.MOVE) {
+        } else if (moveType == UnitActionTypes.MOVE) {
             return "MOVE";
-        } else if (_moveType == UnitActionTypes.RELOAD) {
+        } else if (moveType == UnitActionTypes.RELOAD) {
             return "RELOAD";
-        } else if (_moveType == UnitActionTypes.PASS) {
+        } else if (moveType == UnitActionTypes.PASS) {
             return "PASS";
-        } else if (_moveType == UnitActionTypes.HEAL) {
+        } else if (moveType == UnitActionTypes.HEAL) {
             return "HEAL";
         }
 
@@ -75,25 +75,25 @@ public class UnitAction {
     }
 
     public Position getDir() {
-        assert (_moveType == UnitActionTypes.MOVE);
+        assert (moveType == UnitActionTypes.MOVE);
 
-        return new Position(Constants.Move_Dir[_moveIndex][0], Constants.Move_Dir[_moveIndex][1]);
+        return new Position(Constants.Move_Dir[moveIndex][0], Constants.Move_Dir[moveIndex][1]);
     }
 
     public String toString() {
-        return this._moveIndex + "," + this._player + "," + this._unit + "," + this.moveString() + "," + this.pos();
+        return this.moveIndex + "," + this.playerId + "," + this.unitId + "," + this.moveString() + "," + this.pos();
 
     }
 
     public UnitAction clone() {
         UnitAction a = new UnitAction();
 
-        a._unit = this._unit;
-        a._player = this._player;
-        a._moveIndex = this._moveIndex;
-        a._moveType = this._moveType;
-        if (this._p != null)
-            a._p = new Position(this._p.x, this._p.y);
+        a.unitId = this.unitId;
+        a.playerId = this.playerId;
+        a.moveIndex = this.moveIndex;
+        a.moveType = this.moveType;
+        if (this.position != null)
+            a.position = new Position(this.position.x, this.position.y);
 
         return a;
 
@@ -103,12 +103,12 @@ public class UnitAction {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + _moveIndex;
+        result = prime * result + moveIndex;
         result = prime * result
-                + ((_moveType == null) ? 0 : _moveType.hashCode());
-        result = prime * result + ((_p == null) ? 0 : _p.hashCode());
-        result = prime * result + _player;
-        result = prime * result + _unit;
+                + ((moveType == null) ? 0 : moveType.hashCode());
+        result = prime * result + ((position == null) ? 0 : position.hashCode());
+        result = prime * result + playerId;
+        result = prime * result + unitId;
         return result;
     }
 
@@ -121,21 +121,39 @@ public class UnitAction {
         if (getClass() != obj.getClass())
             return false;
         UnitAction other = (UnitAction) obj;
-        if (_moveIndex != other._moveIndex)
+        if (moveIndex != other.moveIndex)
             return false;
-        if (_moveType != other._moveType)
+        if (moveType != other.moveType)
             return false;
-        if (_p == null) {
-            if (other._p != null)
+        if (position == null) {
+            if (other.position != null)
                 return false;
-        } else if (!_p.equals(other._p))
+        } else if (!position.equals(other.position))
             return false;
-        if (_player != other._player)
+        if (playerId != other.playerId)
             return false;
-        if (_unit != other._unit)
+        if (unitId != other.unitId)
             return false;
         return true;
     }
 
+    public int getUnitId() {
+        return unitId;
+    }
 
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public int getMoveIndex() {
+        return moveIndex;
+    }
+
+    public UnitActionTypes getMoveType() {
+        return moveType;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
 }

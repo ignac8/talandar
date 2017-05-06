@@ -377,11 +377,11 @@ public class SearchExperiment {
 
     //BWAPI unittype
     public UnitType getUnitType(JNIBWAPI bwapi, String unitTypeString) {
-        UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypeString).getID());
+        UnitType getType = bwapi.getUnitType(UnitTypes.valueOf(unitTypeString).getID());
 
-        //System::checkSupportedUnitType(type);
+        //System::checkSupportedUnitType(getType);
 
-        return type;
+        return getType;
     }
 
     public void addGameState(GameState state) throws Exception {
@@ -606,9 +606,9 @@ public class SearchExperiment {
 
         Position mid = new Position(640, 360);
 
-        // for each unit type to add
+        // for each unit getType to add
         for (int i = 0; i < unitTypes.size(); i++) {
-            UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).getID());
+            UnitType getType = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).getID());
 
             // add the symmetric unit for each count in the numUnits Vector
             for (int u = 0; u < numUnits.get(i); u++) {
@@ -616,8 +616,8 @@ public class SearchExperiment {
                 Position u1 = new Position(mid.getX() + r.getX(), mid.getY() + r.getY());
                 Position u2 = new Position(mid.getX() - r.getX(), mid.getY() - r.getY());
 
-                state.addUnit(type, Players.Player_One.ordinal(), u1);
-                state.addUnit(type, Players.Player_Two.ordinal(), u2);
+                state.addUnit(getType, Players.Player_One.ordinal(), u1);
+                state.addUnit(getType, Players.Player_Two.ordinal(), u2);
             }
         }
 
@@ -632,20 +632,20 @@ public class SearchExperiment {
         GameState state = new GameState();
         GameState state2 = new GameState();
 
-        // for each unit type to add
+        // for each unit getType to add
         for (int i = 0; i < unitTypes.size(); i++) {
 
-            UnitType type = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).getID());
+            UnitType getType = bwapi.getUnitType(UnitTypes.valueOf(unitTypes.get(i)).getID());
 
             // add the symmetric unit for each count in the numUnits Vector
             for (int u = 0; u < numUnits.get(i); u++) {
                 Position r = new Position((rand.nextInt() % (2 * xLimit)) - xLimit, (rand.nextInt() % (2 * yLimit)) - yLimit);
                 Position u1 = new Position(Math.abs(cx1 + r.getX()), Math.abs(cy1 + r.getY()));
                 Position u2 = new Position(Math.abs(cx2 - r.getX()), Math.abs(cy2 - r.getY()));
-                state.addUnit(type, Players.Player_One.ordinal(), u1);
-                state.addUnit(type, Players.Player_Two.ordinal(), u2);
-                state2.addUnit(type, Players.Player_One.ordinal(), u2);
-                state2.addUnit(type, Players.Player_Two.ordinal(), u1);
+                state.addUnit(getType, Players.Player_One.ordinal(), u1);
+                state.addUnit(getType, Players.Player_Two.ordinal(), u2);
+                state2.addUnit(getType, Players.Player_One.ordinal(), u2);
+                state2.addUnit(getType, Players.Player_Two.ordinal(), u1);
             }
         }
 

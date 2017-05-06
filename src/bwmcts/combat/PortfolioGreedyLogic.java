@@ -77,11 +77,11 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
         if (moves != null && !moves.isEmpty()) {
             for (UnitAction move : moves) {
 
-                Unit ourUnit = state.getUnit(move._player, move._unit);
+                Unit ourUnit = state.getUnit(move.playerId, move.unitId);
                 int player = ourUnit.player();
                 int enemyPlayer = GameState.getEnemy(player);
                 if (firstAttack.get(ourUnit.getId()) != null) {
-                    if (!bwapi.getUnit(firstAttack.get(ourUnit.getId())._moveIndex).isExists()) {
+                    if (!bwapi.getUnit(firstAttack.get(ourUnit.getId()).moveIndex).isExists()) {
                         firstAttack.remove(ourUnit.getId());
                     }
                     if (bwapi.getUnit(ourUnit.getId()).isAttackFrame()) {
@@ -100,21 +100,21 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
                     continue;
                 }
 
-                if (move._moveType == UnitActionTypes.ATTACK && bwapi.getUnit(ourUnit.getId()).getGroundWeaponCooldown() == 0) {
-                    Unit enemyUnit = state.getUnit(enemyPlayer, move._moveIndex);
+                if (move.moveType == UnitActionTypes.ATTACK && bwapi.getUnit(ourUnit.getId()).getGroundWeaponCooldown() == 0) {
+                    Unit enemyUnit = state.getUnit(enemyPlayer, move.moveIndex);
 
                     bwapi.attack(ourUnit.getId(), enemyUnit.getId());
                     firstAttack.put(ourUnit.getId(), move.clone());
 
-                } else if (move._moveType == UnitActionTypes.MOVE) {
+                } else if (move.moveType == UnitActionTypes.MOVE) {
                     bwapi.move(ourUnit.getId(), move.pos().getX(), move.pos().getY());
-                } else if (move._moveType == UnitActionTypes.HEAL) {
-                    Unit ourOtherUnit = state.getUnit(player, move._moveIndex);
+                } else if (move.moveType == UnitActionTypes.HEAL) {
+                    Unit ourOtherUnit = state.getUnit(player, move.moveIndex);
 
                     bwapi.rightClick(ourUnit.getId(), ourOtherUnit.getId());
 
-                } else if (move._moveType == UnitActionTypes.RELOAD) {
-                } else if (move._moveType == UnitActionTypes.PASS) {
+                } else if (move.moveType == UnitActionTypes.RELOAD) {
+                } else if (move.moveType == UnitActionTypes.PASS) {
                 }
             }
         } else {
@@ -128,7 +128,7 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
         GameState clone = state.clone();
         moveVec.clear();
         //long s=System.currentTimeMillis();
-        moveVec.addAll(search(ID(), moves, clone));
+        moveVec.addAll(search(getId(), moves, clone));
         //System.out.println((System.currentTimeMillis()-s)+" ms spent on Portfolio");
     }
 

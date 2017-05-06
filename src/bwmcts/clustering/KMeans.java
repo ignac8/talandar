@@ -13,7 +13,7 @@ public class KMeans implements ClusteringAlgorithm {
         for (Unit u : uarr) {
             if (u == null)
                 break;
-            if (u._currentHP <= 0)
+            if (u.currentHP <= 0)
                 continue;
             units.add(u);
         }
@@ -92,7 +92,7 @@ public class KMeans implements ClusteringAlgorithm {
             double minDistance = Double.MAX_VALUE;
 
             for (KMeansCluster cluster : clusters) {
-                double distance = distance(unit.pos(), cluster.getMean());
+                double distance = distance(unit.getPosition(), cluster.getMean());
                 if (distance < minDistance) {
                     minDistance = distance;
                     closestCluster = cluster;
@@ -113,7 +113,7 @@ public class KMeans implements ClusteringAlgorithm {
         k = (int) Math.min(k, units.size());
         while (selected.size() < k) {
             int rand = (int) Math.floor(Math.random() * units.size());
-            Position random = units.get(rand).pos();
+            Position random = units.get(rand).getPosition();
             if (!selected.contains(random))
                 selected.add(random);
         }

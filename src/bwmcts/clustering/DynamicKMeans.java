@@ -51,7 +51,7 @@ public class DynamicKMeans implements ClusteringAlgorithm {
         for (Unit unit : units) {
             if (unit == null)
                 continue;
-            if (unit._currentHP <= 0)
+            if (unit.currentHP <= 0)
                 continue;
             //if (unit.canAttackNow() || unit.canAttackNow() || unit.canHealNow()){
             ready.add(unit);
@@ -86,7 +86,7 @@ public class DynamicKMeans implements ClusteringAlgorithm {
 
         double distance = 0.0;
         for (Unit unit : cluster.getUnits())
-            distance += distance(cluster.getMean(), unit.pos());
+            distance += distance(cluster.getMean(), unit.getPosition());
 
         return distance / (double) cluster.getUnits().size();
     }
@@ -95,7 +95,7 @@ public class DynamicKMeans implements ClusteringAlgorithm {
 
         double maxDistance = Double.MIN_VALUE;
         for (Unit unit : cluster.getUnits()) {
-            double dis = distance(cluster.getMean(), unit.pos());
+            double dis = distance(cluster.getMean(), unit.getPosition());
             if (dis > maxDistance)
                 maxDistance = dis;
         }

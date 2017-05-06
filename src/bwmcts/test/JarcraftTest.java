@@ -515,7 +515,7 @@ public class JarcraftTest implements BWAPIEventListener {
 
             Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Marine.getID()), Players.Player_One.ordinal(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
-            u._currentHP = (int) (Math.random() * 50);
+            u.currentHP = (int) (Math.random() * 50);
             try {
                 state.addUnit(u);
             } catch (Exception e) {
@@ -527,7 +527,7 @@ public class JarcraftTest implements BWAPIEventListener {
         for (int i = 0; i < 8; i++) {
             Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Firebat.getID()), Players.Player_One.ordinal(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
-            u._currentHP = (int) (Math.random() * 60);
+            u.currentHP = (int) (Math.random() * 60);
             try {
                 state.addUnit(u);
             } catch (Exception e) {
@@ -539,7 +539,7 @@ public class JarcraftTest implements BWAPIEventListener {
         for (int i = 0; i < 8; i++) {
             Unit u = new Unit(bwapi.getUnitType(UnitTypes.Terran_Medic.getID()), Players.Player_One.ordinal(),
                     new Position((int) (50 + Math.random() * 350), (int) (50 + Math.random() * 120)));
-            u._currentHP = (int) (Math.random() * 50);
+            u.currentHP = (int) (Math.random() * 50);
             try {
                 state.addUnit(u);
             } catch (Exception e) {
@@ -710,7 +710,7 @@ public class JarcraftTest implements BWAPIEventListener {
         Constants.Max_Units = units * 2;
         Constants.Max_Moves = Constants.Max_Units + Constants.Num_Directions + 1;
 
-        System.out.println("Units: " + units + " of type: " + type + " on each side.");
+        System.out.println("Units: " + units + " of getType: " + type + " on each side.");
 
         float score = 0;
         List<Double> results = new ArrayList<Double>();
@@ -771,10 +771,10 @@ public class JarcraftTest implements BWAPIEventListener {
     private void shufflePositions(GameState state, int amount) {
 
         for (Unit unit : state.getAllUnit()[0]) {
-            if (unit == null || unit.pos() == null)
+            if (unit == null || unit.getPosition() == null)
                 continue;
-            int x = unit.pos().getX();
-            int y = unit.pos().getY();
+            int x = unit.getPosition().getX();
+            int y = unit.getPosition().getY();
             int rX = (int) ((-amount) / 2 + Math.random() * amount);
             int rY = (int) ((-amount) / 2 + Math.random() * amount);
             int newX = x + rX;
@@ -782,22 +782,22 @@ public class JarcraftTest implements BWAPIEventListener {
 
             if (newX > 30 && newX < state.getMap().getPixelWidth() - 30 &&
                     newY > 30 && newY < state.getMap().getPixelHeight() - 30) {
-                unit.pos().setX(x + rX);
-                unit.pos().setY(y + rY);
+                unit.getPosition().setX(x + rX);
+                unit.getPosition().setY(y + rY);
             }
 
         }
 
         for (Unit unit : state.getAllUnit()[1]) {
-            if (unit == null || unit.pos() == null)
+            if (unit == null || unit.getPosition() == null)
                 continue;
 
-            int x = unit.pos().getX();
-            int y = unit.pos().getY();
+            int x = unit.getPosition().getX();
+            int y = unit.getPosition().getY();
             int rX = (int) ((-amount) / 2 + Math.random() * amount);
             int rY = (int) ((-amount) / 2 + Math.random() * amount);
-            unit.pos().setX(x + rX);
-            unit.pos().setY(y + rY);
+            unit.getPosition().setX(x + rX);
+            unit.getPosition().setY(y + rY);
         }
 
     }

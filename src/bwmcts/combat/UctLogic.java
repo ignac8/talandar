@@ -69,7 +69,7 @@ public class UctLogic extends Player implements ICombatLogic {
 
             for (Unit u : clusters.get(i)) {
 
-                bwapi.drawCircle(u.pos().getX(), u.pos().getY(), 6, getColor(i), false, false);
+                bwapi.drawCircle(u.getPosition().getX(), u.getPosition().getY(), 6, getColor(i), false, false);
 
             }
 
@@ -106,11 +106,11 @@ public class UctLogic extends Player implements ICombatLogic {
         if (moves != null && !moves.isEmpty()) {
             for (UnitAction move : moves) {
 
-                Unit ourUnit = state.getUnit(move._player, move._unit);
+                Unit ourUnit = state.getUnit(move.playerId, move.unitId);
                 int player = ourUnit.player();
                 int enemyPlayer = GameState.getEnemy(player);
                 if (firstAttack.get(ourUnit.getId()) != null) {
-                    if (bwapi.getUnit(firstAttack.get(ourUnit.getId())._moveIndex) == null) {
+                    if (bwapi.getUnit(firstAttack.get(ourUnit.getId()).moveIndex) == null) {
                         firstAttack.remove(ourUnit.getId());
                     }
                     if (bwapi.getUnit(ourUnit.getId()).isAttackFrame()) {
@@ -129,21 +129,21 @@ public class UctLogic extends Player implements ICombatLogic {
                     continue;
                 }
 
-                if (move._moveType == UnitActionTypes.ATTACK && bwapi.getUnit(ourUnit.getId()).getGroundWeaponCooldown() == 0) {
-                    Unit enemyUnit = state.getUnit(enemyPlayer, move._moveIndex);
+                if (move.moveType == UnitActionTypes.ATTACK && bwapi.getUnit(ourUnit.getId()).getGroundWeaponCooldown() == 0) {
+                    Unit enemyUnit = state.getUnit(enemyPlayer, move.moveIndex);
 
                     bwapi.attack(ourUnit.getId(), enemyUnit.getId());
                     firstAttack.put(ourUnit.getId(), move.clone());
 
-                } else if (move._moveType == UnitActionTypes.MOVE) {
+                } else if (move.moveType == UnitActionTypes.MOVE) {
                     bwapi.move(ourUnit.getId(), move.pos().getX(), move.pos().getY());
-                } else if (move._moveType == UnitActionTypes.HEAL) {
-                    Unit ourOtherUnit = state.getUnit(player, move._moveIndex);
+                } else if (move.moveType == UnitActionTypes.HEAL) {
+                    Unit ourOtherUnit = state.getUnit(player, move.moveIndex);
 
                     bwapi.rightClick(ourUnit.getId(), ourOtherUnit.getId());
 
-                } else if (move._moveType == UnitActionTypes.RELOAD) {
-                } else if (move._moveType == UnitActionTypes.PASS) {
+                } else if (move.moveType == UnitActionTypes.RELOAD) {
+                } else if (move.moveType == UnitActionTypes.PASS) {
                 }
             }
         } else {
@@ -171,8 +171,8 @@ public class UctLogic extends Player implements ICombatLogic {
 			
 			try{
 				long start = System.currentTimeMillis();
-				UPGMA upgmaPlayerA = new UPGMA(state.getAllUnit()[ID()], guctcd.getHpMulitplier(), 1);
-				UPGMA upgmaPlayerB = new UPGMA(state.getAllUnit()[state.getEnemy(ID())], guctcd.getHpMulitplier(), 1);
+				UPGMA upgmaPlayerA = new UPGMA(state.getAllUnit()[getId()], guctcd.getHpMulitplier(), 1);
+				UPGMA upgmaPlayerB = new UPGMA(state.getAllUnit()[state.getEnemy(getId())], guctcd.getHpMulitplier(), 1);
 				long end = System.currentTimeMillis();
 				//move = guctcd.search(state, upgmaPlayerA, upgmaPlayerB, timeBudget - (end-start));
 				move = guctcd.search(state, upgmaPlayerA, upgmaPlayerB, timeBudget);

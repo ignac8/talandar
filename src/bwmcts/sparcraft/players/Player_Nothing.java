@@ -31,7 +31,7 @@ public class Player_Nothing extends Player {
             if (ourUnit == null) {
                 continue;
             }
-            moveVec.add(new UnitAction(u, _id, UnitActionTypes.PASS, 0, ourUnit.pos()));
+            moveVec.add(new UnitAction(u, _id, UnitActionTypes.PASS, 0, ourUnit.getPosition()));
 
         }
 

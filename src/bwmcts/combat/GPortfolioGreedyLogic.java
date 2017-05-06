@@ -107,7 +107,7 @@
 //		    	}
 //		    	else if (move._moveType == UnitActionTypes.MOVE)
 //		    	{
-//		    		bwapi.move(ourUnit.getId(), move.pos().getX(), move.pos().getY());
+//		    		bwapi.move(ourUnit.getId(), move.getPosition().getX(), move.getPosition().getY());
 //		    	}
 //		    	else if (move._moveType == UnitActionTypes.HEAL)
 //		    	{

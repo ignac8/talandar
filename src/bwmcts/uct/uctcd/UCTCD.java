@@ -174,7 +174,7 @@ public class UCTCD extends UCT {
             // reverse through the list of actions for this unit
             for (int a = numMoves - 1; a >= 0; --a) {
 
-                UnitActionTypes moveType = map.get(u).get(a)._moveType;
+                UnitActionTypes moveType = map.get(u).get(a).moveType;
 
                 // mark the end of the move actions
                 if (moveEnd == -1 && (moveType == UnitActionTypes.MOVE)) {

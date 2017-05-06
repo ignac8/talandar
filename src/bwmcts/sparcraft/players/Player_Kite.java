@@ -53,28 +53,28 @@ public class Player_Kite extends Player {
             for (int m = 0; m < actions.size(); ++m) {
                 move = actions.get(m);
 
-                if (move.type() == UnitActionTypes.ATTACK) {
-                    dist = ourUnit.getDistanceSqToUnit(state.getUnit(enemy, move._moveIndex), state.getTime());
+                if (move.getType() == UnitActionTypes.ATTACK) {
+                    dist = ourUnit.getDistanceSq(state.getUnit(enemy, move.moveIndex), state.getTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
                         actionMoveIndex = m;
                         foundUnitAction = true;
                     }
-                } else if (move.type() == UnitActionTypes.HEAL) {
+                } else if (move.getType() == UnitActionTypes.HEAL) {
 
-                    dist = ourUnit.getDistanceSqToUnit(state.getUnit(move.player(), move._moveIndex), state.getTime());
+                    dist = ourUnit.getDistanceSq(state.getUnit(move.player(), move.moveIndex), state.getTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
                         actionMoveIndex = m;
                         foundUnitAction = true;
                     }
-                } else if (move.type() == UnitActionTypes.MOVE) {
-                    //Position ourDest = new Position(ourUnit.pos().getX() + Constants.Move_Dir[move._moveIndex][0],
-                    //								 ourUnit.pos().getY() + Constants.Move_Dir[move._moveIndex][1]);
+                } else if (move.getType() == UnitActionTypes.MOVE) {
+                    //Position ourDest = new Position(ourUnit.getPosition().getX() + Constants.Move_Dir[move.moveIndex][0],
+                    //								 ourUnit.getPosition().getY() + Constants.Move_Dir[move.moveIndex][1]);
                     closestUnit = (ourUnit.canHeal() ? state.getClosestOurUnit(_id, u) : state.getClosestEnemyUnit(ourUnit.currentPosition(state._currentTime), enemy, Integer.MAX_VALUE, 0, 0));
-                    dist = closestUnit.getDistanceSqToPosition(ourUnit.pos().getX() + Constants.Move_DirX[move._moveIndex], ourUnit.pos().getY() + Constants.Move_DirY[move._moveIndex], state.getTime());
+                    dist = closestUnit.getDistanceSq(ourUnit.getPosition().getX() + Constants.Move_DirX[move.moveIndex], ourUnit.getPosition().getY() + Constants.Move_DirY[move.moveIndex], state.getTime());
 
                     if (dist > furthestMoveDist) {
                         furthestMoveDist = dist;
@@ -98,7 +98,7 @@ public class Player_Kite extends Player {
             // otherwise use the closest move to the opponent
             else {
                 //if we are in attack range of the unit, back up
-                if (ourUnit.canAttackTarget(closestUnit, state.getTime())) {
+                if (ourUnit.canBeAttackedByUnit(closestUnit, state.getTime())) {
                     bestMoveIndex = furthestMoveIndex;
                 }
                 //otherwise get back into the fight

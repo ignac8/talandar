@@ -84,9 +84,9 @@ public class Player_ClusteredUnitStateToUnitAction extends Player {
 				/*	
 				for(Unit u : _clusters.get(unitState.unit)){
 					
-					if (unitState.type == UnitStateTypes.ATTACK && u.isAlive())
+					if (unitState.getType == UnitStateTypes.ATTACK && u.isAlive())
 						attackingUnits.add(u.getId());
-					else if (unitState.type == UnitStateTypes.KITE && u.isAlive())
+					else if (unitState.getType == UnitStateTypes.KITE && u.isAlive())
 						kitingUnits.add(u.getId());
 					
 				}*/
@@ -98,7 +98,7 @@ public class Player_ClusteredUnitStateToUnitAction extends Player {
 
         // TODO: Loop through the map instead
         for (Integer i : moves.keySet()) {
-            int u = moves.get(i).get(0)._unit;
+            int u = moves.get(i).get(0).unitId;
             int unitId = state.getUnit(id, u).getId();
             if (attackingUnits.contains(unitId))
                 attackingMap.put(i, moves.get(i));

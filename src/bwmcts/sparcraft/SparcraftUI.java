@@ -85,8 +85,8 @@ public class SparcraftUI extends JComponent {
                 } else {
                     g.drawOval(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, 4, 4);
                 }
-                if (a._previousAction != null && a._previousAction._moveType == UnitActionTypes.ATTACK) {
-                    g.drawLine(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, a._previousAction.pos().getX() - 2 + offSetX, a._previousAction.pos().getY() - 2 + offSetY);
+                if (a.previousAction != null && a.previousAction.moveType == UnitActionTypes.ATTACK) {
+                    g.drawLine(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, a.previousAction.pos().getX() - 2 + offSetX, a.previousAction.pos().getY() - 2 + offSetY);
                 }
                 drawUnitInformation(g, a, ++k, p);
             }
@@ -102,8 +102,8 @@ public class SparcraftUI extends JComponent {
                 } else {
                     g.drawOval(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, 4, 4);
                 }
-                if (a._previousAction != null && a._previousAction._moveType == UnitActionTypes.ATTACK) {
-                    g.drawLine(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, a._previousAction.pos().getX() - 2 + offSetX, a._previousAction.pos().getY() - 2 + offSetY);
+                if (a.previousAction != null && a.previousAction.moveType == UnitActionTypes.ATTACK) {
+                    g.drawLine(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, a.previousAction.pos().getX() - 2 + offSetX, a.previousAction.pos().getY() - 2 + offSetY);
                 }
                 drawUnitInformation(g, a, ++k, p);
             }
@@ -157,7 +157,7 @@ public class SparcraftUI extends JComponent {
     private void drawUnitInformation(Graphics g, Unit u, int i, Position p) {
         g.drawString(u.getId() + ":" + u.name() + " HP:" + u.currentHP() + " A:" + u.getArmor() + " D:" + u.damageGround() + "/" + u.damageAir(), 3, i * 20);
 
-        g.drawRect(p.getX() + offSetX - 15, p.getY() - 15 + offSetY, (int) (30 * u._currentHP / u.maxHP()), 1);
+        g.drawRect(p.getX() + offSetX - 15, p.getY() - 15 + offSetY, (int) (30 * u.currentHP / u.maxHP()), 1);
 
     }
 

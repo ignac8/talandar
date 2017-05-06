@@ -17,7 +17,7 @@ public class Player_Random extends Player {
     private Random r = new Random();
 
     public Player_Random(int playerID) {
-        _id = playerID;
+        playerId = playerID;
         setID(playerID);
     }
 
