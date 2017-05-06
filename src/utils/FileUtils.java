@@ -1,6 +1,12 @@
 package utils;
 
 import com.google.gson.Gson;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import solver.Result;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,8 +15,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static org.jfree.chart.ChartUtilities.saveChartAsPNG;
 
 public class FileUtils {
 
@@ -31,6 +41,12 @@ public class FileUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void saveFile(String fileName, String fileContent) {
+        List<String> jsonList = new ArrayList<>();
+        jsonList.add(fileContent);
+        saveFile(fileName, jsonList);
     }
 
     public static void saveFile(String fileName, List<String> fileContent) {
@@ -63,5 +79,39 @@ public class FileUtils {
 
     public static <T> T fromJson(String json, Type type) {
         return GSON.fromJson(json, type);
+    }
+
+    public static void saveGraphToFile(List<Result> results, String filename) {
+        XYSeries popMin = new XYSeries("Min");
+        XYSeries popAvg = new XYSeries("Avg");
+        XYSeries popMax = new XYSeries("Max");
+        for (int counter = 0; counter < results.size(); counter++) {
+            Result result = results.get(counter);
+            popMin.add(counter, result.getMin());
+            popAvg.add(counter, result.getAvg());
+            popMax.add(counter, result.getMax());
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(popMin);
+        dataset.addSeries(popAvg);
+        dataset.addSeries(popMax);
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Talandar",
+                "Pokolenie",
+                "Ocena",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        File file = new File("graphs\\" + filename + "." + new SimpleDateFormat("YYYY_MM_dd_HH_mm_ss").format(new Date()) + ".png");
+        try {
+            if (file.getParentFile() != null) {
+                file.getParentFile().mkdirs();
+            }
+            saveChartAsPNG(file, chart, 1200, 600);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1255,9 +1255,7 @@ public class JNIBWAPI {
 
     private void dumpGameDataArray(int[] dataArray, String fileName) {
         String json = FileUtils.toJson(dataArray);
-        List<String> jsonList = new ArrayList<>();
-        jsonList.add(json);
-        saveFile(fileName, jsonList);
+        saveFile(fileName, json);
     }
 
     private void dumpGameDataClasses() {

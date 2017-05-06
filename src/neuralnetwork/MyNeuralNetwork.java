@@ -9,6 +9,8 @@ import neuralnetwork.neuron.StepNeuron;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.RandomUtils.nextGaussian;
+
 //Fully connected, sigmoid hidden layer, step output layer, neural network
 public class MyNeuralNetwork extends NeuralNetwork {
 
@@ -21,11 +23,9 @@ public class MyNeuralNetwork extends NeuralNetwork {
         connectionsListList = new ArrayList<>();
     }
 
-
     public MyNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
         this();
-        setUpMyNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize);
-
+        setUpClearNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize);
     }
 
     public MyNeuralNetwork(MyNeuralNetwork myNeuralNetwork) {
@@ -34,32 +34,21 @@ public class MyNeuralNetwork extends NeuralNetwork {
         for (List<CalculableNeuron> hiddenLayer : myNeuralNetwork.getHiddenLayers()) {
             hiddenLayersSizes.add(hiddenLayer.size());
         }
-        setUpMyNeuralNetwork(myNeuralNetwork.getInputLayer().size(), hiddenLayersSizes, myNeuralNetwork.getOutputLayer().size());
-        for (int i = 0; i < outputLayer.size(); i++) {
-            outputLayer.get(i).setBias(
-                    myNeuralNetwork.getOutputLayer().get(i).getBias());
-        }
-        for (int i = 0; i < hiddenLayers.size(); i++) {
-            for (int j = 0; j < hiddenLayers.get(i).size(); j++) {
-                hiddenLayers.get(i).get(j).setBias(
-                        myNeuralNetwork.getHiddenLayers().get(i).get(j).getBias());
-            }
-        }
-        for (int i = 0; i < connectionsListList.size(); i++) {
-            for (int j = 0; j < connectionsListList.get(i).size(); j++) {
-                for (int k = 0; k < connectionsListList.get(i).get(j).size(); k++) {
-                    connectionsListList.get(i).get(j).get(k).setWeight(
-                            myNeuralNetwork.getConnectionsListList().get(i).get(j).get(k).getWeight());
-                }
-            }
-        }
+        setUpClearNeuralNetwork(myNeuralNetwork.getInputLayer().size(), hiddenLayersSizes, myNeuralNetwork.getOutputLayer().size());
+        cloneNeuralNetworkParameters(myNeuralNetwork);
     }
 
-    private void setUpMyNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
+    public MyNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize, double std, double bias) {
+        this();
+        setUpClearNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize);
+        setUpRandomParameters(std, bias);
+    }
+
+
+    private void setUpClearNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
         for (int counter = 0; counter < inputLayerSize; counter++) {
             inputLayer.add(new InputNeuron());
         }
-
         List<List<Connection>> connectionsList = new ArrayList<>();
         List<CalculableNeuron> hiddenLayer = new ArrayList<>();
         for (int i = 0; i < hiddenLayerSizes.get(0); i++) {
@@ -107,6 +96,49 @@ public class MyNeuralNetwork extends NeuralNetwork {
         connectionsListList.add(connectionsList);
     }
 
+    private void cloneNeuralNetworkParameters(MyNeuralNetwork myNeuralNetwork) {
+        for (int i = 0; i < outputLayer.size(); i++) {
+            outputLayer.get(i).setBias(
+                    myNeuralNetwork.getOutputLayer().get(i).getBias());
+        }
+        for (int i = 0; i < hiddenLayers.size(); i++) {
+            for (int j = 0; j < hiddenLayers.get(i).size(); j++) {
+                hiddenLayers.get(i).get(j).setBias(
+                        myNeuralNetwork.getHiddenLayers().get(i).get(j).getBias());
+            }
+        }
+        for (int i = 0; i < connectionsListList.size(); i++) {
+            for (int j = 0; j < connectionsListList.get(i).size(); j++) {
+                for (int k = 0; k < connectionsListList.get(i).get(j).size(); k++) {
+                    connectionsListList.get(i).get(j).get(k).setWeight(
+                            myNeuralNetwork.getConnectionsListList().get(i).get(j).get(k).getWeight());
+                }
+            }
+        }
+    }
+
+    private void setUpRandomParameters(double std, double mean) {
+        for (int i = 0; i < outputLayer.size(); i++) {
+            outputLayer.get(i).setBias(
+                    nextGaussian(std, mean));
+        }
+        for (int i = 0; i < hiddenLayers.size(); i++) {
+            for (int j = 0; j < hiddenLayers.get(i).size(); j++) {
+                hiddenLayers.get(i).get(j).setBias(
+                        nextGaussian(std, mean));
+            }
+        }
+        for (int i = 0; i < connectionsListList.size(); i++) {
+            for (int j = 0; j < connectionsListList.get(i).size(); j++) {
+                for (int k = 0; k < connectionsListList.get(i).get(j).size(); k++) {
+                    connectionsListList.get(i).get(j).get(k).setWeight(
+                            nextGaussian(std, mean));
+                }
+            }
+        }
+    }
+
+
     public List<List<CalculableNeuron>> getHiddenLayers() {
         return hiddenLayers;
     }
@@ -126,6 +158,4 @@ public class MyNeuralNetwork extends NeuralNetwork {
             neuron.calculate();
         }
     }
-
-
 }
