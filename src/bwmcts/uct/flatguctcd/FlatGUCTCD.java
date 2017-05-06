@@ -49,12 +49,12 @@ public class FlatGUCTCD extends UCT {
         long startNs = System.nanoTime();
 
         // Get clusters
-        clusters = guctConfig.getClusterAlg().getClusters(state.getAllUnit()[config.getMaxPlayerIndex()], 6, guctConfig.getHpMulitplier());
+        clusters = guctConfig.getClusterAlg().getClusters(state.getAllUnits()[config.getMaxPlayerIndex()], 6, guctConfig.getHpMulitplier());
         clustersB = new ArrayList<List<Unit>>();
         int enemy = 0;
         if (config.getMaxPlayerIndex() == 0)
             enemy = 1;
-        List<Unit> enemyUnits = Arrays.asList(state.getAllUnit()[enemy]);
+        List<Unit> enemyUnits = Arrays.asList(state.getAllUnits()[enemy]);
         clustersB.add(enemyUnits);
 
         //System.out.println("Nano time: " + (System.nanoTime() - startNs));

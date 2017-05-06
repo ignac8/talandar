@@ -182,7 +182,7 @@ public class Unit implements Comparable<Unit> {
 
         //std::cout << (int)attacker.player() << " " << damage << "\n";
 
-        // updateCurrentHP(currentHP - Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getSize())), 2));
+        // updateCurrentHP(getCurrentHP - Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getSize())), 2));
         currentHP -= Math.max((int) ((weapon.GetDamageBase() - getArmor()) * weapon.GetDamageMultiplier(getSize())), 2);
     }
 
@@ -224,7 +224,7 @@ public class Unit implements Comparable<Unit> {
         return unitType.getID() == UnitTypes.Terran_Medic.getID();
     }
 
-    public boolean canBeAttackedByUnit(Unit unit, int gameTime) {
+    public boolean canAttackUnit(Unit unit, int gameTime) {
 
         //WeaponType weapon =WeaponProperties.props[ unit.getType().isFlyer() ? getType().getAirWeaponID() : getType().getGroundWeaponID()].getType;
 
@@ -235,14 +235,33 @@ public class Unit implements Comparable<Unit> {
         }
 
         // range of this unit attacking
-        //int r = range();
+        //int r = getRange();
 
         // return whether the target unit is in range
         return range >= getDistanceSq(unit.currentPosition(gameTime), gameTime);
     }
 
+    public boolean canBeAttackedByUnits(Unit[] enemyUnits) {
+        boolean found = false;
+        boolean flyer = unitType.isFlyer();
+
+        for (int counter = 0; !found && counter < enemyUnits.length; counter++) {
+            Unit enemyUnit = enemyUnits[counter];
+            if (enemyUnit != null) {
+                int distanceSq = getDistanceSq(enemyUnit);
+                int range = enemyUnit.getRange();
+                if ((flyer ? enemyUnit.unitType.isCanAttackAir() : unitType.isCanAttackGround())
+                        && getDistanceSq(enemyUnit) <= enemyUnit.getRange()) {
+                    found = true;
+                }
+            }
+
+        }
+        return found;
+    }
+
     public boolean canHealTarget(Unit unit, int gameTime) {
-        if (!canHeal() || !unit.isOrganic() || !(unit.player() == player()) || (unit.currentHP() == unit.maxHP())) {
+        if (!canHeal() || !unit.isOrganic() || !(unit.player() == player()) || (unit.getCurrentHP() == unit.maxHP())) {
             // then it can't heal the target
             return false;
         }
@@ -280,7 +299,7 @@ public class Unit implements Comparable<Unit> {
         return position.getY();
     }
 
-    public int range() {
+    public int getRange() {
         return range;
     }
 
@@ -366,7 +385,7 @@ public class Unit implements Comparable<Unit> {
         return unitType.getMaxHitPoints() + unitType.getMaxShields();
     }
 
-    public int currentHP() {
+    public int getCurrentHP() {
         return currentHP;
     }
 
@@ -470,11 +489,11 @@ public class Unit implements Comparable<Unit> {
     }
 
     public void print() {
-        System.out.printf("%s %5d [%5d %5d] (%5d, %5d)\n", unitType.getName(), currentHP(), nextAttackActionTime(), nextMoveActionTime(), x(), y());
+        System.out.printf("%s %5d [%5d %5d] (%5d, %5d)\n", unitType.getName(), getCurrentHP(), nextAttackActionTime(), nextMoveActionTime(), x(), y());
     }
 
     public String toString() {
-        return String.format("%s %5d [%5d %5d] (%5d, %5d)\n", unitType.getName(), currentHP(), nextAttackActionTime(), nextMoveActionTime(), x(), y());
+        return String.format("%s %5d [%5d %5d] (%5d, %5d)\n", unitType.getName(), getCurrentHP(), nextAttackActionTime(), nextMoveActionTime(), x(), y());
     }
 
     public int compareTo(Unit u) {

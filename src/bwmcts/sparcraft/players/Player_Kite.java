@@ -98,7 +98,7 @@ public class Player_Kite extends Player {
             // otherwise use the closest move to the opponent
             else {
                 //if we are in attack range of the unit, back up
-                if (ourUnit.canBeAttackedByUnit(closestUnit, state.getTime())) {
+                if (ourUnit.canAttackUnit(closestUnit, state.getTime())) {
                     bestMoveIndex = furthestMoveIndex;
                 }
                 //otherwise get back into the fight

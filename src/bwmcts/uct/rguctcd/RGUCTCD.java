@@ -52,8 +52,8 @@ public class RGUCTCD extends UCT {
         long startNs = System.nanoTime();
 
         // Get clusters
-        clustersA = guctConfig.getClusterAlg().getClusters(state.getAllUnit()[0], 6, guctConfig.getHpMulitplier());
-        clustersB = guctConfig.getClusterAlg().getClusters(state.getAllUnit()[1], 6, guctConfig.getHpMulitplier());
+        clustersA = guctConfig.getClusterAlg().getClusters(state.getAllUnits()[0], 6, guctConfig.getHpMulitplier());
+        clustersB = guctConfig.getClusterAlg().getClusters(state.getAllUnits()[1], 6, guctConfig.getHpMulitplier());
 
         if (config.getMaxPlayerIndex() == 0)
             clusters = clustersA;

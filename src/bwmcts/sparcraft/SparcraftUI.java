@@ -76,7 +76,7 @@ public class SparcraftUI extends JComponent {
 
         g.setColor(Color.blue);
         int k = 0;
-        for (Unit a : _state.getAllUnit()[0]) {
+        for (Unit a : _state.getAllUnits()[0]) {
             if (a != null && a.isAlive()) {
                 Image i = images.get(a.type().toString());
                 Position p = a.currentPosition(_state.getTime());
@@ -93,7 +93,7 @@ public class SparcraftUI extends JComponent {
 
         }
         g.setColor(Color.red);
-        for (Unit a : _state.getAllUnit()[1]) {
+        for (Unit a : _state.getAllUnits()[1]) {
             if (a != null && a.isAlive()) {
                 Image i = images.get(a.type().toString());
                 Position p = a.currentPosition(_state.getTime());
@@ -155,7 +155,7 @@ public class SparcraftUI extends JComponent {
 
 
     private void drawUnitInformation(Graphics g, Unit u, int i, Position p) {
-        g.drawString(u.getId() + ":" + u.name() + " HP:" + u.currentHP() + " A:" + u.getArmor() + " D:" + u.damageGround() + "/" + u.damageAir(), 3, i * 20);
+        g.drawString(u.getId() + ":" + u.name() + " HP:" + u.getCurrentHP() + " A:" + u.getArmor() + " D:" + u.damageGround() + "/" + u.damageAir(), 3, i * 20);
 
         g.drawRect(p.getX() + offSetX - 15, p.getY() - 15 + offSetY, (int) (30 * u.currentHP / u.maxHP()), 1);
 

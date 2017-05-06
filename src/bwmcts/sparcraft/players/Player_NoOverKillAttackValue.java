@@ -106,7 +106,7 @@ public class Player_NoOverKillAttackValue extends Player {
                     }
 
                     if (move.moveType == UnitActionTypes.RELOAD) {
-                        if (ourUnit.canBeAttackedByUnit(closestUnit, state._currentTime)) {
+                        if (ourUnit.canAttackUnit(closestUnit, state._currentTime)) {
                             //closestMoveIndex = m;
                             passiveMove = move;
                             break;

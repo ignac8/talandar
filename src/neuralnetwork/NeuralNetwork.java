@@ -24,6 +24,6 @@ public abstract class NeuralNetwork {
         return outputLayer;
     }
 
-    public abstract void calculate();
+    public abstract void calculateOutput();
 
 }

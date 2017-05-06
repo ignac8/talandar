@@ -62,6 +62,10 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
         super(listener, false);
     }
 
+    public JNIBWAPI_LOAD() {
+        super(new EmptyBWAPIEventListener(), false);
+    }
+
 
     public void loadTypeData() {
         // unit types

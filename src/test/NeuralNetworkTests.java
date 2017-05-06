@@ -27,11 +27,11 @@ public class NeuralNetworkTests {
         neuralNetwork.getOutputLayer().get(0).setBias(-0.75);
 
         neuralNetwork.getInputLayer().get(0).setValue(0);
-        neuralNetwork.calculate();
+        neuralNetwork.calculateOutput();
         assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), is(0.0));
 
         neuralNetwork.getInputLayer().get(0).setValue(10);
-        neuralNetwork.calculate();
+        neuralNetwork.calculateOutput();
         assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), is(1.0));
 
 

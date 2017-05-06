@@ -149,7 +149,7 @@ public class UnitAction {
         return moveIndex;
     }
 
-    public UnitActionTypes getMoveType() {
+    public UnitActionTypes getActionType() {
         return moveType;
     }
 

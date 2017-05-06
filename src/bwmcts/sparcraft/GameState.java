@@ -174,7 +174,7 @@ public class GameState {
                 unit2 = getUnit(Players.Player_Two.ordinal(), u2);
 
                 // if anyone can attack anyone else
-                if (unit1.canBeAttackedByUnit(unit2, _currentTime) || unit2.canBeAttackedByUnit(unit1, _currentTime)) {
+                if (unit1.canAttackUnit(unit2, _currentTime) || unit2.canAttackUnit(unit1, _currentTime)) {
                     // then there is no deadlock
                     return false;
                 }
@@ -461,7 +461,7 @@ public class GameState {
         for (int u = 0; u < _numUnits[player]; ++u) {
             unit = getUnit(player, u);
 
-            sum += unit.currentHP() * unit.dpf;
+            sum += unit.getCurrentHP() * unit.dpf;
         }
 
         return (int) (1000 * sum / _totalLTD[player]);
@@ -477,7 +477,7 @@ public class GameState {
         for (int u = 0; u < numUnits(player); ++u) {
             Unit unit = getUnit(player, u);
 
-            sum += Math.sqrt(unit.currentHP()) * unit.dpf;
+            sum += Math.sqrt(unit.getCurrentHP()) * unit.dpf;
         }
 
         //int ret = (int)(1000 * sum / _totalSumSQRT[player]);
@@ -575,7 +575,7 @@ public class GameState {
                 for (int u = 0; u < _numUnits[enemyPlayer]; u++) {
                     enemyUnit = getUnit(enemyPlayer, u);
 
-                    if (unit.canBeAttackedByUnit(enemyUnit, _currentTime)) {
+                    if (unit.canAttackUnit(enemyUnit, _currentTime)) {
                         actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.ATTACK, u, enemyUnit.getPosition()));
                         //moves.add(UnitAction(unitIndex, playerIndex, UnitActionTypes::ATTACK, unit.getId()));
                     }
@@ -781,7 +781,7 @@ public class GameState {
         return true;
     }
 
-    public Unit[][] getAllUnit() {
+    public Unit[][] getAllUnits() {
         return _units;
     }
 
@@ -795,7 +795,7 @@ public class GameState {
             for (int u = 0; u < _numUnits[p]; u++) {
                 Unit unit = getUnit(p, u);
 
-                System.out.printf("  P%d %5d %5d    (%3d, %3d)     %s_%d\n", unit.player(), unit.currentHP(), unit.firstTimeFree(), unit.x(), unit.y(), unit.name(), unit.unitId);
+                System.out.printf("  P%d %5d %5d    (%3d, %3d)     %s_%d\n", unit.player(), unit.getCurrentHP(), unit.firstTimeFree(), unit.x(), unit.y(), unit.name(), unit.unitId);
             }
         }
     }

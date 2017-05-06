@@ -171,8 +171,8 @@ public class UctLogic extends Player implements ICombatLogic {
 			
 			try{
 				long start = System.currentTimeMillis();
-				UPGMA upgmaPlayerA = new UPGMA(state.getAllUnit()[getId()], guctcd.getHpMulitplier(), 1);
-				UPGMA upgmaPlayerB = new UPGMA(state.getAllUnit()[state.getEnemy(getId())], guctcd.getHpMulitplier(), 1);
+				UPGMA upgmaPlayerA = new UPGMA(state.getAllUnits()[getId()], guctcd.getHpMulitplier(), 1);
+				UPGMA upgmaPlayerB = new UPGMA(state.getAllUnits()[state.getEnemy(getId())], guctcd.getHpMulitplier(), 1);
 				long end = System.currentTimeMillis();
 				//move = guctcd.search(state, upgmaPlayerA, upgmaPlayerB, timeBudget - (end-start));
 				move = guctcd.search(state, upgmaPlayerA, upgmaPlayerB, timeBudget);

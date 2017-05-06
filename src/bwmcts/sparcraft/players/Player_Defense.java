@@ -43,7 +43,7 @@ public class Player_Defense extends Player {
 
                 if (move.getType() == UnitActionTypes.ATTACK) {
                     Unit target = (state.getUnit(GameState.getEnemy(move.player()), move.moveIndex));
-                    double dpsHPValue = (target.dpf() / target.currentHP());
+                    double dpsHPValue = (target.dpf() / target.getCurrentHP());
 
                     if (dpsHPValue > actionHighestDPS) {
                         actionHighestDPS = dpsHPValue;
@@ -52,7 +52,7 @@ public class Player_Defense extends Player {
                     }
                 } else if (move.getType() == UnitActionTypes.HEAL) {
                     Unit target = (state.getUnit(move.player(), move.moveIndex));
-                    double dpsHPValue = (target.dpf() / target.currentHP());
+                    double dpsHPValue = (target.dpf() / target.getCurrentHP());
 
                     if (dpsHPValue > actionHighestDPS) {
                         actionHighestDPS = dpsHPValue;
@@ -86,7 +86,7 @@ public class Player_Defense extends Player {
             // otherwise use the closest move to the opponent
             else {
                 // if we are in attack range of the unit, back up
-                if (ourUnit.canBeAttackedByUnit(closestUnit, state.getTime())) {
+                if (ourUnit.canAttackUnit(closestUnit, state.getTime())) {
                     bestMoveIndex = furthestMoveIndex;
                 }
                 // otherwise get back into the fight

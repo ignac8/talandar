@@ -116,7 +116,7 @@ public class MyNeuralNetwork extends NeuralNetwork {
     }
 
     @Override
-    public void calculate() {
+    public void calculateOutput() {
         for (List<CalculableNeuron> hiddenLayer : hiddenLayers) {
             for (Neuron neuron : hiddenLayer) {
                 neuron.calculate();

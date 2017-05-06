@@ -1,9 +1,9 @@
-package sandbox;
+package bwmcts.test;
 
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.Position;
 
-public class MyBWAPIEventListener implements BWAPIEventListener {
+public class EmptyBWAPIEventListener implements BWAPIEventListener {
     @Override
     public void connected() {
 

@@ -366,7 +366,7 @@ public class JarcraftTest implements BWAPIEventListener {
 		GameState state = gameState(unitsA, unitsB);
 	
 		long a = System.nanoTime();
-		UPGMA upgmaPlayerA = new UPGMA(state.getAllUnit()[0], 1, 1);
+		UPGMA upgmaPlayerA = new UPGMA(state.getAllUnits()[0], 1, 1);
 		HashMap<Integer, List<Unit>> clusters = upgmaPlayerA.getClusters(numClusters);
 		long b = System.nanoTime();
 	    double time = (double)(b - a) / 1000000;
@@ -406,7 +406,7 @@ public class JarcraftTest implements BWAPIEventListener {
         // contruct the game
         Game g = new Game(state, p1, p2, moveLimit, graphics);
 
-        //UPGMA upgma = new UPGMA(initialState.getAllUnit()[0], 1, 1);
+        //UPGMA upgma = new UPGMA(initialState.getAllUnits()[0], 1, 1);
         //upgma.getClusters(6);
         //g.play();
 	    /*
@@ -770,7 +770,7 @@ public class JarcraftTest implements BWAPIEventListener {
 
     private void shufflePositions(GameState state, int amount) {
 
-        for (Unit unit : state.getAllUnit()[0]) {
+        for (Unit unit : state.getAllUnits()[0]) {
             if (unit == null || unit.getPosition() == null)
                 continue;
             int x = unit.getPosition().getX();
@@ -788,7 +788,7 @@ public class JarcraftTest implements BWAPIEventListener {
 
         }
 
-        for (Unit unit : state.getAllUnit()[1]) {
+        for (Unit unit : state.getAllUnits()[1]) {
             if (unit == null || unit.getPosition() == null)
                 continue;
 

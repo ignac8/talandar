@@ -59,7 +59,7 @@ public class Player_AttackClosest extends Player {
                         foundUnitAction = true;
                     }
                 } else if (move.getType() == UnitActionTypes.RELOAD) {
-                    if (ourUnit.canBeAttackedByUnit(closestUnit, state.getTime())) {
+                    if (ourUnit.canAttackUnit(closestUnit, state.getTime())) {
                         closestMoveIndex = moveIndex;
                         break;
                     }
