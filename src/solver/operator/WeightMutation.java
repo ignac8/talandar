@@ -1,9 +1,8 @@
 package solver.operator;
 
 import neuralnetwork.Connection;
-import neuralnetwork.MyNeuralNetwork;
+import neuralnetwork.NeuralNetwork;
 import solver.Individual;
-import utils.RandomUtils;
 
 import java.util.List;
 
@@ -17,8 +16,8 @@ public abstract class WeightMutation extends SingleMutation {
 
     @Override
     protected void mutation(Individual individual) {
-        MyNeuralNetwork myNeuralNetwork = (MyNeuralNetwork) individual.getNeuralNetwork();
-        List<List<List<Connection>>> connectionsListList = myNeuralNetwork.getConnectionsListList();
+        NeuralNetwork neuralNetwork = individual.getNeuralNetwork();
+        List<List<List<Connection>>> connectionsListList = neuralNetwork.getConnectionsListList();
         for (int i = 0; i < connectionsListList.size(); i++) {
             for (int j = 0; j < connectionsListList.get(i).size(); j++) {
                 for (int k = 0; k < connectionsListList.get(i).get(j).size(); k++) {

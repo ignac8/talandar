@@ -1,6 +1,6 @@
 package solver.operator;
 
-import neuralnetwork.MyNeuralNetwork;
+import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import solver.Individual;
 
@@ -16,9 +16,9 @@ public abstract class BiasMutation extends SingleMutation {
 
     @Override
     protected void mutation(Individual individual) {
-        MyNeuralNetwork myNeuralNetwork = (MyNeuralNetwork) individual.getNeuralNetwork();
-        List<CalculableNeuron> outputLayer = myNeuralNetwork.getOutputLayer();
-        List<List<CalculableNeuron>> hiddenLayers = myNeuralNetwork.getHiddenLayers();
+        NeuralNetwork neuralNetwork = individual.getNeuralNetwork();
+        List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();
+        List<List<CalculableNeuron>> hiddenLayers = neuralNetwork.getHiddenLayers();
         for (int i = 0; i < outputLayer.size(); i++) {
             if (nextDouble() < chance) {
                 CalculableNeuron neuron = outputLayer.get(i);
