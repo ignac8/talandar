@@ -10,9 +10,9 @@ import neuralnetwork.NeuralNetwork;
 import java.util.HashMap;
 import java.util.List;
 
-public class NeuralNetworkPlayer extends MyPlayer {
+public final class NeuralNetworkPlayer extends MyPlayer {
 
-    NeuralNetwork neuralNetwork;
+    private NeuralNetwork neuralNetwork;
 
     public NeuralNetworkPlayer(int id, JNIBWAPI jnibwapi) {
         super(id, jnibwapi);

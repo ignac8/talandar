@@ -2,7 +2,7 @@ package neuralnetwork.neuron;
 
 import org.apache.commons.math3.analysis.function.Sigmoid;
 
-public class SigmoidNeuron extends CalculableNeuron {
+public final class SigmoidNeuron extends CalculableNeuron {
 
     private static final Sigmoid SIGMOID = new Sigmoid();
 

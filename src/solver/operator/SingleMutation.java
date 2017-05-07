@@ -6,9 +6,11 @@ import java.util.List;
 
 public abstract class SingleMutation implements Operator {
     protected double chance;
+    protected Mutator mutator;
 
-    public SingleMutation(double chance) {
+    public SingleMutation(double chance, Mutator mutator) {
         this.chance = chance;
+        this.mutator = mutator;
     }
 
     @Override

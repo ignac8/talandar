@@ -9,7 +9,7 @@ import jnibwapi.JNIBWAPI;
 import java.util.HashMap;
 import java.util.List;
 
-public class SimplePlayer extends MyPlayer {
+public final class SimplePlayer extends MyPlayer {
 
     public SimplePlayer(int id, JNIBWAPI jnibwapi) {
         super(id, jnibwapi);

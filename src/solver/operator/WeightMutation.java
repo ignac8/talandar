@@ -8,22 +8,21 @@ import java.util.List;
 
 import static org.apache.commons.lang3.RandomUtils.nextDouble;
 
-public abstract class WeightMutation extends SingleMutation {
+public final class WeightMutation extends SingleMutation {
 
-    public WeightMutation(double chance) {
-        super(chance);
+    public WeightMutation(double chance, Mutator mutator) {
+        super(chance, mutator);
     }
 
     @Override
     protected void mutation(Individual individual) {
         NeuralNetwork neuralNetwork = individual.getNeuralNetwork();
         List<List<List<Connection>>> connectionsListList = neuralNetwork.getConnectionsListList();
-        for (int i = 0; i < connectionsListList.size(); i++) {
-            for (int j = 0; j < connectionsListList.get(i).size(); j++) {
-                for (int k = 0; k < connectionsListList.get(i).get(j).size(); k++) {
-                    if(nextDouble() < chance) {
-                        Connection connection = connectionsListList.get(i).get(j).get(k);
-                        connection.setWeight(mutateWeight(connection.getWeight()));
+        for (List<List<Connection>> ConnectionsList : connectionsListList) {
+            for (List<Connection> Connections : ConnectionsList) {
+                for (Connection connection : Connections) {
+                    if (nextDouble() < chance) {
+                        connection.setWeight(mutator.mutate(connection.getWeight()));
                     }
                 }
             }
@@ -31,5 +30,4 @@ public abstract class WeightMutation extends SingleMutation {
 
     }
 
-    protected abstract double mutateWeight(double weight);
 }

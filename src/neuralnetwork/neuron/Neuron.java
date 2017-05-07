@@ -1,6 +1,7 @@
 package neuralnetwork.neuron;
 
 public abstract class Neuron {
+
     protected double value;
 
     public double getValue() {

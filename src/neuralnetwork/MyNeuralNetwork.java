@@ -11,7 +11,7 @@ import java.util.List;
 import static utils.RandomUtils.nextGaussian;
 
 //Fully connected, sigmoid hidden layer, step output layer, neural network
-public class MyNeuralNetwork extends NeuralNetwork {
+public final class MyNeuralNetwork extends NeuralNetwork {
 
     //clear neural network constructor
     public MyNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {

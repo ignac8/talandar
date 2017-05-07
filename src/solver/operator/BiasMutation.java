@@ -8,10 +8,10 @@ import java.util.List;
 
 import static org.apache.commons.lang3.RandomUtils.nextDouble;
 
-public abstract class BiasMutation extends SingleMutation {
+public final class BiasMutation extends SingleMutation {
 
-    public BiasMutation(double chance) {
-        super(chance);
+    public BiasMutation(double chance, Mutator mutator) {
+        super(chance, mutator);
     }
 
     @Override
@@ -19,21 +19,17 @@ public abstract class BiasMutation extends SingleMutation {
         NeuralNetwork neuralNetwork = individual.getNeuralNetwork();
         List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();
         List<List<CalculableNeuron>> hiddenLayers = neuralNetwork.getHiddenLayers();
-        for (int i = 0; i < outputLayer.size(); i++) {
+        for (CalculableNeuron neuron : outputLayer) {
             if (nextDouble() < chance) {
-                CalculableNeuron neuron = outputLayer.get(i);
-                neuron.setBias(mutateBias(neuron.getBias()));
+                neuron.setBias(mutator.mutate(neuron.getBias()));
             }
         }
-        for (int i = 0; i < hiddenLayers.size(); i++) {
-            for (int j = 0; j < hiddenLayers.get(i).size(); j++) {
+        for (List<CalculableNeuron> hiddenLayer : hiddenLayers) {
+            for (CalculableNeuron neuron : hiddenLayer) {
                 if (nextDouble() < chance) {
-                    CalculableNeuron neuron = hiddenLayers.get(i).get(j);
-                    neuron.setBias(mutateBias(neuron.getBias()));
+                    neuron.setBias(mutator.mutate(neuron.getBias()));
                 }
             }
         }
     }
-
-    protected abstract double mutateBias(double bias);
 }
