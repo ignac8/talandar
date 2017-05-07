@@ -31,7 +31,6 @@ public final class NeuronCrossover extends DoubleCrossover {
         }
 
         for (int i = 0; i < firstHiddenLayers.size(); i++) {
-
             List<CalculableNeuron> firstHiddenLayer = firstHiddenLayers.get(i);
             List<CalculableNeuron> secondHiddenLayer = secondHiddenLayers.get(i);
             for (int j = 0; j < firstHiddenLayer.size(); j++) {

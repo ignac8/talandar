@@ -59,11 +59,11 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
     private HashMap<Integer, OrderType> orderTypes = new HashMap<>();
 
     public JNIBWAPI_LOAD(BWAPIEventListener listener) {
-        super(listener, false);
+        super(listener, false, false);
     }
 
     public JNIBWAPI_LOAD() {
-        super(new EmptyBWAPIEventListener(), false);
+        super(new EmptyBWAPIEventListener(), false, false);
     }
 
 

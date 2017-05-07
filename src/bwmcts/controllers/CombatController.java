@@ -20,7 +20,7 @@ public class CombatController implements BWAPIEventListener {
     private ICombatLogic combatLogic;
 
     public CombatController() {
-        bwapi = new JNIBWAPI(this, false);
+        bwapi = new JNIBWAPI(this, false, true);
 
         //combatLogic = new NoOverKillAttackValueLogic();
         //combatLogic = new AttackValueLogic();

@@ -6,6 +6,7 @@ import solver.Individual;
 
 import java.util.List;
 
+import static java.util.Collections.shuffle;
 import static org.apache.commons.lang3.RandomUtils.nextDouble;
 
 public abstract class DoubleCrossover implements Operator {
@@ -18,6 +19,7 @@ public abstract class DoubleCrossover implements Operator {
 
     @Override
     public List<Individual> call(List<Individual> individuals) {
+        shuffle(individuals);
         for (int counter = 0; counter < individuals.size() - 1; counter += 2) {
             if (nextDouble() < chance) {
                 Individual firstIndividual = individuals.get(counter);

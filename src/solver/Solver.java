@@ -25,24 +25,17 @@ public class Solver implements Callable<Individual> {
     private String fileName;
     private FitnessEvaluator fitnessEvaluator;
 
-    public Solver(int populationSize, List<Operator> operators, int passLimit, long timeLimit, String fileName,
-                  int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize, double std, double bias,
-                  FitnessEvaluator fitnessEvaluator) {
-        individuals = new ArrayList<>(populationSize);
-        results = new ArrayList<>();
+    public Solver(List<Operator> operators, int passLimit, long timeLimit, String fileName,
+                  List<Individual> startingIndividuals, FitnessEvaluator fitnessEvaluator) {
+        this.individuals = startingIndividuals;
+        this.results = new ArrayList<>();
         this.operators = operators;
-        passCounter = 0;
-        timeStart = currentTimeMillis();
+        this.passCounter = 0;
+        this.timeStart = currentTimeMillis();
         this.passLimit = passLimit;
         this.timeLimit = timeLimit;
         this.fileName = fileName;
         this.fitnessEvaluator = fitnessEvaluator;
-
-        for (int counter = 0; counter < populationSize; counter++) {
-            Individual randomIndividual =
-                    new Individual(new MyNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, bias));
-            individuals.add(randomIndividual);
-        }
         evaluate();
     }
 

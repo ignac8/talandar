@@ -99,22 +99,7 @@ import static utils.FileUtils.saveFile;
 public class JNIBWAPI {
 
     private static JNIBWAPI instance = null;
-
-    // load the BWAPI client library
-    static {
-        try {
-            System.loadLibrary("client-bridge-" + System.getProperty("os.arch"));
-            System.out.println("Loaded client bridge library.");
-        } catch (UnsatisfiedLinkError e) {
-            // Help beginners put the DLL in the correct place (although anywhere on the path will
-            // work)
-            File dll = new File("client-bridge-" + System.getProperty("os.arch") + ".dll");
-            if (!dll.exists()) {
-                System.err.println("Native code library not found: " + dll.getAbsolutePath());
-            }
-            System.err.println("Native code library failed to load." + e);
-        }
-    }
+    private static boolean LOADED;
 
     /**
      * callback listener for BWAPI events
@@ -145,10 +130,14 @@ public class JNIBWAPI {
      * Instantiates a BWAPI instance, but does not connect to the bridge. To connect, the start
      * method must be invoked.
      *
-     * @param listener   - listener for BWAPI callback events.
-     * @param enableBWTA - whether to use BWTA for map analysis
+     * @param listener    - listener for BWAPI callback events.
+     * @param enableBWTA  - whether to use BWTA for map analysis
+     * @param loadLibrary
      */
-    public JNIBWAPI(BWAPIEventListener listener, boolean enableBWTA) {
+    public JNIBWAPI(BWAPIEventListener listener, boolean enableBWTA, boolean loadLibrary) {
+        if (!LOADED && loadLibrary) {
+            loadLibrary();
+        }
         instance = this;
         this.listener = listener;
         this.enableBWTA = enableBWTA;
@@ -206,6 +195,23 @@ public class JNIBWAPI {
             }
         }
         return data;
+    }
+
+    public void loadLibrary() {
+        LOADED = true;
+        // load the BWAPI client library
+        try {
+            System.loadLibrary("client-bridge-" + System.getProperty("os.arch"));
+            System.out.println("Loaded client bridge library.");
+        } catch (UnsatisfiedLinkError e) {
+            // Help beginners put the DLL in the correct place (although anywhere on the path will
+            // work)
+            File dll = new File("client-bridge-" + System.getProperty("os.arch") + ".dll");
+            if (!dll.exists()) {
+                System.err.println("Native code library not found: " + dll.getAbsolutePath());
+            }
+            System.err.println("Native code library failed to load." + e);
+        }
     }
 
     /**
