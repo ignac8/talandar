@@ -1,7 +1,6 @@
 package solver;
 
 import neuralnetwork.MyNeuralNetwork;
-import neuralnetwork.NeuralNetwork;
 import solver.operator.Operator;
 import utils.FileUtils;
 
@@ -13,15 +12,15 @@ import static java.lang.System.currentTimeMillis;
 import static utils.FileUtils.saveGraphToFile;
 import static utils.FileUtils.toJson;
 
-public class Solver implements Callable<NeuralNetwork> {
+public class Solver implements Callable<Individual> {
 
-    private List<NeuralNetwork> neuralNetworks;
+    private List<Individual> individuals;
     private List<Operator> operators;
     private int passCounter;
     private int passLimit;
     private long timeStart;
     private long timeLimit;
-    private NeuralNetwork bestNeuralNetwork;
+    private Individual bestIndividual;
     private List<Result> results;
     private String fileName;
     private FitnessEvaluator fitnessEvaluator;
@@ -29,7 +28,7 @@ public class Solver implements Callable<NeuralNetwork> {
     public Solver(int populationSize, List<Operator> operators, int passLimit, long timeLimit, String fileName,
                   int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize, double std, double bias,
                   FitnessEvaluator fitnessEvaluator) {
-        neuralNetworks = new ArrayList<>(populationSize);
+        individuals = new ArrayList<>(populationSize);
         results = new ArrayList<>();
         this.operators = operators;
         passCounter = 0;
@@ -40,34 +39,34 @@ public class Solver implements Callable<NeuralNetwork> {
         this.fitnessEvaluator = fitnessEvaluator;
 
         for (int counter = 0; counter < populationSize; counter++) {
-            NeuralNetwork randomNeuralNetwork =
-                    new MyNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, bias);
-            neuralNetworks.add(randomNeuralNetwork);
+            Individual randomIndividual =
+                    new Individual(new MyNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, bias));
+            individuals.add(randomIndividual);
         }
         evaluate();
     }
 
-    public NeuralNetwork call() {
+    public Individual call() {
         while (!done()) {
             for (Operator operator : operators) {
-                neuralNetworks = operator.call(neuralNetworks);
+                individuals = operator.call(individuals);
             }
             evaluate();
         }
         graph();
         save();
-        return bestNeuralNetwork;
+        return bestIndividual;
     }
 
 
     private void evaluate() {
-        for (NeuralNetwork neuralNetwork : neuralNetworks) {
-            neuralNetwork.setFitness(fitnessEvaluator.evaluate(neuralNetwork));
-            if (bestNeuralNetwork == null || neuralNetwork.getFitness() < bestNeuralNetwork.getFitness()) {
-                bestNeuralNetwork = new MyNeuralNetwork((MyNeuralNetwork) neuralNetwork);
+        for (Individual individual : individuals) {
+            individual.setFitness(fitnessEvaluator.evaluate(individual));
+            if (bestIndividual == null || individual.getFitness() < bestIndividual.getFitness()) {
+                bestIndividual = individual.copy();
             }
         }
-        results.add(new Result(neuralNetworks));
+        results.add(new Result(individuals));
     }
 
     private boolean done() {
@@ -79,7 +78,7 @@ public class Solver implements Callable<NeuralNetwork> {
     }
 
     private void save() {
-        String json = toJson(bestNeuralNetwork);
+        String json = toJson(bestIndividual);
         List<String> jsonList = new ArrayList<>();
         jsonList.add(json);
         FileUtils.saveFile(fileName, jsonList);

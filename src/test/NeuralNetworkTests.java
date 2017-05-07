@@ -1,5 +1,6 @@
 import neuralnetwork.Connection;
 import neuralnetwork.MyNeuralNetwork;
+import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import neuralnetwork.neuron.InputNeuron;
 import neuralnetwork.neuron.Neuron;
@@ -20,7 +21,7 @@ public class NeuralNetworkTests {
     public void calculationTest() {
         List<Integer> hiddenLayersSizes = new ArrayList<>();
         hiddenLayersSizes.add(1);
-        MyNeuralNetwork neuralNetwork = new MyNeuralNetwork(1, hiddenLayersSizes, 1);
+        NeuralNetwork neuralNetwork = new MyNeuralNetwork(1, hiddenLayersSizes, 1);
 
         neuralNetwork.getHiddenLayers().get(0).get(0).getConnections().get(0).setWeight(1);
         neuralNetwork.getOutputLayer().get(0).getConnections().get(0).setWeight(1);
@@ -43,7 +44,7 @@ public class NeuralNetworkTests {
         hiddenLayersSizes.add(100);
         hiddenLayersSizes.add(100);
         hiddenLayersSizes.add(100);
-        MyNeuralNetwork neuralNetwork = new MyNeuralNetwork(10, hiddenLayersSizes, 10);
+        NeuralNetwork neuralNetwork = new MyNeuralNetwork(10, hiddenLayersSizes, 10);
         for (int i = 0; i < neuralNetwork.getInputLayer().size(); i++) {
             neuralNetwork.getInputLayer().get(i)
                     .setValue(nextRealDouble(-1000.0, 1000.0));
@@ -67,7 +68,7 @@ public class NeuralNetworkTests {
             }
         }
 
-        MyNeuralNetwork copiedNeuralNetwork = new MyNeuralNetwork(neuralNetwork);
+        NeuralNetwork copiedNeuralNetwork = neuralNetwork.copy();
         for (int i = 0; i < neuralNetwork.getOutputLayer().size(); i++) {
             assertThat(neuralNetwork.getOutputLayer().get(i).getBias(),
                     is(copiedNeuralNetwork.getOutputLayer().get(i).getBias()));
@@ -122,7 +123,7 @@ public class NeuralNetworkTests {
         hiddenLayersSizes.add(100);
         hiddenLayersSizes.add(100);
         hiddenLayersSizes.add(100);
-        MyNeuralNetwork neuralNetwork = new MyNeuralNetwork(10, hiddenLayersSizes, 10);
+        NeuralNetwork neuralNetwork = new MyNeuralNetwork(10, hiddenLayersSizes, 10);
         List<InputNeuron> inputLayer = neuralNetwork.getInputLayer();
         List<List<CalculableNeuron>> hiddenLayers = neuralNetwork.getHiddenLayers();
         List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();

@@ -2,6 +2,7 @@ package neuralnetwork;
 
 import neuralnetwork.neuron.CalculableNeuron;
 import neuralnetwork.neuron.InputNeuron;
+import neuralnetwork.neuron.Neuron;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +11,14 @@ public abstract class NeuralNetwork {
 
     protected List<InputNeuron> inputLayer;
     protected List<CalculableNeuron> outputLayer;
-    protected double fitness;
+    protected List<List<CalculableNeuron>> hiddenLayers;
+    protected List<List<List<Connection>>> connectionsListList;
 
     protected NeuralNetwork() {
         inputLayer = new ArrayList<>();
         outputLayer = new ArrayList<>();
+        hiddenLayers = new ArrayList<>();
+        connectionsListList = new ArrayList<>();
     }
 
     public List<InputNeuron> getInputLayer() {
@@ -25,13 +29,26 @@ public abstract class NeuralNetwork {
         return outputLayer;
     }
 
-    public abstract void calculateOutput();
-
-    public double getFitness() {
-        return fitness;
+    public List<List<CalculableNeuron>> getHiddenLayers() {
+        return hiddenLayers;
     }
 
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
+    public List<List<List<Connection>>> getConnectionsListList() {
+        return connectionsListList;
     }
+
+    public void calculateOutput() {
+        for (List<CalculableNeuron> hiddenLayer : hiddenLayers) {
+            for (Neuron neuron : hiddenLayer) {
+                neuron.calculate();
+            }
+        }
+        for (Neuron neuron : outputLayer) {
+            neuron.calculate();
+        }
+    }
+
+    public abstract NeuralNetwork copy();
+
+
 }

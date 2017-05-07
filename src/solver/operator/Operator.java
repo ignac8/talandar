@@ -1,10 +1,10 @@
 package solver.operator;
 
-import neuralnetwork.NeuralNetwork;
+import solver.Individual;
 
 import java.util.List;
 
-public abstract class Operator {
+public interface Operator {
 
-    public abstract List<NeuralNetwork> call(List<NeuralNetwork> neuralNetworks);
+    List<Individual> call(List<Individual> individuals);
 }

@@ -9,18 +9,17 @@ import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitProperties;
 import bwmcts.sparcraft.WeaponProperties;
-import bwmcts.sparcraft.players.Player;
 import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
-import neuralnetwork.NeuralNetwork;
+import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 
 public class FitnessEvaluator {
 
     private JNIBWAPI bwapi;
-    private Player player1;
-    private Player player2;
+    private NeuralNetworkPlayer neuralNetworkPlayer;
+    private SimplePlayer simplePlayer;
 
     public FitnessEvaluator() {
         bwapi = new JNIBWAPI_LOAD();
@@ -31,11 +30,12 @@ public class FitnessEvaluator {
         WeaponProperties.Init(bwapi);
         UnitProperties.Init(bwapi);
 
-        player1 = new SimplePlayer(0, bwapi);
-        player2 = new SimplePlayer(1, bwapi);
+        neuralNetworkPlayer = new NeuralNetworkPlayer(0, bwapi);
+        simplePlayer = new SimplePlayer(1, bwapi);
     }
 
-    public double evaluate(NeuralNetwork neuralNetwork) {
+    public double evaluate(Individual individual) {
+        neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
         GameState finalState = playGame();
         double fitness = rateGame(finalState);
         return fitness;
@@ -50,7 +50,7 @@ public class FitnessEvaluator {
             state.addUnit(bwapi.getUnitType(type.getID()), 0, new Position(60, 60));
             state.addUnit(bwapi.getUnitType(type.getID()), 1, new Position(80, 80));
             state.setMap(new Map(20, 20));
-            Game game = new Game(state, player1, player2, 100000, true);
+            Game game = new Game(state, simplePlayer, neuralNetworkPlayer, 100000, true);
             game.play();
             return game.getState();
         } catch (Exception e) {

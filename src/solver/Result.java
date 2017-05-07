@@ -1,7 +1,5 @@
 package solver;
 
-import neuralnetwork.NeuralNetwork;
-
 import java.util.List;
 
 import static java.lang.Math.max;
@@ -12,17 +10,17 @@ public class Result {
     private double avg;
     private double max;
 
-    public Result(List<NeuralNetwork> neuralNetworks) {
+    public Result(List<Individual> individuals) {
         min = Double.MAX_VALUE;
         max = Double.MIN_VALUE;
         double sum = 0;
-        for (NeuralNetwork neuralNetwork : neuralNetworks) {
-            double fitness = neuralNetwork.getFitness();
+        for (Individual individual : individuals) {
+            double fitness = individual.getFitness();
             sum += fitness;
             min = min(min, fitness);
             max = max(max, fitness);
         }
-        avg = sum / neuralNetworks.size();
+        avg = sum / individuals.size();
     }
 
     public double getMin() {
