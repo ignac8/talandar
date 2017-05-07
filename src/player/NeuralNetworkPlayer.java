@@ -30,9 +30,9 @@ public final class NeuralNetworkPlayer extends MyPlayer {
             Unit closestEnemyUnit = state.getClosestEnemyUnit(playerId, unitIndex);
             Position closestEnemyUnitPosition = closestEnemyUnit.getPosition();
 
-            UnitAction unitAction = getExtremeActions(getAllAttackActions(possibleUnitActions), closestEnemyUnitPosition).closestAction;
+            UnitAction unitAction = getExtremeActions(getAllAttackActions(possibleUnitActions), closestEnemyUnitPosition).getClosestAction();
             if (unitAction == null) {
-                unitAction = getExtremeActions(getAllMoveActions(possibleUnitActions), closestEnemyUnitPosition).closestAction;
+                unitAction = getExtremeActions(getAllMoveActions(possibleUnitActions), closestEnemyUnitPosition).getClosestAction();
             }
             finalUnitActions.add(unitAction);
         }

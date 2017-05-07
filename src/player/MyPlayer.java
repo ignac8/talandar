@@ -67,17 +67,4 @@ public abstract class MyPlayer extends Player {
         }
         return new ExtremeActions(closestAction, furthestAction);
     }
-
-
-    protected class ExtremeActions {
-        protected UnitAction closestAction;
-        protected UnitAction furthestAction;
-
-        public ExtremeActions(UnitAction closestAction, UnitAction furthestAction) {
-            this.closestAction = closestAction;
-            this.furthestAction = furthestAction;
-        }
-    }
-
-
 }
