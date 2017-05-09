@@ -1,6 +1,6 @@
 package sandbox;
 
-import neuralnetwork.MyNeuralNetwork;
+import neuralnetwork.FCSNeuralNetwork;
 import solver.FitnessEvaluator;
 import solver.Individual;
 
@@ -26,7 +26,7 @@ public class ForwardEngineering {
 
         for (int counter = 0; counter < populationSize; counter++) {
             Individual randomIndividual =
-                    new Individual(new MyNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, bias));
+                    new Individual(new FCSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, bias));
             startingIndividuals.add(randomIndividual);
         }
     }

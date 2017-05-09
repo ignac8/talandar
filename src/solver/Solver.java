@@ -1,6 +1,5 @@
 package solver;
 
-import neuralnetwork.MyNeuralNetwork;
 import solver.operator.Operator;
 import utils.FileUtils;
 

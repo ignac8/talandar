@@ -2,8 +2,10 @@ package player;
 
 
 import bwmcts.sparcraft.AnimationFrameData;
+import bwmcts.sparcraft.GameState;
 import bwmcts.sparcraft.PlayerProperties;
 import bwmcts.sparcraft.Position;
+import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitAction;
 import bwmcts.sparcraft.UnitActionTypes;
 import bwmcts.sparcraft.UnitProperties;
@@ -48,14 +50,14 @@ public abstract class MyPlayer extends Player {
         return attackActions;
     }
 
-    protected ExtremeActions getExtremeActions(List<UnitAction> possibleActions, Position closestEnemyUnitPosition) {
+    protected ExtremeActions getExtremeActions(List<UnitAction> possibleActions, Position unitPosition) {
         UnitAction closestAction = null;
         UnitAction furthestAction = null;
         int minDistance = MAX_VALUE;
         int maxDistance = MIN_VALUE;
 
         for (UnitAction action : possibleActions) {
-            int possibleDistance = closestEnemyUnitPosition.getDistanceSq(action.getPosition());
+            int possibleDistance = unitPosition.getDistanceSq(action.getPosition());
             if (possibleDistance > maxDistance) {
                 maxDistance = possibleDistance;
                 furthestAction = action;
@@ -67,4 +69,74 @@ public abstract class MyPlayer extends Player {
         }
         return new ExtremeActions(closestAction, furthestAction);
     }
+
+    protected double getRemainingCooldown(Unit unit, GameState state) {
+        int cooldown = unit.nextAttackActionTime() - state.getTime();
+        return cooldown < 0 ? 0 : cooldown;
+    }
+
+    protected double getAllHP(Unit[] units) {
+        double totalHP = 0;
+        for (Unit unit : units) {
+            if (unit != null) {
+                totalHP += unit.getCurrentHP();
+            }
+        }
+        return totalHP;
+    }
+
+    protected double getAllRange(Unit[] units) {
+        double totalRange = 0;
+        for (Unit unit : units) {
+            if (unit != null) {
+                totalRange += unit.getRange();
+            }
+        }
+        return totalRange;
+    }
+
+    protected double getAllDistance(Unit fromUnit, Unit[] units) {
+        double totalDistance = 0;
+        for (Unit unit : units) {
+            if (unit != null) {
+                totalDistance += unit.getDistanceSq(fromUnit);
+            }
+        }
+        return totalDistance;
+    }
+
+    protected Unit getLowestHPEnemyUnit(Unit[] units) {
+        Unit lowestHPUnit = null;
+        for (Unit currentUnit : units) {
+            if (currentUnit != null && (lowestHPUnit == null
+                    || currentUnit.getCurrentHP() < lowestHPUnit.getCurrentHP())) {
+                lowestHPUnit = currentUnit;
+            }
+        }
+        return lowestHPUnit;
+    }
+
+    protected Unit getClosestUnit(Unit fromUnit, Unit[] units) {
+        Unit closestUnit = null;
+        int closestDistance = Integer.MAX_VALUE;
+        for (Unit currentUnit : units) {
+            if (currentUnit != null) {
+                int currentDistance = currentUnit.getDistanceSq(fromUnit);
+                if (currentDistance < closestDistance) {
+                    closestUnit = currentUnit;
+                    closestDistance = currentDistance;
+                }
+            }
+        }
+        return closestUnit;
+    }
+
+    protected Unit[] getMyUnits(GameState state) {
+        return state.getAllUnits()[playerId];
+    }
+
+    protected Unit[] getEnemyUnits(GameState state) {
+        return state.getAllUnits()[playerId ^ 1];
+    }
+
 }

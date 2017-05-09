@@ -3,18 +3,17 @@ package neuralnetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import neuralnetwork.neuron.InputNeuron;
 import neuralnetwork.neuron.SigmoidNeuron;
-import neuralnetwork.neuron.StepNeuron;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static utils.RandomUtils.nextGaussian;
 
-//Fully connected, sigmoid hidden layer, step output layer, neural network
-public final class MyNeuralNetwork extends NeuralNetwork {
+//Fully connected sigmoid neural network
+public final class FCSNeuralNetwork extends NeuralNetwork {
 
     //clear neural network constructor
-    public MyNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
+    public FCSNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
         super();
         for (int counter = 0; counter < inputLayerSize; counter++) {
             inputLayer.add(new InputNeuron());
@@ -54,7 +53,7 @@ public final class MyNeuralNetwork extends NeuralNetwork {
 
         connectionsList = new ArrayList<>();
         for (int i = 0; i < outputLayerSize; i++) {
-            CalculableNeuron neuron = new StepNeuron();
+            CalculableNeuron neuron = new SigmoidNeuron();
             outputLayer.add(neuron);
             List<Connection> connections = neuron.getConnections();
             for (int j = 0; j < hiddenLayerSizes.get(hiddenLayerSizes.size() - 1); j++) {
@@ -67,7 +66,7 @@ public final class MyNeuralNetwork extends NeuralNetwork {
     }
 
     //random neural network constructor
-    public MyNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize, double std, double mean) {
+    public FCSNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize, double std, double mean) {
         this(inputLayerSize, hiddenLayerSizes, outputLayerSize);
         for (int i = 0; i < outputLayer.size(); i++) {
             outputLayer.get(i).setBias(
@@ -96,7 +95,7 @@ public final class MyNeuralNetwork extends NeuralNetwork {
             hiddenLayersSizes.add(hiddenLayer.size());
         }
 
-        NeuralNetwork newNeuralNetwork = new MyNeuralNetwork(inputLayer.size(), hiddenLayersSizes, outputLayer.size());
+        NeuralNetwork newNeuralNetwork = new FCSNeuralNetwork(inputLayer.size(), hiddenLayersSizes, outputLayer.size());
 
         for (int i = 0; i < outputLayer.size(); i++) {
             newNeuralNetwork.outputLayer.get(i).setBias(

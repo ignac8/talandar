@@ -23,6 +23,7 @@ public class FitnessEvaluator {
     private NeuralNetworkPlayer neuralNetworkPlayer;
     private SimplePlayer simplePlayer;
     private boolean graphics;
+    private UnitType type = UnitType.UnitTypes.Protoss_Dragoon;
 
     public FitnessEvaluator(boolean graphics) {
         this.graphics = graphics;
@@ -48,15 +49,14 @@ public class FitnessEvaluator {
     private GameState playGame() {
         try {
             GameState state = new GameState();
-            UnitType type = UnitType.UnitTypes.Protoss_Dragoon;
-
             for (int i = 0; i < 12; i++) {
-                state.addUnit(bwapi.getUnitType(type.getID()), 0, new Position(40, 155 + i * 30));
+                state.addUnit(bwapi.getUnitType(type.getID()), 0,
+                        new Position(40, 155 + i * 30));
             }
             for (int i = 0; i < 12; i++) {
-                state.addUnit(bwapi.getUnitType(type.getID()), 1, new Position(640-40, 155 + i * 30));
+                state.addUnit(bwapi.getUnitType(type.getID()), 1,
+                        new Position(640 - 40, 155 + i * 30));
             }
-
             state.setMap(new Map(20, 20));
             Game game = new Game(state, neuralNetworkPlayer, simplePlayer, 100000, graphics);
             game.play();
