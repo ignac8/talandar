@@ -116,7 +116,6 @@ public class ReverseEngineering implements BWAPIEventListener {
                 System.out.println("DRAGOON ZEALOT TEST RESULT: " + result);
 
                 //System.out.println("Result=" + result);
-                // TODO:
             } catch (Exception e) {
                 e.printStackTrace();
             }

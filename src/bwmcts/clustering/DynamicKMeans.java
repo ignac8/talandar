@@ -119,10 +119,10 @@ public class DynamicKMeans implements ClusteringAlgorithm {
 
         for (Unit unit : units) {
 
-            if (!splitted.containsKey(unit.type()))
-                splitted.put(unit.type(), new ArrayList<Unit>());
+            if (!splitted.containsKey(unit.getUnitType()))
+                splitted.put(unit.getUnitType(), new ArrayList<Unit>());
 
-            splitted.get(unit.type()).add(unit);
+            splitted.get(unit.getUnitType()).add(unit);
 
         }
 

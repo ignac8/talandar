@@ -161,21 +161,21 @@ public class Map {
     }
 
     public void addUnit(Unit unit) {
-        if (unit.type().isBuilding()) {
+        if (unit.getUnitType().isBuilding()) {
             int tx = unit.getPosition().getX() / Constants.TILE_SIZE;
             int ty = unit.getPosition().getY() / Constants.TILE_SIZE;
-            int sx = unit.type().getTileWidth();
-            int sy = unit.type().getTileHeight();
+            int sx = unit.getUnitType().getTileWidth();
+            int sy = unit.getUnitType().getTileHeight();
             for (int x = tx; x < tx + sx && x < (int) getBuildTileWidth(); ++x) {
                 for (int y = ty; y < ty + sy && y < (int) getBuildTileHeight(); ++y) {
                     _buildingData[x][y] = true;
                 }
             }
         } else {
-            int startX = (unit.getPosition().getX() - unit.type().getDimensionLeft()) / Constants.TILE_SIZE;
-            int endX = (unit.getPosition().getX() + unit.type().getDimensionRight() + Constants.TILE_SIZE - 1) / Constants.TILE_SIZE; // Division - round up
-            int startY = (unit.getPosition().getY() - unit.type().getDimensionUp()) / Constants.TILE_SIZE;
-            int endY = (unit.getPosition().getY() + unit.type().getDimensionDown() + Constants.TILE_SIZE - 1) / Constants.TILE_SIZE;
+            int startX = (unit.getPosition().getX() - unit.getUnitType().getDimensionLeft()) / Constants.TILE_SIZE;
+            int endX = (unit.getPosition().getX() + unit.getUnitType().getDimensionRight() + Constants.TILE_SIZE - 1) / Constants.TILE_SIZE; // Division - round up
+            int startY = (unit.getPosition().getY() - unit.getUnitType().getDimensionUp()) / Constants.TILE_SIZE;
+            int endY = (unit.getPosition().getY() + unit.getUnitType().getDimensionDown() + Constants.TILE_SIZE - 1) / Constants.TILE_SIZE;
             for (int x = startX; x < endX && x < (int) getBuildTileWidth(); ++x) {
                 for (int y = startY; y < endY && y < (int) getBuildTileHeight(); ++y) {
                     _unitData[x][y] = true;

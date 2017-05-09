@@ -261,7 +261,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     public boolean canHealTarget(Unit unit, int gameTime) {
-        if (!canHeal() || !unit.isOrganic() || !(unit.player() == player()) || (unit.getCurrentHP() == unit.maxHP())) {
+        if (!canHeal() || !unit.isOrganic() || !(unit.player() == player()) || (unit.getCurrentHP() == unit.getMaxHP())) {
             // then it can't heal the target
             return false;
         }
@@ -381,7 +381,7 @@ public class Unit implements Comparable<Unit> {
         return canHeal() ? 6 : 0;
     }
 
-    public int maxHP() {
+    public int getMaxHP() {
         return unitType.getMaxHitPoints() + unitType.getMaxShields();
     }
 
@@ -402,7 +402,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     public int getArmor() {
-        return UnitProperties.Get(type()).GetArmor(PlayerProperties.Get(player()));
+        return UnitProperties.Get(getUnitType()).GetArmor(PlayerProperties.Get(player()));
     }
 
     public float dpf() {
@@ -410,7 +410,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     public void updateCurrentHP(int newHP) {
-        currentHP = Math.min(maxHP(), newHP);
+        currentHP = Math.min(getMaxHP(), newHP);
     }
 
     public int getSize() {
@@ -422,7 +422,7 @@ public class Unit implements Comparable<Unit> {
     }
 
     public PlayerWeapon getWeapon(Unit target) {
-        return new PlayerWeapon(PlayerProperties.Get(player()), target.type().isFlyer() ? WeaponProperties.Get(unitType.getAirWeaponID()).type : WeaponProperties.Get(unitType.getGroundWeaponID()).type);
+        return new PlayerWeapon(PlayerProperties.Get(player()), target.getUnitType().isFlyer() ? WeaponProperties.Get(unitType.getAirWeaponID()).type : WeaponProperties.Get(unitType.getGroundWeaponID()).type);
     }
 
     // time and cooldown related functions
@@ -476,7 +476,7 @@ public class Unit implements Comparable<Unit> {
         return unitType.getTopSpeed();
     }
 
-    public UnitType type() {
+    public UnitType getUnitType() {
         return unitType;
     }
 
@@ -582,6 +582,14 @@ public class Unit implements Comparable<Unit> {
 
         this.timeCanMove = moveCooldown;
         this.timeCanAttack = attackCooldown;
+    }
+
+    public int getMineralPrice() {
+        return unitType.getMineralPrice();
+    }
+
+    public int getGasPrice() {
+        return unitType.getGasPrice();
     }
 
 }

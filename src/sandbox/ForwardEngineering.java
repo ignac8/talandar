@@ -17,7 +17,7 @@ public class ForwardEngineering {
     private static List<Individual> startingIndividuals;
 
     public static void main(String... args) {
-        FitnessEvaluator fitnessEvaluator = new FitnessEvaluator();
+        FitnessEvaluator fitnessEvaluator = new FitnessEvaluator(false);
         double fitness = fitnessEvaluator.evaluate(null);
         System.out.println(fitness);
 

@@ -15,13 +15,17 @@ import jnibwapi.types.UnitType;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 
+import static java.lang.Math.pow;
+
 public class FitnessEvaluator {
 
     private JNIBWAPI bwapi;
     private NeuralNetworkPlayer neuralNetworkPlayer;
     private SimplePlayer simplePlayer;
+    private boolean graphics;
 
-    public FitnessEvaluator() {
+    public FitnessEvaluator(boolean graphics) {
+        this.graphics = graphics;
         bwapi = new JNIBWAPI_LOAD();
         bwapi.loadTypeData();
 
@@ -44,13 +48,17 @@ public class FitnessEvaluator {
     private GameState playGame() {
         try {
             GameState state = new GameState();
-            UnitType type = UnitType.UnitTypes.Terran_Marine;
-            state.addUnit(bwapi.getUnitType(type.getID()), 0, new Position(20, 20));
-            state.addUnit(bwapi.getUnitType(type.getID()), 1, new Position(40, 40));
-            state.addUnit(bwapi.getUnitType(type.getID()), 0, new Position(60, 60));
-            state.addUnit(bwapi.getUnitType(type.getID()), 1, new Position(80, 80));
+            UnitType type = UnitType.UnitTypes.Protoss_Dragoon;
+
+            for (int i = 0; i < 12; i++) {
+                state.addUnit(bwapi.getUnitType(type.getID()), 0, new Position(40, 155 + i * 30));
+            }
+            for (int i = 0; i < 12; i++) {
+                state.addUnit(bwapi.getUnitType(type.getID()), 1, new Position(640-40, 155 + i * 30));
+            }
+
             state.setMap(new Map(20, 20));
-            Game game = new Game(state, simplePlayer, neuralNetworkPlayer, 100000, true);
+            Game game = new Game(state, neuralNetworkPlayer, simplePlayer, 100000, graphics);
             game.play();
             return game.getState();
         } catch (Exception e) {
@@ -71,15 +79,24 @@ public class FitnessEvaluator {
                 if (unit != null) {
                     switch (playerId) {
                         case 0:
-                            fitness += unit.getCurrentHP();
+                            fitness += fitnessFunction(unit);
                             break;
                         case 1:
-                            fitness -= unit.getCurrentHP();
+                            fitness -= fitnessFunction(unit);
                             break;
                     }
                 }
             }
         }
         return fitness;
+    }
+
+    private double fitnessFunction(Unit unit) {
+        return pow((unit.getCurrentHP() / unit.getMaxHP()), 0.75)
+                * (unit.getMineralPrice() + 2 * unit.getGasPrice());
+    }
+
+    public void setGraphics(boolean graphics) {
+        this.graphics = graphics;
     }
 }

@@ -500,8 +500,8 @@ public class GameState {
 				}
 				*/
                 unit = getUnit(p, u);
-                totalHP += unit.maxHP() * unit.dpf;
-                totalSQRT += Math.sqrt(unit.maxHP()) * unit.dpf;
+                totalHP += unit.getMaxHP() * unit.dpf;
+                totalSQRT += Math.sqrt(unit.getMaxHP()) * unit.dpf;
             }
 
             _totalLTD[p] = totalHP;
@@ -640,7 +640,7 @@ public class GameState {
                     Position dest = new Position(unit.getPosition().x + moveDistance * Constants.Move_DirX[d], unit.getPosition().y + moveDistance * Constants.Move_DirY[d]);
 
                     // if that poisition on the map is walkable
-                    if (isWalkable(dest) || (unit.type().isFlyer() && isFlyable(dest))) {
+                    if (isWalkable(dest) || (unit.getUnitType().isFlyer() && isFlyable(dest))) {
                         // add the move to the MoveArray
                         actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.MOVE, d, dest));
                     }
