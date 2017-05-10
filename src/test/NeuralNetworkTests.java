@@ -1,3 +1,9 @@
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
+import static utils.RandomUtils.nextRealDouble;
+
 import neuralnetwork.Connection;
 import neuralnetwork.FCSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
@@ -10,10 +16,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static utils.RandomUtils.nextRealDouble;
 
 public class NeuralNetworkTests {
 
@@ -33,8 +35,7 @@ public class NeuralNetworkTests {
 
         neuralNetwork.getInputLayer().get(0).setValue(10);
         neuralNetwork.calculateOutput();
-        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), is(1.0));
-
+        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), greaterThan(0.5));
 
     }
 
@@ -47,23 +48,23 @@ public class NeuralNetworkTests {
         NeuralNetwork neuralNetwork = new FCSNeuralNetwork(10, hiddenLayersSizes, 10);
         for (int i = 0; i < neuralNetwork.getInputLayer().size(); i++) {
             neuralNetwork.getInputLayer().get(i)
-                    .setValue(nextRealDouble(-1000.0, 1000.0));
+                .setValue(nextRealDouble(-1000.0, 1000.0));
         }
         for (int i = 0; i < neuralNetwork.getOutputLayer().size(); i++) {
             neuralNetwork.getOutputLayer().get(i)
-                    .setBias(nextRealDouble(-1000.0, 1000.0));
+                .setBias(nextRealDouble(-1000.0, 1000.0));
         }
         for (int i = 0; i < neuralNetwork.getHiddenLayers().size(); i++) {
             for (int j = 0; j < neuralNetwork.getHiddenLayers().get(i).size(); j++) {
                 neuralNetwork.getHiddenLayers().get(i).get(j)
-                        .setBias(nextRealDouble(-1000.0, 1000.0));
+                    .setBias(nextRealDouble(-1000.0, 1000.0));
             }
         }
         for (int i = 0; i < neuralNetwork.getConnectionsListList().size(); i++) {
             for (int j = 0; j < neuralNetwork.getConnectionsListList().get(i).size(); j++) {
                 for (int k = 0; k < neuralNetwork.getConnectionsListList().get(i).get(j).size(); k++) {
                     neuralNetwork.getConnectionsListList().get(i).get(j).get(k)
-                            .setWeight(nextRealDouble(-1000.0, 1000.0));
+                        .setWeight(nextRealDouble(-1000.0, 1000.0));
                 }
             }
         }
@@ -71,19 +72,19 @@ public class NeuralNetworkTests {
         NeuralNetwork copiedNeuralNetwork = neuralNetwork.copy();
         for (int i = 0; i < neuralNetwork.getOutputLayer().size(); i++) {
             assertThat(neuralNetwork.getOutputLayer().get(i).getBias(),
-                    is(copiedNeuralNetwork.getOutputLayer().get(i).getBias()));
+                is(copiedNeuralNetwork.getOutputLayer().get(i).getBias()));
         }
         for (int i = 0; i < neuralNetwork.getHiddenLayers().size(); i++) {
             for (int j = 0; j < neuralNetwork.getHiddenLayers().get(i).size(); j++) {
                 assertThat(neuralNetwork.getHiddenLayers().get(i).get(j).getBias(),
-                        is(copiedNeuralNetwork.getHiddenLayers().get(i).get(j).getBias()));
+                    is(copiedNeuralNetwork.getHiddenLayers().get(i).get(j).getBias()));
             }
         }
         for (int i = 0; i < neuralNetwork.getConnectionsListList().size(); i++) {
             for (int j = 0; j < neuralNetwork.getConnectionsListList().get(i).size(); j++) {
                 for (int k = 0; k < neuralNetwork.getConnectionsListList().get(i).get(j).size(); k++) {
                     assertThat(neuralNetwork.getConnectionsListList().get(i).get(j).get(k).getWeight(),
-                            is(copiedNeuralNetwork.getConnectionsListList().get(i).get(j).get(k).getWeight()));
+                        is(copiedNeuralNetwork.getConnectionsListList().get(i).get(j).get(k).getWeight()));
                 }
             }
         }

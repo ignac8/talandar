@@ -12,6 +12,7 @@ import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
+import player.MyPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 
@@ -20,10 +21,10 @@ import static java.lang.Math.pow;
 public class FitnessEvaluator {
 
     private JNIBWAPI bwapi;
-    private NeuralNetworkPlayer neuralNetworkPlayer;
-    private SimplePlayer simplePlayer;
+    private MyPlayer neuralNetworkPlayer;
+    private MyPlayer simplePlayer;
     private boolean graphics;
-    private UnitType type = UnitType.UnitTypes.Protoss_Dragoon;
+    private UnitType type;
 
     public FitnessEvaluator(boolean graphics) {
         this.graphics = graphics;
@@ -35,18 +36,20 @@ public class FitnessEvaluator {
         WeaponProperties.Init(bwapi);
         UnitProperties.Init(bwapi);
 
+        type = UnitType.UnitTypes.Protoss_Dragoon;
+
         neuralNetworkPlayer = new NeuralNetworkPlayer(0, bwapi);
         simplePlayer = new SimplePlayer(1, bwapi);
     }
 
     public double evaluate(Individual individual) {
-        neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
+        //neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
         GameState finalState = playGame();
         double fitness = rateGame(finalState);
         return fitness;
     }
 
-    private GameState playGame() {
+    public GameState playGame() {
         try {
             GameState state = new GameState();
             for (int i = 0; i < 12; i++) {
