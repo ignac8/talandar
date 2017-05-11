@@ -108,7 +108,7 @@ public abstract class MyPlayer extends Player {
     protected Unit getLowestHPEnemyUnit(Unit[] units) {
         Unit lowestHPUnit = null;
         for (Unit currentUnit : units) {
-            if (currentUnit != null && (lowestHPUnit == null
+            if (currentUnit != null && currentUnit.getCurrentHP() != 0 && (lowestHPUnit == null
                     || currentUnit.getCurrentHP() < lowestHPUnit.getCurrentHP())) {
                 lowestHPUnit = currentUnit;
             }
