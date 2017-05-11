@@ -182,12 +182,12 @@ public class Unit implements Comparable<Unit> {
 
         //std::cout << (int)attacker.player() << " " << damage << "\n";
 
-        // updateCurrentHP(getCurrentHP - Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getSize())), 2));
+        // setCurrentHP(getCurrentHP - Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getSize())), 2));
         currentHP -= Math.max((int) ((weapon.GetDamageBase() - getArmor()) * weapon.GetDamageMultiplier(getSize())), 2);
     }
 
     public void takeHeal(Unit healer) {
-        updateCurrentHP(currentHP + healer.healAmount());
+        setCurrentHP(currentHP + healer.healAmount());
     }
 
     // conditional functions
@@ -409,7 +409,7 @@ public class Unit implements Comparable<Unit> {
         return Math.max(Constants.Min_Unit_DPF, (float) damage / (attackCoolDown + 1));
     }
 
-    public void updateCurrentHP(int newHP) {
+    public void setCurrentHP(int newHP) {
         currentHP = Math.min(getMaxHP(), newHP);
     }
 

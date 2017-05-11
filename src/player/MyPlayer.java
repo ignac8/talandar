@@ -12,10 +12,12 @@ import bwmcts.sparcraft.UnitProperties;
 import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.sparcraft.players.Player;
 import jnibwapi.JNIBWAPI;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static bwmcts.sparcraft.UnitActionTypes.*;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.MIN_VALUE;
 
@@ -30,24 +32,15 @@ public abstract class MyPlayer extends Player {
         UnitProperties.Init(jnibwapi);
     }
 
-    protected List<UnitAction> getAllMoveActions(List<UnitAction> possibleActions) {
-        List<UnitAction> moveActions = new ArrayList<>();
+    protected List<UnitAction> getActionsWithType(List<UnitAction> possibleActions,
+                                                  UnitActionTypes... possibleUnitActionTypes) {
+        List<UnitAction> actionsWithType = new ArrayList<>();
         for (UnitAction action : possibleActions) {
-            if (action.getActionType() == UnitActionTypes.MOVE) {
-                moveActions.add(action);
+            if (ArrayUtils.contains(possibleUnitActionTypes, action.getActionType())) {
+                actionsWithType.add(action);
             }
         }
-        return moveActions;
-    }
-
-    protected List<UnitAction> getAllAttackActions(List<UnitAction> possibleActions) {
-        List<UnitAction> attackActions = new ArrayList<>();
-        for (UnitAction action : possibleActions) {
-            if (action.getActionType() == UnitActionTypes.ATTACK || action.getActionType() == UnitActionTypes.RELOAD) {
-                attackActions.add(action);
-            }
-        }
-        return attackActions;
+        return actionsWithType;
     }
 
     protected ExtremeActions getExtremeActions(List<UnitAction> possibleActions, Position unitPosition) {
@@ -68,6 +61,28 @@ public abstract class MyPlayer extends Player {
             }
         }
         return new ExtremeActions(closestAction, furthestAction);
+    }
+
+    protected UnitAction focusEnemyUnit(List<UnitAction> possibleActions, Position enemyUnitPosition) {
+        UnitAction foundAction = null;
+        int minDistance = MAX_VALUE;
+        boolean foundAttackAction = false;
+
+        for (int counter = 0; !foundAttackAction && counter < possibleActions.size(); counter++) {
+            UnitAction action = possibleActions.get(counter);
+            int possibleDistance = enemyUnitPosition.getDistanceSq(action.getPosition());
+            if (action.moveType == ATTACK
+                    && action.getPosition().equals(enemyUnitPosition) || action.moveType == RELOAD) {
+                foundAttackAction = true;
+                foundAction = action;
+            } else if (action.moveType == MOVE
+                    && possibleDistance < minDistance) {
+                minDistance = possibleDistance;
+                foundAction = action;
+            }
+        }
+
+        return foundAction;
     }
 
     protected double getRemainingCooldown(Unit unit, GameState state) {
@@ -108,7 +123,7 @@ public abstract class MyPlayer extends Player {
     protected Unit getLowestHPEnemyUnit(Unit[] units) {
         Unit lowestHPUnit = null;
         for (Unit currentUnit : units) {
-            if (currentUnit != null && currentUnit.getCurrentHP() != 0 && (lowestHPUnit == null
+            if (currentUnit != null && currentUnit.getCurrentHP() > 0 && (lowestHPUnit == null
                     || currentUnit.getCurrentHP() < lowestHPUnit.getCurrentHP())) {
                 lowestHPUnit = currentUnit;
             }

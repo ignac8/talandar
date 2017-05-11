@@ -21,10 +21,11 @@ import static java.lang.Math.pow;
 public class FitnessEvaluator {
 
     private JNIBWAPI bwapi;
-    private MyPlayer neuralNetworkPlayer;
-    private MyPlayer simplePlayer;
+    private NeuralNetworkPlayer neuralNetworkPlayer;
+    private SimplePlayer simplePlayer;
     private boolean graphics;
-    private UnitType type;
+    private UnitType zealotType;
+    private UnitType dragoonType;
 
     public FitnessEvaluator(boolean graphics) {
         this.graphics = graphics;
@@ -36,29 +37,38 @@ public class FitnessEvaluator {
         WeaponProperties.Init(bwapi);
         UnitProperties.Init(bwapi);
 
-        type = UnitType.UnitTypes.Protoss_Dragoon;
+        zealotType = UnitType.UnitTypes.Protoss_Zealot;
+        dragoonType = UnitType.UnitTypes.Protoss_Dragoon;
 
         neuralNetworkPlayer = new NeuralNetworkPlayer(0, bwapi);
         simplePlayer = new SimplePlayer(1, bwapi);
     }
 
     public double evaluate(Individual individual) {
-        //neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
+        neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
         GameState finalState = playGame();
         double fitness = rateGame(finalState);
         return fitness;
     }
 
-    public GameState playGame() {
+    private GameState playGame() {
         try {
             GameState state = new GameState();
-            for (int i = 0; i < 12; i++) {
-                state.addUnit(bwapi.getUnitType(type.getID()), 0,
-                        new Position(40, 155 + i * 30));
+            for (int i = 0; i < 6; i++) {
+                state.addUnit(bwapi.getUnitType(dragoonType.getID()), 0,
+                        new Position(40, 245 + i * 30));
             }
-            for (int i = 0; i < 12; i++) {
-                state.addUnit(bwapi.getUnitType(type.getID()), 1,
-                        new Position(640 - 40, 155 + i * 30));
+            for (int i = 0; i < 6; i++) {
+                state.addUnit(bwapi.getUnitType(zealotType.getID()), 0,
+                        new Position(120, 245 + i * 30));
+            }
+            for (int i = 0; i < 6; i++) {
+                state.addUnit(bwapi.getUnitType(zealotType.getID()), 1,
+                        new Position(640 - 120, 245 + i * 30));
+            }
+            for (int i = 0; i < 6; i++) {
+                state.addUnit(bwapi.getUnitType(dragoonType.getID()), 1,
+                        new Position(640 - 60, 245 + i * 30));
             }
             state.setMap(new Map(20, 20));
             Game game = new Game(state, neuralNetworkPlayer, simplePlayer, 100000, graphics);

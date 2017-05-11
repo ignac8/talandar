@@ -64,6 +64,12 @@ public class SparcraftUI extends JComponent {
         return instance;
     }
 
+    public synchronized static void closeWindow() {
+        if (instance != null) {
+            instance.f.dispose();
+        }
+    }
+
     public void paint(Graphics g) {
         Map map = _state.getMap();
         if (map != null) {
@@ -154,7 +160,6 @@ public class SparcraftUI extends JComponent {
         }
     }
 
-
     private void drawUnitInformation(Graphics g, Unit u, int i, Position p) {
         g.drawString(u.getId() + ":" + u.name() + " HP:" + u.getCurrentHP() + " A:" + u.getArmor() + " D:" + u.damageGround() + "/" + u.damageAir(), 3, i * 20);
 
@@ -198,9 +203,5 @@ public class SparcraftUI extends JComponent {
                 return Color.BLACK;
 
         }
-    }
-
-    public void closeWindow() {
-        f.dispose();
     }
 }
