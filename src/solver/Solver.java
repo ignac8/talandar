@@ -54,7 +54,7 @@ public class Solver implements Callable<Individual> {
     private void evaluate() {
         for (Individual individual : individuals) {
             individual.setFitness(fitnessEvaluator.evaluate(individual));
-            if (bestIndividual == null || individual.getFitness() < bestIndividual.getFitness()) {
+            if (bestIndividual == null || individual.getFitness() > bestIndividual.getFitness()) {
                 bestIndividual = individual.copy();
             }
         }

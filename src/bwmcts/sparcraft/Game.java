@@ -57,7 +57,7 @@ public class Game {
         Player enemy;
         HashMap<Integer, List<UnitAction>> moves_A = new HashMap<Integer, List<UnitAction>>();
         HashMap<Integer, List<UnitAction>> moves_B = new HashMap<Integer, List<UnitAction>>();
-        int playerToMove = -1;
+        int playerToMove = Players.Player_One.ordinal();
 
         while (!this.gameOver()) {
 
@@ -69,7 +69,7 @@ public class Game {
             scriptMoves_B.clear();
 
             // the player that will move next
-            playerToMove = getPlayerToMove();
+            playerToMove = getPlayerToMove(playerToMove);
             toMove = _players[playerToMove];
             enemy = _players[GameState.getEnemy(playerToMove)];
 
@@ -148,10 +148,10 @@ public class Game {
     }
 
     // determine the player to move
-    public int getPlayerToMove() {
+    public int getPlayerToMove(int previousPlayer) {
         Players whoCanMove = state.whoCanMove();
 
-        Players random = Math.random() >= 0.5 ? Players.Player_One : Players.Player_Two;
+        Players random = previousPlayer == Players.Player_One.ordinal() ? Players.Player_Two : Players.Player_One;
 
         return whoCanMove == Players.Player_Both ? random.ordinal() : whoCanMove.ordinal();
     }

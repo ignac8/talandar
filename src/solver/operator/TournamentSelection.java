@@ -23,7 +23,7 @@ public final class TournamentSelection implements Operator {
             Individual individualToAdd = individuals.get(nextInt(0, numberOfIndividuals));
             for (int innerCounter = 1; innerCounter < tournamentSize; innerCounter++) {
                 Individual newIndividual = individuals.get(nextInt(0, numberOfIndividuals));
-                if (newIndividual.getFitness() < individualToAdd.getFitness()) {
+                if (newIndividual.getFitness() > individualToAdd.getFitness()) {
                     individualToAdd = newIndividual;
                 }
             }

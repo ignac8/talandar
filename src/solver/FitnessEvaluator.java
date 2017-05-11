@@ -54,21 +54,21 @@ public class FitnessEvaluator {
     private GameState playGame() {
         try {
             GameState state = new GameState();
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 12; i++) {
                 state.addUnit(bwapi.getUnitType(dragoonType.getID()), 0,
-                        new Position(40, 245 + i * 30));
+                        new Position(40, 155 + i * 30));
             }
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 12; i++) {
                 state.addUnit(bwapi.getUnitType(zealotType.getID()), 0,
-                        new Position(120, 245 + i * 30));
+                        new Position(120, 155 + i * 30));
             }
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 12; i++) {
                 state.addUnit(bwapi.getUnitType(zealotType.getID()), 1,
-                        new Position(640 - 120, 245 + i * 30));
+                        new Position(640 - 120, 155 + i * 30));
             }
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 12; i++) {
                 state.addUnit(bwapi.getUnitType(dragoonType.getID()), 1,
-                        new Position(640 - 60, 245 + i * 30));
+                        new Position(640 - 60, 155 + i * 30));
             }
             state.setMap(new Map(20, 20));
             Game game = new Game(state, neuralNetworkPlayer, simplePlayer, 100000, graphics);
