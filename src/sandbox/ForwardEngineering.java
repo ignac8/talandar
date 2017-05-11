@@ -1,6 +1,6 @@
 package sandbox;
 
-import neuralnetwork.FCSNeuralNetwork;
+import neuralnetwork.MyNeuralNetwork;
 import solver.FitnessEvaluator;
 import solver.Individual;
 import solver.Solver;
@@ -26,8 +26,9 @@ public class ForwardEngineering {
         populationSize = 100;
         inputLayerSize = 15;
         hiddenLayerSizes = new ArrayList<>();
-        hiddenLayerSizes.add(30);
-        hiddenLayerSizes.add(10);
+        hiddenLayerSizes.add(5);
+        hiddenLayerSizes.add(5);
+        hiddenLayerSizes.add(5);
         outputLayerSize = 3;
         std = 100;
         mean = 0;
@@ -36,7 +37,7 @@ public class ForwardEngineering {
 
         for (int counter = 0; counter < populationSize; counter++) {
             Individual randomIndividual =
-                    new Individual(new FCSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean));
+                    new Individual(new MyNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean));
             startingIndividuals.add(randomIndividual);
         }
 
@@ -48,7 +49,7 @@ public class ForwardEngineering {
 
         fitnessEvaluator = new FitnessEvaluator(false);
 
-        Solver solver = new Solver(operators, 1000000, 120 * 1000, "asd", startingIndividuals, fitnessEvaluator);
+        Solver solver = new Solver(operators, 1000000, 15 * 1000, "asd", startingIndividuals, fitnessEvaluator);
 
         Individual bestOne = solver.call();
 

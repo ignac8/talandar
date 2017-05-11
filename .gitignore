@@ -2,3 +2,5 @@
 .idea/tasks.xml
 out/
 graphs/*
+/nbproject/private/
+/build/
