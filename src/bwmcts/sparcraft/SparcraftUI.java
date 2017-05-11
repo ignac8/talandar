@@ -27,9 +27,10 @@ public class SparcraftUI extends JComponent {
     private GameState _state;
     private Player p1;
     private Player p2;
+    private JFrame f;
 
     public SparcraftUI(Player p1, Player p2) {
-        JFrame f = new JFrame();
+        f = new JFrame();
         f.setSize(1000, 700);
         f.setTitle("Sparcraft in JAVA");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -197,5 +198,9 @@ public class SparcraftUI extends JComponent {
                 return Color.BLACK;
 
         }
+    }
+
+    public void closeWindow() {
+        f.dispose();
     }
 }

@@ -130,6 +130,7 @@ public class Game {
             rounds++;
 
         }
+        ui.closeWindow();
     }
 
 
