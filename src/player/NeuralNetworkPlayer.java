@@ -41,24 +41,24 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                 List<InputNeuron> inputLayer = neuralNetwork.getInputLayer();
                 int i = 0;
 
-                inputLayer.get(i++).setValue(getRemainingCooldown(currentUnit, state));
+//                inputLayer.get(i++).setValue(getRemainingCooldown(currentUnit, state));
 
                 inputLayer.get(i++).setValue(currentUnit.getCurrentHP());
-                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getCurrentHP());
-                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getCurrentHP());
-                inputLayer.get(i++).setValue(getAllHP(getMyUnits(state)));
-                inputLayer.get(i++).setValue(getAllHP(getEnemyUnits(state)));
+//                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getCurrentHP());
+//                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getCurrentHP());
+//                inputLayer.get(i++).setValue(getAllHP(getMyUnits(state)));
+//                inputLayer.get(i++).setValue(getAllHP(getEnemyUnits(state)));
 
-                inputLayer.get(i++).setValue(currentUnit.getRange());
-                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getRange());
-                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getRange());
-                inputLayer.get(i++).setValue(getAllRange(getMyUnits(state)));
-                inputLayer.get(i++).setValue(getAllRange(getEnemyUnits(state)));
-
-                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getDistanceSq(currentUnit));
+//                inputLayer.get(i++).setValue(currentUnit.getRange());
+//                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getRange());
+//                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getRange());
+//                inputLayer.get(i++).setValue(getAllRange(getMyUnits(state)));
+//                inputLayer.get(i++).setValue(getAllRange(getEnemyUnits(state)));
+//
+//                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getDistanceSq(currentUnit));
                 inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit));
-                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getMyUnits(state)));
-                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getEnemyUnits(state)));
+//                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getMyUnits(state)));
+//                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getEnemyUnits(state)));
 
                 neuralNetwork.calculateOutput();
 
@@ -78,14 +78,14 @@ public final class NeuralNetworkPlayer extends MyPlayer {
 
                 List<UnitAction> possibleUnitActions = unitActions.get(unitIndex);
                 if (maxIndex == i++) {
-                    Unit lowestHPUnit = getLowestHPEnemyUnit(getEnemyUnits(state));
-                    Position lowestHPEnemyUnitPosition = lowestHPUnit.getPosition();
+                    Unit closestEnemyUnit = state.getClosestEnemyUnit(playerId, unitIndex);
+                    Position closestEnemyUnitPosition = closestEnemyUnit.getPosition();
                     UnitAction unitAction = getExtremeActions(
-                            getActionsWithType(possibleUnitActions, RELOAD, ATTACK), lowestHPEnemyUnitPosition)
+                            getActionsWithType(possibleUnitActions, RELOAD, ATTACK), closestEnemyUnitPosition)
                             .getClosestAction();
                     if (unitAction == null) {
                         unitAction = getExtremeActions(
-                                getActionsWithType(possibleUnitActions, MOVE), lowestHPEnemyUnitPosition)
+                                getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
                                 .getClosestAction();
                     }
                     finalUnitActions.add(unitAction);

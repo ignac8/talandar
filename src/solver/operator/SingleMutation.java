@@ -1,6 +1,7 @@
 package solver.operator;
 
 import solver.Individual;
+import solver.operator.mutator.Mutator;
 
 import java.util.List;
 

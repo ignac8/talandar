@@ -1,4 +1,4 @@
-package solver.operator;
+package solver.operator.mutator;
 
 import static utils.RandomUtils.nextGaussian;
 

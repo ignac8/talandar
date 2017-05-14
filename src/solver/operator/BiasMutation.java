@@ -3,6 +3,7 @@ package solver.operator;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import solver.Individual;
+import solver.operator.mutator.Mutator;
 
 import java.util.List;
 

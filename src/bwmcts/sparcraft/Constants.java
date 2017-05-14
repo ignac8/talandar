@@ -28,7 +28,7 @@ public class Constants {
     // distance moved for a 'move' command
     static int Move_Distance = 16;
     // add between a move and attack as penalty
-    static int Move_Penalty = 4;
+    static int Move_Penalty = 0;
     // add range to units because of bounding boxes
     static int Range_Addition = 32;
     static boolean Use_Unit_Bounding = false;

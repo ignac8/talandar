@@ -3,6 +3,7 @@ package solver.operator;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import solver.Individual;
+import solver.operator.crosser.Crosser;
 
 import java.util.List;
 
@@ -10,8 +11,8 @@ import static org.apache.commons.lang3.RandomUtils.nextBoolean;
 
 public final class NeuronCrossover extends DoubleCrossover {
 
-    public NeuronCrossover(double chance) {
-        super(chance);
+    public NeuronCrossover(double chance, Crosser crosser) {
+        super(chance, crosser);
     }
 
     @SuppressWarnings("Duplicates")
@@ -26,7 +27,7 @@ public final class NeuronCrossover extends DoubleCrossover {
 
         for (int i = 0; i < firstOutputLayer.size(); i++) {
             if (nextBoolean()) {
-                swapNeurons(firstOutputLayer.get(i), secondOutputLayer.get(i));
+                crosser.cross(firstOutputLayer.get(i), secondOutputLayer.get(i));
             }
         }
 
@@ -35,7 +36,7 @@ public final class NeuronCrossover extends DoubleCrossover {
             List<CalculableNeuron> secondHiddenLayer = secondHiddenLayers.get(i);
             for (int j = 0; j < firstHiddenLayer.size(); j++) {
                 if (nextBoolean()) {
-                    swapNeurons(firstHiddenLayer.get(j), secondHiddenLayer.get(j));
+                    crosser.cross(firstHiddenLayer.get(j), secondHiddenLayer.get(j));
                 }
             }
         }

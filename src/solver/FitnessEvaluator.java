@@ -12,7 +12,6 @@ import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
-import player.MyPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 
@@ -82,6 +81,7 @@ public class FitnessEvaluator {
 
     private double rateGame(GameState finalState) {
         double fitness = 0;
+        double maxFitness = 0;
 
         Unit[][] allUnits = finalState.getAllUnits();
 
@@ -90,23 +90,29 @@ public class FitnessEvaluator {
             for (int i = 0; i < playerUnits.length; i++) {
                 Unit unit = playerUnits[i];
                 if (unit != null) {
+                    double unitWorth = unitWorthBasic(unit);
+                    double adjustedUnitWorth = unitWorthModifier(unit) * unitWorth;
                     switch (playerId) {
                         case 0:
-                            fitness += fitnessFunction(unit);
+                            fitness += adjustedUnitWorth;
+                            maxFitness += unitWorth;
                             break;
                         case 1:
-                            fitness -= fitnessFunction(unit);
+                            fitness -= adjustedUnitWorth;
                             break;
                     }
                 }
             }
         }
-        return fitness;
+        return fitness / maxFitness;
     }
 
-    private double fitnessFunction(Unit unit) {
-        return pow((unit.getCurrentHP() / unit.getMaxHP()), 0.75)
-                * (unit.getMineralPrice() + 2 * unit.getGasPrice());
+    private double unitWorthModifier(Unit unit) {
+        return pow((unit.getCurrentHP() / unit.getMaxHP()), 0.75);
+    }
+
+    private double unitWorthBasic(Unit unit) {
+        return unit.getMineralPrice() + 2 * unit.getGasPrice();
     }
 
     public void setGraphics(boolean graphics) {

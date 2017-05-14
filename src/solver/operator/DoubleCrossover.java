@@ -3,6 +3,7 @@ package solver.operator;
 import neuralnetwork.Connection;
 import neuralnetwork.neuron.CalculableNeuron;
 import solver.Individual;
+import solver.operator.crosser.Crosser;
 
 import java.util.List;
 
@@ -12,9 +13,11 @@ import static org.apache.commons.lang3.RandomUtils.nextDouble;
 public abstract class DoubleCrossover implements Operator {
 
     protected double chance;
+    protected Crosser crosser;
 
-    public DoubleCrossover(double chance) {
+    public DoubleCrossover(double chance, Crosser crosser) {
         this.chance = chance;
+        this.crosser = crosser;
     }
 
     @Override
@@ -32,18 +35,4 @@ public abstract class DoubleCrossover implements Operator {
 
     protected abstract void crossover(Individual firstIndividual, Individual secondIndividual);
 
-    protected void swapNeurons(CalculableNeuron firstNeuron, CalculableNeuron secondNeuron) {
-        double temp = firstNeuron.getBias();
-        firstNeuron.setBias(secondNeuron.getBias());
-        secondNeuron.setBias(temp);
-        List<Connection> firstConnections = firstNeuron.getConnections();
-        List<Connection> secondConnections = secondNeuron.getConnections();
-        for (int i = 0; i < firstConnections.size(); i++) {
-            Connection firstConnection = firstConnections.get(i);
-            Connection secondConnection = secondConnections.get(i);
-            temp = firstConnection.getWeight();
-            firstConnection.setWeight(secondConnection.getWeight());
-            secondConnection.setWeight(temp);
-        }
-    }
 }
