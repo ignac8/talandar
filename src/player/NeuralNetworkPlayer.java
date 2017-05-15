@@ -18,6 +18,7 @@ import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
 import static bwmcts.sparcraft.UnitActionTypes.MOVE;
 import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
 import static java.lang.Double.MIN_VALUE;
+import static java.lang.Math.sqrt;
 
 
 public final class NeuralNetworkPlayer extends MyPlayer {
@@ -43,7 +44,7 @@ public final class NeuralNetworkPlayer extends MyPlayer {
 
 //                inputLayer.get(i++).setValue(getRemainingCooldown(currentUnit, state));
 
-                inputLayer.get(i++).setValue(currentUnit.getCurrentHP());
+//                inputLayer.get(i++).setValue(currentUnit.getCurrentHP());
 //                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getCurrentHP());
 //                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getCurrentHP());
 //                inputLayer.get(i++).setValue(getAllHP(getMyUnits(state)));
@@ -56,9 +57,16 @@ public final class NeuralNetworkPlayer extends MyPlayer {
 //                inputLayer.get(i++).setValue(getAllRange(getEnemyUnits(state)));
 //
 //                inputLayer.get(i++).setValue(getLowestHPEnemyUnit(getEnemyUnits(state)).getDistanceSq(currentUnit));
-                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit));
+//                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit));
 //                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getMyUnits(state)));
 //                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getEnemyUnits(state)));
+
+
+                inputLayer.get(i++).setValue(currentUnit.getCurrentHP());
+                inputLayer.get(i++).setValue(sqrt(currentUnit.getRange()));
+                inputLayer.get(i++).setValue(sqrt(getClosestUnit(currentUnit, getEnemyUnits(state)).getRange()));
+                inputLayer.get(i++).setValue(sqrt(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit)));
+                inputLayer.get(i++).setValue(sqrt(getLowestHPEnemyUnit(getEnemyUnits(state)).getDistanceSq(currentUnit)));
 
                 neuralNetwork.calculateOutput();
 
@@ -77,9 +85,14 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                 i = 0;
 
                 List<UnitAction> possibleUnitActions = unitActions.get(unitIndex);
+
+                Unit closestEnemyUnit = state.getClosestEnemyUnit(playerId, unitIndex);
+                Position closestEnemyUnitPosition = closestEnemyUnit.getPosition();
+
+                Unit lowestHPUnit = getLowestHPEnemyUnit(getEnemyUnits(state));
+                Position lowestHPEnemyUnitPosition = lowestHPUnit.getPosition();
+
                 if (maxIndex == i++) {
-                    Unit closestEnemyUnit = state.getClosestEnemyUnit(playerId, unitIndex);
-                    Position closestEnemyUnitPosition = closestEnemyUnit.getPosition();
                     UnitAction unitAction = getExtremeActions(
                             getActionsWithType(possibleUnitActions, RELOAD, ATTACK), closestEnemyUnitPosition)
                             .getClosestAction();
@@ -90,19 +103,27 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                     }
                     finalUnitActions.add(unitAction);
                 } else if (maxIndex == i++) {
-                    Unit closestEnemyUnit = state.getClosestEnemyUnit(playerId, unitIndex);
-                    Position closestEnemyUnitPosition = closestEnemyUnit.getPosition();
                     UnitAction unitAction = getExtremeActions(
                             getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
                             .getFurthestAction();
                     finalUnitActions.add(unitAction);
                 } else if (maxIndex == i++) {
-                    Unit lowestHPUnit = getLowestHPEnemyUnit(getEnemyUnits(state));
-                    Position lowestHPEnemyUnitPosition = lowestHPUnit.getPosition();
                     UnitAction unitAction = focusEnemyUnit(
                             getActionsWithType(possibleUnitActions, ATTACK, MOVE, RELOAD), lowestHPEnemyUnitPosition);
                     finalUnitActions.add(unitAction);
                 }
+                else if (maxIndex == i++) {
+                    UnitAction unitAction = getExtremeActions(
+                            getActionsWithType(possibleUnitActions, RELOAD, ATTACK), lowestHPEnemyUnitPosition)
+                            .getClosestAction();
+                    if (unitAction == null) {
+                        unitAction = getExtremeActions(
+                                getActionsWithType(possibleUnitActions, MOVE), lowestHPEnemyUnitPosition)
+                                .getClosestAction();
+                    }
+                    finalUnitActions.add(unitAction);
+                }
+
             }
         }
     }

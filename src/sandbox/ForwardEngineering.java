@@ -21,16 +21,16 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
 
-        String fileName = "asd";
+        String fileName = "testNeuralWeb.json";
         int passLimit = 100000;
         int timeLimit = 15 * 1000;
-        int populationSize = 10;
-        int inputLayerSize = 2;
-        int outputLayerSize = 3;
-        int tournamentSize = 1;
+        int populationSize = 100;
+        int inputLayerSize = 5;
+        int outputLayerSize = 4;
+        int tournamentSize = 5;
         double crossoverChance = 0.85;
-        double weightMutationChance = 0.05;
-        double biasMutationChance = 0.05;
+        double weightMutationChance = 0.5;
+        double biasMutationChance = 0.5;
         double initialStd = 10;
         double initialMean = 0;
         double weightStd = 1;
@@ -39,7 +39,8 @@ public class ForwardEngineering {
         double biasMean = 0;
 
         List<Integer> hiddenLayerSizes = new ArrayList<>();
-        hiddenLayerSizes.add(3);
+        hiddenLayerSizes.add(10);
+        hiddenLayerSizes.add(8);
 
         List<Individual> startingIndividuals = new ArrayList<>();
 
@@ -62,15 +63,12 @@ public class ForwardEngineering {
 
         Individual bestOne = solver.call();
 
-//        fitnessEvaluator.setGraphics(true);
-//        fitnessEvaluator.evaluate(bestOne);
-//        fitnessEvaluator.evaluate(bestOne);
-//        fitnessEvaluator.evaluate(bestOne);
-//        fitnessEvaluator.evaluate(bestOne);
-//        fitnessEvaluator.evaluate(bestOne);
-//        fitnessEvaluator.evaluate(bestOne);
-//        fitnessEvaluator.evaluate(bestOne);
+        fitnessEvaluator.setGraphics(true);
 
-        closeWindow();
+        while (true) {
+            fitnessEvaluator.evaluate(bestOne);
+        }
+
+        //closeWindow();
     }
 }
