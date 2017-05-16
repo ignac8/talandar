@@ -1,15 +1,19 @@
 package utils;
 
 public class FilePaths {
-    private static final String RES = "res\\";
+    public static final String RES = "res\\";
 
-    private static final String DATA = "data\\";
+    public static final String DATA = "data\\";
 
-    private static final String ARRAYS = "arrays\\";
+    public static final String ARRAYS = "arrays\\";
 
-    private static final String CLASSES = "classes\\";
+    public static final String GRAPHS = "graphs\\";
 
-    private static final String JSON = ".json";
+    public static final String CLASSES = "classes\\";
+
+    public static final String RESULTS = "results\\";
+
+    public static final String JSON = ".json";
 
     public static final String RACE_TYPES_ARRAY = RES + DATA + ARRAYS + "raceTypes" + JSON;
     public static final String BULLET_TYPES_ARRAY = RES + DATA + ARRAYS + "bulletTypes" + JSON;

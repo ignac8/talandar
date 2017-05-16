@@ -1,14 +1,6 @@
 package solver;
 
-import bwmcts.sparcraft.AnimationFrameData;
-import bwmcts.sparcraft.Game;
-import bwmcts.sparcraft.GameState;
-import bwmcts.sparcraft.Map;
-import bwmcts.sparcraft.PlayerProperties;
-import bwmcts.sparcraft.Position;
-import bwmcts.sparcraft.Unit;
-import bwmcts.sparcraft.UnitProperties;
-import bwmcts.sparcraft.WeaponProperties;
+import bwmcts.sparcraft.*;
 import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
@@ -25,6 +17,7 @@ public class FitnessEvaluator {
     private boolean graphics;
     private UnitType zealotType;
     private UnitType dragoonType;
+    private int runCount;
 
     public FitnessEvaluator(boolean graphics) {
         this.graphics = graphics;
@@ -41,12 +34,15 @@ public class FitnessEvaluator {
 
         neuralNetworkPlayer = new NeuralNetworkPlayer(0, bwapi);
         simplePlayer = new SimplePlayer(1, bwapi);
+
+        runCount = 0;
     }
 
     public double evaluate(Individual individual) {
         neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
         GameState finalState = playGame();
         double fitness = rateGame(finalState);
+        runCount++;
         return fitness;
     }
 
@@ -117,5 +113,9 @@ public class FitnessEvaluator {
 
     public void setGraphics(boolean graphics) {
         this.graphics = graphics;
+    }
+
+    public int getRunCount() {
+        return runCount;
     }
 }

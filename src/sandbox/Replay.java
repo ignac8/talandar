@@ -15,7 +15,8 @@ public class Replay {
 
         String fileName = "testNeuralWeb.json";
         FitnessEvaluator fitnessEvaluator = new FitnessEvaluator(true);
-        Individual bestOne = new Individual(fromJson(loadFile(fileName).get(0), MyNeuralNetwork.class));
+        String json = loadFile(fileName).get(0);
+        Individual bestOne = fromJson(json, Individual.class);
         fitnessEvaluator.evaluate(bestOne);
         closeWindow();
     }

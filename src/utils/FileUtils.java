@@ -1,6 +1,11 @@
 package utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import neuralnetwork.MyNeuralNetwork;
+import neuralnetwork.NeuralNetwork;
+import neuralnetwork.neuron.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -8,12 +13,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import solver.Result;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,7 +24,26 @@ import static org.jfree.chart.ChartUtilities.saveChartAsPNG;
 
 public class FileUtils {
 
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON;
+
+    static {
+        RuntimeTypeAdapterFactory<NeuralNetwork> neuralNetworkRuntimeTypeAdapterFactory =
+                RuntimeTypeAdapterFactory.of(NeuralNetwork.class)
+                        .registerSubtype(MyNeuralNetwork.class);
+
+        RuntimeTypeAdapterFactory<Neuron> neuronRuntimeTypeAdapterFactory =
+                RuntimeTypeAdapterFactory.of(Neuron.class)
+                        .registerSubtype(InputNeuron.class)
+                        .registerSubtype(CalculableNeuron.class)
+                        .registerSubtype(SigmoidNeuron.class)
+                        .registerSubtype(StepNeuron.class)
+                        .registerSubtype(FastSigmoidNeuron.class);
+
+        GSON = new GsonBuilder()
+                .registerTypeAdapterFactory(neuralNetworkRuntimeTypeAdapterFactory)
+                .registerTypeAdapterFactory(neuronRuntimeTypeAdapterFactory)
+                .create();
+    }
 
     public static List<String> loadFile(String fileName) {
         try {
