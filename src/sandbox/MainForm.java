@@ -2,6 +2,10 @@ package sandbox;
 
 import javax.swing.*;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class MainForm {
@@ -38,9 +42,17 @@ public class MainForm {
     private JTextField labelTextField14;
     private JTextField labelTextField15;
     private JTextField labelTextField16;
+    private JButton button1;
+    private JButton button2;
 
     public MainForm() {
 
+        button1.addActionListener(e -> {
+            ForwardEngineering.main();
+        });
+        button2.addActionListener(e -> {
+            Replay.main();
+        });
     }
 
     public static void main(String[] args) {
@@ -50,4 +62,5 @@ public class MainForm {
         frame.pack();
         frame.setVisible(true);
     }
+
 }

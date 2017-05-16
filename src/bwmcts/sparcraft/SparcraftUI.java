@@ -27,15 +27,15 @@ public class SparcraftUI extends JComponent {
     private GameState _state;
     private Player p1;
     private Player p2;
-    private JFrame f;
+    private JFrame frame;
 
     public SparcraftUI(Player p1, Player p2) {
-        f = new JFrame();
-        f.setSize(1000, 700);
-        f.setTitle("Sparcraft in JAVA");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().add(this);
-        f.setVisible(true);
+        frame = new JFrame();
+        frame.setSize(1000, 700);
+        frame.setTitle("Sparcraft in JAVA");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(this);
+        frame.setVisible(true);
         for (UnitType u : UnitTypes.getAllUnitTypes()) {
 
             images.put(u.toString(), Toolkit.getDefaultToolkit().getImage(dirPath + "units\\" + u.getName().replaceAll(" ", "_") + ".png"));
@@ -66,7 +66,7 @@ public class SparcraftUI extends JComponent {
 
     public synchronized static void closeWindow() {
         if (instance != null) {
-            instance.f.dispose();
+            instance.frame.dispose();
         }
     }
 
