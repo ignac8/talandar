@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -90,10 +92,7 @@ public class SparcraftUI extends JComponent {
                 //drawScaleForMap(graphics, map.getPixelWidth() * 2, map.getPixelHeight() * 2);
             }
 
-            if (p1 instanceof NeuralNetworkPlayer) {
-                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
-                drawChosenActions(graphics, maxIndexes);
-            }
+
 
             graphics.setColor(Color.blue);
             int counter = 0;
@@ -133,8 +132,15 @@ public class SparcraftUI extends JComponent {
 
             }
 
+            if (p1 instanceof NeuralNetworkPlayer) {
+                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
+                drawChosenActions(graphics, maxIndexes);
+            }
 
-
+            if (p2 instanceof NeuralNetworkPlayer) {
+                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getMaxIndexes();
+                drawChosenActions(graphics, maxIndexes);
+            }
 
             /*
             if (p1 instanceof UctLogic) {
@@ -153,9 +159,11 @@ public class SparcraftUI extends JComponent {
     }
 
     private void drawChosenActions(Graphics graphics, HashMap<Unit, Integer> maxIndexes) {
-        for (Unit unit : maxIndexes.keySet()) {
-            if (unit.isAlive()) {
-                graphics.setColor(getColor(maxIndexes.get(unit)));
+        for (Entry<Unit, Integer> entry: maxIndexes.entrySet()) {
+            Unit unit = entry.getKey();
+            int maxIndex = entry.getValue();
+            if (entry.getKey().isAlive()) {
+                graphics.setColor(getColor(maxIndex));
 
                 int innerRadius = 12;
                 int outerRadius = 14;
@@ -234,7 +242,7 @@ public class SparcraftUI extends JComponent {
             case 1:
                 return Color.GREEN;
             case 2:
-                return Color.WHITE;
+                return Color.RED;
             case 3:
                 return Color.PINK;
             case 4:
@@ -242,7 +250,7 @@ public class SparcraftUI extends JComponent {
             case 5:
                 return Color.LIGHT_GRAY;
             case 6:
-                return Color.RED;
+                return Color.WHITE;
             case 7:
                 return Color.BLUE;
             case 8:

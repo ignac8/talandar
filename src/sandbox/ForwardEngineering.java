@@ -20,12 +20,12 @@ public class ForwardEngineering {
     public static void main(String... args) {
 
         String fileName = "testNeuralWeb.json";
-        int passLimit = 100000;
-        int timeLimit = 15 * 1000;
-        int populationSize = 100;
+        int passLimit = 25 * 1000;
+        int timeLimit = 10 * 60 * 1000;
+        int populationSize = 1000;
         int inputLayerSize = 5;
         int outputLayerSize = 4;
-        int tournamentSize = 5;
+        int tournamentSize = 2;
         double crossoverChance = 0.85;
         double weightMutationChance = 0.5;
         double biasMutationChance = 0.5;
@@ -37,8 +37,7 @@ public class ForwardEngineering {
         double biasMean = 0;
 
         List<Integer> hiddenLayerSizes = new ArrayList<>();
-        hiddenLayerSizes.add(10);
-        hiddenLayerSizes.add(8);
+        hiddenLayerSizes.add(20);
 
         List<Individual> startingIndividuals = new ArrayList<>();
 
