@@ -40,7 +40,7 @@ public abstract class UCT {
         Player p2 = new Player_NoOverKillAttackValue(Players.Player_Two.ordinal());
 
         // contruct the game
-        Game g = new Game(state, p1, p2, config.getSimulationSteps(), false);
+        Game g = new Game(state, p1, p2, config.getSimulationSteps(), false, true);
 
         // play the game
         g.play();

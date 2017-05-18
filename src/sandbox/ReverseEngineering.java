@@ -181,7 +181,7 @@ public class ReverseEngineering implements BWAPIEventListener {
         int moveLimit = 20000;
 
         // contruct the game
-        Game g = new Game(initialState, p1, p2, moveLimit, graphics);
+        Game g = new Game(initialState, p1, p2, moveLimit, graphics, true);
 
         g.play();
 

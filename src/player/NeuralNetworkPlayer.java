@@ -4,7 +4,6 @@ import bwmcts.sparcraft.GameState;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitAction;
-import bwmcts.sparcraft.UnitActionTypes;
 import jnibwapi.JNIBWAPI;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
@@ -26,7 +25,7 @@ public final class NeuralNetworkPlayer extends MyPlayer {
     private NeuralNetwork neuralNetwork;
 
     public NeuralNetworkPlayer(int id, JNIBWAPI jnibwapi) {
-        super(id, jnibwapi);
+        super(id);
     }
 
     public void setNeuralNetwork(NeuralNetwork neuralNetwork) {

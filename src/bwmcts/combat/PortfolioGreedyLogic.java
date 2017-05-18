@@ -265,9 +265,9 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
         }
 
 
-        Game g = new Game(state, playerA, playerB, _simulationLimit, false);
+        Game g = new Game(state, playerA, playerB, _simulationLimit, false, true);
         if (player == 1) {
-            g = new Game(state, playerB, playerA, _simulationLimit, false);
+            g = new Game(state, playerB, playerA, _simulationLimit, false, true);
         }
 
         g.play();
@@ -286,9 +286,9 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
         playerA.setID(player);
         playerB.setID(enemyPlayer);
 
-        Game g = new Game(state, playerA, playerB, 100, false);
+        Game g = new Game(state, playerA, playerB, 100, false, true);
         if (player == 1) {
-            g = new Game(state, playerB, playerA, 100, false);
+            g = new Game(state, playerB, playerA, 100, false, true);
         }
 
         g.play();

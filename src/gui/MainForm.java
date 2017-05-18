@@ -1,10 +1,14 @@
-package sandbox;
+package gui;
+
+import bwmcts.sparcraft.*;
+import bwmcts.test.JNIBWAPI_LOAD;
+import jnibwapi.JNIBWAPI;
+import sandbox.ForwardEngineering;
 
 import javax.swing.*;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -44,23 +48,37 @@ public class MainForm {
     private JTextField labelTextField16;
     private JButton button1;
     private JButton button2;
+    private SparcraftUI sparcraftUI;
+    private static JNIBWAPI bwapi;
+    private ExecutorService executorService;
 
     public MainForm() {
+
+
+        executorService = Executors.newSingleThreadExecutor();
+        Replay replay = new Replay();
+
+
+
+
 
         button1.addActionListener(e -> {
             ForwardEngineering.main();
         });
         button2.addActionListener(e -> {
-            Replay.main();
+            executorService.submit(replay);
         });
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("MainForm");
+        JFrame frame = new JFrame("Talandar");
         frame.setContentPane(new MainForm().panel);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
+    private void createUIComponents() {
+        sparcraftUI = SparcraftUI.getUI(false);
+    }
 }

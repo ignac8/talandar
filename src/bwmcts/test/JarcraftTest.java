@@ -235,7 +235,7 @@ public class JarcraftTest implements BWAPIEventListener {
         int moveLimit = 20000;
 
         // contruct the game
-        Game g = new Game(initialState, p1, p2, moveLimit, graphics);
+        Game g = new Game(initialState, p1, p2, moveLimit, graphics, true);
 
         g.play();
 
@@ -303,7 +303,7 @@ public class JarcraftTest implements BWAPIEventListener {
         long a = System.nanoTime();
 
         // contruct the game
-        Game g = new Game(state, p1, p2, moveLimit, false);
+        Game g = new Game(state, p1, p2, moveLimit, false, true);
 
         // play the game
         g.play();
@@ -404,7 +404,7 @@ public class JarcraftTest implements BWAPIEventListener {
         int moveLimit = 20000;
 
         // contruct the game
-        Game g = new Game(state, p1, p2, moveLimit, graphics);
+        Game g = new Game(state, p1, p2, moveLimit, graphics, true);
 
         //UPGMA upgma = new UPGMA(initialState.getAllUnits()[0], 1, 1);
         //upgma.getClusters(6);
@@ -748,7 +748,7 @@ public class JarcraftTest implements BWAPIEventListener {
         int moveLimit = 20000;
 
         // contruct the game
-        Game g = new Game(initialState, p1, p2, moveLimit, graphics);
+        Game g = new Game(initialState, p1, p2, moveLimit, graphics, true);
 
         // play the game
 	    /*

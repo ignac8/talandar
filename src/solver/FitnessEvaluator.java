@@ -11,7 +11,17 @@ import static java.lang.Math.pow;
 
 public class FitnessEvaluator {
 
-    private JNIBWAPI bwapi;
+    private static JNIBWAPI bwapi;
+
+    static {
+        bwapi = new JNIBWAPI_LOAD();
+        bwapi.loadTypeData();
+        AnimationFrameData.Init();
+        PlayerProperties.Init();
+        WeaponProperties.Init(bwapi);
+        UnitProperties.Init(bwapi);
+    }
+
     private NeuralNetworkPlayer neuralNetworkPlayer;
     private SimplePlayer simplePlayer;
     private boolean graphics;
@@ -21,13 +31,6 @@ public class FitnessEvaluator {
 
     public FitnessEvaluator(boolean graphics) {
         this.graphics = graphics;
-        bwapi = new JNIBWAPI_LOAD();
-        bwapi.loadTypeData();
-
-        AnimationFrameData.Init();
-        PlayerProperties.Init();
-        WeaponProperties.Init(bwapi);
-        UnitProperties.Init(bwapi);
 
         zealotType = UnitType.UnitTypes.Protoss_Zealot;
         dragoonType = UnitType.UnitTypes.Protoss_Dragoon;
@@ -66,7 +69,7 @@ public class FitnessEvaluator {
                         new Position(640 - 60, 155 + i * 30));
             }
             state.setMap(new Map(20, 20));
-            Game game = new Game(state, neuralNetworkPlayer, simplePlayer, 100000, graphics);
+            Game game = new Game(state, neuralNetworkPlayer, simplePlayer, 100000, graphics, true);
             game.play();
             return game.getState();
         } catch (Exception e) {

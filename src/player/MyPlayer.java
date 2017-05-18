@@ -1,17 +1,11 @@
 package player;
 
-
-import bwmcts.sparcraft.AnimationFrameData;
 import bwmcts.sparcraft.GameState;
-import bwmcts.sparcraft.PlayerProperties;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitAction;
 import bwmcts.sparcraft.UnitActionTypes;
-import bwmcts.sparcraft.UnitProperties;
-import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.sparcraft.players.Player;
-import jnibwapi.JNIBWAPI;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
@@ -23,13 +17,8 @@ import static java.lang.Integer.MIN_VALUE;
 
 public abstract class MyPlayer extends Player {
 
-    protected MyPlayer(int id, JNIBWAPI jnibwapi) {
+    protected MyPlayer(int id) {
         super(id);
-        jnibwapi.loadTypeData();
-        AnimationFrameData.Init();
-        PlayerProperties.Init();
-        WeaponProperties.Init(jnibwapi);
-        UnitProperties.Init(jnibwapi);
     }
 
     protected List<UnitAction> getActionsWithType(List<UnitAction> possibleActions,

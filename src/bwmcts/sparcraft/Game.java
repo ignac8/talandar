@@ -24,16 +24,7 @@ public class Game {
     private int rounds;
     private boolean display = false;
 
-
-    public Game(GameState initialState, Player p1, Player p2, int limit) {
-        state = initialState;
-        _players[0] = p1;
-        _players[1] = p2;
-        this.moveLimit = limit;
-        this.rounds = 0;
-    }
-
-    public Game(GameState initialState, Player p1, Player p2, int limit, boolean display) {
+    public Game(GameState initialState, Player p1, Player p2, int limit, boolean display, boolean standalone) {
         state = initialState;
         _players[0] = p1;
         _players[1] = p2;
@@ -41,9 +32,7 @@ public class Game {
         this.rounds = 0;
         this.display = display;
         if (display) {
-
-            ui = SparcraftUI.getUI(state, p1, p2);
-
+            ui = SparcraftUI.getUI(state, p1, p2, standalone);
         }
     }
 

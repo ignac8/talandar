@@ -3,10 +3,7 @@ package jnibwapi.types;
 import jnibwapi.types.UnitSizeType.UnitSizeTypes;
 import jnibwapi.types.WeaponType.WeaponTypes;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents a StarCraft unit type.
@@ -80,7 +77,7 @@ public class UnitType {
 
     public UnitType(int ID) {
         this.ID = ID;
-        idToUnitType.put(ID, this);
+        //idToUnitType.put(ID, this);
     }
 
     public void initialize(int[] data, int index, String name, int[] requiredUnits) {
