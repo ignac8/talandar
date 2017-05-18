@@ -24,11 +24,11 @@ public class RGuctNode extends UctNode {
 
     @Override
     public String moveString() {
-        String moves = "";
+        StringBuilder moves = new StringBuilder();
         for (UnitState a : abstractMove) {
-            moves += a.type + ";";
+            moves.append(a.type).append(";");
         }
-        return moves;
+        return moves.toString();
     }
 
     public List<UnitState> getAbstractMove() {

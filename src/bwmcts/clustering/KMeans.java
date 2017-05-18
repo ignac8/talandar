@@ -9,7 +9,7 @@ import java.util.List;
 public class KMeans implements ClusteringAlgorithm {
 
     public List<List<Unit>> getClusters(Unit[] uarr, int k, double hp) {
-        List<Unit> units = new ArrayList<Unit>();
+        List<Unit> units = new ArrayList<>();
         for (Unit u : uarr) {
             if (u == null)
                 break;
@@ -35,7 +35,7 @@ public class KMeans implements ClusteringAlgorithm {
 
             // If no change return clusters
             if (!change) {
-                List<List<Unit>> finalClusters = new ArrayList<List<Unit>>();
+                List<List<Unit>> finalClusters = new ArrayList<>();
                 for (KMeansCluster cluster : clusters)
                     finalClusters.add(cluster.getUnits());
                 return finalClusters;
@@ -56,7 +56,7 @@ public class KMeans implements ClusteringAlgorithm {
         double disX = a.getX() - b.getX();
         double disY = a.getY() - b.getY();
 
-        double distance = (double) Math.sqrt(disX * disX + disY * disY);
+        double distance = Math.sqrt(disX * disX + disY * disY);
 
         return distance;
     }
@@ -81,9 +81,9 @@ public class KMeans implements ClusteringAlgorithm {
     private List<KMeansCluster> assignToClusters(int k, List<Position> seeds, List<Unit> units) {
 
         // Make cluster map
-        List<KMeansCluster> clusters = new ArrayList<KMeansCluster>();
+        List<KMeansCluster> clusters = new ArrayList<>();
         for (Position seed : seeds)
-            clusters.add(new KMeansCluster(new ArrayList<Unit>(), seed));
+            clusters.add(new KMeansCluster(new ArrayList<>(), seed));
 
         // Add data to clusters
         for (Unit unit : units) {
@@ -108,9 +108,9 @@ public class KMeans implements ClusteringAlgorithm {
 
     private List<Position> selectRandomUnitPosition(int k, List<Unit> units) {
 
-        List<Position> selected = new ArrayList<Position>();
+        List<Position> selected = new ArrayList<>();
 
-        k = (int) Math.min(k, units.size());
+        k = Math.min(k, units.size());
         while (selected.size() < k) {
             int rand = (int) Math.floor(Math.random() * units.size());
             Position random = units.get(rand).getPosition();

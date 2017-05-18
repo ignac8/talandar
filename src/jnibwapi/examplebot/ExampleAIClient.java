@@ -85,10 +85,10 @@ public class ExampleAIClient implements BWAPIEventListener {
 	@Override
 	public void matchFrame() {
 		// print out some info about any upgrades or research happening
-		String msg = "=";
+		StringBuilder msg = new StringBuilder("=");
 		for (TechType t : TechTypes.getAllTechTypes()) {
 			if (bwapi.getSelf().isResearching(t)) {
-				msg += "Researching " + t.getName() + "=";
+				msg.append("Researching ").append(t.getName()).append("=");
 			}
 			// Exclude tech that is given at the start of the game
 			UnitType whatResearches = t.getWhatResearches();
@@ -96,19 +96,19 @@ public class ExampleAIClient implements BWAPIEventListener {
 				continue;
 			}
 			if (bwapi.getSelf().isResearched(t)) {
-				msg += "Researched " + t.getName() + "=";
+				msg.append("Researched ").append(t.getName()).append("=");
 			}
 		}
 		for (UpgradeType t : UpgradeTypes.getAllUpgradeTypes()) {
 			if (bwapi.getSelf().isUpgrading(t)) {
-				msg += "Upgrading " + t.getName() + "=";
+				msg.append("Upgrading ").append(t.getName()).append("=");
 			}
 			if (bwapi.getSelf().getUpgradeLevel(t) > 0) {
 				int level = bwapi.getSelf().getUpgradeLevel(t);
-				msg += "Upgraded " + t.getName() + " to level " + level + "=";
+				msg.append("Upgraded ").append(t.getName()).append(" to level ").append(level).append("=");
 			}
 		}
-		bwapi.drawText(new Position(0, 20), msg, true);
+		bwapi.drawText(new Position(0, 20), msg.toString(), true);
 		
 		// draw the terrain information
 		bwapi.getMap().drawTerrainData(bwapi);

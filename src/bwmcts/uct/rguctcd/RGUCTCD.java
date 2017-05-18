@@ -43,9 +43,9 @@ public class RGUCTCD extends UCT {
         //System.out.println("Search called");
 
         if (config.getMaxPlayerIndex() == 0 && state.whoCanMove() == Players.Player_Two) {
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         } else if (config.getMaxPlayerIndex() == 1 && state.whoCanMove() == Players.Player_One) {
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         }
 
         long start = System.currentTimeMillis();
@@ -62,7 +62,7 @@ public class RGUCTCD extends UCT {
 
         //System.out.println("Nano time: " + (System.nanoTime() - startNs));
 
-        UctNode root = new RGuctNode(null, NodeType.ROOT, new ArrayList<UnitState>(), config.getMaxPlayerIndex(), "ROOT");
+        UctNode root = new RGuctNode(null, NodeType.ROOT, new ArrayList<>(), config.getMaxPlayerIndex(), "ROOT");
         root.setVisits(1);
         if (config.getMaxPlayerIndex() == 0)
             ((RGuctNode) root).setClusters(cleanClusters(state, clustersA));
@@ -94,7 +94,7 @@ public class RGUCTCD extends UCT {
             writeToFile(root.print(0), "tree.xml");
 
         if (best == null)
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
 
         List<UnitAction> actions = best.getMove();
 
@@ -156,12 +156,12 @@ public class RGUCTCD extends UCT {
 
     private void generateChildren(UctNode node, GameState state, int playerToMove) {
 
-        List<UnitState> move = new ArrayList<UnitState>();
+        List<UnitState> move = new ArrayList<>();
 
         HashMap<Integer, List<UnitAction>> map;
         if (node.getPossibleMoves() == null) {
 
-            map = new HashMap<Integer, List<UnitAction>>();
+            map = new HashMap<>();
             try {
                 state.generateMoves(map, playerToMove);
             } catch (Exception e) {
@@ -203,10 +203,10 @@ public class RGUCTCD extends UCT {
 
     private List<List<Unit>> cleanClusters(GameState state, List<List<Unit>> clusters) {
 
-        List<List<Unit>> readyClusters = new ArrayList<List<Unit>>();
+        List<List<Unit>> readyClusters = new ArrayList<>();
 
         for (List<Unit> cluster : clusters) {
-            List<Unit> readyCluster = new ArrayList<Unit>();
+            List<Unit> readyCluster = new ArrayList<>();
             for (Unit unit : cluster) {
                 if (unit.firstTimeFree() == state.getTime())
                     readyCluster.add(unit);
@@ -220,7 +220,7 @@ public class RGUCTCD extends UCT {
 
     private List<UnitState> getAllMove(UnitStateTypes type, List<List<Unit>> clusters) {
 
-        List<UnitState> states = new ArrayList<UnitState>();
+        List<UnitState> states = new ArrayList<>();
 
         int i = 0;
         for (List<Unit> units : clusters) {
@@ -286,7 +286,7 @@ public class RGUCTCD extends UCT {
 
     private List<UnitState> getRandomMove(int playerToMove, List<List<Unit>> clusters) {
 
-        List<UnitState> states = new ArrayList<UnitState>();
+        List<UnitState> states = new ArrayList<>();
 
         int i = 0;
         for (List<Unit> units : clusters) {
@@ -309,14 +309,14 @@ public class RGUCTCD extends UCT {
     private List<UnitAction> statesToActions(List<UnitState> move, List<List<Unit>> clus, GameState state) {
 
         if (move == null || move.isEmpty() || move.get(0) == null)
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
 
         int player = move.get(0).player;
 
         Player attack = new Player_NoOverKillAttackValue(player);
         Player kite = new Player_Kite(player);
 
-        HashMap<Integer, List<UnitAction>> map = new HashMap<Integer, List<UnitAction>>();
+        HashMap<Integer, List<UnitAction>> map = new HashMap<>();
 
         try {
             state.generateMoves(map, player);
@@ -324,8 +324,8 @@ public class RGUCTCD extends UCT {
             e.printStackTrace();
         }
 
-        List<Integer> attackingUnits = new ArrayList<Integer>();
-        List<Integer> kitingUnits = new ArrayList<Integer>();
+        List<Integer> attackingUnits = new ArrayList<>();
+        List<Integer> kitingUnits = new ArrayList<>();
 
         // Divide units into two groups
         for (UnitState unitState : move) {
@@ -349,9 +349,9 @@ public class RGUCTCD extends UCT {
 
         }
 
-        List<UnitAction> allActions = new ArrayList<UnitAction>();
-        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<Integer, List<UnitAction>>();
-        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<Integer, List<UnitAction>>();
+        List<UnitAction> allActions = new ArrayList<>();
+        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<>();
+        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<>();
 
         // Loop through the map
         for (Integer i : map.keySet()) {
@@ -364,12 +364,12 @@ public class RGUCTCD extends UCT {
         }
 
         // Add attack actions
-        List<UnitAction> attackActions = new ArrayList<UnitAction>();
+        List<UnitAction> attackActions = new ArrayList<>();
         attack.getMoves(state, attackingMap, attackActions);
         allActions.addAll(attackActions);
 
         // Add defend actions
-        List<UnitAction> defendActions = new ArrayList<UnitAction>();
+        List<UnitAction> defendActions = new ArrayList<>();
         kite.getMoves(state, kitingMap, defendActions);
         allActions.addAll(defendActions);
 

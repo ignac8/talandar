@@ -1,7 +1,5 @@
 package solver.operator;
 
-import neuralnetwork.Connection;
-import neuralnetwork.neuron.CalculableNeuron;
 import solver.Individual;
 import solver.operator.crosser.Crosser;
 

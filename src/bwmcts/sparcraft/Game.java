@@ -40,12 +40,12 @@ public class Game {
     // play the game until there is a winner
     public void play() {
 
-        ArrayList<UnitAction> scriptMoves_A = new ArrayList<UnitAction>();
-        ArrayList<UnitAction> scriptMoves_B = new ArrayList<UnitAction>();
+        ArrayList<UnitAction> scriptMoves_A = new ArrayList<>();
+        ArrayList<UnitAction> scriptMoves_B = new ArrayList<>();
         Player toMove;
         Player enemy;
-        HashMap<Integer, List<UnitAction>> moves_A = new HashMap<Integer, List<UnitAction>>();
-        HashMap<Integer, List<UnitAction>> moves_B = new HashMap<Integer, List<UnitAction>>();
+        HashMap<Integer, List<UnitAction>> moves_A = new HashMap<>();
+        HashMap<Integer, List<UnitAction>> moves_B = new HashMap<>();
         int playerToMove = Players.Player_One.ordinal();
 
         while (!this.gameOver()) {

@@ -81,8 +81,8 @@ public class Region {
     public Set<Region> getAllConnectedRegions() {
         // Evaluate on first call
         if (allConnectedRegions == null) {
-            allConnectedRegions = new HashSet<Region>();
-            LinkedList<Region> unexplored = new LinkedList<Region>();
+            allConnectedRegions = new HashSet<>();
+            LinkedList<Region> unexplored = new LinkedList<>();
             unexplored.add(this);
             while (!unexplored.isEmpty()) {
                 Region current = unexplored.remove();

@@ -98,18 +98,12 @@ public class Map {
 
     public boolean isWalkable(Position pixelPosition) {
         //Position wp=getWalkPosition(pixelPosition);
-        if (pixelPosition.x < 0 || pixelPosition.y < 0) {
-            return false;
-        }
-        return isWalkable(pixelPosition.x / 8, pixelPosition.y / 8);
+        return !(pixelPosition.x < 0 || pixelPosition.y < 0) && isWalkable(pixelPosition.x / 8, pixelPosition.y / 8);
     }
 
     public boolean isFlyable(Position pixelPosition) {
         //Position wp=getWalkPosition(pixelPosition);
-        if (pixelPosition.x < 0 || pixelPosition.y < 0) {
-            return false;
-        }
-        return isWalkable(pixelPosition.x / 8, pixelPosition.y / 8);
+        return !(pixelPosition.x < 0 || pixelPosition.y < 0) && isWalkable(pixelPosition.x / 8, pixelPosition.y / 8);
     }
 
     public boolean isWalkable(int walkTileX, int walkTileY) {
@@ -166,8 +160,8 @@ public class Map {
             int ty = unit.getPosition().getY() / Constants.TILE_SIZE;
             int sx = unit.getUnitType().getTileWidth();
             int sy = unit.getUnitType().getTileHeight();
-            for (int x = tx; x < tx + sx && x < (int) getBuildTileWidth(); ++x) {
-                for (int y = ty; y < ty + sy && y < (int) getBuildTileHeight(); ++y) {
+            for (int x = tx; x < tx + sx && x < getBuildTileWidth(); ++x) {
+                for (int y = ty; y < ty + sy && y < getBuildTileHeight(); ++y) {
                     _buildingData[x][y] = true;
                 }
             }
@@ -176,8 +170,8 @@ public class Map {
             int endX = (unit.getPosition().getX() + unit.getUnitType().getDimensionRight() + Constants.TILE_SIZE - 1) / Constants.TILE_SIZE; // Division - round up
             int startY = (unit.getPosition().getY() - unit.getUnitType().getDimensionUp()) / Constants.TILE_SIZE;
             int endY = (unit.getPosition().getY() + unit.getUnitType().getDimensionDown() + Constants.TILE_SIZE - 1) / Constants.TILE_SIZE;
-            for (int x = startX; x < endX && x < (int) getBuildTileWidth(); ++x) {
-                for (int y = startY; y < endY && y < (int) getBuildTileHeight(); ++y) {
+            for (int x = startX; x < endX && x < getBuildTileWidth(); ++x) {
+                for (int y = startY; y < endY && y < getBuildTileHeight(); ++y) {
                     _unitData[x][y] = true;
                 }
             }
@@ -195,9 +189,7 @@ public class Map {
         m._unitData = new boolean[_buildTileWidth][_buildTileHeight];
         m._buildingData = new boolean[_buildTileWidth][_buildTileHeight];
         for (int i = 0; i < _walkTileWidth; i++) {
-            for (int j = 0; j < _walkTileHeight; j++) {
-                m._mapData[i][j] = this._mapData[i][j];
-            }
+            System.arraycopy(this._mapData[i], 0, m._mapData[i], 0, _walkTileHeight);
         }
 
         for (int i = 0; i < _buildTileWidth; i++) {

@@ -15,8 +15,6 @@ import solver.operator.mutator.GaussianMutator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static bwmcts.sparcraft.SparcraftUI.closeWindow;
-
 public class ForwardEngineering {
 
     public static void main(String... args) {

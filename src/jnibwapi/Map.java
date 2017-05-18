@@ -207,30 +207,18 @@ public class Map {
     }
 
     public boolean isBuildable(Position p) {
-        if (p.isValid()) {
-            return buildable[getBuildTileArrayIndex(p)];
-        } else {
-            return false;
-        }
+        return p.isValid() && buildable[getBuildTileArrayIndex(p)];
     }
 
     public boolean isWalkable(Position p) {
-        if (p.isValid()) {
-            return walkable[p.getWX() + size.getWX() * p.getWY()];
-        } else {
-            return false;
-        }
+        return p.isValid() && walkable[p.getWX() + size.getWX() * p.getWY()];
     }
 
     /**
      * Checks whether all 16 walk tiles in a build tile are walkable
      */
     public boolean isLowResWalkable(Position p) {
-        if (p.isValid()) {
-            return lowResWalkable[getBuildTileArrayIndex(p)];
-        } else {
-            return false;
-        }
+        return p.isValid() && lowResWalkable[getBuildTileArrayIndex(p)];
     }
 
     /**
@@ -291,9 +279,7 @@ public class Map {
     public boolean isConnected(Position start, Position end) {
         if (getRegion(start) == null)
             return false;
-        if (getRegion(end) == null)
-            return false;
-        return getRegion(start).getAllConnectedRegions().contains(getRegion(end));
+        return getRegion(end) != null && getRegion(start).getAllConnectedRegions().contains(getRegion(end));
     }
 
     /**
@@ -304,7 +290,7 @@ public class Map {
         // Distance of 10 per build tile, or sqrt(10^2 + 10^2) ~= 14 diagonally
         final int mvmtCost = 10;
         final int mvmtCostDiag = 14;
-        PriorityQueue<AStarTile> openTiles = new PriorityQueue<AStarTile>(); // min heap
+        PriorityQueue<AStarTile> openTiles = new PriorityQueue<>(); // min heap
         // Map from tile to distance
         HashMap<Position, Integer> gmap = new HashMap<>();
         HashSet<Position> closedTiles = new HashSet<>();

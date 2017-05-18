@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class AttackValueLogic implements ICombatLogic {
 
-    Map<Integer, Integer> attackingUnits = new HashMap<Integer, Integer>();
+    Map<Integer, Integer> attackingUnits = new HashMap<>();
     AttackClosestLogic closestLogic = new AttackClosestLogic();
 
     @Override

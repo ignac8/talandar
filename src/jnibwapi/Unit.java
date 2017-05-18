@@ -813,7 +813,7 @@ public class Unit implements Cloneable {
     }
 
     public List<Unit> getLoadedUnits() {
-        List<Unit> units = new ArrayList<Unit>();
+        List<Unit> units = new ArrayList<>();
         for (int id : bwapi.getLoadedUnits(ID)) {
             units.add(bwapi.getUnit(id));
         }

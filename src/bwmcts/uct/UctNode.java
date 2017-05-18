@@ -33,7 +33,7 @@ public class UctNode {
         this.uctValue = 0;
         this.movingPlayerIndex = movingPlayerIndex;
         this.parent = parent;
-        this.children = new ArrayList<UctNode>();
+        this.children = new ArrayList<>();
         this.type = type;
         this.label = label;
         this.move = move;
@@ -106,42 +106,42 @@ public class UctNode {
     }
 
     public String moveString() {
-        String moves = "";
+        StringBuilder moves = new StringBuilder();
         for (UnitAction a : move) {
-            moves += a.moveString() + "(" + a.pos().getX() + "," + a.pos().getY() + ");";
+            moves.append(a.moveString()).append("(").append(a.pos().getX()).append(",").append(a.pos().getY()).append(");");
         }
-        return moves;
+        return moves.toString();
     }
 
     public String print(int level) {
 
-        String out = "";
+        StringBuilder out = new StringBuilder();
         for (int n = 0; n < level; n++) {
-            out += "\t";
+            out.append("\t");
         }
-        out += "<node label=" + label + " score=" + totalScore / visits + " visited=" + visits + " getType=" + type + " playerToMove=" + movingPlayerIndex + " moves=" + moveString();
+        out.append("<node label=").append(label).append(" score=").append(totalScore / visits).append(" visited=").append(visits).append(" getType=").append(type).append(" playerToMove=").append(movingPlayerIndex).append(" moves=").append(moveString());
 
         if (children.isEmpty()) {
-            out += "/>\n";
+            out.append("/>\n");
         } else {
-            out += ">\n";
+            out.append(">\n");
         }
 
         int next = level + 1;
         for (UctNode child : children) {
 
-            out += child.print(next);
+            out.append(child.print(next));
 
         }
 
         if (!children.isEmpty()) {
             for (int n = 0; n < level; n++) {
-                out += "\t";
+                out.append("\t");
             }
-            out += "</node>\n";
+            out.append("</node>\n");
         }
 
-        return out;
+        return out.toString();
 
     }
 

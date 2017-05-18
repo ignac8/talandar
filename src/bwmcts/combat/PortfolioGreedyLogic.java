@@ -39,7 +39,7 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
     int _totalEvals = 0;
     UnitStateTypes _enemyScript = UnitStateTypes.ATTACK;
     UnitStateTypes[] _playerScriptPortfolio = new UnitStateTypes[]{UnitStateTypes.ATTACK, UnitStateTypes.KITE};
-    private HashMap<Integer, UnitAction> firstAttack = new HashMap<Integer, UnitAction>();
+    private HashMap<Integer, UnitAction> firstAttack = new HashMap<>();
 
 
     public PortfolioGreedyLogic(JNIBWAPI bwapi, int iter, int responses, int simulationLimit, int timeLimit) {
@@ -63,7 +63,7 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
 
         try {
 
-            HashMap<Integer, List<UnitAction>> possibleMoves = new HashMap<Integer, List<UnitAction>>();
+            HashMap<Integer, List<UnitAction>> possibleMoves = new HashMap<>();
             state.generateMoves(possibleMoves, bwapi.getSelf().getID());
 
             executeActions(bwapi, state, search(bwapi.getSelf().getID(), possibleMoves, state.clone()));
@@ -142,8 +142,8 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
         //UnitStateTypes enemySeedScript = calculateInitialSeed(enemyPlayer, state);
 
         // set up the root script data
-        HashMap<Integer, UnitStateTypes> originalScriptDataA = new HashMap<Integer, UnitStateTypes>();
-        HashMap<Integer, UnitStateTypes> originalScriptDataB = new HashMap<Integer, UnitStateTypes>();
+        HashMap<Integer, UnitStateTypes> originalScriptDataA = new HashMap<>();
+        HashMap<Integer, UnitStateTypes> originalScriptDataB = new HashMap<>();
         setAllScripts(player, state, originalScriptDataA, seedScript);
         setAllScripts(enemyPlayer, state, originalScriptDataB, _enemyScript);
 
@@ -173,7 +173,7 @@ public class PortfolioGreedyLogic extends Player implements ICombatLogic {
         Player_ClusteredUnitStateToUnitAction playerA = new Player_ClusteredUnitStateToUnitAction(player);
         playerA.setScripts(originalScriptDataA);
         playerA.setID(player);
-        List<UnitAction> list = new ArrayList<UnitAction>();
+        List<UnitAction> list = new ArrayList<>();
         playerA.getMoves(state, moves, list);
         return list;
     }

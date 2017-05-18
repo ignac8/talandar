@@ -10,58 +10,58 @@ public interface BWAPIEventListener {
     /**
      * connection to BWAPI established
      */
-    public void connected();
+    void connected();
 
     /**
      * game has just started, game settings can be turned on here
      */
-    public void matchStart();
+    void matchStart();
 
     /**
      * perform AI logic here
      */
-    public void matchFrame();
+    void matchFrame();
 
     /**
      * game has just terminated
      */
-    public void matchEnd(boolean winner);
+    void matchEnd(boolean winner);
 
     /**
      * keyPressed from within StarCraft
      */
-    public void keyPressed(int keyCode);
+    void keyPressed(int keyCode);
 
     // BWAPI callbacks
-    public void sendText(String text);
+    void sendText(String text);
 
-    public void receiveText(String text);
+    void receiveText(String text);
 
-    public void playerLeft(int playerID);
+    void playerLeft(int playerID);
 
-    public void nukeDetect(Position p);
+    void nukeDetect(Position p);
 
-    public void nukeDetect();
+    void nukeDetect();
 
-    public void unitDiscover(int unitID);
+    void unitDiscover(int unitID);
 
-    public void unitEvade(int unitID);
+    void unitEvade(int unitID);
 
-    public void unitShow(int unitID);
+    void unitShow(int unitID);
 
-    public void unitHide(int unitID);
+    void unitHide(int unitID);
 
-    public void unitCreate(int unitID);
+    void unitCreate(int unitID);
 
-    public void unitDestroy(int unitID);
+    void unitDestroy(int unitID);
 
-    public void unitMorph(int unitID);
+    void unitMorph(int unitID);
 
-    public void unitRenegade(int unitID);
+    void unitRenegade(int unitID);
 
-    public void saveGame(String gameName);
+    void saveGame(String gameName);
 
-    public void unitComplete(int unitID);
+    void unitComplete(int unitID);
 
-    public void playerDropped(int playerID);
+    void playerDropped(int playerID);
 }

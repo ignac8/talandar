@@ -534,7 +534,7 @@ public class Unit implements Comparable<Unit> {
 
         if (this.previousAction != null)
             u.previousAction = this.previousAction.clone();
-        ;        // the previous move that the unit performed
+        // the previous move that the unit performed
         u.previousActionTime = this.previousActionTime;    // the time the previous move was performed
         if (this.previousPosition != null)
             u.previousPosition = new Position(this.previousPosition.x, this.previousPosition.y);

@@ -3,11 +3,14 @@ package bwmcts.sparcraft;
 import bwmcts.sparcraft.players.Player;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
+import player.NeuralNetworkPlayer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
+
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class SparcraftUI extends JComponent {
 
@@ -16,23 +19,22 @@ public class SparcraftUI extends JComponent {
      */
     private static final long serialVersionUID = 1L;
     private static SparcraftUI instance;
-    public int c = 6;
-    int offSetX = 0;
-    int offSetY = 0;
-    HashMap<String, Image> images = new HashMap<String, Image>();
-    Image background;
-    String dirPath = "img\\";
+    private int offSetX = 0;
+    private int offSetY = 0;
+    private HashMap<String, Image> images = new HashMap<>();
+    private Image background;
+    private String dirPath = "img\\";
     private GameState state;
     private Player p1;
     private Player p2;
     private JFrame frame;
 
-    public SparcraftUI(boolean standalone) {
+    private SparcraftUI(boolean standalone) {
         if (standalone) {
             frame = new JFrame();
             frame.setSize(700, 700);
             frame.setTitle("Sparcraft in JAVA");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
             frame.getContentPane().add(this);
             frame.setVisible(true);
         }
@@ -64,8 +66,8 @@ public class SparcraftUI extends JComponent {
     }
 
     private void loadImages() {
-        for (UnitType u : UnitTypes.getAllUnitTypes()) {
-            images.put(u.toString(), Toolkit.getDefaultToolkit().getImage(dirPath + "units\\" + u.getName().replaceAll(" ", "_") + ".png"));
+        for (UnitType unitType : UnitTypes.getAllUnitTypes()) {
+            images.put(unitType.toString(), Toolkit.getDefaultToolkit().getImage(dirPath + "units\\" + unitType.getName().replaceAll(" ", "_") + ".png"));
         }
         int i = (int) (Math.random() * 10 % 4);
         background = Toolkit.getDefaultToolkit().getImage(dirPath + "ground\\ground" + (i > 0 ? i : "") + ".png");
@@ -88,41 +90,51 @@ public class SparcraftUI extends JComponent {
                 //drawScaleForMap(graphics, map.getPixelWidth() * 2, map.getPixelHeight() * 2);
             }
 
+            if (p1 instanceof NeuralNetworkPlayer) {
+                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
+                drawChosenActions(graphics, maxIndexes);
+            }
+
             graphics.setColor(Color.blue);
-            int k = 0;
-            for (Unit a : state.getAllUnits()[0]) {
-                if (a != null && a.isAlive()) {
-                    Image i = images.get(a.getUnitType().toString());
-                    Position p = a.currentPosition(state.getTime());
-                    if (i != null) {
-                        drawImageOnPosition(graphics, i, p);
+            int counter = 0;
+            for (Unit unit : state.getAllUnits()[0]) {
+                if (unit != null && unit.isAlive()) {
+                    Image image = images.get(unit.getUnitType().toString());
+                    Position position = unit.currentPosition(state.getTime());
+                    if (image != null) {
+                        drawImageOnPosition(graphics, image, position);
                     } else {
-                        graphics.drawOval(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, 4, 4);
+                        graphics.drawOval(position.getX() - 2 + offSetX, position.getY() - 2 + offSetY, 4, 4);
                     }
-                    if (a.previousAction != null && a.previousAction.moveType == UnitActionTypes.ATTACK) {
-                        graphics.drawLine(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, a.previousAction.pos().getX() - 2 + offSetX, a.previousAction.pos().getY() - 2 + offSetY);
+                    if (unit.previousAction != null && unit.previousAction.moveType == UnitActionTypes.ATTACK) {
+                        graphics.drawLine(position.getX() - 2 + offSetX, position.getY() - 2 + offSetY, unit.previousAction.pos().getX() - 2 + offSetX, unit.previousAction.pos().getY() - 2 + offSetY);
                     }
-                    //drawUnitInformation(graphics, a, ++k, p);
+                    //drawUnitInformation(graphics, unit, ++counter, position);
+                    drawUnitHP(graphics, unit, position);
                 }
 
             }
             graphics.setColor(Color.red);
-            for (Unit a : state.getAllUnits()[1]) {
-                if (a != null && a.isAlive()) {
-                    Image i = images.get(a.getUnitType().toString());
-                    Position p = a.currentPosition(state.getTime());
-                    if (i != null) {
-                        drawImageOnPosition(graphics, i, p);
+            for (Unit unit : state.getAllUnits()[1]) {
+                if (unit != null && unit.isAlive()) {
+                    Image image = images.get(unit.getUnitType().toString());
+                    Position position = unit.currentPosition(state.getTime());
+                    if (image != null) {
+                        drawImageOnPosition(graphics, image, position);
                     } else {
-                        graphics.drawOval(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, 4, 4);
+                        graphics.drawOval(position.getX() - 2 + offSetX, position.getY() - 2 + offSetY, 4, 4);
                     }
-                    if (a.previousAction != null && a.previousAction.moveType == UnitActionTypes.ATTACK) {
-                        graphics.drawLine(p.getX() - 2 + offSetX, p.getY() - 2 + offSetY, a.previousAction.pos().getX() - 2 + offSetX, a.previousAction.pos().getY() - 2 + offSetY);
+                    if (unit.previousAction != null && unit.previousAction.moveType == UnitActionTypes.ATTACK) {
+                        graphics.drawLine(position.getX() - 2 + offSetX, position.getY() - 2 + offSetY, unit.previousAction.pos().getX() - 2 + offSetX, unit.previousAction.pos().getY() - 2 + offSetY);
                     }
-                    //drawUnitInformation(graphics, a, ++k, p);
+                    //drawUnitInformation(graphics, unit, ++counter, position);
+                    drawUnitHP(graphics, unit, position);
                 }
 
             }
+
+
+
 
             /*
             if (p1 instanceof UctLogic) {
@@ -137,33 +149,50 @@ public class SparcraftUI extends JComponent {
             }
             */
 
-        } else {
-            graphics.drawRect(1, 1, 200, 200);
         }
     }
 
-    private void drawClusters(Graphics g, List<List<Unit>> clusters) {
+    private void drawChosenActions(Graphics graphics, HashMap<Unit, Integer> maxIndexes) {
+        for (Unit unit : maxIndexes.keySet()) {
+            if (unit.isAlive()) {
+                graphics.setColor(getColor(maxIndexes.get(unit)));
+
+                int innerRadius = 12;
+                int outerRadius = 14;
+
+                for (int counter = innerRadius; counter <= outerRadius; counter++) {
+                    graphics.drawOval(
+                            unit.currentPosition(state.getTime()).getX() - counter,
+                            unit.currentPosition(state.getTime()).getY() - counter,
+                            counter * 2,
+                            counter * 2);
+                }
+            }
+        }
+    }
+
+    private void drawClusters(Graphics graphics, List<List<Unit>> clusters) {
         int clusterId = 0;
         if (clusters == null)
             return;
         for (List<Unit> units : clusters) {
-            g.setColor(getColor(clusterId++));
+            graphics.setColor(getColor(clusterId++));
             for (Unit a : units) {
-                g.drawOval(a.currentPosition(state.getTime()).getX() - 12 + offSetX, a.currentPosition(state.getTime()).getY() - 12 + offSetY, 24, 24);
-                g.drawOval(a.currentPosition(state.getTime()).getX() - 13 + offSetX, a.currentPosition(state.getTime()).getY() - 13 + offSetY, 26, 26);
-                g.drawOval(a.currentPosition(state.getTime()).getX() - 14 + offSetX, a.currentPosition(state.getTime()).getY() - 14 + offSetY, 28, 28);
+                graphics.drawOval(a.currentPosition(state.getTime()).getX() - 12 + offSetX, a.currentPosition(state.getTime()).getY() - 12 + offSetY, 24, 24);
+                graphics.drawOval(a.currentPosition(state.getTime()).getX() - 13 + offSetX, a.currentPosition(state.getTime()).getY() - 13 + offSetY, 26, 26);
+                graphics.drawOval(a.currentPosition(state.getTime()).getX() - 14 + offSetX, a.currentPosition(state.getTime()).getY() - 14 + offSetY, 28, 28);
             }
         }
     }
 
     private void drawScaleForMap(Graphics g, int pixelWidth, int pixelHeight) {
-        for (int i = 0; i < (int) pixelWidth + 1; i += 50) {
+        for (int i = 0; i < pixelWidth + 1; i += 50) {
             if (i != 0 && i % 100 == 0) {
                 g.drawString(String.valueOf(i), offSetX + i, offSetY);
             }
             g.drawLine(offSetX + i, offSetY, offSetX + i, offSetY - 10);
         }
-        for (int i = 0; i < (int) pixelHeight + 1; i += 50) {
+        for (int i = 0; i < pixelHeight + 1; i += 50) {
             if (i != 0 && i % 100 == 0) {
                 g.drawString(String.valueOf(i), offSetX - 20, offSetY + i);
             }
@@ -174,8 +203,16 @@ public class SparcraftUI extends JComponent {
     private void drawUnitInformation(Graphics g, Unit u, int i, Position p) {
         g.drawString(u.getId() + ":" + u.name() + " HP:" + u.getCurrentHP() + " A:" + u.getArmor() + " D:" + u.damageGround() + "/" + u.damageAir(), 3, i * 20);
 
-        g.drawRect(p.getX() + offSetX - 15, p.getY() - 15 + offSetY, (int) (30 * u.currentHP / u.getMaxHP()), 1);
+        g.drawRect(p.getX() + offSetX - 15, p.getY() - 15 + offSetY, 30 * u.currentHP / u.getMaxHP(), 1);
 
+    }
+
+    private void drawUnitName(Graphics g, Unit u, int i, Position p) {
+        g.drawString(u.getId() + ":" + u.name() + " HP:" + u.getCurrentHP() + " A:" + u.getArmor() + " D:" + u.damageGround() + "/" + u.damageAir(), 3, i * 20);
+    }
+
+    private void drawUnitHP(Graphics g, Unit u, Position p) {
+        g.drawRect(p.getX() + offSetX - 15, p.getY() - 15 + offSetY, 30 * u.currentHP / u.getMaxHP(), 1);
     }
 
     public void setGameState(GameState state) {
@@ -186,7 +223,7 @@ public class SparcraftUI extends JComponent {
         int width = i.getWidth(this);
         int height = i.getHeight(this);
 
-        g.drawImage(i, p.getX() + offSetX - (int) (width / 2), p.getY() + offSetY - (int) (height / 2), width, height, this);
+        g.drawImage(i, p.getX() + offSetX - width / 2, p.getY() + offSetY - height / 2, width, height, this);
     }
 
     private Color getColor(int i) {

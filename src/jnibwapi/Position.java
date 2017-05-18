@@ -12,8 +12,6 @@ public class Position {
     private final int x;
     private final int y;
 
-    ;
-
     /**
      * Creates a new Position representing the given x and y as Pixel, Walk Tile, or Build Tile
      * coordinates (depending on the PosType given).
@@ -225,7 +223,7 @@ public class Position {
         return getClass().getName() + "[x=" + x + ",y=" + y + "]";
     }
 
-    public static enum PosType {
+    public enum PosType {
         PIXEL(1),
         WALK(8),
         BUILD(32);
@@ -235,7 +233,7 @@ public class Position {
          */
         public final int scale;
 
-        private PosType(int size) {
+        PosType(int size) {
             this.scale = size;
         }
     }

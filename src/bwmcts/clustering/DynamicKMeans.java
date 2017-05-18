@@ -32,7 +32,7 @@ public class DynamicKMeans implements ClusteringAlgorithm {
         KMeans kmeans = new KMeans();
         Map<UnitType, List<Unit>> types = splitByType(units);
 
-        List<List<Unit>> clusters = new ArrayList<List<Unit>>();
+        List<List<Unit>> clusters = new ArrayList<>();
         for (UnitType type : types.keySet())
             clusters.add(types.get(type));
 
@@ -47,7 +47,7 @@ public class DynamicKMeans implements ClusteringAlgorithm {
 
     private List<Unit> getReadyUnits(Unit[] units) {
 
-        List<Unit> ready = new ArrayList<Unit>();
+        List<Unit> ready = new ArrayList<>();
         for (Unit unit : units) {
             if (unit == null)
                 continue;
@@ -62,8 +62,8 @@ public class DynamicKMeans implements ClusteringAlgorithm {
     }
 
     private boolean refine(List<List<Unit>> clusters, KMeans kmeans) {
-        List<List<Unit>> removedClusters = new ArrayList<List<Unit>>();
-        List<List<Unit>> newClusters = new ArrayList<List<Unit>>();
+        List<List<Unit>> removedClusters = new ArrayList<>();
+        List<List<Unit>> newClusters = new ArrayList<>();
         for (List<Unit> units : clusters) {
             if (getMaxDistance(new KMeansCluster(units)) > minDistance) {
                 List<List<Unit>> split = kmeans.getClusters(units, 2, 0);
@@ -108,19 +108,19 @@ public class DynamicKMeans implements ClusteringAlgorithm {
         double disX = a.getX() - b.getX();
         double disY = a.getY() - b.getY();
 
-        double distance = (double) Math.sqrt(disX * disX + disY * disY);
+        double distance = Math.sqrt(disX * disX + disY * disY);
 
         return distance;
     }
 
     private Map<UnitType, List<Unit>> splitByType(List<Unit> units) {
 
-        Map<UnitType, List<Unit>> splitted = new HashMap<UnitType, List<Unit>>();
+        Map<UnitType, List<Unit>> splitted = new HashMap<>();
 
         for (Unit unit : units) {
 
             if (!splitted.containsKey(unit.getUnitType()))
-                splitted.put(unit.getUnitType(), new ArrayList<Unit>());
+                splitted.put(unit.getUnitType(), new ArrayList<>());
 
             splitted.get(unit.getUnitType()).add(unit);
 

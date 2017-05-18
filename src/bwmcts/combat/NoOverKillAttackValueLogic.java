@@ -12,10 +12,10 @@ import java.util.Set;
 
 public class NoOverKillAttackValueLogic implements ICombatLogic {
 
-    Map<Integer, Integer> attackingUnits = new HashMap<Integer, Integer>();
+    Map<Integer, Integer> attackingUnits = new HashMap<>();
     AttackClosestLogic closestLogic = new AttackClosestLogic();
-    Map<Integer, Float> attackedUnits = new HashMap<Integer, Float>();
-    Set<Unit> dyingUnits = new HashSet<Unit>();
+    Map<Integer, Float> attackedUnits = new HashMap<>();
+    Set<Unit> dyingUnits = new HashSet<>();
 
     @Override
     public void act(JNIBWAPI bwapi, int time) {

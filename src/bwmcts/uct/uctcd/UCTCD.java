@@ -41,14 +41,14 @@ public class UCTCD extends UCT {
         // Only search for moves if this players turn
         if (config.getMaxPlayerIndex() == 0 && state.whoCanMove() == Players.Player_Two) {
             System.out.println("Exit without computing");
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         } else if (config.getMaxPlayerIndex() == 1 && state.whoCanMove() == Players.Player_One) {
             System.out.println("Exit without computing");
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         }
 
         // Create root node
-        UctNode root = new UctNode(null, NodeType.ROOT, new ArrayList<UnitAction>(), config.getMaxPlayerIndex(), "ROOT");
+        UctNode root = new UctNode(null, NodeType.ROOT, new ArrayList<>(), config.getMaxPlayerIndex(), "ROOT");
         root.setVisits(1);
 
         // Reset stats if new game
@@ -72,7 +72,7 @@ public class UCTCD extends UCT {
 
         if (best == null) {
             System.out.println("UCTCD: NULL MOVE!");
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         }
 
         if (stats.getSelectedActions().containsKey(best.getLabel()))
@@ -123,8 +123,8 @@ public class UCTCD extends UCT {
         int playerToMove = getPlayerToMove(node, state);
 
         // Generate possible moves
-        HashMap<Integer, List<UnitAction>> map = new HashMap<Integer, List<UnitAction>>();
-        currentMoves = new HashMap<Integer, Integer>();
+        HashMap<Integer, List<UnitAction>> map = new HashMap<>();
+        currentMoves = new HashMap<>();
         try {
             state.generateMoves(map, playerToMove);
         } catch (Exception e) {
@@ -137,7 +137,7 @@ public class UCTCD extends UCT {
         NodeType childType = getChildNodeType(node, state);
 
         // Add script moves
-        List<UnitAction> moveNok = new ArrayList<UnitAction>();
+        List<UnitAction> moveNok = new ArrayList<>();
         new Player_NoOverKillAttackValue(playerToMove).getMoves(state, map, moveNok);
         UctNode childNok = new UctNode(node, childType, moveNok, playerToMove, "NOK-AV");
         node.getChildren().add(childNok);
@@ -146,14 +146,14 @@ public class UCTCD extends UCT {
         if (config.isNokModelling() && playerToMove != config.getMaxPlayerIndex())
             return;
 
-        List<UnitAction> moveKite = new ArrayList<UnitAction>();
+        List<UnitAction> moveKite = new ArrayList<>();
         new Player_Kite(playerToMove).getMoves(state, map, moveKite);
         UctNode childKite = new UctNode(node, childType, moveKite, playerToMove, "KITE");
         node.getChildren().add(childKite);
 
         // Add random moves
         while (node.getChildren().size() < config.getMaxChildren()) {
-            List<UnitAction> moveRandom = new ArrayList<UnitAction>();
+            List<UnitAction> moveRandom = new ArrayList<>();
             moveRandom = getNextMove(playerToMove, state, map); // Possible moves?
             UctNode childRandom = new UctNode(node, childType, moveRandom, playerToMove, "RANDOM");
             node.getChildren().add(childRandom);
@@ -208,7 +208,7 @@ public class UCTCD extends UCT {
 
     private List<UnitAction> getNextMove(int playerToMove, GameState state, HashMap<Integer, List<UnitAction>> map) {
 
-        ArrayList<UnitAction> move = new ArrayList<UnitAction>();
+        ArrayList<UnitAction> move = new ArrayList<>();
 
         for (Integer i : map.keySet()) {
             if (currentMoves.containsKey(i)) {

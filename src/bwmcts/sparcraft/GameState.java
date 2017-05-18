@@ -80,7 +80,7 @@ public class GameState {
             _unitIndex[0][u] = u;
             _unitIndex[1][u] = u;
         }
-        _neutralUnits = new ArrayList<Unit>();
+        _neutralUnits = new ArrayList<>();
 
         _numUnits = new int[2];
         _numUnits[bwapi.getEnemies().iterator().next().getID()] = bwapi.getEnemyUnits().size();
@@ -351,11 +351,11 @@ public class GameState {
         //return getUnit(getEnemy(player),_closestMoveIndex[player][unitIndex]);
     }
 
-    public Unit getClosestEnemyUnit(Position myUnitPosition, int enemyPlayer, int minDist, int minUnitInd, int distSq) {
+    public Unit getClosestEnemyUnit(Position myUnitPosition, int enemyPlayer, int minDist, int minUnitInd) {
 
 
         for (int u = 0; u < _numUnits[enemyPlayer]; u++) {
-            distSq = myUnitPosition.getDistanceSq(getUnit(enemyPlayer, u).currentPosition(_currentTime));
+            int distSq = myUnitPosition.getDistanceSq(getUnit(enemyPlayer, u).currentPosition(_currentTime));
             if (distSq < minDist) {
                 minDist = distSq;
                 minUnitInd = u;
@@ -566,7 +566,7 @@ public class GameState {
 	            return;
 			}
 			*/
-            ArrayList<UnitAction> actionTemp = new ArrayList<UnitAction>();
+            ArrayList<UnitAction> actionTemp = new ArrayList<>();
 
 
             // generate attack moves
@@ -667,7 +667,7 @@ public class GameState {
         }
         UnitAction move;
         Unit ourUnit, enemyUnit;
-        HashMap<Unit, Boolean> moved = new HashMap<Unit, Boolean>();
+        HashMap<Unit, Boolean> moved = new HashMap<>();
         for (int m = 0; m < moves.size(); m++) {
             //performUnitAction(moves.get(m));
             move = moves.get(m);
@@ -807,7 +807,7 @@ public class GameState {
         s._units = new Unit[Constants.Num_Players][Constants.Max_Moves];
 
         s._unitIndex = new int[Constants.Num_Players][Constants.Max_Moves];
-        s._neutralUnits = new ArrayList<Unit>();
+        s._neutralUnits = new ArrayList<>();
 
         s._numUnits = new int[Constants.Num_Players];
         s._prevNumUnits = new int[Constants.Num_Players];

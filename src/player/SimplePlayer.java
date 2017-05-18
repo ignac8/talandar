@@ -4,7 +4,6 @@ import bwmcts.sparcraft.GameState;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitAction;
-import jnibwapi.JNIBWAPI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
 
 public final class SimplePlayer extends MyPlayer {
 
-    public SimplePlayer(int id, JNIBWAPI jnibwapi) {
+    public SimplePlayer(int id) {
         super(id);
     }
 

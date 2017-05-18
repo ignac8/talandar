@@ -26,7 +26,7 @@ public enum PlayerType {
 
     private int ID;
 
-    private PlayerType(int ID) {
+    PlayerType(int ID) {
         this.ID = ID;
     }
 

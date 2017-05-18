@@ -40,9 +40,9 @@ public class FlatGUCTCD extends UCT {
     public List<UnitAction> search(GameState state, long timeBudget) {
 
         if (config.getMaxPlayerIndex() == 0 && state.whoCanMove() == Players.Player_Two) {
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         } else if (config.getMaxPlayerIndex() == 1 && state.whoCanMove() == Players.Player_One) {
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         }
 
         long start = System.currentTimeMillis();
@@ -50,7 +50,7 @@ public class FlatGUCTCD extends UCT {
 
         // Get clusters
         clusters = guctConfig.getClusterAlg().getClusters(state.getAllUnits()[config.getMaxPlayerIndex()], 6, guctConfig.getHpMulitplier());
-        clustersB = new ArrayList<List<Unit>>();
+        clustersB = new ArrayList<>();
         int enemy = 0;
         if (config.getMaxPlayerIndex() == 0)
             enemy = 1;
@@ -59,7 +59,7 @@ public class FlatGUCTCD extends UCT {
 
         //System.out.println("Nano time: " + (System.nanoTime() - startNs));
 
-        UctNode root = new GuctNode(null, NodeType.ROOT, new ArrayList<UnitState>(), config.getMaxPlayerIndex(), "ROOT");
+        UctNode root = new GuctNode(null, NodeType.ROOT, new ArrayList<>(), config.getMaxPlayerIndex(), "ROOT");
         root.setVisits(1);
 
         // Reset stats if new game
@@ -83,7 +83,7 @@ public class FlatGUCTCD extends UCT {
             writeToFile(root.print(0), "tree.xml");
 
         if (best == null)
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
 
         List<UnitAction> actions = statesToActions(((GuctNode) best).getAbstractMove(), state.clone());
 
@@ -130,7 +130,7 @@ public class FlatGUCTCD extends UCT {
         HashMap<Integer, List<UnitAction>> map;
         if (node.getPossibleMoves() == null) {
 
-            map = new HashMap<Integer, List<UnitAction>>();
+            map = new HashMap<>();
             try {
                 state.generateMoves(map, playerToMove);
             } catch (Exception e) {
@@ -140,19 +140,19 @@ public class FlatGUCTCD extends UCT {
 
         }
 
-        List<UnitState> moveAttack = new ArrayList<UnitState>();
+        List<UnitState> moveAttack = new ArrayList<>();
         moveAttack.addAll(getAllMove(UnitStateTypes.ATTACK, clusters));
         GuctNode childAttack = new GuctNode((GuctNode) node, getChildNodeType(node, state), moveAttack, playerToMove, "NOK-AV");
         node.getChildren().add(childAttack);
 
-        List<UnitState> moveKite = new ArrayList<UnitState>();
+        List<UnitState> moveKite = new ArrayList<>();
         moveKite.addAll(getAllMove(UnitStateTypes.KITE, clusters));
         GuctNode childKite = new GuctNode((GuctNode) node, getChildNodeType(node, state), moveKite, playerToMove, "NOK-AV");
         node.getChildren().add(childKite);
 
         int e = 2;
         while (e < config.getMaxChildren()) {
-            List<UnitState> moveRandom = new ArrayList<UnitState>();
+            List<UnitState> moveRandom = new ArrayList<>();
             moveRandom = getRandomMove(playerToMove, clusters);
             if (uniqueMove(moveRandom, node)) {
                 GuctNode childRandom = new GuctNode((GuctNode) node, getChildNodeType(node, state), moveRandom, playerToMove, "NOK-AV");
@@ -170,7 +170,7 @@ public class FlatGUCTCD extends UCT {
 
     private List<UnitState> getAllMove(UnitStateTypes type, List<List<Unit>> clusters) {
 
-        List<UnitState> states = new ArrayList<UnitState>();
+        List<UnitState> states = new ArrayList<>();
 
         int i = 0;
         for (List<Unit> units : clusters) {
@@ -233,7 +233,7 @@ public class FlatGUCTCD extends UCT {
 
     private List<UnitState> getRandomMove(int playerToMove, List<List<Unit>> clusters) {
 
-        List<UnitState> states = new ArrayList<UnitState>();
+        List<UnitState> states = new ArrayList<>();
 
         int i = 0;
         for (List<Unit> units : clusters) {
@@ -256,12 +256,12 @@ public class FlatGUCTCD extends UCT {
     private List<UnitAction> statesToActions(List<UnitState> move, GameState state) {
 
         if (move == null || move.isEmpty() || move.get(0) == null)
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
 
         Player attack = new Player_NoOverKillAttackValue(config.getMaxPlayerIndex());
         Player kite = new Player_Kite(config.getMaxPlayerIndex());
 
-        HashMap<Integer, List<UnitAction>> map = new HashMap<Integer, List<UnitAction>>();
+        HashMap<Integer, List<UnitAction>> map = new HashMap<>();
 
         try {
             state.generateMoves(map, config.getMaxPlayerIndex());
@@ -269,8 +269,8 @@ public class FlatGUCTCD extends UCT {
             e.printStackTrace();
         }
 
-        List<Integer> attackingUnits = new ArrayList<Integer>();
-        List<Integer> kitingUnits = new ArrayList<Integer>();
+        List<Integer> attackingUnits = new ArrayList<>();
+        List<Integer> kitingUnits = new ArrayList<>();
 
         // Divide units into two groups
         for (UnitState unitState : move) {
@@ -291,9 +291,9 @@ public class FlatGUCTCD extends UCT {
 
         }
 
-        List<UnitAction> allActions = new ArrayList<UnitAction>();
-        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<Integer, List<UnitAction>>();
-        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<Integer, List<UnitAction>>();
+        List<UnitAction> allActions = new ArrayList<>();
+        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<>();
+        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<>();
 
         // Loop through the map
         for (Integer i : map.keySet()) {
@@ -306,12 +306,12 @@ public class FlatGUCTCD extends UCT {
         }
 
         // Add attack actions
-        List<UnitAction> attackActions = new ArrayList<UnitAction>();
+        List<UnitAction> attackActions = new ArrayList<>();
         attack.getMoves(state, attackingMap, attackActions);
         allActions.addAll(attackActions);
 
         // Add defend actions
-        List<UnitAction> defendActions = new ArrayList<UnitAction>();
+        List<UnitAction> defendActions = new ArrayList<>();
         kite.getMoves(state, kitingMap, defendActions);
         allActions.addAll(defendActions);
 

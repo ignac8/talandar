@@ -35,7 +35,7 @@ public class UPGMA implements ClusteringAlgorithm {
 
     private void init(Unit[] in) {
 
-        input = new ArrayList<Unit>();
+        input = new ArrayList<>();
         for (int i = 0; i < in.length; i++) {
             if (in[i] != null && in[i].isAlive())
                 input.add(in[i]);
@@ -95,9 +95,9 @@ public class UPGMA implements ClusteringAlgorithm {
         if (K == 0)
             return null;
         List<UPCluster> up = cutTree(this.getRoot(), clusters);
-        List<List<Unit>> result = new ArrayList<List<Unit>>();
+        List<List<Unit>> result = new ArrayList<>();
         for (int i = 0; i < up.size(); i++) {
-            List<Unit> tmp = new ArrayList<Unit>();
+            List<Unit> tmp = new ArrayList<>();
             for (int p : getLeafs(up.get(i))) {
                 tmp.add(this.input.get(p - 1));
             }
@@ -109,7 +109,7 @@ public class UPGMA implements ClusteringAlgorithm {
     }
 
     public List<Integer> getLeafs(UPCluster c) {
-        List<Integer> ids = new ArrayList<Integer>();
+        List<Integer> ids = new ArrayList<>();
         if (c.left != null) {
             ids.addAll(getLeafs(c.left));
         }
@@ -124,8 +124,8 @@ public class UPGMA implements ClusteringAlgorithm {
 
 
     public List<UPCluster> cutTree(UPCluster c, int clusterLimit) {
-        List<UPCluster> up = new ArrayList<UPCluster>();
-        Queue<UPCluster> q = new LinkedList<UPCluster>();
+        List<UPCluster> up = new ArrayList<>();
+        Queue<UPCluster> q = new LinkedList<>();
         if (c.card > 0 && c.left != null && c.right != null) {
             q.add(c);
             up.add(c);

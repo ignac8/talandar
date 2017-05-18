@@ -28,14 +28,14 @@ public class IUCTCD extends UCT {
     public List<UnitAction> search(GameState state, long timeBudget) {
 
         if (config.getMaxPlayerIndex() == 0 && state.whoCanMove() == Players.Player_Two) {
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         } else if (config.getMaxPlayerIndex() == 1 && state.whoCanMove() == Players.Player_One) {
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         }
 
         Date start = new Date();
 
-        UctNode root = new IuctNode(null, NodeType.ROOT, new ArrayList<UnitState>(), config.getMaxPlayerIndex(), "ROOT");
+        UctNode root = new IuctNode(null, NodeType.ROOT, new ArrayList<>(), config.getMaxPlayerIndex(), "ROOT");
         root.setVisits(1);
 
         // Reset stats if new game
@@ -60,7 +60,7 @@ public class IUCTCD extends UCT {
 
         if (best == null) {
             System.out.println("IUCTCD: NULL MOVE!");
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         }
 
         if (config.isDebug())
@@ -109,12 +109,12 @@ public class IUCTCD extends UCT {
 
     private void generateChildren(UctNode node, GameState state, int playerToMove) {
 
-        List<UnitState> move = new ArrayList<UnitState>();
+        List<UnitState> move = new ArrayList<>();
 
         HashMap<Integer, List<UnitAction>> map;
         if (node.getPossibleMoves() == null) {
 
-            map = new HashMap<Integer, List<UnitAction>>();
+            map = new HashMap<>();
             try {
                 state.generateMoves(map, playerToMove);
             } catch (Exception e) {
@@ -141,7 +141,7 @@ public class IUCTCD extends UCT {
         if (move == null)
             return;
 
-        if (uniqueMove(move, (IuctNode) node)) {
+        if (uniqueMove(move, node)) {
             IuctNode child = new IuctNode((IuctNode) node, getChildNodeType(node, state), move, playerToMove, label);
             node.getChildren().add(child);
         }
@@ -172,7 +172,7 @@ public class IUCTCD extends UCT {
 
     private List<UnitState> getAllMove(UnitStateTypes type, HashMap<Integer, List<UnitAction>> map) {
 
-        List<UnitState> states = new ArrayList<UnitState>();
+        List<UnitState> states = new ArrayList<>();
 
         for (Integer i : map.keySet()) {
 
@@ -190,7 +190,7 @@ public class IUCTCD extends UCT {
 
     private List<UnitState> getRandomMove(int playerToMove, HashMap<Integer, List<UnitAction>> map) {
 
-        ArrayList<UnitState> move = new ArrayList<UnitState>();
+        ArrayList<UnitState> move = new ArrayList<>();
 
         for (Integer i : map.keySet()) {
 
@@ -220,14 +220,14 @@ public class IUCTCD extends UCT {
         int player = 0;
 
         if (move == null || move.isEmpty() || move.get(0) == null)
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         else
             player = move.get(0).player;
 
         Player attack = new Player_NoOverKillAttackValue(player);
         Player kite = new Player_Kite(player);
 
-        HashMap<Integer, List<UnitAction>> map = new HashMap<Integer, List<UnitAction>>();
+        HashMap<Integer, List<UnitAction>> map = new HashMap<>();
 
         try {
             state.generateMoves(map, player);
@@ -235,8 +235,8 @@ public class IUCTCD extends UCT {
             e.printStackTrace();
         }
 
-        List<Integer> attackingUnits = new ArrayList<Integer>();
-        List<Integer> kitingUnits = new ArrayList<Integer>();
+        List<Integer> attackingUnits = new ArrayList<>();
+        List<Integer> kitingUnits = new ArrayList<>();
 
         // Divide units into two groups
         for (UnitState unitState : move) {
@@ -248,9 +248,9 @@ public class IUCTCD extends UCT {
 
         }
 
-        List<UnitAction> allActions = new ArrayList<UnitAction>();
-        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<Integer, List<UnitAction>>();
-        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<Integer, List<UnitAction>>();
+        List<UnitAction> allActions = new ArrayList<>();
+        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<>();
+        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<>();
 
         for (Integer i : attackingUnits)
             if (map.get(i) != null)
@@ -262,12 +262,12 @@ public class IUCTCD extends UCT {
                 kitingMap.put(i, map.get(i));
 
         // Add attack actions
-        List<UnitAction> attackActions = new ArrayList<UnitAction>();
+        List<UnitAction> attackActions = new ArrayList<>();
         attack.getMoves(state, attackingMap, attackActions);
         allActions.addAll(attackActions);
 
         // Add kite actions
-        List<UnitAction> kiteActions = new ArrayList<UnitAction>();
+        List<UnitAction> kiteActions = new ArrayList<>();
         kite.getMoves(state, kitingMap, kiteActions);
         allActions.addAll(kiteActions);
 

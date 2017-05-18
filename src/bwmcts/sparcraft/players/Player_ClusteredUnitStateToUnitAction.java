@@ -14,14 +14,14 @@ public class Player_ClusteredUnitStateToUnitAction extends Player {
     HashMap<Integer, List<Unit>> _clusters;
     HashMap<Integer, UnitStateTypes> _scripts;
     int id = 0;
-    List<UnitAction> defendActions = new ArrayList<UnitAction>();
-    List<UnitAction> attackActions = new ArrayList<UnitAction>();
+    List<UnitAction> defendActions = new ArrayList<>();
+    List<UnitAction> attackActions = new ArrayList<>();
     Player attack, kite;
 
-    List<Integer> attackingUnits = new ArrayList<Integer>();
-    List<Integer> kitingUnits = new ArrayList<Integer>();
-    HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<Integer, List<UnitAction>>();
-    HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<Integer, List<UnitAction>>();
+    List<Integer> attackingUnits = new ArrayList<>();
+    List<Integer> kitingUnits = new ArrayList<>();
+    HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<>();
+    HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<>();
 
 
     public Player_ClusteredUnitStateToUnitAction(int id) {

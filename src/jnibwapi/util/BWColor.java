@@ -16,7 +16,7 @@ public enum BWColor {
 
     private int id;
 
-    private BWColor(int id) {
+    BWColor(int id) {
         this.id = id;
     }
 

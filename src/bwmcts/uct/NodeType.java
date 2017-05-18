@@ -7,6 +7,6 @@ package bwmcts.uct;
 
 public enum NodeType {
 
-    FIRST, SECOND, SOLO, ROOT, DEFAULT;
+    FIRST, SECOND, SOLO, ROOT, DEFAULT
 
 }

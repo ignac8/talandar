@@ -27,7 +27,7 @@ public class UctLogic extends Player implements ICombatLogic {
     //private HashMap<Integer,UnitAction> actions=new HashMap<Integer,UnitAction>();
     private int timeBudget;
     private List<List<Unit>> clusters;
-    private HashMap<Integer, UnitAction> firstAttack = new HashMap<Integer, UnitAction>();
+    private HashMap<Integer, UnitAction> firstAttack = new HashMap<>();
 
     public UctLogic(JNIBWAPI bwapi, UCT uct, int timeBudget) {
 
@@ -48,7 +48,7 @@ public class UctLogic extends Player implements ICombatLogic {
         try {
             GameState state = new GameState(bwapi);
             //state.print();
-            List<UnitAction> move = new ArrayList<UnitAction>();
+            List<UnitAction> move = new ArrayList<>();
             move = uct.search(state.clone(), timeBudget);
             if (uct instanceof GUCTCD) {
                 clusters = ((GUCTCD) uct).getClusters();
@@ -155,7 +155,7 @@ public class UctLogic extends Player implements ICombatLogic {
     public void getMoves(GameState state, HashMap<Integer, List<UnitAction>> moves, List<UnitAction> moveVec) {
 
         moveVec.clear();
-        List<UnitAction> move = new ArrayList<UnitAction>();
+        List<UnitAction> move = new ArrayList<>();
         move = uct.search(state.clone(), timeBudget);
         if (uct instanceof GUCTCD) {
             clusters = ((GUCTCD) uct).getClusters();

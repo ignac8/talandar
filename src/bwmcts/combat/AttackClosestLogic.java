@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class AttackClosestLogic implements ICombatLogic {
 
-    Map<Integer, Integer> attackingUnits = new HashMap<Integer, Integer>();
+    Map<Integer, Integer> attackingUnits = new HashMap<>();
 
 
     @Override

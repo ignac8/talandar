@@ -35,8 +35,8 @@ public class FitnessEvaluator {
         zealotType = UnitType.UnitTypes.Protoss_Zealot;
         dragoonType = UnitType.UnitTypes.Protoss_Dragoon;
 
-        neuralNetworkPlayer = new NeuralNetworkPlayer(0, bwapi);
-        simplePlayer = new SimplePlayer(1, bwapi);
+        neuralNetworkPlayer = new NeuralNetworkPlayer(0, graphics);
+        simplePlayer = new SimplePlayer(1);
 
         runCount = 0;
     }
@@ -86,8 +86,7 @@ public class FitnessEvaluator {
 
         for (int playerId = 0; playerId < allUnits.length; playerId++) {
             Unit[] playerUnits = allUnits[playerId];
-            for (int i = 0; i < playerUnits.length; i++) {
-                Unit unit = playerUnits[i];
+            for (Unit unit : playerUnits) {
                 if (unit != null) {
                     double unitWorth = unitWorthBasic(unit);
                     double adjustedUnitWorth = unitWorthModifier(unit) * unitWorth;
@@ -116,6 +115,7 @@ public class FitnessEvaluator {
 
     public void setGraphics(boolean graphics) {
         this.graphics = graphics;
+        neuralNetworkPlayer.setTrackMaxIndexes(graphics);
     }
 
     public int getRunCount() {

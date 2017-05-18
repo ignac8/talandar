@@ -21,7 +21,7 @@ public class KMedoids {
 
     private static List<Unit> selectRandomUnits(int k, List<Unit> units) {
 
-        List<Unit> selected = new ArrayList<Unit>();
+        List<Unit> selected = new ArrayList<>();
 
         while (selected.size() < k) {
             int rand = (int) Math.floor(Math.random() * units.size());
@@ -68,7 +68,7 @@ public class KMedoids {
 
     private HashMap<Integer, List<Unit>> toClusterMap(List<KMedoidCluster> clusters) {
 
-        HashMap<Integer, List<Unit>> map = new HashMap<Integer, List<Unit>>();
+        HashMap<Integer, List<Unit>> map = new HashMap<>();
 
         int i = 0;
         for (KMedoidCluster cluster : clusters)
@@ -93,7 +93,7 @@ public class KMedoids {
     private List<Unit> newMedoids(List<Unit> seeds, List<Unit> units) {
 
         // Clone seeds
-        List<Unit> newMedoids = new ArrayList<Unit>();
+        List<Unit> newMedoids = new ArrayList<>();
         newMedoids.addAll(seeds);
 
         // Remove random seed
@@ -117,7 +117,7 @@ public class KMedoids {
     private List<KMedoidCluster> cluster(int k, List<Unit> seeds, List<Unit> units) {
 
         // Make cluster map
-        List<KMedoidCluster> clusters = new ArrayList<KMedoidCluster>();
+        List<KMedoidCluster> clusters = new ArrayList<>();
 
         // Add seeds
         for (Unit seed : seeds)

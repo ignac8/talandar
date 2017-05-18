@@ -10,7 +10,7 @@ public class KMedoidCluster {
     public Unit Medoid;
 
     public KMedoidCluster(Unit medoid) {
-        this.ClusterMembers = new ArrayList<Unit>();
+        this.ClusterMembers = new ArrayList<>();
         this.Medoid = medoid;
     }
 

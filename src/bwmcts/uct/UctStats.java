@@ -12,14 +12,13 @@ public class UctStats {
 
     public UctStats() {
         super();
-        this.iterations = new ArrayList<Integer>();
-        this.selectedActions = new HashMap<String, Integer>();
-        ;
+        this.iterations = new ArrayList<>();
+        this.selectedActions = new HashMap<>();
     }
 
     public void reset() {
         this.iterations.clear();
-        this.selectedActions = new HashMap<String, Integer>();
+        this.selectedActions = new HashMap<>();
     }
 
     public List<Integer> getIterations() {

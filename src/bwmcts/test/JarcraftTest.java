@@ -93,8 +93,8 @@ public class JarcraftTest implements BWAPIEventListener {
         tc.buf = new StringBuffer();
         System.out.println("Player0: " + p1.toString());
         System.out.println("Player1: " + p2.toString());
-        tc.buf.append("Player0: " + p1.toString() + "\r\n");
-        tc.buf.append("Player1: " + p2.toString() + "\r\n");
+        tc.buf.append("Player0: ").append(p1.toString()).append("\r\n");
+        tc.buf.append("Player1: ").append(p2.toString()).append("\r\n");
 
         tc.dragoonZTest(p1, p2, 100, new int[]{4, 8, 16, 32, 48, 64, 80, 96, 112, 128, 144});
         //tc.dragoonZTest(p1, p2, 10, new int[]{8,32,80,112,144});
@@ -216,7 +216,7 @@ public class JarcraftTest implements BWAPIEventListener {
 
         System.out.println("Marines: " + marines + "\tfirebats: " + firebats + "\tTanks: " + tanks + " on each side");
 
-        List<Double> results = new ArrayList<Double>();
+        List<Double> results = new ArrayList<>();
 
         testPortfolioGame(p1, p2, unitsA, unitsB);
 
@@ -256,8 +256,8 @@ public class JarcraftTest implements BWAPIEventListener {
             // Step limit
             for (int s = 0; s < steps; s++) {
 
-                List<Double> times = new ArrayList<Double>();
-                int limit = (int) (min + (float) (max - min) * (float) ((float) s / (float) steps));
+                List<Double> times = new ArrayList<>();
+                int limit = (int) (min + (float) (max - min) * (float) s / (float) steps);
 
                 // Runs
                 for (int r = 0; r < runs; r++) {
@@ -428,73 +428,61 @@ public class JarcraftTest implements BWAPIEventListener {
 	    
 	    Thread.sleep(2000);
 	    */
-        g.ui.c = 100;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 200;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 500;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 1000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 2000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 5000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 10000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 20000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 50000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 100000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 200000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
         Thread.sleep(2000);
 
-        g.ui.c = 500000;
         g.ui.setGameState(state);
         g.ui.repaint();
 
@@ -588,9 +576,9 @@ public class JarcraftTest implements BWAPIEventListener {
         for (Integer i : n) {
             try {
                 System.out.println("--- units: " + i);
-                buf.append("--- units: " + i + "\r\n");
-                float result = testDragoonZealotGames(p1, p2, (int) i, runs);
-                buf.append("DRAGOON ZEALOT TEST RESULT: " + result + "\r\n");
+                buf.append("--- units: ").append(i).append("\r\n");
+                float result = testDragoonZealotGames(p1, p2, i, runs);
+                buf.append("DRAGOON ZEALOT TEST RESULT: ").append(result).append("\r\n");
                 System.out.println("DRAGOON ZEALOT TEST RESULT: " + result);
 
                 //System.out.println("Result=" + result);
@@ -618,8 +606,8 @@ public class JarcraftTest implements BWAPIEventListener {
         Constants.Max_Moves = Constants.Max_Units + Constants.Num_Directions + 1;
 
         System.out.println("Dragoons: " + n / 2 + "\tZealots: " + n / 2 + " on each side");
-        buf.append("Dragoons: " + n / 2 + "\tZealots: " + n / 2 + " on each side\r\n");
-        List<Double> results = new ArrayList<Double>();
+        buf.append("Dragoons: ").append(n / 2).append("\tZealots: ").append(n / 2).append(" on each side\r\n");
+        List<Double> results = new ArrayList<>();
         int wins = 0;
         for (int i = 1; i <= games; i++) {
             double result = testGame(p1, p2, unitsA, unitsB);
@@ -632,15 +620,15 @@ public class JarcraftTest implements BWAPIEventListener {
             if (i % 1 == 0) {
                 //System.out.println("Score average: " + average(results) + "\tDeviation: " + deviation(results));
                 System.out.println("Win average: " + ((double) wins) / ((double) i));
-                buf.append("Win average: " + ((double) wins) / ((double) i) + "\r\n");
+                buf.append("Win average: ").append(((double) wins) / ((double) i)).append("\r\n");
             }
         }
 
         // Calc deviation and average
         System.out.println("--------------- Score average: " + average(results) + "\tDeviation: " + deviation(results));
-        buf.append("--------------- Score average: " + average(results) + "\tDeviation: " + deviation(results) + "\r\n");
+        buf.append("--------------- Score average: ").append(average(results)).append("\tDeviation: ").append(deviation(results)).append("\r\n");
         System.out.println("--------------- Win average: " + ((double) wins) / ((double) games));
-        buf.append("--------------- Win average: " + ((double) wins) / ((double) games) + "\r\n");
+        buf.append("--------------- Win average: ").append(((double) wins) / ((double) games)).append("\r\n");
         return (float) wins / (float) games;
 
     }
@@ -662,7 +650,7 @@ public class JarcraftTest implements BWAPIEventListener {
 
         System.out.println("Marines: " + marines + "\tfirebats: " + firebats + "\tTanks: " + tanks + " on each side");
 
-        List<Double> results = new ArrayList<Double>();
+        List<Double> results = new ArrayList<>();
         int wins = 0;
         for (int i = 1; i <= games; i++) {
             double result = testGame(p1, p2, unitsA, unitsB);
@@ -713,7 +701,7 @@ public class JarcraftTest implements BWAPIEventListener {
         System.out.println("Units: " + units + " of getType: " + type + " on each side.");
 
         float score = 0;
-        List<Double> results = new ArrayList<Double>();
+        List<Double> results = new ArrayList<>();
         int wins = 0;
         for (int i = 0; i < games; i++) {
             double result = testGame(p1, p2, unitsA, unitsB);

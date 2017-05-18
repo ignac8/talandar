@@ -15,7 +15,6 @@ import bwmcts.sparcraft.players.Player;
 import bwmcts.sparcraft.players.Player_NoOverKillAttackValue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -220,8 +219,6 @@ public abstract class UCT {
             fw.write(out);
             fw.close();
             System.out.println(filename + " saved.");
-        } catch (FileNotFoundException e1) {
-            System.out.println("Error saving " + filename + ". " + e1);
         } catch (IOException e2) {
             System.out.println("Error saving " + filename + ". " + e2);
         }

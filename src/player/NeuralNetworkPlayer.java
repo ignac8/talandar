@@ -4,18 +4,14 @@ import bwmcts.sparcraft.GameState;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitAction;
-import jnibwapi.JNIBWAPI;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import neuralnetwork.neuron.InputNeuron;
 
-
 import java.util.HashMap;
 import java.util.List;
 
-import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
-import static bwmcts.sparcraft.UnitActionTypes.MOVE;
-import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
+import static bwmcts.sparcraft.UnitActionTypes.*;
 import static java.lang.Double.MIN_VALUE;
 import static java.lang.Math.sqrt;
 
@@ -23,18 +19,34 @@ import static java.lang.Math.sqrt;
 public final class NeuralNetworkPlayer extends MyPlayer {
 
     private NeuralNetwork neuralNetwork;
+    private HashMap<Unit, Integer> maxIndexes = new HashMap<>();
+    private boolean trackMaxIndexes;
 
-    public NeuralNetworkPlayer(int id, JNIBWAPI jnibwapi) {
+
+    public NeuralNetworkPlayer(int id, boolean trackMaxIndexes) {
         super(id);
+        this.trackMaxIndexes = trackMaxIndexes;
+    }
+
+    public HashMap<Unit, Integer> getMaxIndexes() {
+        return maxIndexes;
     }
 
     public void setNeuralNetwork(NeuralNetwork neuralNetwork) {
         this.neuralNetwork = neuralNetwork;
     }
 
+    public void setTrackMaxIndexes(boolean trackMaxIndexes) {
+        this.trackMaxIndexes = trackMaxIndexes;
+    }
+
     @Override
     public void getMoves(GameState state, HashMap<Integer, List<UnitAction>> unitActions, List<UnitAction> finalUnitActions) {
         finalUnitActions.clear();
+        if (trackMaxIndexes) {
+            maxIndexes.clear();
+        }
+
         for (int unitIndex = 0; unitIndex < unitActions.size(); unitIndex++) {
             Unit currentUnit = state.getUnit(playerId, unitIndex);
             if (currentUnit != null) {
@@ -59,7 +71,6 @@ public final class NeuralNetworkPlayer extends MyPlayer {
 //                inputLayer.get(i++).setValue(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit));
 //                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getMyUnits(state)));
 //                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getEnemyUnits(state)));
-
 
                 inputLayer.get(i++).setValue(currentUnit.getCurrentHP());
                 inputLayer.get(i++).setValue(sqrt(currentUnit.getRange()));
@@ -110,8 +121,7 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                     UnitAction unitAction = focusEnemyUnit(
                             getActionsWithType(possibleUnitActions, ATTACK, MOVE, RELOAD), lowestHPEnemyUnitPosition);
                     finalUnitActions.add(unitAction);
-                }
-                else if (maxIndex == i++) {
+                } else if (maxIndex == i++) {
                     UnitAction unitAction = getExtremeActions(
                             getActionsWithType(possibleUnitActions, RELOAD, ATTACK), lowestHPEnemyUnitPosition)
                             .getClosestAction();
@@ -123,6 +133,10 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                     finalUnitActions.add(unitAction);
                 }
 
+                if (trackMaxIndexes) {
+                    maxIndexes.put(currentUnit, maxIndex);
+
+                }
             }
         }
     }

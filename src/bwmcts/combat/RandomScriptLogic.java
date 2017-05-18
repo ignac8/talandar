@@ -40,7 +40,7 @@ public class RandomScriptLogic extends Player implements ICombatLogic {
 
         HashMap<Integer, List<UnitAction>> map;
 
-        map = new HashMap<Integer, List<UnitAction>>();
+        map = new HashMap<>();
         try {
             state.generateMoves(map, this.playerId);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class RandomScriptLogic extends Player implements ICombatLogic {
 
     private List<UnitState> getRandomMove(int playerToMove, HashMap<Integer, List<UnitAction>> map) {
 
-        ArrayList<UnitState> move = new ArrayList<UnitState>();
+        ArrayList<UnitState> move = new ArrayList<>();
 
         for (Integer i : map.keySet()) {
 
@@ -82,14 +82,14 @@ public class RandomScriptLogic extends Player implements ICombatLogic {
         int player = 0;
 
         if (move == null || move.isEmpty() || move.get(0) == null)
-            return new ArrayList<UnitAction>();
+            return new ArrayList<>();
         else
             player = move.get(0).player;
 
         Player attack = new Player_NoOverKillAttackValue(player);
         Player kite = new Player_Kite(player);
 
-        HashMap<Integer, List<UnitAction>> map = new HashMap<Integer, List<UnitAction>>();
+        HashMap<Integer, List<UnitAction>> map = new HashMap<>();
 
         try {
             state.generateMoves(map, player);
@@ -97,8 +97,8 @@ public class RandomScriptLogic extends Player implements ICombatLogic {
             e.printStackTrace();
         }
 
-        List<Integer> attackingUnits = new ArrayList<Integer>();
-        List<Integer> kitingUnits = new ArrayList<Integer>();
+        List<Integer> attackingUnits = new ArrayList<>();
+        List<Integer> kitingUnits = new ArrayList<>();
 
         // Divide units into two groups
         for (UnitState unitState : move) {
@@ -110,9 +110,9 @@ public class RandomScriptLogic extends Player implements ICombatLogic {
 
         }
 
-        List<UnitAction> allActions = new ArrayList<UnitAction>();
-        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<Integer, List<UnitAction>>();
-        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<Integer, List<UnitAction>>();
+        List<UnitAction> allActions = new ArrayList<>();
+        HashMap<Integer, List<UnitAction>> attackingMap = new HashMap<>();
+        HashMap<Integer, List<UnitAction>> kitingMap = new HashMap<>();
 
         for (Integer i : attackingUnits)
             if (map.get(i) != null)
@@ -124,12 +124,12 @@ public class RandomScriptLogic extends Player implements ICombatLogic {
                 kitingMap.put(i, map.get(i));
 
         // Add attack actions
-        List<UnitAction> attackActions = new ArrayList<UnitAction>();
+        List<UnitAction> attackActions = new ArrayList<>();
         attack.getMoves(state, attackingMap, attackActions);
         allActions.addAll(attackActions);
 
         // Add kite actions
-        List<UnitAction> kiteActions = new ArrayList<UnitAction>();
+        List<UnitAction> kiteActions = new ArrayList<>();
         kite.getMoves(state, kitingMap, kiteActions);
         allActions.addAll(kiteActions);
 

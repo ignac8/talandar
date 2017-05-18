@@ -1,7 +1,6 @@
 package gui;
 
 import bwmcts.sparcraft.*;
-import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import sandbox.ForwardEngineering;
 
@@ -62,12 +61,8 @@ public class MainForm {
 
 
 
-        button1.addActionListener(e -> {
-            ForwardEngineering.main();
-        });
-        button2.addActionListener(e -> {
-            executorService.submit(replay);
-        });
+        button1.addActionListener(e -> ForwardEngineering.main());
+        button2.addActionListener(e -> executorService.submit(replay));
     }
 
     public static void main(String[] args) {
