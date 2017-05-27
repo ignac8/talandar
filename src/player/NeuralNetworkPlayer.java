@@ -44,7 +44,7 @@ public final class NeuralNetworkPlayer extends MyPlayer {
     public void getMoves(GameState state, HashMap<Integer, List<UnitAction>> unitActions, List<UnitAction> finalUnitActions) {
         finalUnitActions.clear();
         if (trackMaxIndexes) {
-            maxIndexes.clear();
+            maxIndexes = new HashMap<>();
         }
 
         for (int unitIndex = 0; unitIndex < unitActions.size(); unitIndex++) {

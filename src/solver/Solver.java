@@ -1,5 +1,7 @@
 package solver;
 
+import player.NeuralNetworkPlayer;
+import solver.fitnessevaluator.FitnessEvaluator;
 import solver.operator.Operator;
 import utils.FileUtils;
 
@@ -21,10 +23,11 @@ public class Solver implements Callable<Individual> {
     private Individual bestIndividual;
     private List<Result> results;
     private String fileName;
-    private FitnessEvaluator fitnessEvaluator;
+    private List<FitnessEvaluator> fitnessEvaluators;
+    private int passCount;
 
     public Solver(List<Operator> operators, int passLimit, long timeLimit, String fileName,
-                  List<Individual> startingIndividuals, FitnessEvaluator fitnessEvaluator) {
+                  List<Individual> startingIndividuals, List<FitnessEvaluator> fitnessEvaluators) {
         this.individuals = startingIndividuals;
         this.results = new ArrayList<>();
         this.operators = operators;
@@ -32,7 +35,8 @@ public class Solver implements Callable<Individual> {
         this.passLimit = passLimit;
         this.timeLimit = timeLimit;
         this.fileName = fileName;
-        this.fitnessEvaluator = fitnessEvaluator;
+        this.fitnessEvaluators = fitnessEvaluators;
+        passCount = 0;
         evaluate();
     }
 
@@ -51,16 +55,24 @@ public class Solver implements Callable<Individual> {
 
     private void evaluate() {
         for (Individual individual : individuals) {
-            individual.setFitness(fitnessEvaluator.evaluate(individual));
+            double fitness = 0;
+            for (FitnessEvaluator fitnessEvaluator : fitnessEvaluators) {
+                NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+                neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
+                fitness += fitnessEvaluator.evaluate();
+            }
+            fitness /= fitnessEvaluators.size();
+            individual.setFitness(fitness);
             if (bestIndividual == null || individual.getFitness() > bestIndividual.getFitness()) {
                 bestIndividual = individual.copy();
             }
+            passCount++;
         }
         results.add(new Result(individuals));
     }
 
     private boolean done() {
-        return currentTimeMillis() - timeStart > timeLimit || fitnessEvaluator.getRunCount() > passLimit;
+        return currentTimeMillis() - timeStart > timeLimit || passCount > passLimit;
     }
 
     private void graph() {

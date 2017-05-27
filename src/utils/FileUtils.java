@@ -3,7 +3,7 @@ package utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
-import neuralnetwork.MyNeuralNetwork;
+import neuralnetwork.FCSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.*;
 import org.jfree.chart.ChartFactory;
@@ -29,7 +29,7 @@ public class FileUtils {
     static {
         RuntimeTypeAdapterFactory<NeuralNetwork> neuralNetworkRuntimeTypeAdapterFactory =
                 RuntimeTypeAdapterFactory.of(NeuralNetwork.class)
-                        .registerSubtype(MyNeuralNetwork.class);
+                        .registerSubtype(FCSNeuralNetwork.class);
 
         RuntimeTypeAdapterFactory<Neuron> neuronRuntimeTypeAdapterFactory =
                 RuntimeTypeAdapterFactory.of(Neuron.class)
