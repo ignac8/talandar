@@ -45,17 +45,11 @@ public class FileUtils {
                 .create();
     }
 
-    public static List<String> loadFile(String fileName) {
+    public static String loadFile(String fileName) {
         try {
-            List<String> fileContent = new ArrayList<>();
             BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                fileContent.add(line);
-            }
-            reader.close();
+            String fileContent = reader.readLine();
             return fileContent;
-
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -63,25 +57,13 @@ public class FileUtils {
     }
 
     public static void saveFile(String fileName, String fileContent) {
-        List<String> jsonList = new ArrayList<>();
-        jsonList.add(fileContent);
-        saveFile(fileName, jsonList);
-    }
-
-    public static void saveFile(String fileName, List<String> fileContent) {
         try {
             File file = new File(fileName);
             if (file.getParentFile() != null) {
                 file.getParentFile().mkdirs();
             }
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            for (int i = 0; i < fileContent.size(); i++) {
-                String line = fileContent.get(i);
-                writer.write(line);
-                if (i < fileContent.size() - 1) {
-                    writer.newLine();
-                }
-            }
+            writer.write(fileContent);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -21,7 +21,7 @@ public class Replay {
     public static void main(String... args) {
 
         String fileName = "debug.json";
-        String json = loadFile(fileName).get(0);
+        String json = loadFile(fileName);
         NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
         boolean graphics = true;
         int limit = Integer.MAX_VALUE;

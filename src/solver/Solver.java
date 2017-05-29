@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import static java.lang.System.currentTimeMillis;
+import static utils.FileUtils.saveFile;
 import static utils.FileUtils.saveGraphToFile;
 import static utils.FileUtils.toJson;
 
@@ -81,8 +82,6 @@ public class Solver implements Callable<Individual> {
 
     private void save() {
         String json = toJson(bestIndividual.getNeuralNetwork());
-        List<String> jsonList = new ArrayList<>();
-        jsonList.add(json);
-        FileUtils.saveFile(fileName, jsonList);
+        saveFile(fileName, json);
     }
 }

@@ -13,7 +13,7 @@ public class Replay implements Callable<Object> {
     public Object call() throws Exception {
         String fileName = "testNeuralWeb.json";
         //JarcraftEvaluator fitnessEvaluator = new JarcraftEvaluator(firstPlayer, limit, secondPlayer, firstPlayerUnits, secondPlayerUnits, true, mapHeight, mapWidth, gapHeight, gapWidth);
-        String json = loadFile(fileName).get(0);
+        String json = loadFile(fileName);
         Individual bestOne = fromJson(json, Individual.class);
         //NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         //neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());

@@ -26,9 +26,9 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
-        int passLimit = 1 * 100000;
-        int timeLimit = 60 * 60 * 100000;
-        int populationSize = 100000;
+        int passLimit = 1 * 100;
+        int timeLimit = 60 * 60 * 100;
+        int populationSize = 100;
         int inputLayerSize = 5;
         int outputLayerSize = 4;
         int tournamentSize = 1;

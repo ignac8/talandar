@@ -77,7 +77,8 @@ public class UnitType {
 
     public UnitType(int ID) {
         this.ID = ID;
-        //idToUnitType.put(ID, this);
+        idToUnitType.put(ID, this);
+        //TODO: This little piece of code need to be uncommented if you want dump data from actual Starcraft
     }
 
     public void initialize(int[] data, int index, String name, int[] requiredUnits) {

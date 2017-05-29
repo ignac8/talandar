@@ -1,50 +1,25 @@
 package jnibwapi;
 
-import jnibwapi.types.BulletType;
+import jnibwapi.types.*;
 import jnibwapi.types.BulletType.BulletTypes;
-import jnibwapi.types.DamageType;
 import jnibwapi.types.DamageType.DamageTypes;
-import jnibwapi.types.EventType;
-import jnibwapi.types.ExplosionType;
 import jnibwapi.types.ExplosionType.ExplosionTypes;
-import jnibwapi.types.OrderType;
 import jnibwapi.types.OrderType.OrderTypes;
-import jnibwapi.types.RaceType;
 import jnibwapi.types.RaceType.RaceTypes;
-import jnibwapi.types.TechType;
 import jnibwapi.types.TechType.TechTypes;
-import jnibwapi.types.UnitCommandType;
 import jnibwapi.types.UnitCommandType.UnitCommandTypes;
-import jnibwapi.types.UnitSizeType;
 import jnibwapi.types.UnitSizeType.UnitSizeTypes;
-import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
-import jnibwapi.types.UpgradeType;
 import jnibwapi.types.UpgradeType.UpgradeTypes;
-import jnibwapi.types.WeaponType;
 import jnibwapi.types.WeaponType.WeaponTypes;
 import jnibwapi.util.BWColor;
 import jnibwapi.util.ErrorCode;
-import utils.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static jnibwapi.types.BulletType.BulletTypes.getAllBulletTypes;
 import static jnibwapi.types.DamageType.DamageTypes.getAllDamageTypes;
@@ -57,29 +32,9 @@ import static jnibwapi.types.UnitSizeType.UnitSizeTypes.getAllUnitSizeTypes;
 import static jnibwapi.types.UnitType.UnitTypes.getAllUnitTypes;
 import static jnibwapi.types.UpgradeType.UpgradeTypes.getAllUpgradeTypes;
 import static jnibwapi.types.WeaponType.WeaponTypes.getAllWeaponTypes;
-import static utils.FilePaths.BULLET_TYPES_ARRAY;
-import static utils.FilePaths.BULLET_TYPES_CLASS;
-import static utils.FilePaths.DAMAGE_TYPES_ARRAY;
-import static utils.FilePaths.DAMAGE_TYPES_CLASS;
-import static utils.FilePaths.EXPLOSION_TYPES_ARRAY;
-import static utils.FilePaths.EXPLOSION_TYPES_CLASS;
-import static utils.FilePaths.ORDER_TYPES_ARRAY;
-import static utils.FilePaths.ORDER_TYPES_CLASS;
-import static utils.FilePaths.RACE_TYPES_ARRAY;
-import static utils.FilePaths.RACE_TYPES_CLASS;
-import static utils.FilePaths.TECH_TYPES_ARRAY;
-import static utils.FilePaths.TECH_TYPES_CLASS;
-import static utils.FilePaths.UNIT_COMMAND_TYPES_ARRAY;
-import static utils.FilePaths.UNIT_COMMAND_TYPES_CLASS;
-import static utils.FilePaths.UNIT_SIZE_TYPES_ARRAY;
-import static utils.FilePaths.UNIT_SIZE_TYPES_CLASS;
-import static utils.FilePaths.UNIT_TYPES_ARRAY;
-import static utils.FilePaths.UNIT_TYPES_CLASS;
-import static utils.FilePaths.UPGRADE_TYPES_ARRAY;
-import static utils.FilePaths.UPGRADE_TYPES_CLASS;
-import static utils.FilePaths.WEAPON_TYPES_ARRAY;
-import static utils.FilePaths.WEAPON_TYPES_CLASS;
+import static utils.FilePaths.*;
 import static utils.FileUtils.saveFile;
+import static utils.FileUtils.toJson;
 
 /**
  * JNI interface for the Brood War API.<br>
@@ -1260,7 +1215,7 @@ public class JNIBWAPI {
     }
 
     private void dumpGameDataArray(int[] dataArray, String fileName) {
-        String json = FileUtils.toJson(dataArray);
+        String json = toJson(dataArray);
         saveFile(fileName, json);
     }
 
@@ -1280,14 +1235,8 @@ public class JNIBWAPI {
     }
 
     private <T> void dumpGameDataClass(Collection<T> gameDataClass, String fileName) {
-        Iterator<T> iterator = gameDataClass.iterator();
-        List<String> jsonList = new ArrayList<>();
-        while (iterator.hasNext()) {
-            T gameData = iterator.next();
-            String json = FileUtils.toJson(gameData);
-            jsonList.add(json);
-        }
-        saveFile(fileName, jsonList);
+        String json = toJson(gameDataClass);
+        saveFile(fileName, json);
     }
 
 

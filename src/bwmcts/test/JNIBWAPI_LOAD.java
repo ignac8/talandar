@@ -15,7 +15,6 @@ import jnibwapi.types.WeaponType;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import static utils.FilePaths.BULLET_TYPES_CLASS;
 import static utils.FilePaths.DAMAGE_TYPES_CLASS;
@@ -47,16 +46,16 @@ import static utils.FileUtils.loadFile;
  */
 public class JNIBWAPI_LOAD extends JNIBWAPI {
 
-    private HashMap<Integer, UnitType> unitTypes = new HashMap<>();
-    private HashMap<Integer, TechType> techTypes = new HashMap<>();
-    private HashMap<Integer, UpgradeType> upgradeTypes = new HashMap<>();
-    private HashMap<Integer, WeaponType> weaponTypes = new HashMap<>();
-    private HashMap<Integer, UnitSizeType> unitSizeTypes = new HashMap<>();
-    private HashMap<Integer, BulletType> bulletTypes = new HashMap<>();
-    private HashMap<Integer, DamageType> damageTypes = new HashMap<>();
-    private HashMap<Integer, ExplosionType> explosionTypes = new HashMap<>();
-    private HashMap<Integer, UnitCommandType> unitCommandTypes = new HashMap<>();
-    private HashMap<Integer, OrderType> orderTypes = new HashMap<>();
+    private HashMap<Integer, UnitType> unitTypesMap = new HashMap<>();
+    private HashMap<Integer, TechType> techTypesMap = new HashMap<>();
+    private HashMap<Integer, UpgradeType> upgradeTypesMap = new HashMap<>();
+    private HashMap<Integer, WeaponType> weaponTypesMap = new HashMap<>();
+    private HashMap<Integer, UnitSizeType> unitSizeTypesMap = new HashMap<>();
+    private HashMap<Integer, BulletType> bulletTypesMap = new HashMap<>();
+    private HashMap<Integer, DamageType> damageTypesMap = new HashMap<>();
+    private HashMap<Integer, ExplosionType> explosionTypesMap = new HashMap<>();
+    private HashMap<Integer, UnitCommandType> unitCommandTypesMap = new HashMap<>();
+    private HashMap<Integer, OrderType> orderTypesMap = new HashMap<>();
 
     public JNIBWAPI_LOAD(BWAPIEventListener listener) {
         super(listener, false, false);
@@ -69,165 +68,165 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
 
     public void loadTypeData() {
         // unit types
-        List<String> unitTypeJsons = loadFile(UNIT_TYPES_CLASS);
-        for (String unitTypeJson : unitTypeJsons) {
-            UnitType unitType = fromJson(unitTypeJson, UnitType.class);
+        String unitTypeJson = loadFile(UNIT_TYPES_CLASS);
+        UnitType[] unitTypes = fromJson(unitTypeJson, UnitType[].class);
+        for (UnitType unitType : unitTypes) {
             unitType.putIntoMap();
-            unitTypes.put(unitType.getID(), unitType);
+            unitTypesMap.put(unitType.getID(), unitType);
         }
 
         // tech types
-        List<String> techTypeJsons = loadFile(TECH_TYPES_CLASS);
-        for (String techTypeJson : techTypeJsons) {
-            TechType techType = fromJson(techTypeJson, TechType.class);
+        String techTypeJson = loadFile(TECH_TYPES_CLASS);
+        TechType[] techTypes = fromJson(techTypeJson, TechType[].class);
+        for (TechType techType : techTypes) {
             techType.putIntoMap();
-            techTypes.put(techType.getID(), techType);
+            techTypesMap.put(techType.getID(), techType);
         }
-
+        
         // upgrade types
-        List<String> upgradeTypeJsons = loadFile(UPGRADE_TYPES_CLASS);
-        for (String upgradeTypeJson : upgradeTypeJsons) {
-            UpgradeType upgradeType = fromJson(upgradeTypeJson, UpgradeType.class);
+        String upgradeTypeJson = loadFile(UPGRADE_TYPES_CLASS);
+        UpgradeType[] upgradeTypes = fromJson(upgradeTypeJson, UpgradeType[].class);
+        for (UpgradeType upgradeType : upgradeTypes) {
             upgradeType.putIntoMap();
-            upgradeTypes.put(upgradeType.getID(), upgradeType);
+            upgradeTypesMap.put(upgradeType.getID(), upgradeType);
         }
 
         // weapon types
-        List<String> weaponTypeJsons = loadFile(WEAPON_TYPES_CLASS);
-        for (String weaponTypeJson : weaponTypeJsons) {
-            WeaponType weaponType = fromJson(weaponTypeJson, WeaponType.class);
+        String weaponTypeJson = loadFile(WEAPON_TYPES_CLASS);
+        WeaponType[] weaponTypes = fromJson(weaponTypeJson, WeaponType[].class);
+        for (WeaponType weaponType : weaponTypes) {
             weaponType.putIntoMap();
-            weaponTypes.put(weaponType.getID(), weaponType);
+            weaponTypesMap.put(weaponType.getID(), weaponType);
         }
 
-        // unit size types
-        List<String> unitSizeTypeJsons = loadFile(UNIT_SIZE_TYPES_CLASS);
-        for (String unitSizeTypeJson : unitSizeTypeJsons) {
-            UnitSizeType unitSizeType = fromJson(unitSizeTypeJson, UnitSizeType.class);
+        // unitSize types
+        String unitSizeTypeJson = loadFile(UNIT_SIZE_TYPES_CLASS);
+        UnitSizeType[] unitSizeTypes = fromJson(unitSizeTypeJson, UnitSizeType[].class);
+        for (UnitSizeType unitSizeType : unitSizeTypes) {
             unitSizeType.putIntoMap();
-            unitSizeTypes.put(unitSizeType.getID(), unitSizeType);
+            unitSizeTypesMap.put(unitSizeType.getID(), unitSizeType);
         }
 
         // bullet types
-        List<String> bulletTypeJsons = loadFile(BULLET_TYPES_CLASS);
-        for (String bulletTypeJson : bulletTypeJsons) {
-            BulletType bulletType = fromJson(bulletTypeJson, BulletType.class);
+        String bulletTypeJson = loadFile(BULLET_TYPES_CLASS);
+        BulletType[] bulletTypes = fromJson(bulletTypeJson, BulletType[].class);
+        for (BulletType bulletType : bulletTypes) {
             bulletType.putIntoMap();
-            bulletTypes.put(bulletType.getID(), bulletType);
+            bulletTypesMap.put(bulletType.getID(), bulletType);
         }
 
         // damage types
-        List<String> damageTypeJsons = loadFile(DAMAGE_TYPES_CLASS);
-        for (String damageTypeJson : damageTypeJsons) {
-            DamageType damageType = fromJson(damageTypeJson, DamageType.class);
+        String damageTypeJson = loadFile(DAMAGE_TYPES_CLASS);
+        DamageType[] damageTypes = fromJson(damageTypeJson, DamageType[].class);
+        for (DamageType damageType : damageTypes) {
             damageType.putIntoMap();
-            damageTypes.put(damageType.getID(), damageType);
+            damageTypesMap.put(damageType.getID(), damageType);
         }
 
         // explosion types
-        List<String> explosionTypeJsons = loadFile(EXPLOSION_TYPES_CLASS);
-        for (String explosionTypeJson : explosionTypeJsons) {
-            ExplosionType explosionType = fromJson(explosionTypeJson, ExplosionType.class);
+        String explosionTypeJson = loadFile(EXPLOSION_TYPES_CLASS);
+        ExplosionType[] explosionTypes = fromJson(explosionTypeJson, ExplosionType[].class);
+        for (ExplosionType explosionType : explosionTypes) {
             explosionType.putIntoMap();
-            explosionTypes.put(explosionType.getID(), explosionType);
+            explosionTypesMap.put(explosionType.getID(), explosionType);
         }
 
         // unitCommand types
-        List<String> unitCommandTypeJsons = loadFile(UNIT_COMMAND_TYPES_CLASS);
-        for (String unitCommandTypeJson : unitCommandTypeJsons) {
-            UnitCommandType unitCommandType = fromJson(unitCommandTypeJson, UnitCommandType.class);
+        String unitCommandTypeJson = loadFile(UNIT_COMMAND_TYPES_CLASS);
+        UnitCommandType[] unitCommandTypes = fromJson(unitCommandTypeJson, UnitCommandType[].class);
+        for (UnitCommandType unitCommandType : unitCommandTypes) {
             unitCommandType.putIntoMap();
-            unitCommandTypes.put(unitCommandType.getID(), unitCommandType);
+            unitCommandTypesMap.put(unitCommandType.getID(), unitCommandType);
         }
 
         // order types
-        List<String> orderTypeJsons = loadFile(ORDER_TYPES_CLASS);
-        for (String orderTypeJson : orderTypeJsons) {
-            OrderType orderType = fromJson(orderTypeJson, OrderType.class);
+        String orderTypeJson = loadFile(ORDER_TYPES_CLASS);
+        OrderType[] orderTypes = fromJson(orderTypeJson, OrderType[].class);
+        for (OrderType orderType : orderTypes) {
             orderType.putIntoMap();
-            orderTypes.put(orderType.getID(), orderType);
+            orderTypesMap.put(orderType.getID(), orderType);
         }
     }
 
     // type data accessors
     public UnitType getUnitType(int unitID) {
-        return unitTypes.get(unitID);
+        return unitTypesMap.get(unitID);
     }
 
     public TechType getTechType(int techID) {
-        return techTypes.get(techID);
+        return techTypesMap.get(techID);
     }
 
     public UpgradeType getUpgradeType(int upgradeID) {
-        return upgradeTypes.get(upgradeID);
+        return upgradeTypesMap.get(upgradeID);
     }
 
     public WeaponType getWeaponType(int weaponID) {
-        return weaponTypes.get(weaponID);
+        return weaponTypesMap.get(weaponID);
     }
 
     public UnitSizeType getUnitSizeType(int sizeID) {
-        return unitSizeTypes.get(sizeID);
+        return unitSizeTypesMap.get(sizeID);
     }
 
     public BulletType getBulletType(int bulletID) {
-        return bulletTypes.get(bulletID);
+        return bulletTypesMap.get(bulletID);
     }
 
     public DamageType getDamageType(int damageID) {
-        return damageTypes.get(damageID);
+        return damageTypesMap.get(damageID);
     }
 
     public ExplosionType getExplosionType(int explosionID) {
-        return explosionTypes.get(explosionID);
+        return explosionTypesMap.get(explosionID);
     }
 
     public UnitCommandType getUnitCommandType(int unitCommandID) {
-        return unitCommandTypes.get(unitCommandID);
+        return unitCommandTypesMap.get(unitCommandID);
     }
 
     public OrderType getOrderType(int orderID) {
-        return orderTypes.get(orderID);
+        return orderTypesMap.get(orderID);
     }
 
     public Collection<UnitType> unitTypes() {
-        return unitTypes.values();
+        return unitTypesMap.values();
     }
 
     public Collection<TechType> techTypes() {
-        return techTypes.values();
+        return techTypesMap.values();
     }
 
     public Collection<UpgradeType> upgradeTypes() {
-        return upgradeTypes.values();
+        return upgradeTypesMap.values();
     }
 
     public Collection<WeaponType> weaponTypes() {
-        return weaponTypes.values();
+        return weaponTypesMap.values();
     }
 
     public Collection<UnitSizeType> unitSizeTypes() {
-        return unitSizeTypes.values();
+        return unitSizeTypesMap.values();
     }
 
     public Collection<BulletType> bulletTypes() {
-        return bulletTypes.values();
+        return bulletTypesMap.values();
     }
 
     public Collection<DamageType> damageTypes() {
-        return damageTypes.values();
+        return damageTypesMap.values();
     }
 
     public Collection<ExplosionType> explosionTypes() {
-        return explosionTypes.values();
+        return explosionTypesMap.values();
     }
 
     public Collection<UnitCommandType> unitCommandTypes() {
-        return unitCommandTypes.values();
+        return unitCommandTypesMap.values();
     }
 
     public Collection<OrderType> orderTypes() {
-        return orderTypes.values();
+        return orderTypesMap.values();
     }
 
 }

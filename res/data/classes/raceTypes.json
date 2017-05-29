@@ -1,7 +1,1 @@
-{"name":"Zerg","ID":0,"workerID":41,"centerID":131,"refineryID":149,"transportID":42,"supplyProviderID":42}
-{"name":"Terran","ID":1,"workerID":7,"centerID":106,"refineryID":110,"transportID":11,"supplyProviderID":109}
-{"name":"Protoss","ID":2,"workerID":64,"centerID":154,"refineryID":157,"transportID":69,"supplyProviderID":156}
-{"ID":3,"workerID":0,"centerID":0,"refineryID":0,"transportID":0,"supplyProviderID":0}
-{"name":"Other","ID":4,"workerID":233,"centerID":233,"refineryID":233,"transportID":233,"supplyProviderID":233}
-{"name":"None","ID":5,"workerID":228,"centerID":228,"refineryID":228,"transportID":228,"supplyProviderID":228}
-{"name":"Unknown","ID":6,"workerID":233,"centerID":233,"refineryID":233,"transportID":233,"supplyProviderID":233}
+[{"name":"Zerg","ID":0,"workerID":41,"centerID":131,"refineryID":149,"transportID":42,"supplyProviderID":42},{"name":"Terran","ID":1,"workerID":7,"centerID":106,"refineryID":110,"transportID":11,"supplyProviderID":109},{"name":"Protoss","ID":2,"workerID":64,"centerID":154,"refineryID":157,"transportID":69,"supplyProviderID":156},{"ID":3,"workerID":0,"centerID":0,"refineryID":0,"transportID":0,"supplyProviderID":0},{"name":"Other","ID":4,"workerID":233,"centerID":233,"refineryID":233,"transportID":233,"supplyProviderID":233},{"name":"None","ID":5,"workerID":228,"centerID":228,"refineryID":228,"transportID":228,"supplyProviderID":228},{"name":"Unknown","ID":6,"workerID":233,"centerID":233,"refineryID":233,"transportID":233,"supplyProviderID":233}]
