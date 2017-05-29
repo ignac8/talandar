@@ -21,8 +21,7 @@ public class NeuralNetworkTests {
 
     @Test
     public void calculationTest() {
-        List<Integer> hiddenLayersSizes = new ArrayList<>();
-        hiddenLayersSizes.add(1);
+        int[] hiddenLayersSizes = {1};
         NeuralNetwork neuralNetwork = new FCSNeuralNetwork(1, hiddenLayersSizes, 1);
 
         neuralNetwork.getHiddenLayers().get(0).get(0).getConnections().get(0).setWeight(1);
@@ -41,10 +40,7 @@ public class NeuralNetworkTests {
 
     @Test
     public void neuralNetworkCopyTest() {
-        List<Integer> hiddenLayersSizes = new ArrayList<>();
-        hiddenLayersSizes.add(100);
-        hiddenLayersSizes.add(100);
-        hiddenLayersSizes.add(100);
+        int[] hiddenLayersSizes = {100, 100, 100};
         NeuralNetwork neuralNetwork = new FCSNeuralNetwork(10, hiddenLayersSizes, 10);
         for (int i = 0; i < neuralNetwork.getInputLayer().size(); i++) {
             neuralNetwork.getInputLayer().get(i)
@@ -120,10 +116,7 @@ public class NeuralNetworkTests {
 
     @Test
     public void connectionsTest() {
-        List<Integer> hiddenLayersSizes = new ArrayList<>();
-        hiddenLayersSizes.add(100);
-        hiddenLayersSizes.add(100);
-        hiddenLayersSizes.add(100);
+        int[] hiddenLayersSizes = {100, 100, 100};
         NeuralNetwork neuralNetwork = new FCSNeuralNetwork(10, hiddenLayersSizes, 10);
         List<InputNeuron> inputLayer = neuralNetwork.getInputLayer();
         List<List<CalculableNeuron>> hiddenLayers = neuralNetwork.getHiddenLayers();

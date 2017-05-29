@@ -15,7 +15,7 @@ public class Replay implements Callable<Object> {
         //JarcraftEvaluator fitnessEvaluator = new JarcraftEvaluator(firstPlayer, limit, secondPlayer, firstPlayerUnits, secondPlayerUnits, true, mapHeight, mapWidth, gapHeight, gapWidth);
         String json = loadFile(fileName);
         Individual bestOne = fromJson(json, Individual.class);
-        //NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+        //NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayerUnitSelection());
         //neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());
         //fitnessEvaluator.evaluate(bestOne);
         return null;

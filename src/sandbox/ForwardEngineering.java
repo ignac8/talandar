@@ -9,6 +9,7 @@ import solver.Individual;
 import solver.Solver;
 import solver.fitnessevaluator.FitnessEvaluator;
 import solver.fitnessevaluator.JarcraftEvaluator;
+import solver.fitnessevaluator.unitselection.UnitSelection;
 import solver.operator.BiasMutation;
 import solver.operator.NeuronCrossover;
 import solver.operator.Operator;
@@ -26,9 +27,9 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
-        int passLimit = 1 * 100;
-        int timeLimit = 60 * 60 * 100;
-        int populationSize = 100;
+        int passLimit = 1 * 10000;
+        int timeLimit = 25 * 60 * 100000;
+        int populationSize = 10000;
         int inputLayerSize = 5;
         int outputLayerSize = 4;
         int tournamentSize = 1;
@@ -48,8 +49,7 @@ public class ForwardEngineering {
         int gapHeight = 40;
         int gapWidth = 120;
 
-        List<Integer> hiddenLayerSizes = new ArrayList<>();
-        hiddenLayerSizes.add(3);
+        int[] hiddenLayerSizes = {3};
 
         List<Individual> startingIndividuals = new ArrayList<>();
 
@@ -74,58 +74,7 @@ public class ForwardEngineering {
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
         List<UnitType> unitTypesColumn;
         FitnessEvaluator fitnessEvaluator;
-
-        firstPlayerUnits = new ArrayList<>();
-        secondPlayerUnits = new ArrayList<>();
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
-        fitnessEvaluators.add(fitnessEvaluator);
-
-        firstPlayerUnits = new ArrayList<>();
-        secondPlayerUnits = new ArrayList<>();
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
-        fitnessEvaluators.add(fitnessEvaluator);
+        UnitSelection unitSelection;
 
 
         firstPlayerUnits = new ArrayList<>();
@@ -141,6 +90,61 @@ public class ForwardEngineering {
         }
         firstPlayerUnits.add(unitTypesColumn);
         unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitSelection = new UnitSelection(firstPlayerUnits, secondPlayerUnits);
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
+        fitnessEvaluators.add(fitnessEvaluator);
+
+
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitSelection = new UnitSelection(firstPlayerUnits, secondPlayerUnits);
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
+        fitnessEvaluators.add(fitnessEvaluator);
+
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
         }
@@ -150,10 +154,10 @@ public class ForwardEngineering {
             unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
         }
         secondPlayerUnits.add(unitTypesColumn);
+        unitSelection = new UnitSelection(firstPlayerUnits, secondPlayerUnits);
         fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
+                gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
         fitnessEvaluators.add(fitnessEvaluator);
-
 
         Solver solver = new Solver(operators, passLimit, timeLimit, fileName, startingIndividuals, fitnessEvaluators);
 
