@@ -75,8 +75,33 @@ public class WeaponType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToWeaponType.put(ID, this);
+    public void initialize(WeaponType weaponType) {
+        if (ID != weaponType.ID)
+            throw new IllegalArgumentException();
+        techID = weaponType.techID;
+        whatUsesTypeID = weaponType.whatUsesTypeID;
+        damageAmount = weaponType.damageAmount;
+        damageBonus = weaponType.damageBonus;
+        damageCooldown = weaponType.damageCooldown;
+        damageFactor = weaponType.damageFactor;
+        upgradeTypeID = weaponType.upgradeTypeID;
+        damageTypeID = weaponType.damageTypeID;
+        explosionType = weaponType.explosionType;
+        minRange = weaponType.minRange;
+        maxRange = weaponType.maxRange;
+        innerSplashRadius = weaponType.innerSplashRadius;
+        medianSplashRadius = weaponType.medianSplashRadius;
+        outerSplashRadius = weaponType.outerSplashRadius;
+        targetsAir = weaponType.targetsAir;
+        targetsGround = weaponType.targetsGround;
+        targetsMechanical = weaponType.targetsMechanical;
+        targetsOrganic = weaponType.targetsOrganic;
+        targetsNonBuilding = weaponType.targetsNonBuilding;
+        targetsNonRobotic = weaponType.targetsNonRobotic;
+        targetsTerrain = weaponType.targetsTerrain;
+        targetsOrgOrMech = weaponType.targetsOrgOrMech;
+        targetsOwn = weaponType.targetsOwn;
+        name = weaponType.name;
     }
 
     public String getName() {

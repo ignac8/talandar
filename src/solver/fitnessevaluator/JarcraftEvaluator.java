@@ -1,6 +1,14 @@
 package solver.fitnessevaluator;
 
-import bwmcts.sparcraft.*;
+import bwmcts.sparcraft.AnimationFrameData;
+import bwmcts.sparcraft.Game;
+import bwmcts.sparcraft.GameState;
+import bwmcts.sparcraft.Map;
+import bwmcts.sparcraft.PlayerProperties;
+import bwmcts.sparcraft.Position;
+import bwmcts.sparcraft.Unit;
+import bwmcts.sparcraft.UnitProperties;
+import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;

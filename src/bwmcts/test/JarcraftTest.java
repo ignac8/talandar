@@ -330,7 +330,7 @@ public class JarcraftTest implements BWAPIEventListener {
      * @throws Exception
      */
     /*
-	private void upgmaTest(Player p1, Player p2, int runs, int numClusters) throws Exception {
+    private void upgmaTest(Player p1, Player p2, int runs, int numClusters) throws Exception {
 		
 		p1.setID(0);
 		p2.setID(1);

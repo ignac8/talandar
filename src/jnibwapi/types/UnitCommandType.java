@@ -16,6 +16,7 @@ public class UnitCommandType {
     private static Map<Integer, UnitCommandType> idToUnitCommandType = new HashMap<>();
     private String name;
     private int ID;
+
     public UnitCommandType(int ID) {
         this.ID = ID;
         idToUnitCommandType.put(ID, this);
@@ -27,8 +28,10 @@ public class UnitCommandType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToUnitCommandType.put(ID, this);
+    public void initialize(UnitCommandType unitCommandType) {
+        if (ID != unitCommandType.ID)
+            throw new IllegalArgumentException();
+        name = unitCommandType.name;
     }
 
     public String getName() {

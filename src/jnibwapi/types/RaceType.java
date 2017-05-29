@@ -21,6 +21,7 @@ public class RaceType {
     private int refineryID;
     private int transportID;
     private int supplyProviderID;
+
     private RaceType(int ID) {
         this.ID = ID;
         idToRaceType.put(ID, this);
@@ -37,8 +38,15 @@ public class RaceType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToRaceType.put(ID, this);
+    public void initialize(RaceType raceType) {
+        if (ID != raceType.ID)
+            throw new IllegalArgumentException();
+        workerID = raceType.workerID;
+        centerID = raceType.centerID;
+        refineryID = raceType.refineryID;
+        transportID = raceType.transportID;
+        supplyProviderID = raceType.supplyProviderID;
+        this.name = raceType.name;
     }
 
     public String getName() {

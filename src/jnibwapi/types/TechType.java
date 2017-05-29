@@ -27,6 +27,7 @@ public class TechType {
     private int getWeaponID;
     private boolean targetsUnits;
     private boolean targetsPosition;
+
     public TechType(int ID) {
         this.ID = ID;
         idToTechType.put(ID, this);
@@ -48,8 +49,19 @@ public class TechType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToTechType.put(ID, this);
+    public void initialize(TechType techType) {
+        if (ID != techType.ID)
+            throw new IllegalArgumentException();
+        raceID = techType.raceID;
+        mineralPrice = techType.mineralPrice;
+        gasPrice = techType.gasPrice;
+        researchTime = techType.researchTime;
+        energyUsed = techType.energyUsed;
+        whatResearchesTypeID = techType.whatResearchesTypeID;
+        getWeaponID = techType.getWeaponID;
+        targetsUnits = techType.targetsUnits;
+        targetsPosition = techType.targetsPosition;
+        name = techType.name;
     }
 
     public String getName() {

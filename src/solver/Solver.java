@@ -3,7 +3,6 @@ package solver;
 import player.NeuralNetworkPlayer;
 import solver.fitnessevaluator.FitnessEvaluator;
 import solver.operator.Operator;
-import utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;

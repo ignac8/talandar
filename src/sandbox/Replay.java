@@ -5,7 +5,6 @@ import neuralnetwork.NeuralNetwork;
 import player.MyPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
-import solver.Individual;
 import solver.fitnessevaluator.FitnessEvaluator;
 import solver.fitnessevaluator.JarcraftEvaluator;
 

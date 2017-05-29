@@ -24,6 +24,7 @@ public class UpgradeType {
     private int upgradeTimeFactor;
     private int maxRepeats;
     private int whatUpgradesTypeID;
+
     public UpgradeType(int ID) {
         this.ID = ID;
         idToUpgradeType.put(ID, this);
@@ -45,8 +46,19 @@ public class UpgradeType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToUpgradeType.put(ID, this);
+    public void initialize(UpgradeType upgradeType) {
+        if (ID != upgradeType.ID)
+            throw new IllegalArgumentException();
+        raceID = upgradeType.raceID;
+        mineralPriceBase = upgradeType.mineralPriceBase;
+        mineralPriceFactor = upgradeType.mineralPriceFactor;
+        gasPriceBase = upgradeType.gasPriceBase;
+        gasPriceFactor = upgradeType.gasPriceFactor;
+        upgradeTimeBase = upgradeType.upgradeTimeBase;
+        upgradeTimeFactor = upgradeType.upgradeTimeFactor;
+        maxRepeats = upgradeType.maxRepeats;
+        whatUpgradesTypeID = upgradeType.whatUpgradesTypeID;
+        name = upgradeType.name;
     }
 
     public String getName() {

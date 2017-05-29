@@ -16,6 +16,7 @@ public class ExplosionType {
     private static Map<Integer, ExplosionType> idToExplosionType = new HashMap<>();
     private String name;
     private int ID;
+
     public ExplosionType(int ID) {
         this.ID = ID;
         idToExplosionType.put(ID, this);
@@ -27,8 +28,10 @@ public class ExplosionType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToExplosionType.put(ID, this);
+    public void initialize(ExplosionType explosionType) {
+        if (ID != explosionType.ID)
+            throw new IllegalArgumentException();
+        name = explosionType.name;
     }
 
     public String getName() {

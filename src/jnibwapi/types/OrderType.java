@@ -16,6 +16,7 @@ public class OrderType {
     private static Map<Integer, OrderType> idToOrderType = new HashMap<>();
     private String name;
     private int ID;
+
     public OrderType(int ID) {
         this.ID = ID;
         idToOrderType.put(ID, this);
@@ -27,8 +28,10 @@ public class OrderType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToOrderType.put(ID, this);
+    public void initialize(OrderType orderType) {
+        if (ID != orderType.ID)
+            throw new IllegalArgumentException();
+        name = orderType.name;
     }
 
     public String getName() {

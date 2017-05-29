@@ -11,7 +11,9 @@ import neuralnetwork.neuron.InputNeuron;
 import java.util.HashMap;
 import java.util.List;
 
-import static bwmcts.sparcraft.UnitActionTypes.*;
+import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
+import static bwmcts.sparcraft.UnitActionTypes.MOVE;
+import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
 import static java.lang.Double.MIN_VALUE;
 import static java.lang.Math.sqrt;
 

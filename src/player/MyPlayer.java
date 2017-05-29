@@ -11,7 +11,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static bwmcts.sparcraft.UnitActionTypes.*;
+import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
+import static bwmcts.sparcraft.UnitActionTypes.MOVE;
+import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.MIN_VALUE;
 

@@ -16,6 +16,7 @@ public class DamageType {
     private static Map<Integer, DamageType> idToDamageType = new HashMap<>();
     private String name;
     private int ID;
+
     public DamageType(int ID) {
         this.ID = ID;
         idToDamageType.put(ID, this);
@@ -27,8 +28,10 @@ public class DamageType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToDamageType.put(ID, this);
+    public void initialize(DamageType damageType) {
+        if (ID != damageType.ID)
+            throw new IllegalArgumentException();
+        name = damageType.name;
     }
 
     public String getName() {

@@ -16,6 +16,7 @@ public class UnitSizeType {
     private static Map<Integer, UnitSizeType> idToUnitSizeType = new HashMap<>();
     private String name;
     private int ID;
+
     public UnitSizeType(int ID) {
         this.ID = ID;
         idToUnitSizeType.put(ID, this);
@@ -27,8 +28,10 @@ public class UnitSizeType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToUnitSizeType.put(ID, this);
+    public void initialize(UnitSizeType unitSizeType) {
+        if (ID != unitSizeType.ID)
+            throw new IllegalArgumentException();
+        name = unitSizeType.name;
     }
 
     public String getName() {

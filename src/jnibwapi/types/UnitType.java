@@ -3,7 +3,10 @@ package jnibwapi.types;
 import jnibwapi.types.UnitSizeType.UnitSizeTypes;
 import jnibwapi.types.WeaponType.WeaponTypes;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a StarCraft unit type.
@@ -78,7 +81,6 @@ public class UnitType {
     public UnitType(int ID) {
         this.ID = ID;
         idToUnitType.put(ID, this);
-        //TODO: This little piece of code need to be uncommented if you want dump data from actual Starcraft
     }
 
     public void initialize(int[] data, int index, String name, int[] requiredUnits) {
@@ -147,8 +149,67 @@ public class UnitType {
         }
     }
 
-    public void putIntoMap() {
-        idToUnitType.put(ID, this);
+    public void initialize(UnitType unitType) {
+        if (ID != unitType.ID)
+            throw new IllegalArgumentException();
+        raceID = unitType.raceID;
+        whatBuildID = unitType.whatBuildID;
+        requiredTechID = unitType.requiredTechID;
+        armorUpgradeID = unitType.armorUpgradeID;
+        maxHitPoints = unitType.maxHitPoints;
+        maxShields = unitType.maxShields;
+        maxEnergy = unitType.maxEnergy;
+        armor = unitType.armor;
+        mineralPrice = unitType.mineralPrice;
+        gasPrice = unitType.gasPrice;
+        buildTime = unitType.buildTime;
+        supplyRequired = unitType.supplyRequired;
+        supplyProvided = unitType.supplyProvided;
+        spaceRequired = unitType.spaceRequired;
+        spaceProvided = unitType.spaceProvided;
+        buildScore = unitType.buildScore;
+        destroyScore = unitType.destroyScore;
+        sizeID = unitType.sizeID;
+        tileWidth = unitType.tileWidth;
+        tileHeight = unitType.tileHeight;
+        dimensionLeft = unitType.dimensionLeft;
+        dimensionUp = unitType.dimensionUp;
+        dimensionRight = unitType.dimensionRight;
+        dimensionDown = unitType.dimensionDown;
+        seekRange = unitType.seekRange;
+        sightRange = unitType.sightRange;
+        groundWeaponID = unitType.groundWeaponID;
+        maxGroundHits = unitType.maxGroundHits;
+        airWeaponID = unitType.airWeaponID;
+        maxAirHits = unitType.maxAirHits;
+        topSpeed = unitType.topSpeed;
+        acceleration = unitType.acceleration;
+        haltDistance = unitType.haltDistance;
+        turnRadius = unitType.turnRadius;
+        produceCapable = unitType.produceCapable;
+        attackCapable = unitType.attackCapable;
+        canMove = unitType.canMove;
+        flyer = unitType.flyer;
+        regenerates = unitType.regenerates;
+        spellcaster = unitType.spellcaster;
+        invincible = unitType.invincible;
+        organic = unitType.organic;
+        mechanical = unitType.mechanical;
+        robotic = unitType.robotic;
+        detector = unitType.detector;
+        resourceContainer = unitType.resourceContainer;
+        refinery = unitType.refinery;
+        worker = unitType.worker;
+        requiresPsi = unitType.requiresPsi;
+        requiresCreep = unitType.requiresCreep;
+        burrowable = unitType.burrowable;
+        cloakable = unitType.cloakable;
+        building = unitType.building;
+        addon = unitType.addon;
+        flyingBuilding = unitType.flyingBuilding;
+        spell = unitType.spell;
+        name = unitType.name;
+        requiredUnits = unitType.requiredUnits;
     }
 
     public int getID() {

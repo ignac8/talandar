@@ -20,6 +20,7 @@ public class Position {
         this.x = x * posType.scale;
         this.y = y * posType.scale;
     }
+
     /**
      * Creates a new Position representing the given x and y as Pixel coordinates.
      */

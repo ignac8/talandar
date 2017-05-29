@@ -28,8 +28,10 @@ public class BulletType {
         this.name = name;
     }
 
-    public void putIntoMap() {
-        idToBulletType.put(ID, this);
+    public void initialize(BulletType bulletType) {
+        if (ID != bulletType.ID)
+            throw new IllegalArgumentException();
+        name = bulletType.name;
     }
 
     public String getName() {

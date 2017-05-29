@@ -1,11 +1,10 @@
 package gui;
 
-import bwmcts.sparcraft.*;
+import bwmcts.sparcraft.SparcraftUI;
 import jnibwapi.JNIBWAPI;
 import sandbox.ForwardEngineering;
 
 import javax.swing.*;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -56,9 +55,6 @@ public class MainForm {
 
         executorService = Executors.newSingleThreadExecutor();
         Replay replay = new Replay();
-
-
-
 
 
         button1.addActionListener(e -> ForwardEngineering.main());
