@@ -31,11 +31,11 @@ public class NeuralNetworkTests {
 
         neuralNetwork.getInputLayer().get(0).setValue(0);
         neuralNetwork.calculateOutput();
-        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), lessThan(0.0));
+        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), lessThan(0.5));
 
         neuralNetwork.getInputLayer().get(0).setValue(10);
         neuralNetwork.calculateOutput();
-        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), greaterThan(0.0));
+        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), greaterThan(0.5));
 
     }
 
@@ -114,7 +114,7 @@ public class NeuralNetworkTests {
         sigmoidNeuron.setBias(bias);
         sigmoidNeuron.calculate();
         Sigmoid sigmoid = new Sigmoid();
-        double expectedValue = (sigmoid.value(value1 * weight1 + value2 * weight2 + bias) - 0.5) * 2;
+        double expectedValue = sigmoid.value(value1 * weight1 + value2 * weight2 + bias);
         assertThat(sigmoidNeuron.getValue(), is(expectedValue));
     }
 

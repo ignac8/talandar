@@ -88,10 +88,6 @@ public class FileUtils {
         }
     }
 
-    public static Gson getGson() {
-        return GSON;
-    }
-
     public static <T> String toJson(T t) {
         return GSON.toJson(t);
     }

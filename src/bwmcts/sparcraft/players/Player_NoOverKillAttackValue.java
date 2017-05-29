@@ -101,12 +101,12 @@ public class Player_NoOverKillAttackValue extends Player {
                     //if (!foundUnitAction){
                     if (closestUnit == null) {
 
-                        closestUnit = ourUnit.canHeal() ? state.getClosestOurUnit(_id, u) : state.getClosestEnemyUnit(ourUnit.currentPosition(state._currentTime), enemy, Integer.MAX_VALUE, 0);
+                        closestUnit = ourUnit.canHeal() ? state.getClosestOurUnit(_id, u) : state.getClosestEnemyUnit(ourUnit.currentPosition(state.getCurrentTime()), enemy, Integer.MAX_VALUE, 0);
 
                     }
 
                     if (move.moveType == UnitActionTypes.RELOAD) {
-                        if (ourUnit.canAttackUnit(closestUnit, state._currentTime)) {
+                        if (ourUnit.canAttackUnit(closestUnit, state.getCurrentTime())) {
                             //closestMoveIndex = m;
                             passiveMove = move;
                             break;

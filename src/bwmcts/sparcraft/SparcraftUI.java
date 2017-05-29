@@ -10,7 +10,6 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -93,7 +92,6 @@ public class SparcraftUI extends JComponent {
             }
 
 
-
             graphics.setColor(Color.blue);
             int counter = 0;
             for (Unit unit : state.getAllUnits()[0]) {
@@ -159,7 +157,7 @@ public class SparcraftUI extends JComponent {
     }
 
     private void drawChosenActions(Graphics graphics, HashMap<Unit, Integer> maxIndexes) {
-        for (Entry<Unit, Integer> entry: maxIndexes.entrySet()) {
+        for (Entry<Unit, Integer> entry : maxIndexes.entrySet()) {
             Unit unit = entry.getKey();
             int maxIndex = entry.getValue();
             if (entry.getKey().isAlive()) {

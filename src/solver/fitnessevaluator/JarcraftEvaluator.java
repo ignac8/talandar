@@ -96,8 +96,10 @@ public class JarcraftEvaluator implements FitnessEvaluator {
     }
 
     private double rateGame(GameState finalState) {
-        double fitness = 0;
-        double maxFitness = 0;
+        double playerFitness = 0;
+        double playerMaxFitness = 0;
+        double enemyFitness = 0;
+        double enemyMaxFitness = 0;
 
         Unit[][] allUnits = finalState.getAllUnits();
 
@@ -109,17 +111,18 @@ public class JarcraftEvaluator implements FitnessEvaluator {
                     double adjustedUnitWorth = unitWorthModifier(unit) * unitWorth;
                     switch (playerId) {
                         case 0:
-                            fitness += adjustedUnitWorth;
-                            maxFitness += unitWorth;
+                            playerFitness += adjustedUnitWorth;
+                            playerMaxFitness += unitWorth;
                             break;
                         case 1:
-                            fitness -= adjustedUnitWorth;
+                            enemyFitness += adjustedUnitWorth;
+                            enemyMaxFitness += unitWorth;
                             break;
                     }
                 }
             }
         }
-        return fitness / maxFitness;
+        return playerFitness / playerMaxFitness - enemyFitness / enemyMaxFitness;
     }
 
     private double unitWorthModifier(Unit unit) {

@@ -12,8 +12,7 @@ public final class SigmoidNeuron extends CalculableNeuron {
 
     @Override
     protected double activation(double value) {
-        return (SIGMOID.value(value) - 0.5) * 2;
+        return SIGMOID.value(value);
     }
-
 
 }

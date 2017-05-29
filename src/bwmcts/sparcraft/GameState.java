@@ -17,28 +17,28 @@ import java.util.List;
 
 public class GameState {
 
-    public int[] _numUnits = new int[Constants.Num_Players];
-    public int _currentTime;
-    Unit[][] _units = new Unit[Constants.Num_Players][Constants.Max_Moves];
-    int[][] _unitIndex = new int[Constants.Num_Players][Constants.Max_Moves];
-    List<Unit> _neutralUnits;
-    int[] _prevNumUnits = new int[Constants.Num_Players];
+    private int[] numUnits = new int[Constants.Num_Players];
+    private int currentTime;
+    private Unit[][] units = new Unit[Constants.Num_Players][Constants.Max_Moves];
+    private int[][] unitIndex = new int[Constants.Num_Players][Constants.Max_Moves];
+    private List<Unit> neutralUnits;
+    private int[] prevNumUnits = new int[Constants.Num_Players];
 
-    float[] _totalLTD = new float[Constants.Num_Players];
-    float[] _totalSumSQRT = new float[Constants.Num_Players];
+    private float[] totalLTD = new float[Constants.Num_Players];
+    private float[] totalSumSQRT = new float[Constants.Num_Players];
 
 
-    int[][] _closestMoveIndex = new int[Constants.Num_Players][Constants.Max_Moves];
-    private Map _map;
+    private int[][] closestMoveIndex = new int[Constants.Num_Players][Constants.Max_Moves];
+    private Map map;
 
 
     public GameState() {
-        _map = null;
-        _currentTime = 0;
+        map = null;
+        currentTime = 0;
 
         for (int u = 0; u < Constants.Max_Moves; u++) {
-            _unitIndex[0][u] = u;
-            _unitIndex[1][u] = u;
+            unitIndex[0][u] = u;
+            unitIndex[1][u] = u;
         }
     }
 
@@ -52,12 +52,12 @@ public class GameState {
         PlayerProperties.props[0] = new PlayerProperties(bwapi.getPlayer(0));
         PlayerProperties.props[1] = new PlayerProperties(bwapi.getPlayer(1));
 
-        _units = new Unit[Constants.Num_Players][Constants.Max_Moves];
+        units = new Unit[Constants.Num_Players][Constants.Max_Moves];
         int i = 0;
         for (jnibwapi.Unit u : bwapi.getMyUnits()) {
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());
-            _units[bwapi.getSelf().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShields(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount());
-            _units[bwapi.getSelf().getID()][i].setUnitCooldown(bwapi, u);
+            units[bwapi.getSelf().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShields(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount());
+            units[bwapi.getSelf().getID()][i].setUnitCooldown(bwapi, u);
 
             i++;
         }
@@ -67,40 +67,40 @@ public class GameState {
             //TODO
             //System.out.println(bwapi.getFrameCount()+" - "+u.getLastCommandFrame()+": "+u.getGroundWeaponCooldown()+": "+u.getAirWeaponCooldown());
 
-            _units[bwapi.getEnemies().iterator().next().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShields(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount() + u.getGroundWeaponCooldown());
+            units[bwapi.getEnemies().iterator().next().getID()][i] = new Unit(UnitProperties.Get(u.getTypeID()).type, new Position(u.getX(), u.getY()), u.getID(), u.getPlayerID(), u.getHitPoints() + u.getShields(), u.getEnergy(), bwapi.getFrameCount(), bwapi.getFrameCount() + u.getGroundWeaponCooldown());
 
             i++;
         }
 
         //_maxUnits=Constants.Max_Moves;
-        _unitIndex = new int[Constants.Num_Players][Constants.Max_Moves];
+        unitIndex = new int[Constants.Num_Players][Constants.Max_Moves];
         //TODO check!!!!
         //for (int u=0; u<_maxUnits; u++)
         for (int u = 0; u < Constants.Max_Moves; u++) {
-            _unitIndex[0][u] = u;
-            _unitIndex[1][u] = u;
+            unitIndex[0][u] = u;
+            unitIndex[1][u] = u;
         }
-        _neutralUnits = new ArrayList<>();
+        neutralUnits = new ArrayList<>();
 
-        _numUnits = new int[2];
-        _numUnits[bwapi.getEnemies().iterator().next().getID()] = bwapi.getEnemyUnits().size();
-        _numUnits[bwapi.getSelf().getID()] = bwapi.getMyUnits().size();
-        //_numUnits=new int[]{bwapi.getMyUnits().size(),bwapi.getEnemyUnits().size()};
-        _prevNumUnits = new int[]{_numUnits[0], _numUnits[1]};
+        numUnits = new int[2];
+        numUnits[bwapi.getEnemies().iterator().next().getID()] = bwapi.getEnemyUnits().size();
+        numUnits[bwapi.getSelf().getID()] = bwapi.getMyUnits().size();
+        //numUnits=new int[]{bwapi.getMyUnits().size(),bwapi.getEnemyUnits().size()};
+        prevNumUnits = new int[]{numUnits[0], numUnits[1]};
 
-        _totalLTD = new float[Constants.Num_Players];
-        _totalSumSQRT = new float[Constants.Num_Players];
+        totalLTD = new float[Constants.Num_Players];
+        totalSumSQRT = new float[Constants.Num_Players];
 
         //_numMovements=new int[]{0,0};
         //_prevHPSum=new int[]{0,0};//TODO
 
-        _currentTime = bwapi.getFrameCount();
+        currentTime = bwapi.getFrameCount();
 
         //_sameHPFrames=0;
 
 
         calculateStartingHealth();
-        this._map = new Map(bwapi.getMap());
+        this.map = new Map(bwapi.getMap());
         sortUnits();
     }
 
@@ -121,17 +121,17 @@ public class GameState {
     public void finishedMoving() {
         //sort units
         for (int p = 0; p < Constants.Num_Players; p++) {
-            if (_prevNumUnits[p] <= 1) {
-                _prevNumUnits[p] = _numUnits[p];
+            if (prevNumUnits[p] <= 1) {
+                prevNumUnits[p] = numUnits[p];
                 continue;
             } else {
-                Arrays.sort(_units[p], 0, _prevNumUnits[p]);
-                _prevNumUnits[p] = _numUnits[p];
+                Arrays.sort(units[p], 0, prevNumUnits[p]);
+                prevNumUnits[p] = numUnits[p];
             }
         }
 
         //Update game time
-        _currentTime = Math.min(getUnit(0, 0).firstTimeFree(), getUnit(1, 0).firstTimeFree());
+        currentTime = Math.min(getUnit(0, 0).firstTimeFree(), getUnit(1, 0).firstTimeFree());
 
     }
 
@@ -140,7 +140,7 @@ public class GameState {
             return true;
         }
 
-        for (int u = 0; u < _numUnits[player]; u++) {
+        for (int u = 0; u < numUnits[player]; u++) {
             if (getUnit(player, u).damage > 0) {
                 return false;
             }
@@ -174,7 +174,7 @@ public class GameState {
                 unit2 = getUnit(Players.Player_Two.ordinal(), u2);
 
                 // if anyone can attack anyone else
-                if (unit1.canAttackUnit(unit2, _currentTime) || unit2.canAttackUnit(unit1, _currentTime)) {
+                if (unit1.canAttackUnit(unit2, currentTime) || unit2.canAttackUnit(unit1, currentTime)) {
                     // then there is no deadlock
                     return false;
                 }
@@ -187,15 +187,15 @@ public class GameState {
 
     // unit data functions
     public int numUnits(int player) {
-        return _numUnits[player];
+        return numUnits[player];
     }
 
     public int prevNumUnits(int player) {
-        return _prevNumUnits[player];
+        return prevNumUnits[player];
     }
 
     public int numNeutralUnits() {
-        return _neutralUnits.size();
+        return neutralUnits.size();
     }
 
     public int closestEnemyUnitDistance(Unit unit) {
@@ -204,7 +204,7 @@ public class GameState {
         int closestDist = 0;
 
         for (int u = 0; u < numUnits(enemyPlayer); u++) {
-            int dist = unit.getDistanceSq(getUnit(enemyPlayer, u), _currentTime);
+            int dist = unit.getDistanceSq(getUnit(enemyPlayer, u), currentTime);
 
             if (dist > closestDist) {
                 closestDist = dist;
@@ -217,13 +217,13 @@ public class GameState {
     // Unit functions
     public void sortUnits() {
         for (int p = 0; p < Constants.Num_Players; p++) {
-            if (_prevNumUnits[p] <= 1) {
-                _prevNumUnits[p] = _numUnits[p];
+            if (prevNumUnits[p] <= 1) {
+                prevNumUnits[p] = numUnits[p];
                 continue;
             } else {
-                Arrays.sort(_units[p], 0, _prevNumUnits[p]);
+                Arrays.sort(units[p], 0, prevNumUnits[p]);
 
-                _prevNumUnits[p] = _numUnits[p];
+                prevNumUnits[p] = numUnits[p];
             }
         }
     }
@@ -234,16 +234,16 @@ public class GameState {
 
         // Calculate the unitId for this unit
         // This will just be the current total number of units in the state
-        int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
+        int unitID = numUnits[Players.Player_One.ordinal()] + numUnits[Players.Player_Two.ordinal()];
 
         // Set the unit and it's unitId
         u.setUnitID(unitID);
 
-        _units[u.player()][_numUnits[u.player()]] = u;
+        units[u.player()][numUnits[u.player()]] = u;
 
         // Increment the number of units this player has
-        _numUnits[u.player()]++;
-        _prevNumUnits[u.player()]++;
+        numUnits[u.player()]++;
+        prevNumUnits[u.player()]++;
 
         // And do the clean-up
         finishedMoving();
@@ -261,14 +261,14 @@ public class GameState {
 
         // Calculate the unitId for this unit
         // This will just be the current total number of units in the state
-        int unitID = _numUnits[Players.Player_One.ordinal()] + _numUnits[Players.Player_Two.ordinal()];
+        int unitID = numUnits[Players.Player_One.ordinal()] + numUnits[Players.Player_Two.ordinal()];
 
         // Set the unit and it's unitId
-        _units[playerID][_numUnits[playerID]] = new Unit(unitType, playerID, pos);
-        _units[playerID][_numUnits[playerID]].setUnitID(unitID);
+        units[playerID][numUnits[playerID]] = new Unit(unitType, playerID, pos);
+        units[playerID][numUnits[playerID]].setUnitID(unitID);
         // Increment the number of units this player has
-        _numUnits[playerID]++;
-        _prevNumUnits[playerID]++;
+        numUnits[playerID]++;
+        prevNumUnits[playerID]++;
 
         // And do the clean-up
         try {
@@ -283,11 +283,11 @@ public class GameState {
         //  System::checkSupportedUnitType(u.getType());
 
         // Simply add the unit to the array
-        _units[u.player()][_numUnits[u.player()]] = u;
+        units[u.player()][numUnits[u.player()]] = u;
 
         // Increment the number of units this player has
-        _numUnits[u.player()]++;
-        _prevNumUnits[u.player()]++;
+        numUnits[u.player()]++;
+        prevNumUnits[u.player()]++;
 
         // And do the clean-up
         finishedMoving();
@@ -295,11 +295,11 @@ public class GameState {
     }
 
     public void addNeutralUnit(Unit unit) {
-        _neutralUnits.add(unit);
+        neutralUnits.add(unit);
     }
 
     public Unit getUnit(int player, int unitIndex) {
-        return _units[player][_unitIndex[player][unitIndex]];
+        return units[player][this.unitIndex[player][unitIndex]];
     }
 
     public Unit getUnitByID(int unitID) {
@@ -329,16 +329,16 @@ public class GameState {
 
     public Unit getClosestEnemyUnit(int player, int unitIndex) {
         int enemyPlayer = getEnemy(player);
-        Position myUnitPosition = getUnit(player, unitIndex).currentPosition(_currentTime);
+        Position myUnitPosition = getUnit(player, unitIndex).currentPosition(currentTime);
 
         int minDist = Integer.MAX_VALUE;
         int minUnitInd = 0;
         //int minUnitID=255;
 
-        //Position currentPos = myUnit.currentPosition(_currentTime);
+        //Position currentPos = myUnit.currentPosition(currentTime);
         int distSq = 0;
-        for (int u = 0; u < _numUnits[enemyPlayer]; u++) {
-            distSq = myUnitPosition.getDistanceSq(getUnit(enemyPlayer, u).currentPosition(_currentTime));
+        for (int u = 0; u < numUnits[enemyPlayer]; u++) {
+            distSq = myUnitPosition.getDistanceSq(getUnit(enemyPlayer, u).currentPosition(currentTime));
             if ((distSq < minDist)) {
                 minDist = distSq;
                 minUnitInd = u;
@@ -348,14 +348,14 @@ public class GameState {
         }
 
         return getUnit(enemyPlayer, minUnitInd);
-        //return getUnit(getEnemy(player),_closestMoveIndex[player][unitIndex]);
+        //return getUnit(getEnemy(player),closestMoveIndex[player][unitIndex]);
     }
 
     public Unit getClosestEnemyUnit(Position myUnitPosition, int enemyPlayer, int minDist, int minUnitInd) {
 
 
-        for (int u = 0; u < _numUnits[enemyPlayer]; u++) {
-            int distSq = myUnitPosition.getDistanceSq(getUnit(enemyPlayer, u).currentPosition(_currentTime));
+        for (int u = 0; u < numUnits[enemyPlayer]; u++) {
+            int distSq = myUnitPosition.getDistanceSq(getUnit(enemyPlayer, u).currentPosition(currentTime));
             if (distSq < minDist) {
                 minDist = distSq;
                 minUnitInd = u;
@@ -371,15 +371,15 @@ public class GameState {
         int minDist = Integer.MAX_VALUE;
         int minUnitInd = 0;
 
-        Position currentPos = myUnit.currentPosition(_currentTime);
+        Position currentPos = myUnit.currentPosition(currentTime);
 
-        for (int u = 0; u < _numUnits[player]; u++) {
+        for (int u = 0; u < numUnits[player]; u++) {
             if (u == unitIndex || getUnit(player, u).canHeal()) {
                 continue;
             }
 
             //size_t distSq(myUnit.distSq(getUnit(enemyPlayer,u)));
-            int distSq = currentPos.getDistanceSq(getUnit(player, u).currentPosition(_currentTime));
+            int distSq = currentPos.getDistanceSq(getUnit(player, u).currentPosition(currentTime));
 
             if (distSq < minDist) {
                 minDist = distSq;
@@ -391,20 +391,20 @@ public class GameState {
     }
 
     public Unit getUnitDirect(int player, int unit) {
-        return _units[player][unit];
+        return units[player][unit];
     }
 
     public Unit getNeutralUnit(int u) {
-        return _neutralUnits.get(u);
+        return neutralUnits.get(u);
     }
 
     public int getTime() {
-        return _currentTime;
+        return currentTime;
     }
 
     // game time functions
     public void setTime(int time) {
-        _currentTime = time;
+        currentTime = time;
     }
 
     // evaluation functions
@@ -458,13 +458,13 @@ public class GameState {
 
         float sum = 0;
         Unit unit;
-        for (int u = 0; u < _numUnits[player]; ++u) {
+        for (int u = 0; u < numUnits[player]; ++u) {
             unit = getUnit(player, u);
 
             sum += unit.getCurrentHP() * unit.dpf;
         }
 
-        return (int) (1000 * sum / _totalLTD[player]);
+        return (int) (1000 * sum / totalLTD[player]);
     }
 
     public int LTD2(int player) {
@@ -480,9 +480,9 @@ public class GameState {
             sum += Math.sqrt(unit.getCurrentHP()) * unit.dpf;
         }
 
-        //int ret = (int)(1000 * sum / _totalSumSQRT[player]);
+        //int ret = (int)(1000 * sum / totalSumSQRT[player]);
         //return ret;
-        return (int) (1000 * sum / _totalSumSQRT[player]);
+        return (int) (1000 * sum / totalSumSQRT[player]);
     }
 
     // unit hitpoint calculations, needed for LTD2 evaluation
@@ -492,7 +492,7 @@ public class GameState {
             float totalHP = 0;
             float totalSQRT = 0;
 
-            for (int u = 0; u < _numUnits[p]; u++) {
+            for (int u = 0; u < numUnits[p]; u++) {
                 /*
 				if (getUnit(p, u) == null){
 					System.out.println("p="+p+" u="+u);
@@ -504,8 +504,8 @@ public class GameState {
                 totalSQRT += Math.sqrt(unit.getMaxHP()) * unit.dpf;
             }
 
-            _totalLTD[p] = totalHP;
-            _totalSumSQRT[p] = totalSQRT;
+            totalLTD[p] = totalHP;
+            totalSumSQRT[p] = totalSQRT;
         }
     }
 
@@ -547,7 +547,7 @@ public class GameState {
         Unit enemyUnit;
         int moveDistance = 0;
         double timeUntilAttack = 0;
-        for (int unitIndex = 0; unitIndex < _numUnits[playerIndex]; unitIndex++) {
+        for (int unitIndex = 0; unitIndex < numUnits[playerIndex]; unitIndex++) {
             // unit reference
             unit = getUnit(playerIndex, unitIndex);
             if (unit == null || unit.firstTimeFree() != firstUnitMoveTime) {
@@ -560,7 +560,7 @@ public class GameState {
 				break;
 			}*/
 /*
-			if (unit.previousActionTime() == _currentTime && _currentTime != 0)
+			if (unit.previousActionTime() == currentTime && currentTime != 0)
 			{
 	            System.out.println("Previous Move Took 0 Time: " + unit.previousAction().moveString());
 	            return;
@@ -572,16 +572,16 @@ public class GameState {
             // generate attack moves
             if (unit.canAttackNow()) {
 
-                for (int u = 0; u < _numUnits[enemyPlayer]; u++) {
+                for (int u = 0; u < numUnits[enemyPlayer]; u++) {
                     enemyUnit = getUnit(enemyPlayer, u);
 
-                    if (unit.canAttackUnit(enemyUnit, _currentTime)) {
+                    if (unit.canAttackUnit(enemyUnit, currentTime)) {
                         actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.ATTACK, u, enemyUnit.getPosition()));
                         //moves.add(UnitAction(unitIndex, playerIndex, UnitActionTypes::ATTACK, unit.getId()));
                     }
                 }
             } else if (unit.canHealNow()) {
-                for (int u = 0; u < _numUnits[playerIndex]; u++) {
+                for (int u = 0; u < numUnits[playerIndex]; u++) {
                     // units cannot heal themselves in broodwar
                     if (u == unitIndex) {
                         continue;
@@ -589,7 +589,7 @@ public class GameState {
 
                     Unit ourUnit = getUnit(playerIndex, u);
                     if (ourUnit != null && ourUnit.isAlive()) {
-                        if (unit.canHealTarget(ourUnit, _currentTime)) {
+                        if (unit.canHealTarget(ourUnit, currentTime)) {
                             actionTemp.add(new UnitAction(unitIndex, playerIndex, UnitActionTypes.HEAL, u, unit.getPosition()));
                             //moves.add(UnitAction(unitIndex, playerIndex, UnitActionTypes::HEAL, unit.getId()));
                         }
@@ -608,7 +608,7 @@ public class GameState {
                 // In order to not move when we could be shooting, we want to move for the minimum of:
                 // 1) default move distance move time
                 // 2) time until unit can attack, or if it can attack, the next cooldown
-                timeUntilAttack = unit.nextAttackActionTime() - _currentTime;
+                timeUntilAttack = unit.nextAttackActionTime() - currentTime;
                 // timeUntilAttack                 = ;
 
                 // the default move duration
@@ -658,7 +658,7 @@ public class GameState {
 
     public void makeMoves(List<UnitAction> moves) {
         if (moves.size() > 0) {
-            //if (getUnit(moves.get(0).playerId,moves.get(0).unitId).firstTimeFree()!=_currentTime)
+            //if (getUnit(moves.get(0).playerId,moves.get(0).unitId).firstTimeFree()!=currentTime)
             if (whoCanMove().ordinal() == getEnemy(moves.get(0).player())) {
                 //throw new Exception("GameState Error - Called makeMove() for a player that cannot currently move");
                 //System.out.print(" GameState Error - Called makeMove() for a player that cannot currently move ");
@@ -685,7 +685,7 @@ public class GameState {
                 //Unit & enemyUnit(getUnitByID(enemyPlayer ,move.moveIndex));
 
                 // attack the unit
-                ourUnit.attack(move, _currentTime);
+                ourUnit.attack(move, currentTime);
 
                 // enemy unit takes damage if it is alive
                 if (enemyUnit.isAlive()) {
@@ -694,26 +694,26 @@ public class GameState {
                     // check to see if enemy unit died
                     if (!enemyUnit.isAlive()) {
                         // if it died, remove it
-                        _numUnits[enemyUnit.player()]--;
+                        numUnits[enemyUnit.player()]--;
                     }
                 }
             } else if (move.moveType == UnitActionTypes.MOVE) {
                 //_numMovements[move.playerId]++;
 
-                ourUnit.move(move, _currentTime);
+                ourUnit.move(move, currentTime);
             } else if (move.moveType == UnitActionTypes.RELOAD) {
-                ourUnit.waitUntilAttack(move, _currentTime);
+                ourUnit.waitUntilAttack(move, currentTime);
             } else if (move.moveType == UnitActionTypes.HEAL) {
                 Unit ourOtherUnit = getUnit(move.playerId, move.moveIndex);
 
                 // attack the unit
-                ourUnit.heal(move, ourOtherUnit, _currentTime);
+                ourUnit.heal(move, ourOtherUnit, currentTime);
 
                 if (ourOtherUnit.isAlive()) {
                     ourOtherUnit.takeHeal(ourUnit);
                 }
             } else if (move.moveType == UnitActionTypes.PASS) {
-                ourUnit.pass(move, _currentTime);
+                ourUnit.pass(move, currentTime);
             }
 
         }
@@ -743,12 +743,12 @@ public class GameState {
     }
 
     public Map getMap() {
-        return _map;
+        return map;
     }
 
     // map-related functions
     public void setMap(Map map) throws Exception {
-        _map = map;
+        this.map = map;
 
         // check to see if all units are on walkable tiles
         for (int p = 0; p < Constants.Num_Players; p++) {
@@ -764,8 +764,8 @@ public class GameState {
     }
 
     public boolean isWalkable(Position pos) {
-        if (_map != null) {
-            return _map.isWalkable(pos);
+        if (map != null) {
+            return map.isWalkable(pos);
         }
 
         // if there is no map, then return true
@@ -773,8 +773,8 @@ public class GameState {
     }
 
     public boolean isFlyable(Position pos) {
-        if (_map != null) {
-            return _map.isFlyable(pos);
+        if (map != null) {
+            return map.isFlyable(pos);
         }
 
         // if there is no map, then return true
@@ -782,17 +782,17 @@ public class GameState {
     }
 
     public Unit[][] getAllUnits() {
-        return _units;
+        return units;
     }
 
     // state i/o functions
     public void print() {
 
 
-        System.out.printf("State - Time: %d\n", _currentTime);
+        System.out.printf("State - Time: %d\n", currentTime);
 
         for (int p = 0; p < Constants.Num_Players; p++) {
-            for (int u = 0; u < _numUnits[p]; u++) {
+            for (int u = 0; u < numUnits[p]; u++) {
                 Unit unit = getUnit(p, u);
 
                 System.out.printf("  P%d %5d %5d    (%3d, %3d)     %s_%d\n", unit.player(), unit.getCurrentHP(), unit.firstTimeFree(), unit.x(), unit.y(), unit.name(), unit.unitId);
@@ -802,44 +802,44 @@ public class GameState {
 
     public GameState clone() {
         GameState s = new GameState();
-        s._map = this._map.clone();
+        s.map = this.map.clone();
 
-        s._units = new Unit[Constants.Num_Players][Constants.Max_Moves];
+        s.units = new Unit[Constants.Num_Players][Constants.Max_Moves];
 
-        s._unitIndex = new int[Constants.Num_Players][Constants.Max_Moves];
-        s._neutralUnits = new ArrayList<>();
+        s.unitIndex = new int[Constants.Num_Players][Constants.Max_Moves];
+        s.neutralUnits = new ArrayList<>();
 
-        s._numUnits = new int[Constants.Num_Players];
-        s._prevNumUnits = new int[Constants.Num_Players];
+        s.numUnits = new int[Constants.Num_Players];
+        s.prevNumUnits = new int[Constants.Num_Players];
 
-        s._totalLTD = new float[Constants.Num_Players];
-        s._totalSumSQRT = new float[Constants.Num_Players];
+        s.totalLTD = new float[Constants.Num_Players];
+        s.totalSumSQRT = new float[Constants.Num_Players];
 
         // s._numMovements=new int[Constants.Num_Players];
         //s._prevHPSum=new int[Constants.Num_Players];
 
-        s._currentTime = this._currentTime;
+        s.currentTime = this.currentTime;
         //s._maxUnits=this._maxUnits;
         //s._sameHPFrames=this._sameHPFrames;
 
         for (int i = 0; i < Constants.Num_Players; i++) {
             for (int j = 0; j < Constants.Max_Moves; j++) {
-                if (this._units[i][j] != null)
-                    s._units[i][j] = this._units[i][j].clone();
-                s._unitIndex[i][j] = this._unitIndex[i][j];
+                if (this.units[i][j] != null)
+                    s.units[i][j] = this.units[i][j].clone();
+                s.unitIndex[i][j] = this.unitIndex[i][j];
             }
-            s._numUnits[i] = this._numUnits[i];
-            s._prevNumUnits[i] = this._prevNumUnits[i];
-            s._totalLTD[i] = this._totalLTD[i];
-            s._totalSumSQRT[i] = this._totalSumSQRT[i];
+            s.numUnits[i] = this.numUnits[i];
+            s.prevNumUnits[i] = this.prevNumUnits[i];
+            s.totalLTD[i] = this.totalLTD[i];
+            s.totalSumSQRT[i] = this.totalSumSQRT[i];
             //s._numMovements[i]=this._numMovements[i];
             //s._prevHPSum[i]=this._prevHPSum[i];
 
         }
-        if (this._neutralUnits != null && !this._neutralUnits.isEmpty())
-            for (Unit u : this._neutralUnits) {
+        if (this.neutralUnits != null && !this.neutralUnits.isEmpty())
+            for (Unit u : this.neutralUnits) {
                 if (u != null)
-                    s._neutralUnits.add(u.clone());
+                    s.neutralUnits.add(u.clone());
             }
 
         return s;
@@ -847,7 +847,10 @@ public class GameState {
 
     public int aliveUnits() {
         // TODO Auto-generated method stub
-        return _numUnits[0] + _numUnits[1];
+        return numUnits[0] + numUnits[1];
     }
 
+    public int getCurrentTime() {
+        return currentTime;
+    }
 }

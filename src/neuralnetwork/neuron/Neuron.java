@@ -2,7 +2,7 @@ package neuralnetwork.neuron;
 
 public abstract class Neuron {
 
-    protected double value;
+    transient protected double value;
 
     public double getValue() {
         return value;

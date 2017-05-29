@@ -26,24 +26,30 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
-        int passLimit = 25 * 1000;
-        int timeLimit = 10 * 60 * 1000;
-        int populationSize = 1000;
+        int passLimit = 1 * 100000;
+        int timeLimit = 60 * 60 * 100000;
+        int populationSize = 100000;
         int inputLayerSize = 5;
         int outputLayerSize = 4;
-        int tournamentSize = 2;
-        double crossoverChance = 0.85;
-        double weightMutationChance = 0.5;
-        double biasMutationChance = 0.5;
-        double initialStd = 10;
+        int tournamentSize = 1;
+        double crossoverChance = 0;
+        double weightMutationChance = 1;
+        double biasMutationChance = 1;
+        double initialStd = 1000;
         double initialMean = 0;
-        double weightStd = 1;
+        double weightStd = 100;
         double weightMean = 0;
-        double biasStd = 1;
+        double biasStd = 100;
         double biasMean = 0;
+        boolean graphics = false;
+        int limit = 10000;
+        int mapHeight = TILE_SIZE * 20;
+        int mapWidth = TILE_SIZE * 20;
+        int gapHeight = 40;
+        int gapWidth = 120;
 
         List<Integer> hiddenLayerSizes = new ArrayList<>();
-        hiddenLayerSizes.add(20);
+        hiddenLayerSizes.add(3);
 
         List<Individual> startingIndividuals = new ArrayList<>();
 
@@ -60,47 +66,94 @@ public class ForwardEngineering {
         operators.add(new WeightMutation(weightMutationChance, new GaussianMutator(weightStd, weightMean)));
         operators.add(new BiasMutation(biasMutationChance, new GaussianMutator(biasStd, biasMean)));
 
-        boolean graphics = false;
-        int limit = Integer.MAX_VALUE;
-        int mapHeight = TILE_SIZE * 20;
-        int mapWidth = TILE_SIZE * 20;
-        int gapHeight = 40;
-        int gapWidth = 120;
-        MyPlayer firstPlayer = new NeuralNetworkPlayer(0, true);
+
+        MyPlayer firstPlayer = new NeuralNetworkPlayer(0);
         MyPlayer secondPlayer = new SimplePlayer(1);
-        List<List<UnitType>> firstPlayerUnits = new ArrayList<>();
-        List<List<UnitType>> secondPlayerUnits = new ArrayList<>();
-        List<UnitType> unitTypesColumn;
-
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-
-        FitnessEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
-
+        List<List<UnitType>> firstPlayerUnits;
+        List<List<UnitType>> secondPlayerUnits;
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
+        List<UnitType> unitTypesColumn;
+        FitnessEvaluator fitnessEvaluator;
+
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
         fitnessEvaluators.add(fitnessEvaluator);
+
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
+        fitnessEvaluators.add(fitnessEvaluator);
+
+
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
+        fitnessEvaluators.add(fitnessEvaluator);
+
 
         Solver solver = new Solver(operators, passLimit, timeLimit, fileName, startingIndividuals, fitnessEvaluators);
 

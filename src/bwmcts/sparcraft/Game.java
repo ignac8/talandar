@@ -6,10 +6,15 @@
 package bwmcts.sparcraft;
 
 import bwmcts.sparcraft.players.Player;
+import neuralnetwork.NeuralNetwork;
+import player.NeuralNetworkPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static utils.FileUtils.saveFile;
+import static utils.FileUtils.toJson;
 
 public class Game {
 
@@ -118,6 +123,19 @@ public class Game {
 
             rounds++;
 
+//            if (rounds == 10000000) {
+//                savePlayerNeuralNetwork(toMove);
+//                savePlayerNeuralNetwork(enemy);
+//            }
+        }
+    }
+
+    private void savePlayerNeuralNetwork(Player player) {
+        if (player instanceof NeuralNetworkPlayer) {
+            NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) player;
+            NeuralNetwork neuralNetwork = neuralNetworkPlayer.getNeuralNetwork();
+            String json = toJson(neuralNetwork);
+            saveFile("debug.json", json);
         }
     }
 

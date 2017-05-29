@@ -1,6 +1,7 @@
 package sandbox;
 
 import jnibwapi.types.UnitType;
+import neuralnetwork.NeuralNetwork;
 import player.MyPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
@@ -19,49 +20,115 @@ public class Replay {
 
     public static void main(String... args) {
 
-        String fileName = "testNeuralWeb.json";
+        String fileName = "debug.json";
+        String json = loadFile(fileName).get(0);
+        NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
         boolean graphics = true;
         int limit = Integer.MAX_VALUE;
         int mapHeight = TILE_SIZE * 20;
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        MyPlayer firstPlayer = new NeuralNetworkPlayer(0, true);
+        MyPlayer firstPlayer = new NeuralNetworkPlayer(0);
         MyPlayer secondPlayer = new SimplePlayer(1);
-        List<List<UnitType>> firstPlayerUnits = new ArrayList<>();
-        List<List<UnitType>> secondPlayerUnits = new ArrayList<>();
+        List<List<UnitType>> firstPlayerUnits;
+        List<List<UnitType>> secondPlayerUnits;
+        List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
         List<UnitType> unitTypesColumn;
+        FitnessEvaluator fitnessEvaluator;
+        NeuralNetworkPlayer neuralNetworkPlayer;
 
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
         unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 12; i++) {
             unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
         }
         firstPlayerUnits.add(unitTypesColumn);
-
         unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 12; i++) {
             unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
         }
         firstPlayerUnits.add(unitTypesColumn);
-
         unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 12; i++) {
             unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
         }
         secondPlayerUnits.add(unitTypesColumn);
-
         unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 12; i++) {
             unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
         }
         secondPlayerUnits.add(unitTypesColumn);
-
-        FitnessEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
-        String json = loadFile(fileName).get(0);
-        Individual bestOne = fromJson(json, Individual.class);
-        NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
-        neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());
-        fitnessEvaluator.evaluate();
+        neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+        neuralNetworkPlayer.setNeuralNetwork(bestOne);
+        fitnessEvaluators.add(fitnessEvaluator);
+
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
+        neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+        neuralNetworkPlayer.setNeuralNetwork(bestOne);
+        fitnessEvaluators.add(fitnessEvaluator);
+
+
+        firstPlayerUnits = new ArrayList<>();
+        secondPlayerUnits = new ArrayList<>();
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        firstPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        unitTypesColumn = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
+        }
+        secondPlayerUnits.add(unitTypesColumn);
+        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                gapHeight, gapWidth, firstPlayer, secondPlayer, firstPlayerUnits, secondPlayerUnits);
+        neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+        neuralNetworkPlayer.setNeuralNetwork(bestOne);
+        fitnessEvaluators.add(fitnessEvaluator);
+
+        while (true) {
+            for (int counter = 0; counter < fitnessEvaluators.size(); counter++) {
+                fitnessEvaluators.get(counter).evaluate();
+            }
+        }
+
+
     }
 }

@@ -18,34 +18,31 @@ import static java.lang.Math.sqrt;
 
 public final class NeuralNetworkPlayer extends MyPlayer {
 
+    private final HashMap<Unit, Integer> maxIndexes = new HashMap<>();
     private NeuralNetwork neuralNetwork;
-    private HashMap<Unit, Integer> maxIndexes = new HashMap<>();
-    private boolean trackMaxIndexes;
 
-
-    public NeuralNetworkPlayer(int id, boolean trackMaxIndexes) {
+    public NeuralNetworkPlayer(int id) {
         super(id);
-        this.trackMaxIndexes = trackMaxIndexes;
     }
 
     public HashMap<Unit, Integer> getMaxIndexes() {
         return maxIndexes;
     }
 
+    public NeuralNetwork getNeuralNetwork() {
+        return neuralNetwork;
+    }
+
     public void setNeuralNetwork(NeuralNetwork neuralNetwork) {
         this.neuralNetwork = neuralNetwork;
     }
 
-    public void setTrackMaxIndexes(boolean trackMaxIndexes) {
-        this.trackMaxIndexes = trackMaxIndexes;
-    }
 
     @Override
     public void getMoves(GameState state, HashMap<Integer, List<UnitAction>> unitActions, List<UnitAction> finalUnitActions) {
         finalUnitActions.clear();
-        if (trackMaxIndexes) {
-            maxIndexes = new HashMap<>();
-        }
+        maxIndexes.clear();
+
 
         for (int unitIndex = 0; unitIndex < unitActions.size(); unitIndex++) {
             Unit currentUnit = state.getUnit(playerId, unitIndex);
@@ -133,10 +130,8 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                     finalUnitActions.add(unitAction);
                 }
 
-                if (trackMaxIndexes) {
-                    maxIndexes.put(currentUnit, maxIndex);
+                maxIndexes.put(currentUnit, maxIndex);
 
-                }
             }
         }
     }

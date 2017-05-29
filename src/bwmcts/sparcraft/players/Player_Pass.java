@@ -56,7 +56,7 @@ public class Player_Pass extends Player {
                 if (move.getType() == UnitActionTypes.MOVE) {
                     //Position ourDest = new Position(ourUnit.getPosition().getX() + Constants.Move_Dir[move.moveIndex][0],
                     //								 ourUnit.getPosition().getY() + Constants.Move_Dir[move.moveIndex][1]);
-                    closestUnit = (ourUnit.canHeal() ? state.getClosestOurUnit(_id, u) : state.getClosestEnemyUnit(ourUnit.currentPosition(state._currentTime), enemy, Integer.MAX_VALUE, 0));
+                    closestUnit = (ourUnit.canHeal() ? state.getClosestOurUnit(_id, u) : state.getClosestEnemyUnit(ourUnit.currentPosition(state.getCurrentTime()), enemy, Integer.MAX_VALUE, 0));
                     dist = closestUnit.getDistanceSq(ourUnit.getPosition().getX() + Constants.Move_DirX[move.moveIndex], ourUnit.getPosition().getY() + Constants.Move_DirY[move.moveIndex], state.getTime());
 
                     if (dist > furthestMoveDist) {
