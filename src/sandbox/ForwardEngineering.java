@@ -1,6 +1,5 @@
 package sandbox;
 
-import jnibwapi.types.UnitType;
 import neuralnetwork.FCSNeuralNetwork;
 import player.MyPlayer;
 import player.NeuralNetworkPlayer;
@@ -10,11 +9,7 @@ import solver.Solver;
 import solver.fitnessevaluator.FitnessEvaluator;
 import solver.fitnessevaluator.JarcraftEvaluator;
 import solver.fitnessevaluator.unitselection.UnitSelection;
-import solver.operator.BiasMutation;
-import solver.operator.NeuronCrossover;
-import solver.operator.Operator;
-import solver.operator.TournamentSelection;
-import solver.operator.WeightMutation;
+import solver.operator.*;
 import solver.operator.crosser.AverageCrosser;
 import solver.operator.mutator.GaussianMutator;
 
@@ -22,20 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jnibwapi.Map.TILE_SIZE;
+import static solver.fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateRandomTestCases;
 
 public class ForwardEngineering {
 
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
-        int passLimit = 1 * 10000;
+        int passLimit = 1 * 100;
         int timeLimit = 25 * 60 * 100000;
-        int populationSize = 10000;
+        int populationSize = 1000;
         int inputLayerSize = 5;
-        int outputLayerSize = 4;
-        int tournamentSize = 1;
-        double crossoverChance = 0;
-        double weightMutationChance = 1;
-        double biasMutationChance = 1;
+        int outputLayerSize = 8;
+        int tournamentSize = 2;
+        double crossoverChance = 0.85;
+        double weightMutationChance = 0.5;
+        double biasMutationChance = 0.5;
         double initialStd = 1000;
         double initialMean = 0;
         double weightStd = 100;
@@ -49,7 +45,7 @@ public class ForwardEngineering {
         int gapHeight = 40;
         int gapWidth = 120;
 
-        int[] hiddenLayerSizes = {3};
+        int[] hiddenLayerSizes = {10};
 
         List<Individual> startingIndividuals = new ArrayList<>();
 
@@ -66,98 +62,15 @@ public class ForwardEngineering {
         operators.add(new WeightMutation(weightMutationChance, new GaussianMutator(weightStd, weightMean)));
         operators.add(new BiasMutation(biasMutationChance, new GaussianMutator(biasStd, biasMean)));
 
-
         MyPlayer firstPlayer = new NeuralNetworkPlayer(0);
         MyPlayer secondPlayer = new SimplePlayer(1);
-        List<List<UnitType>> firstPlayerUnits;
-        List<List<UnitType>> secondPlayerUnits;
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
-        List<UnitType> unitTypesColumn;
-        FitnessEvaluator fitnessEvaluator;
-        UnitSelection unitSelection;
 
-
-        firstPlayerUnits = new ArrayList<>();
-        secondPlayerUnits = new ArrayList<>();
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
+        for (UnitSelection unitSelection : generateRandomTestCases(5)) {
+            FitnessEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+                    gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
+            fitnessEvaluators.add(fitnessEvaluator);
         }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitSelection = new UnitSelection(firstPlayerUnits, secondPlayerUnits);
-        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
-        fitnessEvaluators.add(fitnessEvaluator);
-
-
-        firstPlayerUnits = new ArrayList<>();
-        secondPlayerUnits = new ArrayList<>();
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitSelection = new UnitSelection(firstPlayerUnits, secondPlayerUnits);
-        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
-        fitnessEvaluators.add(fitnessEvaluator);
-
-        firstPlayerUnits = new ArrayList<>();
-        secondPlayerUnits = new ArrayList<>();
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        firstPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Dragoon);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitTypesColumn = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            unitTypesColumn.add(UnitType.UnitTypes.Protoss_Zealot);
-        }
-        secondPlayerUnits.add(unitTypesColumn);
-        unitSelection = new UnitSelection(firstPlayerUnits, secondPlayerUnits);
-        fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
-        fitnessEvaluators.add(fitnessEvaluator);
 
         Solver solver = new Solver(operators, passLimit, timeLimit, fileName, startingIndividuals, fitnessEvaluators);
 

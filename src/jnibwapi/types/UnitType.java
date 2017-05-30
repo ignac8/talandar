@@ -329,7 +329,6 @@ public class UnitType {
         return WeaponTypes.getWeaponType(groundWeaponID);
     }
 
-    @Deprecated
     public int getGroundWeaponID() {
         return groundWeaponID;
     }

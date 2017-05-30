@@ -11,9 +11,7 @@ import neuralnetwork.neuron.InputNeuron;
 import java.util.HashMap;
 import java.util.List;
 
-import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
-import static bwmcts.sparcraft.UnitActionTypes.MOVE;
-import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
+import static bwmcts.sparcraft.UnitActionTypes.*;
 import static java.lang.Double.MIN_VALUE;
 import static java.lang.Math.sqrt;
 
@@ -71,11 +69,11 @@ public final class NeuralNetworkPlayer extends MyPlayer {
 //                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getMyUnits(state)));
 //                inputLayer.get(i++).setValue(getAllDistance(currentUnit, getEnemyUnits(state)));
 
-                inputLayer.get(i++).setValue(currentUnit.getCurrentHP());
-                inputLayer.get(i++).setValue(sqrt(currentUnit.getRange()));
-                inputLayer.get(i++).setValue(sqrt(getClosestUnit(currentUnit, getEnemyUnits(state)).getRange()));
-                inputLayer.get(i++).setValue(sqrt(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit)));
-                inputLayer.get(i++).setValue(sqrt(getLowestHPEnemyUnit(getEnemyUnits(state)).getDistanceSq(currentUnit)));
+                inputLayer.get(0).setValue(currentUnit.getCurrentHP());
+                inputLayer.get(1).setValue(sqrt(currentUnit.getRange()));
+                inputLayer.get(2).setValue(sqrt(getClosestUnit(currentUnit, getEnemyUnits(state)).getRange()));
+                inputLayer.get(3).setValue(sqrt(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit)));
+                inputLayer.get(4).setValue(sqrt(getLowestHPEnemyUnit(getEnemyUnits(state)).getDistanceSq(currentUnit)));
 
                 neuralNetwork.calculateOutput();
 
@@ -91,8 +89,6 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                     }
                 }
 
-                i = 0;
-
                 List<UnitAction> possibleUnitActions = unitActions.get(unitIndex);
 
                 Unit closestEnemyUnit = state.getClosestEnemyUnit(playerId, unitIndex);
@@ -101,37 +97,95 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                 Unit lowestHPUnit = getLowestHPEnemyUnit(getEnemyUnits(state));
                 Position lowestHPEnemyUnitPosition = lowestHPUnit.getPosition();
 
-                if (maxIndex == i++) {
-                    UnitAction unitAction = getExtremeActions(
-                            getActionsWithType(possibleUnitActions, RELOAD, ATTACK), closestEnemyUnitPosition)
-                            .getClosestAction();
-                    if (unitAction == null) {
+                UnitAction unitAction = null;
+
+                switch (maxIndex) {
+                    case 0:
+                        unitAction = getExtremeActions(
+                                getActionsWithType(possibleUnitActions, RELOAD, ATTACK), closestEnemyUnitPosition)
+                                .getClosestAction();
+                        if (unitAction == null) {
+                            unitAction = getExtremeActions(
+                                    getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
+                                    .getClosestAction();
+                        }
+                        break;
+
+                    case 1:
                         unitAction = getExtremeActions(
                                 getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
-                                .getClosestAction();
-                    }
-                    finalUnitActions.add(unitAction);
-                } else if (maxIndex == i++) {
-                    UnitAction unitAction = getExtremeActions(
-                            getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
-                            .getFurthestAction();
-                    finalUnitActions.add(unitAction);
-                } else if (maxIndex == i++) {
-                    UnitAction unitAction = focusEnemyUnit(
-                            getActionsWithType(possibleUnitActions, ATTACK, MOVE, RELOAD), lowestHPEnemyUnitPosition);
-                    finalUnitActions.add(unitAction);
-                } else if (maxIndex == i++) {
-                    UnitAction unitAction = getExtremeActions(
-                            getActionsWithType(possibleUnitActions, RELOAD, ATTACK), lowestHPEnemyUnitPosition)
-                            .getClosestAction();
-                    if (unitAction == null) {
+                                .getFurthestAction();
+                        break;
+
+                    case 2:
+                        unitAction = focusEnemyUnit(getActionsWithType(possibleUnitActions, ATTACK, MOVE, RELOAD),
+                                lowestHPEnemyUnitPosition);
+                        break;
+
+                    case 3:
                         unitAction = getExtremeActions(
-                                getActionsWithType(possibleUnitActions, MOVE), lowestHPEnemyUnitPosition)
+                                getActionsWithType(possibleUnitActions, RELOAD, ATTACK), lowestHPEnemyUnitPosition)
                                 .getClosestAction();
-                    }
-                    finalUnitActions.add(unitAction);
+                        if (unitAction == null) {
+                            unitAction = getExtremeActions(
+                                    getActionsWithType(possibleUnitActions, MOVE), lowestHPEnemyUnitPosition)
+                                    .getClosestAction();
+                        }
+                        break;
+
+                    case 4:
+                        unitAction = getExtremeActions(
+                                getActionsWithType(possibleUnitActions, ATTACK), closestEnemyUnitPosition)
+                                .getClosestAction();
+                        if (unitAction == null) {
+                            unitAction = getExtremeActions(
+                                    getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
+                                    .getFurthestAction();
+                        }
+                        break;
+
+                    case 5:
+                        unitAction = getExtremeActions(
+                                getActionsWithType(possibleUnitActions, ATTACK), closestEnemyUnitPosition)
+                                .getClosestAction();
+                        if (unitAction == null) {
+                            unitAction = getExtremeActions(
+                                    getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
+                                    .getClosestAction();
+                        }
+                        break;
+
+                    case 6:
+                        unitAction = getExtremeActions(
+                                getActionsWithType(possibleUnitActions, ATTACK), lowestHPEnemyUnitPosition)
+                                .getClosestAction();
+                        if (unitAction == null) {
+                            unitAction = getExtremeActions(
+                                    getActionsWithType(possibleUnitActions, MOVE), lowestHPEnemyUnitPosition)
+                                    .getClosestAction();
+                        }
+                        break;
+
+                    case 7:
+                        unitAction = getExtremeActions(
+                                getActionsWithType(possibleUnitActions, ATTACK), closestEnemyUnitPosition)
+                                .getClosestAction();
+                        if (unitAction == null) {
+                            if (currentUnit.canBeAttackedByUnits(getEnemyUnits(state), state.getCurrentTime())
+                                    && currentUnit.canAttackUnit(closestEnemyUnit, state.getCurrentTime())) {
+                                unitAction = getExtremeActions(
+                                        getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
+                                        .getFurthestAction();
+                            } else {
+                                unitAction = getExtremeActions(
+                                        getActionsWithType(possibleUnitActions, MOVE), closestEnemyUnitPosition)
+                                        .getClosestAction();
+                            }
+                        }
+                        break;
                 }
 
+                finalUnitActions.add(unitAction);
                 maxIndexes.put(currentUnit, maxIndex);
 
             }

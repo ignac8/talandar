@@ -114,7 +114,7 @@ public class Player_NoOverKillAttackValue extends Player {
                     } else if (move.moveType == UnitActionTypes.MOVE) {
 
                         dist = closestUnit.getDistanceSq(ourUnit.getPosition().getX() + Constants.Move_DirX[move.index()],
-                                ourUnit.getPosition().getY() + Constants.Move_DirY[move.index()], state.getTime());
+                                ourUnit.getPosition().getY() + Constants.Move_DirY[move.index()], state.getCurrentTime());
 
                         if (dist < closestMoveDist) {
                             closestMoveDist = dist;

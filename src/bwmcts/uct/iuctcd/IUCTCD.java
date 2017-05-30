@@ -39,7 +39,7 @@ public class IUCTCD extends UCT {
         root.setVisits(1);
 
         // Reset stats if new game
-        if (state.getTime() == 0)
+        if (state.getCurrentTime() == 0)
             stats.reset();
 
         int t = 0;

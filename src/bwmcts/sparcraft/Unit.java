@@ -228,9 +228,12 @@ public class Unit implements Comparable<Unit> {
 
         //WeaponType weapon =WeaponProperties.props[ unit.getType().isFlyer() ? getType().getAirWeaponID() : getType().getGroundWeaponID()].getType;
 
-        if (WeaponProperties.props[unit.unitType.isFlyer() ? unitType.getAirWeaponID() : unitType.getGroundWeaponID()].type.getDamageAmount() == 0)
         //if (!(unit.unitType.isFlyer() ? unitType.isCanAttackAir() : unitType.isCanAttackGround()))
-        {
+        if (WeaponProperties.props[unit.unitType.isFlyer() ? unitType.getAirWeaponID() : unitType.getGroundWeaponID()].type.getDamageAmount() == 0) {
+            return false;
+        }
+
+        if (!unit.isAlive()) {
             return false;
         }
 
@@ -241,17 +244,13 @@ public class Unit implements Comparable<Unit> {
         return range >= getDistanceSq(unit.currentPosition(gameTime), gameTime);
     }
 
-    public boolean canBeAttackedByUnits(Unit[] enemyUnits) {
+    public boolean canBeAttackedByUnits(Unit[] enemyUnits, int gameTime) {
         boolean found = false;
-        boolean flyer = unitType.isFlyer();
 
         for (int counter = 0; !found && counter < enemyUnits.length; counter++) {
             Unit enemyUnit = enemyUnits[counter];
             if (enemyUnit != null) {
-                int distanceSq = getDistanceSq(enemyUnit);
-                int range = enemyUnit.getRange();
-                if ((flyer ? enemyUnit.unitType.isCanAttackAir() : unitType.isCanAttackGround())
-                        && getDistanceSq(enemyUnit) <= enemyUnit.getRange()) {
+                if (enemyUnit.canAttackUnit(this, gameTime)) {
                     found = true;
                 }
             }

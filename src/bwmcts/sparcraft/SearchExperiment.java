@@ -197,7 +197,7 @@ public class SearchExperiment {
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss");
         Calendar cal = Calendar.getInstance();
 
-        timeString = dateFormat.format(cal.getTime());
+        timeString = dateFormat.format(cal.getCurrentTime());
     }
 
     public List<String> getLines(String filename) throws IOException {
@@ -824,7 +824,7 @@ public class SearchExperiment {
         for (int p = 0; p < Constants.Num_Players; p++) {
             for (int u = 0; u < state.numUnits(p); u++) {
                 Unit unit = state.getUnit(p, u);
-                unit.currentPosition(state.getTime());
+                unit.currentPosition(state.getCurrentTime());
 
                 results.append(unit.toString());
             }

@@ -4,3 +4,4 @@ out/
 graphs/*
 /nbproject/private/
 /build/
+/dist/

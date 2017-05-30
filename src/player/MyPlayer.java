@@ -77,7 +77,7 @@ public abstract class MyPlayer extends Player {
     }
 
     protected double getRemainingCooldown(Unit unit, GameState state) {
-        int cooldown = unit.nextAttackActionTime() - state.getTime();
+        int cooldown = unit.nextAttackActionTime() - state.getCurrentTime();
         return cooldown < 0 ? 0 : cooldown;
     }
 

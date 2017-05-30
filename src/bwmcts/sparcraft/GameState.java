@@ -398,7 +398,7 @@ public class GameState {
         return neutralUnits.get(u);
     }
 
-    public int getTime() {
+    public int getCurrentTime() {
         return currentTime;
     }
 
@@ -431,7 +431,7 @@ public class GameState {
 
 		if (playerDead(enemyPlayer) && !playerDead(player))
 		{
-			//winBonus = 500-getTime();
+			//winBonus = 500-getCurrentTime();
 		}
 		else if (playerDead(player) && !playerDead(enemyPlayer))
 		{
@@ -850,7 +850,4 @@ public class GameState {
         return numUnits[0] + numUnits[1];
     }
 
-    public int getCurrentTime() {
-        return currentTime;
-    }
 }

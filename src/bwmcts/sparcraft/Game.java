@@ -95,7 +95,7 @@ public class Game {
                 copy.finishedMoving();
 
                 int nextTime = Math.min(copy.getUnit(0, 0).firstTimeFree(), copy.getUnit(1, 0).firstTimeFree());
-                int time = state.getTime();
+                int time = state.getCurrentTime();
                 if (time < nextTime) {
                     while (time < nextTime) {
                         copy.setTime(time);

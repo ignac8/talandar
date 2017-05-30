@@ -62,7 +62,7 @@ public class Player_Defense extends Player {
                 } else if (move.getType() == UnitActionTypes.MOVE) {
                     Position ourDest = new Position(ourUnit.getPosition().getX() + Constants.Move_Dir[move.moveIndex][0],
                             ourUnit.getPosition().getY() + Constants.Move_Dir[move.moveIndex][1]);
-                    int dist = (closestUnit.getDistanceSq(ourDest, state.getTime()));
+                    int dist = (closestUnit.getDistanceSq(ourDest, state.getCurrentTime()));
 
                     if (dist > furthestMoveDist) {
                         furthestMoveDist = dist;
@@ -86,7 +86,7 @@ public class Player_Defense extends Player {
             // otherwise use the closest move to the opponent
             else {
                 // if we are in attack range of the unit, back up
-                if (ourUnit.canAttackUnit(closestUnit, state.getTime())) {
+                if (ourUnit.canAttackUnit(closestUnit, state.getCurrentTime())) {
                     bestMoveIndex = furthestMoveIndex;
                 }
                 // otherwise get back into the fight

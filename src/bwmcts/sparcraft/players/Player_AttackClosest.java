@@ -41,7 +41,7 @@ public class Player_AttackClosest extends Player {
 
                 if (move.getType() == UnitActionTypes.ATTACK) {
                     Unit target = state.getUnit(GameState.getEnemy(move.player()), move.index());
-                    int dist = ourUnit.getDistanceSq(target, state.getTime());
+                    int dist = ourUnit.getDistanceSq(target, state.getCurrentTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
@@ -51,7 +51,7 @@ public class Player_AttackClosest extends Player {
                 }
                 if (move.getType() == UnitActionTypes.HEAL) {
                     Unit target = state.getUnit(move.player(), move.index());
-                    int dist = ourUnit.getDistanceSq(target, state.getTime());
+                    int dist = ourUnit.getDistanceSq(target, state.getCurrentTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
@@ -59,13 +59,13 @@ public class Player_AttackClosest extends Player {
                         foundUnitAction = true;
                     }
                 } else if (move.getType() == UnitActionTypes.RELOAD) {
-                    if (ourUnit.canAttackUnit(closestUnit, state.getTime())) {
+                    if (ourUnit.canAttackUnit(closestUnit, state.getCurrentTime())) {
                         closestMoveIndex = moveIndex;
                         break;
                     }
                 } else if (move.getType() == UnitActionTypes.MOVE) {
                     Position ourDest = new Position(ourUnit.getPosition().getX() + Constants.Move_Dir[move.index()][0], ourUnit.getPosition().getY() + Constants.Move_Dir[move.index()][1]);
-                    int dist = closestUnit.getDistanceSq(ourDest, state.getTime());
+                    int dist = closestUnit.getDistanceSq(ourDest, state.getCurrentTime());
 
                     if (dist < closestMoveDist) {
                         closestMoveDist = dist;

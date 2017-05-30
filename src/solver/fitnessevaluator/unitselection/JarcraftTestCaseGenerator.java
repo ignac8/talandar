@@ -5,7 +5,20 @@ import jnibwapi.types.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.shuffle;
+
 public class JarcraftTestCaseGenerator {
+
+    public static List<UnitSelection> generateRandomTestCases(int number) {
+        List<UnitSelection> allTestCases = generateAllTestCases();
+        shuffle(allTestCases);
+        List<UnitSelection> randomTestCases = new ArrayList<>();
+        for (int counter = 0; counter < number && counter < allTestCases.size(); counter++) {
+            randomTestCases.add(allTestCases.get(counter));
+        }
+        return randomTestCases;
+    }
+
 
     public static List<UnitSelection> generateAllTestCases() {
         List<UnitSelection> unitSelections = new ArrayList<>();

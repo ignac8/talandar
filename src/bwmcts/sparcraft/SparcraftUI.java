@@ -33,7 +33,7 @@ public class SparcraftUI extends JComponent {
     private SparcraftUI(boolean standalone) {
         if (standalone) {
             frame = new JFrame();
-            frame.setSize(700, 700);
+            frame.setSize(640, 640);
             frame.setTitle("Sparcraft in JAVA");
             frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
             frame.getContentPane().add(this);
@@ -91,13 +91,22 @@ public class SparcraftUI extends JComponent {
                 //drawScaleForMap(graphics, map.getPixelWidth() * 2, map.getPixelHeight() * 2);
             }
 
+            if (p1 instanceof NeuralNetworkPlayer) {
+                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
+                drawChosenActions(graphics, maxIndexes);
+            }
+
+            if (p2 instanceof NeuralNetworkPlayer) {
+                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getMaxIndexes();
+                drawChosenActions(graphics, maxIndexes);
+            }
 
             graphics.setColor(Color.blue);
             int counter = 0;
             for (Unit unit : state.getAllUnits()[0]) {
                 if (unit != null && unit.isAlive()) {
                     Image image = images.get(unit.getUnitType().toString());
-                    Position position = unit.currentPosition(state.getTime());
+                    Position position = unit.currentPosition(state.getCurrentTime());
                     if (image != null) {
                         drawImageOnPosition(graphics, image, position);
                     } else {
@@ -115,7 +124,7 @@ public class SparcraftUI extends JComponent {
             for (Unit unit : state.getAllUnits()[1]) {
                 if (unit != null && unit.isAlive()) {
                     Image image = images.get(unit.getUnitType().toString());
-                    Position position = unit.currentPosition(state.getTime());
+                    Position position = unit.currentPosition(state.getCurrentTime());
                     if (image != null) {
                         drawImageOnPosition(graphics, image, position);
                     } else {
@@ -130,15 +139,7 @@ public class SparcraftUI extends JComponent {
 
             }
 
-            if (p1 instanceof NeuralNetworkPlayer) {
-                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
-                drawChosenActions(graphics, maxIndexes);
-            }
 
-            if (p2 instanceof NeuralNetworkPlayer) {
-                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getMaxIndexes();
-                drawChosenActions(graphics, maxIndexes);
-            }
 
             /*
             if (p1 instanceof UctLogic) {
@@ -168,8 +169,8 @@ public class SparcraftUI extends JComponent {
 
                 for (int counter = innerRadius; counter <= outerRadius; counter++) {
                     graphics.drawOval(
-                            unit.currentPosition(state.getTime()).getX() - counter,
-                            unit.currentPosition(state.getTime()).getY() - counter,
+                            unit.currentPosition(state.getCurrentTime()).getX() - counter,
+                            unit.currentPosition(state.getCurrentTime()).getY() - counter,
                             counter * 2,
                             counter * 2);
                 }
@@ -184,9 +185,9 @@ public class SparcraftUI extends JComponent {
         for (List<Unit> units : clusters) {
             graphics.setColor(getColor(clusterId++));
             for (Unit a : units) {
-                graphics.drawOval(a.currentPosition(state.getTime()).getX() - 12 + offSetX, a.currentPosition(state.getTime()).getY() - 12 + offSetY, 24, 24);
-                graphics.drawOval(a.currentPosition(state.getTime()).getX() - 13 + offSetX, a.currentPosition(state.getTime()).getY() - 13 + offSetY, 26, 26);
-                graphics.drawOval(a.currentPosition(state.getTime()).getX() - 14 + offSetX, a.currentPosition(state.getTime()).getY() - 14 + offSetY, 28, 28);
+                graphics.drawOval(a.currentPosition(state.getCurrentTime()).getX() - 12 + offSetX, a.currentPosition(state.getCurrentTime()).getY() - 12 + offSetY, 24, 24);
+                graphics.drawOval(a.currentPosition(state.getCurrentTime()).getX() - 13 + offSetX, a.currentPosition(state.getCurrentTime()).getY() - 13 + offSetY, 26, 26);
+                graphics.drawOval(a.currentPosition(state.getCurrentTime()).getX() - 14 + offSetX, a.currentPosition(state.getCurrentTime()).getY() - 14 + offSetY, 28, 28);
             }
         }
     }
@@ -236,26 +237,31 @@ public class SparcraftUI extends JComponent {
 
         switch (i) {
             case 0:
-                return Color.CYAN;
-            case 1:
-                return Color.GREEN;
-            case 2:
                 return Color.RED;
-            case 3:
-                return Color.PINK;
-            case 4:
+            case 1:
                 return Color.YELLOW;
-            case 5:
-                return Color.LIGHT_GRAY;
-            case 6:
-                return Color.WHITE;
-            case 7:
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.CYAN;
+            case 4:
                 return Color.BLUE;
-            case 8:
+            case 5:
+                return Color.MAGENTA;
+            case 6:
                 return Color.ORANGE;
+            case 7:
+                return Color.PINK;
+            case 8:
+                return Color.WHITE;
+            case 9:
+                return Color.LIGHT_GRAY;
+            case 10:
+                return Color.GRAY;
+            case 11:
+                return Color.DARK_GRAY;
             default:
                 return Color.BLACK;
-
         }
     }
 

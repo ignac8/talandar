@@ -54,7 +54,7 @@ public class Player_Kite extends Player {
                 move = actions.get(m);
 
                 if (move.getType() == UnitActionTypes.ATTACK) {
-                    dist = ourUnit.getDistanceSq(state.getUnit(enemy, move.moveIndex), state.getTime());
+                    dist = ourUnit.getDistanceSq(state.getUnit(enemy, move.moveIndex), state.getCurrentTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
@@ -63,7 +63,7 @@ public class Player_Kite extends Player {
                     }
                 } else if (move.getType() == UnitActionTypes.HEAL) {
 
-                    dist = ourUnit.getDistanceSq(state.getUnit(move.player(), move.moveIndex), state.getTime());
+                    dist = ourUnit.getDistanceSq(state.getUnit(move.player(), move.moveIndex), state.getCurrentTime());
 
                     if (dist < actionDistance) {
                         actionDistance = dist;
@@ -74,7 +74,7 @@ public class Player_Kite extends Player {
                     //Position ourDest = new Position(ourUnit.getPosition().getX() + Constants.Move_Dir[move.moveIndex][0],
                     //								 ourUnit.getPosition().getY() + Constants.Move_Dir[move.moveIndex][1]);
                     closestUnit = (ourUnit.canHeal() ? state.getClosestOurUnit(_id, u) : state.getClosestEnemyUnit(ourUnit.currentPosition(state.getCurrentTime()), enemy, Integer.MAX_VALUE, 0));
-                    dist = closestUnit.getDistanceSq(ourUnit.getPosition().getX() + Constants.Move_DirX[move.moveIndex], ourUnit.getPosition().getY() + Constants.Move_DirY[move.moveIndex], state.getTime());
+                    dist = closestUnit.getDistanceSq(ourUnit.getPosition().getX() + Constants.Move_DirX[move.moveIndex], ourUnit.getPosition().getY() + Constants.Move_DirY[move.moveIndex], state.getCurrentTime());
 
                     if (dist > furthestMoveDist) {
                         furthestMoveDist = dist;
@@ -98,7 +98,7 @@ public class Player_Kite extends Player {
             // otherwise use the closest move to the opponent
             else {
                 //if we are in attack range of the unit, back up
-                if (ourUnit.canAttackUnit(closestUnit, state.getTime())) {
+                if (ourUnit.canAttackUnit(closestUnit, state.getCurrentTime())) {
                     bestMoveIndex = furthestMoveIndex;
                 }
                 //otherwise get back into the fight

@@ -70,7 +70,7 @@ public class RGUCTCD extends UCT {
             ((RGuctNode) root).setClusters(cleanClusters(state, clustersB));
 
         // Reset stats if new game
-        if (state.getTime() == 0)
+        if (state.getCurrentTime() == 0)
             stats.reset();
 
         int t = 0;
@@ -208,7 +208,7 @@ public class RGUCTCD extends UCT {
         for (List<Unit> cluster : clusters) {
             List<Unit> readyCluster = new ArrayList<>();
             for (Unit unit : cluster) {
-                if (unit.firstTimeFree() == state.getTime())
+                if (unit.firstTimeFree() == state.getCurrentTime())
                     readyCluster.add(unit);
             }
             if (!readyCluster.isEmpty())
