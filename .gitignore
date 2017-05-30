@@ -5,3 +5,4 @@ graphs/*
 /nbproject/private/
 /build/
 /dist/
+.idea/misc.xml
