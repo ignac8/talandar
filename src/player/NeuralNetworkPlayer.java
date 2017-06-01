@@ -101,7 +101,7 @@ public final class NeuralNetworkPlayer extends JarcraftPlayer {
                 Position lowestHPEnemyUnitPosition = lowestHPUnit.getPosition();
 
                 UnitAction unitAction = null;
-                
+
                 switch (maxIndex) {
                     case 0:
                         unitAction = getExtremeActions(

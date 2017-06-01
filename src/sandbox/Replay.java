@@ -1,25 +1,23 @@
 package sandbox;
 
+import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.unitselection.UnitSelection;
 import neuralnetwork.NeuralNetwork;
 import player.JarcraftPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.JarcraftEvaluator;
-import solver.fitnessevaluator.unitselection.Quantity;
-import fitnessevaluator.unitselection.UnitSelection;
-import solver.fitnessevaluator.unitselection.Race;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
+import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generatePlayerUnits;
+import static fitnessevaluator.unitselection.Quantity.LESS;
+import static fitnessevaluator.unitselection.Quantity.NONE;
+import static fitnessevaluator.unitselection.Race.PROTOSS;
 import static java.util.Collections.shuffle;
 import static jnibwapi.Map.TILE_SIZE;
-import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
-import static solver.fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generatePlayerUnits;
-import static solver.fitnessevaluator.unitselection.Quantity.LESS;
-import static solver.fitnessevaluator.unitselection.Quantity.NONE;
-import static solver.fitnessevaluator.unitselection.Race.PROTOSS;
 import static utils.FileUtils.fromJson;
 import static utils.FileUtils.loadFile;
 

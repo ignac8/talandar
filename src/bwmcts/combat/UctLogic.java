@@ -167,7 +167,7 @@ public class UctLogic extends Player implements ICombatLogic {
             clusters = ((FlatGUCTCD) uct).getClusters();
         }
         /*
-		if (guctcd!=null){
+        if (guctcd!=null){
 			
 			try{
 				long start = System.currentTimeMillis();

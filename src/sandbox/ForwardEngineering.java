@@ -1,14 +1,14 @@
 package sandbox;
 
+import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.unitselection.UnitSelection;
 import neuralnetwork.FCSNeuralNetwork;
 import player.JarcraftPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 import solver.Individual;
 import solver.Solver;
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.JarcraftEvaluator;
-import fitnessevaluator.unitselection.UnitSelection;
 import solver.operator.BiasMutation;
 import solver.operator.NeuronCrossover;
 import solver.operator.Operator;
@@ -20,8 +20,8 @@ import solver.operator.mutator.GaussianMutator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jnibwapi.Map.TILE_SIZE;
 import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateRandomTestCases;
+import static jnibwapi.Map.TILE_SIZE;
 
 public class ForwardEngineering {
 

@@ -19,7 +19,7 @@ public class KMedoidCluster {
         String toPrintString = "-----------------------------------CLUSTER START------------------------------------------" + System.getProperty("line.separator");
         toPrintString += "Medoid: " + this.Medoid.toString() + System.getProperty("line.separator");
         /*
-		for(Answer i : this.ClusterMembers)
+        for(Answer i : this.ClusterMembers)
 		{
 			toPrintString += i.toString() + System.getProperty("line.separator");
 		}

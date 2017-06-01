@@ -6,9 +6,9 @@ import bwmcts.sparcraft.Map;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
 import bwmcts.test.JNIBWAPI_LOAD;
+import fitnessevaluator.unitselection.UnitSelection;
 import jnibwapi.types.UnitType;
 import player.JarcraftPlayer;
-import fitnessevaluator.unitselection.UnitSelection;
 
 import java.util.List;
 

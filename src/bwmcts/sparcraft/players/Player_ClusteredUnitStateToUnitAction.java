@@ -82,7 +82,7 @@ public class Player_ClusteredUnitStateToUnitAction extends Player {
                 // Add units in cluster
 
 				/*	
-				for(Unit u : _clusters.get(unitState.unit)){
+                for(Unit u : _clusters.get(unitState.unit)){
 					
 					if (unitState.getType == UnitStateTypes.ATTACK && u.isAlive())
 						attackingUnits.add(u.getId());

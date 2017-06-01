@@ -23,7 +23,7 @@ public class DynamicKMeans implements ClusteringAlgorithm {
         //List<Unit> units = new ArrayList<Unit>();
         List<Unit> units = getReadyUnits(uarr);
         /*
-		for(Unit unit : uarr){
+        for(Unit unit : uarr){
 			if (unit==null)
 				break;
 			units.add(unit);

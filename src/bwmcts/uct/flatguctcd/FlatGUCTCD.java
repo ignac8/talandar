@@ -161,7 +161,7 @@ public class FlatGUCTCD extends UCT {
             e++;
         }
         /*
-		if (uniqueMove(move, node)){
+        if (uniqueMove(move, node)){
 			GuctNode child = new GuctNode((GuctNode)node, getChildNodeType(node, state), move, playerToMove, label);
 			node.getChildren().add(child);
 		}

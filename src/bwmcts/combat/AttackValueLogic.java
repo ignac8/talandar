@@ -99,7 +99,7 @@ public class AttackValueLogic implements ICombatLogic {
         }
 
 		/*
-		if (attackingUnits.containsKey(unit.getID())){
+        if (attackingUnits.containsKey(unit.getID())){
 			Unit newTarget = bwapi.getUnit(attackingUnits.get(unit.getID()));
 			if (outOfRange)
 				bwapi.drawLine(unit.getX(), unit.getY(), newTarget.getX(), newTarget.getY(), BWColor.GREEN, false);

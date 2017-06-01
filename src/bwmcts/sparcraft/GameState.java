@@ -504,7 +504,7 @@ public class GameState {
 
             for (int u = 0; u < numUnits[p]; u++) {
                 /*
-				if (getUnit(p, u) == null){
+                if (getUnit(p, u) == null){
 					System.out.println("p="+p+" u="+u);
 					continue;
 				}

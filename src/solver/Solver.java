@@ -1,13 +1,11 @@
 package solver;
 
-import player.NeuralNetworkPlayer;
 import fitnessevaluator.FitnessEvaluator;
+import player.NeuralNetworkPlayer;
 import solver.operator.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 
 import static java.lang.System.currentTimeMillis;
 import static utils.FileUtils.saveFile;

@@ -57,8 +57,8 @@ public class JarcraftTestCaseGenerator {
     }
 
     public static List<List<UnitType>> generatePlayerUnits(Race race,
-                                                            Quantity meleeUnitQuantity,
-                                                            Quantity rangedUnitQuantity) {
+                                                           Quantity meleeUnitQuantity,
+                                                           Quantity rangedUnitQuantity) {
         List<List<UnitType>> playerUnits = new ArrayList<>();
         playerUnits.add(new ArrayList<>());
         playerUnits.add(new ArrayList<>());

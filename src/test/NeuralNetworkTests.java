@@ -8,7 +8,6 @@ import neuralnetwork.neuron.SigmoidNeuron;
 import org.apache.commons.math3.analysis.function.Sigmoid;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
