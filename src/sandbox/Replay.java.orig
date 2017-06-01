@@ -4,22 +4,32 @@ import neuralnetwork.NeuralNetwork;
 import player.JarcraftPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
+<<<<<<< HEAD
+import solver.fitnessevaluator.FitnessEvaluator;
+import solver.fitnessevaluator.JarcraftEvaluator;
+import solver.fitnessevaluator.unitselection.Quantity;
+import solver.fitnessevaluator.unitselection.Race;
+import solver.fitnessevaluator.unitselection.UnitSelection;
+=======
 import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.JarcraftEvaluator;
-import solver.fitnessevaluator.unitselection.Quantity;
 import fitnessevaluator.unitselection.UnitSelection;
-import solver.fitnessevaluator.unitselection.Race;
+>>>>>>> packageRefactor
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.shuffle;
 import static jnibwapi.Map.TILE_SIZE;
-import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
+<<<<<<< HEAD
+import static solver.fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
 import static solver.fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generatePlayerUnits;
 import static solver.fitnessevaluator.unitselection.Quantity.LESS;
 import static solver.fitnessevaluator.unitselection.Quantity.NONE;
 import static solver.fitnessevaluator.unitselection.Race.PROTOSS;
+=======
+import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
+>>>>>>> packageRefactor
 import static utils.FileUtils.fromJson;
 import static utils.FileUtils.loadFile;
 

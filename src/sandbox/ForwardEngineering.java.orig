@@ -6,14 +6,21 @@ import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 import solver.Individual;
 import solver.Solver;
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.JarcraftEvaluator;
-import fitnessevaluator.unitselection.UnitSelection;
+<<<<<<< HEAD
+import solver.fitnessevaluator.FitnessEvaluator;
+import solver.fitnessevaluator.JarcraftEvaluator;
+import solver.fitnessevaluator.unitselection.UnitSelection;
 import solver.operator.BiasMutation;
 import solver.operator.NeuronCrossover;
 import solver.operator.Operator;
 import solver.operator.TournamentSelection;
 import solver.operator.WeightMutation;
+=======
+import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.unitselection.UnitSelection;
+import solver.operator.*;
+>>>>>>> packageRefactor
 import solver.operator.crosser.AverageCrosser;
 import solver.operator.mutator.GaussianMutator;
 

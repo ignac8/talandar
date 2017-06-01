@@ -1,4 +1,4 @@
-package solver.fitnessevaluator;
+package fitnessevaluator;
 
 import player.JarcraftPlayer;
 
