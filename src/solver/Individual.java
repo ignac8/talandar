@@ -11,9 +11,14 @@ public class Individual {
         this.neuralNetwork = neuralNetwork;
     }
 
+    public Individual(NeuralNetwork neuralNetwork, double fitness) {
+        this.fitness = fitness;
+        this.neuralNetwork = neuralNetwork;
+    }
+
     public Individual copy() {
         NeuralNetwork copiedNeuralNetwork = neuralNetwork.copy();
-        return new Individual(copiedNeuralNetwork);
+        return new Individual(copiedNeuralNetwork, fitness);
     }
 
     public double getFitness() {

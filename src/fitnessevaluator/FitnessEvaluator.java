@@ -9,4 +9,6 @@ public interface FitnessEvaluator {
     JarcraftPlayer getFirstPlayer();
 
     JarcraftPlayer getSecondPlayer();
+
+
 }

@@ -129,4 +129,8 @@ public class JarcraftEvaluator implements FitnessEvaluator {
     public JarcraftPlayer getSecondPlayer() {
         return secondPlayer;
     }
+
+    public void setUnitSelection(UnitSelection unitSelection) {
+        this.unitSelection = unitSelection;
+    }
 }

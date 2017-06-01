@@ -87,7 +87,7 @@ public class FileUtils {
         return GSON.fromJson(json, type);
     }
 
-    public static void saveGraphToFile(List<Result> results, String filename) {
+    public static void saveGraphToFile(List<Result> results, String fileName) {
         XYSeries popMin = new XYSeries("Min");
         XYSeries popAvg = new XYSeries("Avg");
         XYSeries popMax = new XYSeries("Max");
@@ -110,7 +110,7 @@ public class FileUtils {
                 true,
                 false,
                 false);
-        File file = new File("graphs\\" + filename + "." + new SimpleDateFormat("YYYY_MM_dd_HH_mm_ss").format(new Date()) + ".png");
+        File file = new File(fileName);
         try {
             if (file.getParentFile() != null) {
                 file.getParentFile().mkdirs();

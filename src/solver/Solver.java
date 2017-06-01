@@ -46,8 +46,6 @@ public class Solver {
             }
             evaluate();
         }
-        graph();
-        save();
         return bestIndividual;
     }
 
@@ -74,11 +72,11 @@ public class Solver {
         return currentTimeMillis() - timeStart > timeLimit || passCount > passLimit;
     }
 
-    private void graph() {
+    public void graph(String fileName) {
         saveGraphToFile(results, fileName);
     }
 
-    private void save() {
+    public void save(String fileName) {
         String json = toJson(bestIndividual.getNeuralNetwork());
         saveFile(fileName, json);
     }
