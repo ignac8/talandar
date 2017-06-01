@@ -6,9 +6,9 @@ import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 import solver.Individual;
 import solver.Solver;
-import solver.fitnessevaluator.FitnessEvaluator;
-import solver.fitnessevaluator.JarcraftEvaluator;
-import solver.fitnessevaluator.unitselection.UnitSelection;
+import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.unitselection.UnitSelection;
 import solver.operator.*;
 import solver.operator.crosser.AverageCrosser;
 import solver.operator.mutator.GaussianMutator;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jnibwapi.Map.TILE_SIZE;
-import static solver.fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateRandomTestCases;
+import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateRandomTestCases;
 
 public class ForwardEngineering {
 

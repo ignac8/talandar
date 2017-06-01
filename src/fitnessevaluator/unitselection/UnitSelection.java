@@ -1,4 +1,4 @@
-package solver.fitnessevaluator.unitselection;
+package fitnessevaluator.unitselection;
 
 import jnibwapi.types.UnitType;
 

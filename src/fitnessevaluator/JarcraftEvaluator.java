@@ -1,4 +1,4 @@
-package solver.fitnessevaluator;
+package fitnessevaluator;
 
 import bwmcts.sparcraft.AnimationFrameData;
 import bwmcts.sparcraft.Game;
@@ -13,7 +13,7 @@ import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
 import player.MyPlayer;
-import solver.fitnessevaluator.unitselection.UnitSelection;
+import fitnessevaluator.unitselection.UnitSelection;
 
 import java.util.List;
 

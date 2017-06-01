@@ -1,7 +1,7 @@
 package solver;
 
 import player.NeuralNetworkPlayer;
-import solver.fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.FitnessEvaluator;
 import solver.operator.Operator;
 
 import java.util.ArrayList;

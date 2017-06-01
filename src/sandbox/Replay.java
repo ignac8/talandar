@@ -4,16 +4,16 @@ import neuralnetwork.NeuralNetwork;
 import player.MyPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
-import solver.fitnessevaluator.FitnessEvaluator;
-import solver.fitnessevaluator.JarcraftEvaluator;
-import solver.fitnessevaluator.unitselection.UnitSelection;
+import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.unitselection.UnitSelection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.shuffle;
 import static jnibwapi.Map.TILE_SIZE;
-import static solver.fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
+import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
 import static utils.FileUtils.fromJson;
 import static utils.FileUtils.loadFile;
 
