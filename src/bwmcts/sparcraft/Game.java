@@ -94,7 +94,7 @@ public class Game {
                 GameState copy = state.clone();
                 copy.finishedMoving();
 
-                int nextTime = Math.min(copy.getUnit(0, 0).firstTimeFree(), copy.getUnit(1, 0).firstTimeFree());
+                int nextTime = Math.min(copy.getUnit(0, 0).getFirstTimeFree(), copy.getUnit(1, 0).getFirstTimeFree());
                 int time = state.getCurrentTime();
                 if (time < nextTime) {
                     while (time < nextTime) {

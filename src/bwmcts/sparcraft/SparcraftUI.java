@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -92,12 +93,12 @@ public class SparcraftUI extends JComponent {
             }
 
             if (p1 instanceof NeuralNetworkPlayer) {
-                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
+                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
                 drawChosenActions(graphics, maxIndexes);
             }
 
             if (p2 instanceof NeuralNetworkPlayer) {
-                HashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getMaxIndexes();
+                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getMaxIndexes();
                 drawChosenActions(graphics, maxIndexes);
             }
 
@@ -157,7 +158,7 @@ public class SparcraftUI extends JComponent {
         }
     }
 
-    private void drawChosenActions(Graphics graphics, HashMap<Unit, Integer> maxIndexes) {
+    private void drawChosenActions(Graphics graphics, ConcurrentHashMap<Unit, Integer> maxIndexes) {
         for (Entry<Unit, Integer> entry : maxIndexes.entrySet()) {
             Unit unit = entry.getKey();
             int maxIndex = entry.getValue();

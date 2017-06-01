@@ -12,7 +12,7 @@ import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
 import static bwmcts.sparcraft.UnitActionTypes.MOVE;
 import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
 
-public final class SimplePlayer extends MyPlayer {
+public final class SimplePlayer extends JarcraftPlayer {
 
     public SimplePlayer(int id) {
         super(id);

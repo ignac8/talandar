@@ -1,12 +1,12 @@
 package solver.fitnessevaluator;
 
-import player.MyPlayer;
+import player.JarcraftPlayer;
 
 public interface FitnessEvaluator {
 
     double evaluate();
 
-    MyPlayer getFirstPlayer();
+    JarcraftPlayer getFirstPlayer();
 
-    MyPlayer getSecondPlayer();
+    JarcraftPlayer getSecondPlayer();
 }

@@ -176,7 +176,7 @@ public class UPGMA implements ClusteringAlgorithm {
         if (a.typeID() != b.typeID()) {
             distance = 1000000;
         }
-        distance += a.getDistanceSq(b, b.firstTimeFree()) * distMultiplier;//*1000
+        distance += a.getDistanceSq(b, b.getFirstTimeFree()) * distMultiplier;//*1000
         distance += Math.abs(a.getCurrentHP() - b.getCurrentHP()) * hpMultiplier;
 
         return distance;

@@ -1,7 +1,7 @@
 package sandbox;
 
 import neuralnetwork.FCSNeuralNetwork;
-import player.MyPlayer;
+import player.JarcraftPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 import solver.Individual;
@@ -9,7 +9,11 @@ import solver.Solver;
 import solver.fitnessevaluator.FitnessEvaluator;
 import solver.fitnessevaluator.JarcraftEvaluator;
 import solver.fitnessevaluator.unitselection.UnitSelection;
-import solver.operator.*;
+import solver.operator.BiasMutation;
+import solver.operator.NeuronCrossover;
+import solver.operator.Operator;
+import solver.operator.TournamentSelection;
+import solver.operator.WeightMutation;
 import solver.operator.crosser.AverageCrosser;
 import solver.operator.mutator.GaussianMutator;
 
@@ -23,18 +27,18 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
-        int passLimit = 1 * 100;
+        int passLimit = 10000;
         int timeLimit = 25 * 60 * 100000;
-        int populationSize = 1000;
+        int populationSize = 10000;
         int inputLayerSize = 5;
         int outputLayerSize = 8;
         int tournamentSize = 2;
         double crossoverChance = 0.85;
         double weightMutationChance = 0.5;
         double biasMutationChance = 0.5;
-        double initialStd = 1000;
+        double initialStd = 10;
         double initialMean = 0;
-        double weightStd = 100;
+        double weightStd = 1;
         double weightMean = 0;
         double biasStd = 100;
         double biasMean = 0;
@@ -62,8 +66,8 @@ public class ForwardEngineering {
         operators.add(new WeightMutation(weightMutationChance, new GaussianMutator(weightStd, weightMean)));
         operators.add(new BiasMutation(biasMutationChance, new GaussianMutator(biasStd, biasMean)));
 
-        MyPlayer firstPlayer = new NeuralNetworkPlayer(0);
-        MyPlayer secondPlayer = new SimplePlayer(1);
+        JarcraftPlayer firstPlayer = new NeuralNetworkPlayer(0);
+        JarcraftPlayer secondPlayer = new SimplePlayer(1);
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         for (UnitSelection unitSelection : generateRandomTestCases(5)) {
@@ -74,6 +78,6 @@ public class ForwardEngineering {
 
         Solver solver = new Solver(operators, passLimit, timeLimit, fileName, startingIndividuals, fitnessEvaluators);
 
-        solver.call();
+        solver.solve();
     }
 }

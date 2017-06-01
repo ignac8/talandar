@@ -7,13 +7,14 @@ import solver.operator.Operator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 
 import static java.lang.System.currentTimeMillis;
 import static utils.FileUtils.saveFile;
 import static utils.FileUtils.saveGraphToFile;
 import static utils.FileUtils.toJson;
 
-public class Solver implements Callable<Individual> {
+public class Solver {
 
     private List<Individual> individuals;
     private List<Operator> operators;
@@ -36,11 +37,11 @@ public class Solver implements Callable<Individual> {
         this.timeLimit = timeLimit;
         this.fileName = fileName;
         this.fitnessEvaluators = fitnessEvaluators;
-        passCount = 0;
+        this.passCount = 0;
         evaluate();
     }
 
-    public Individual call() {
+    public Individual solve() {
         while (!done()) {
             for (Operator operator : operators) {
                 individuals = operator.call(individuals);

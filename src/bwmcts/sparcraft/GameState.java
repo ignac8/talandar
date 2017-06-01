@@ -131,8 +131,18 @@ public class GameState {
         }
 
         //Update game time
-        currentTime = Math.min(getUnit(0, 0).firstTimeFree(), getUnit(1, 0).firstTimeFree());
 
+        Unit firstPlayerUnit = getUnit(0, 0);
+        Unit secondPlayerUnit = getUnit(1, 0);
+        int firstPlayerFree = Integer.MAX_VALUE;
+        int secondPlayerFree = Integer.MAX_VALUE;
+        if (firstPlayerUnit != null) {
+            firstPlayerFree = firstPlayerUnit.getFirstTimeFree();
+        }
+        if (secondPlayerUnit != null) {
+            secondPlayerFree = secondPlayerUnit.getFirstTimeFree();
+        }
+        currentTime = Math.min(firstPlayerFree, secondPlayerFree);
     }
 
     public boolean playerDead(int player) {
@@ -441,12 +451,12 @@ public class GameState {
         return new StateEvalScore(score._val /*+ winBonus*/, score._numMoves);
     }
 
-    // evaluate the state for _playerToMove
+    // solve the state for _playerToMove
     private int evalLTD(int player) {
         return LTD(player) - LTD(getEnemy(player));
     }
 
-    // evaluate the state for _playerToMove
+    // solve the state for _playerToMove
     private int evalLTD2(int player) {
         return LTD2(player) - LTD2(getEnemy(player));
     }
@@ -542,7 +552,7 @@ public class GameState {
 
         // we are interested in all simultaneous moves
         // so return all units which can move at the same time as the first
-        int firstUnitMoveTime = getUnit(playerIndex, 0).firstTimeFree();
+        int firstUnitMoveTime = getUnit(playerIndex, 0).getFirstTimeFree();
         Unit unit;
         Unit enemyUnit;
         int moveDistance = 0;
@@ -550,11 +560,11 @@ public class GameState {
         for (int unitIndex = 0; unitIndex < numUnits[playerIndex]; unitIndex++) {
             // unit reference
             unit = getUnit(playerIndex, unitIndex);
-            if (unit == null || unit.firstTimeFree() != firstUnitMoveTime) {
+            if (unit == null || unit.getFirstTimeFree() != firstUnitMoveTime) {
                 break;
             }
             // if this unit can't move at the same time as the first
-			/*if (unit.firstTimeFree() != firstUnitMoveTime)
+            /*if (unit.getFirstTimeFree() != firstUnitMoveTime)
 			{
 				// stop checking
 				break;
@@ -657,14 +667,14 @@ public class GameState {
     }
 
     public void makeMoves(List<UnitAction> moves) {
-        if (moves.size() > 0) {
-            //if (getUnit(moves.get(0).playerId,moves.get(0).unitId).firstTimeFree()!=currentTime)
+/*        if (moves.size() > 0) {
+            //if (getUnit(moves.get(0).playerId,moves.get(0).unitId).getFirstTimeFree()!=currentTime)
             if (whoCanMove().ordinal() == getEnemy(moves.get(0).player())) {
                 //throw new Exception("GameState Error - Called makeMove() for a player that cannot currently move");
                 //System.out.print(" GameState Error - Called makeMove() for a player that cannot currently move ");
                 return;
             }
-        }
+        }*/
         UnitAction move;
         Unit ourUnit, enemyUnit;
         HashMap<Unit, Boolean> moved = new HashMap<>();
@@ -723,8 +733,8 @@ public class GameState {
         if (getUnit(0, 0) == null || getUnit(1, 0) == null)
             return Players.Player_None;
 
-        int p1Time = getUnit(0, 0).firstTimeFree();
-        int p2Time = getUnit(1, 0).firstTimeFree();
+        int p1Time = getUnit(0, 0).getFirstTimeFree();
+        int p2Time = getUnit(1, 0).getFirstTimeFree();
 
         // if player one is to move first
         if (p1Time < p2Time) {
@@ -739,7 +749,7 @@ public class GameState {
     }
 
     public boolean bothCanMove() {
-        return getUnit(0, 0).firstTimeFree() == getUnit(1, 0).firstTimeFree();
+        return getUnit(0, 0).getFirstTimeFree() == getUnit(1, 0).getFirstTimeFree();
     }
 
     public Map getMap() {
@@ -795,7 +805,7 @@ public class GameState {
             for (int u = 0; u < numUnits[p]; u++) {
                 Unit unit = getUnit(p, u);
 
-                System.out.printf("  P%d %5d %5d    (%3d, %3d)     %s_%d\n", unit.player(), unit.getCurrentHP(), unit.firstTimeFree(), unit.x(), unit.y(), unit.name(), unit.unitId);
+                System.out.printf("  P%d %5d %5d    (%3d, %3d)     %s_%d\n", unit.player(), unit.getCurrentHP(), unit.getFirstTimeFree(), unit.x(), unit.y(), unit.name(), unit.unitId);
             }
         }
     }

@@ -208,7 +208,7 @@ public class RGUCTCD extends UCT {
         for (List<Unit> cluster : clusters) {
             List<Unit> readyCluster = new ArrayList<>();
             for (Unit unit : cluster) {
-                if (unit.firstTimeFree() == state.getCurrentTime())
+                if (unit.getFirstTimeFree() == state.getCurrentTime())
                     readyCluster.add(unit);
             }
             if (!readyCluster.isEmpty())

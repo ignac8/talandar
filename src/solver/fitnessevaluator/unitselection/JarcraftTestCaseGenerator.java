@@ -1,5 +1,6 @@
 package solver.fitnessevaluator.unitselection;
 
+import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.types.UnitType;
 
 import java.util.ArrayList;
@@ -8,6 +9,10 @@ import java.util.List;
 import static java.util.Collections.shuffle;
 
 public class JarcraftTestCaseGenerator {
+
+    static {
+        JNIBWAPI_LOAD.initialize();
+    }
 
     public static List<UnitSelection> generateRandomTestCases(int number) {
         List<UnitSelection> allTestCases = generateAllTestCases();
@@ -51,7 +56,7 @@ public class JarcraftTestCaseGenerator {
         return possibleChoices;
     }
 
-    private static List<List<UnitType>> generatePlayerUnits(Race race,
+    public static List<List<UnitType>> generatePlayerUnits(Race race,
                                                             Quantity meleeUnitQuantity,
                                                             Quantity rangedUnitQuantity) {
         List<List<UnitType>> playerUnits = new ArrayList<>();

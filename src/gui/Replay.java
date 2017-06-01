@@ -17,7 +17,7 @@ public class Replay implements Callable<Object> {
         Individual bestOne = fromJson(json, Individual.class);
         //NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayerUnitSelection());
         //neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());
-        //fitnessEvaluator.evaluate(bestOne);
+        //fitnessEvaluator.solve(bestOne);
         return null;
     }
 }

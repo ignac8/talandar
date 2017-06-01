@@ -1,5 +1,9 @@
 package bwmcts.test;
 
+import bwmcts.sparcraft.AnimationFrameData;
+import bwmcts.sparcraft.PlayerProperties;
+import bwmcts.sparcraft.UnitProperties;
+import bwmcts.sparcraft.WeaponProperties;
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.BulletType;
@@ -45,6 +49,8 @@ import static utils.FileUtils.loadFile;
  */
 public class JNIBWAPI_LOAD extends JNIBWAPI {
 
+    private static JNIBWAPI bwapi;
+
     public JNIBWAPI_LOAD(BWAPIEventListener listener) {
         super(listener, false, false);
     }
@@ -53,6 +59,16 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
         super(new EmptyBWAPIEventListener(), false, false);
     }
 
+    public static void initialize() {
+        if (bwapi == null) {
+            bwapi = new JNIBWAPI_LOAD();
+            bwapi.loadTypeData();
+            AnimationFrameData.Init();
+            PlayerProperties.Init();
+            WeaponProperties.Init(bwapi);
+            UnitProperties.Init(bwapi);
+        }
+    }
 
     public void loadTypeData() {
         // race types

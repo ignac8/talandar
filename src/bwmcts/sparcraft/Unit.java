@@ -449,7 +449,7 @@ public class Unit implements Comparable<Unit> {
         return previousActionTime;
     }
 
-    public int firstTimeFree() {
+    public int getFirstTimeFree() {
         return timeCanAttack <= timeCanMove ? timeCanAttack : timeCanMove;
     }
 
@@ -506,10 +506,10 @@ public class Unit implements Comparable<Unit> {
             return -1;
         }
 
-        if (firstTimeFree() == u.firstTimeFree()) {
+        if (getFirstTimeFree() == u.getFirstTimeFree()) {
             return getId() >= u.getId() ? 1 : -1;
         } else {
-            return firstTimeFree() >= u.firstTimeFree() ? 1 : -1;
+            return getFirstTimeFree() >= u.getFirstTimeFree() ? 1 : -1;
         }
 
     }

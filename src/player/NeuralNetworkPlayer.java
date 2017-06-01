@@ -10,22 +10,25 @@ import neuralnetwork.neuron.InputNeuron;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
-import static bwmcts.sparcraft.UnitActionTypes.*;
+import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
+import static bwmcts.sparcraft.UnitActionTypes.MOVE;
+import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
 import static java.lang.Double.MIN_VALUE;
 import static java.lang.Math.sqrt;
 
 
-public final class NeuralNetworkPlayer extends MyPlayer {
+public final class NeuralNetworkPlayer extends JarcraftPlayer {
 
-    private final HashMap<Unit, Integer> maxIndexes = new HashMap<>();
+    private final ConcurrentHashMap<Unit, Integer> maxIndexes = new ConcurrentHashMap<>();
     private NeuralNetwork neuralNetwork;
 
     public NeuralNetworkPlayer(int id) {
         super(id);
     }
 
-    public HashMap<Unit, Integer> getMaxIndexes() {
+    public ConcurrentHashMap<Unit, Integer> getMaxIndexes() {
         return maxIndexes;
     }
 
@@ -83,7 +86,7 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                 List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();
                 for (int j = 0; j < outputLayer.size(); j++) {
                     CalculableNeuron neuron = outputLayer.get(j);
-                    if (neuron.getValue() > maxValue) {
+                    if (neuron.getValue() >= maxValue) {
                         maxIndex = j;
                         maxValue = neuron.getValue();
                     }
@@ -98,7 +101,7 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                 Position lowestHPEnemyUnitPosition = lowestHPUnit.getPosition();
 
                 UnitAction unitAction = null;
-
+                
                 switch (maxIndex) {
                     case 0:
                         unitAction = getExtremeActions(
@@ -183,6 +186,10 @@ public final class NeuralNetworkPlayer extends MyPlayer {
                             }
                         }
                         break;
+                }
+
+                if (unitAction == null) {
+                    throw new NullPointerException();
                 }
 
                 finalUnitActions.add(unitAction);

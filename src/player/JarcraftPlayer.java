@@ -17,9 +17,9 @@ import static bwmcts.sparcraft.UnitActionTypes.RELOAD;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.MIN_VALUE;
 
-public abstract class MyPlayer extends Player {
+public abstract class JarcraftPlayer extends Player {
 
-    protected MyPlayer(int id) {
+    protected JarcraftPlayer(int id) {
         super(id);
     }
 

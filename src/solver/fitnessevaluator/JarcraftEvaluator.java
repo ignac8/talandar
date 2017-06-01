@@ -1,18 +1,13 @@
 package solver.fitnessevaluator;
 
-import bwmcts.sparcraft.AnimationFrameData;
 import bwmcts.sparcraft.Game;
 import bwmcts.sparcraft.GameState;
 import bwmcts.sparcraft.Map;
-import bwmcts.sparcraft.PlayerProperties;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
-import bwmcts.sparcraft.UnitProperties;
-import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.test.JNIBWAPI_LOAD;
-import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
-import player.MyPlayer;
+import player.JarcraftPlayer;
 import solver.fitnessevaluator.unitselection.UnitSelection;
 
 import java.util.List;
@@ -22,15 +17,8 @@ import static jnibwapi.Map.TILE_SIZE;
 
 public class JarcraftEvaluator implements FitnessEvaluator {
 
-    private static JNIBWAPI bwapi;
-
     static {
-        bwapi = new JNIBWAPI_LOAD();
-        bwapi.loadTypeData();
-        AnimationFrameData.Init();
-        PlayerProperties.Init();
-        WeaponProperties.Init(bwapi);
-        UnitProperties.Init(bwapi);
+        JNIBWAPI_LOAD.initialize();
     }
 
     private boolean graphics;
@@ -39,12 +27,12 @@ public class JarcraftEvaluator implements FitnessEvaluator {
     private int mapWidth;
     private int gapHeight;
     private int gapWidth;
-    private MyPlayer firstPlayer;
-    private MyPlayer secondPlayer;
+    private JarcraftPlayer firstPlayer;
     private UnitSelection unitSelection;
+    private JarcraftPlayer secondPlayer;
 
     public JarcraftEvaluator(boolean graphics, int limit, int mapHeight, int mapWidth, int gapHeight, int gapWidth,
-                             MyPlayer firstPlayer, MyPlayer secondPlayer, UnitSelection unitSelection) {
+                             JarcraftPlayer firstPlayer, JarcraftPlayer secondPlayer, UnitSelection unitSelection) {
         this.graphics = graphics;
         this.limit = limit;
         this.mapHeight = mapHeight;
@@ -67,8 +55,7 @@ public class JarcraftEvaluator implements FitnessEvaluator {
             List<UnitType> unitTypesColumn = unitTypes.get(i - 1);
             for (int j = 0; j < unitTypesColumn.size(); j++) {
                 UnitType unitType = unitTypesColumn.get(j);
-                unitType = bwapi.getUnitType(unitType.getID());
-                if (secondPlayer) {
+                if (!secondPlayer) {
                     Position position = new Position(gapWidth * i,
                             mapHeight / 2 - gapHeight * (unitTypesColumn.size() - 1) / 2 + gapHeight * j);
                     state.addUnit(unitType, 0, position);
@@ -135,11 +122,11 @@ public class JarcraftEvaluator implements FitnessEvaluator {
         return unit.getMineralPrice() + 2 * unit.getGasPrice();
     }
 
-    public MyPlayer getFirstPlayer() {
+    public JarcraftPlayer getFirstPlayer() {
         return firstPlayer;
     }
 
-    public MyPlayer getSecondPlayer() {
+    public JarcraftPlayer getSecondPlayer() {
         return secondPlayer;
     }
 }
