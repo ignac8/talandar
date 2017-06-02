@@ -2,38 +2,40 @@ package fitnessevaluator.unitselection;
 
 import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.types.UnitType;
+import utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.shuffle;
 
-public class JarcraftTestCaseGenerator {
+public class JarcraftUnitSelectionGenerator {
 
     static {
         JNIBWAPI_LOAD.initialize();
     }
 
-    public static List<UnitSelection> generateRandomTestCases(int number) {
-        List<UnitSelection> allTestCases = generateAllTestCases();
-        shuffle(allTestCases);
-        List<UnitSelection> randomTestCases = new ArrayList<>();
-        for (int counter = 0; counter < number && counter < allTestCases.size(); counter++) {
-            randomTestCases.add(allTestCases.get(counter));
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateRandomUnitSelections(int number) {
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
+        shuffle(allUnitSelections);
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> randomUnitSelections = new ArrayList<>();
+        for (int counter = 0; counter < number && counter < allUnitSelections.size(); counter++) {
+            randomUnitSelections.add(allUnitSelections.get(counter));
         }
-        return randomTestCases;
+        return randomUnitSelections;
     }
 
 
-    public static List<UnitSelection> generateAllTestCases() {
-        List<UnitSelection> unitSelections = new ArrayList<>();
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateAllUnitSelections() {
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = new ArrayList<>();
 
         List<List<List<UnitType>>> firstPlayerOptions = generatePossibleChoices();
         List<List<List<UnitType>>> secondPlayerOptions = generatePossibleChoices();
 
         for (List<List<UnitType>> firstPlayerOption : firstPlayerOptions) {
             for (List<List<UnitType>> secondPlayerOption : secondPlayerOptions) {
-                UnitSelection unitSelection = new UnitSelection(firstPlayerOption, secondPlayerOption);
+                Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection =
+                        new Pair<>(firstPlayerOption, secondPlayerOption);
                 unitSelections.add(unitSelection);
             }
         }
@@ -123,5 +125,14 @@ public class JarcraftTestCaseGenerator {
         }
 
         return playerUnits;
+    }
+
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateMirrorUnitSelections(
+            List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections) {
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> mirrorUnitSelections = new ArrayList<>();
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
+            mirrorUnitSelections.add(unitSelection.getSwappedPair());
+        }
+        return mirrorUnitSelections;
     }
 }

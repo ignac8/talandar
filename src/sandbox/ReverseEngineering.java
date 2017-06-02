@@ -16,7 +16,6 @@ import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitProperties;
 import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.sparcraft.players.Player;
-import bwmcts.sparcraft.players.Player_AttackClosest;
 import bwmcts.test.JNIBWAPI_LOAD;
 import bwmcts.uct.UctConfig;
 import bwmcts.uct.guctcd.ClusteringConfig;
@@ -26,7 +25,6 @@ import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
-import player.SimplePlayer;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -69,10 +67,6 @@ public class ReverseEngineering implements BWAPIEventListener {
         Player p1 = new UctLogic(tc.bwapi, new GUCTCD(new UctConfig(0), new ClusteringConfig(1, 6, new DynamicKMeans(30.0))), 40);
 
         Player p2 = new UctLogic(tc.bwapi, new UCTCD(new UctConfig(1)), 40);
-
-        p1 = new Player_AttackClosest(0);
-        p2 = new SimplePlayer(1);
-
 
         tc.buf = new StringBuffer();
         System.out.println("Player0: " + p1.toString());
@@ -126,16 +120,14 @@ public class ReverseEngineering implements BWAPIEventListener {
     float testDragoonZealotGames(Player p1, Player p2, int n, int games) throws Exception {
 
         HashMap<UnitType, Integer> unitsA = new HashMap<>();
-        //unitsA.put(UnitTypes.Protoss_Dragoon, n / 2);
-        //unitsA.put(UnitTypes.Protoss_Zealot, n / 2);
+        unitsA.put(UnitTypes.Protoss_Dragoon, n / 2);
+        unitsA.put(UnitTypes.Protoss_Zealot, n / 2);
 
 
         HashMap<UnitType, Integer> unitsB = new HashMap<>();
-        //unitsB.put(UnitTypes.Protoss_Dragoon, n / 2);
-        //unitsB.put(UnitTypes.Protoss_Zealot, n / 2);
+        unitsB.put(UnitTypes.Protoss_Dragoon, n / 2);
+        unitsB.put(UnitTypes.Protoss_Zealot, n / 2);
 
-        unitsB.put(UnitTypes.Terran_Marine, 7);
-        unitsA.put(UnitTypes.Protoss_Zealot, 3);
 
         Constants.Max_Units = n * 2;
         Constants.Max_Moves = Constants.Max_Units + Constants.Num_Directions + 1;

@@ -93,12 +93,12 @@ public class SparcraftUI extends JComponent {
             }
 
             if (p1 instanceof NeuralNetworkPlayer) {
-                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getMaxIndexes();
+                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getCurrentMaxIndexes();
                 drawChosenActions(graphics, maxIndexes);
             }
 
             if (p2 instanceof NeuralNetworkPlayer) {
-                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getMaxIndexes();
+                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getCurrentMaxIndexes();
                 drawChosenActions(graphics, maxIndexes);
             }
 

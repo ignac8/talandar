@@ -351,7 +351,7 @@ public class JarcraftTest implements BWAPIEventListener {
 	}
 	*/
     /*
-	private double runUpgma(Player p1, Player p2, int i, int numClusters) throws Exception {
+    private double runUpgma(Player p1, Player p2, int i, int numClusters) throws Exception {
 		
 		HashMap<UnitTypes, Integer> unitsA = new HashMap<UnitType.UnitTypes, Integer>();
 		unitsA.put(UnitTypes.Terran_Siege_Tank_Tank_Mode, i);

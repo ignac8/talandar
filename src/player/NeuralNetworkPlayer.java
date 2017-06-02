@@ -10,6 +10,7 @@ import neuralnetwork.neuron.InputNeuron;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static bwmcts.sparcraft.UnitActionTypes.ATTACK;
@@ -21,15 +22,16 @@ import static java.lang.Math.sqrt;
 
 public final class NeuralNetworkPlayer extends JarcraftPlayer {
 
-    private final ConcurrentHashMap<Unit, Integer> maxIndexes = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Unit, Integer> currentMaxIndexes = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Unit, Integer> previousMaxIndexes = new ConcurrentHashMap<>();
     private NeuralNetwork neuralNetwork;
 
     public NeuralNetworkPlayer(int id) {
         super(id);
     }
 
-    public ConcurrentHashMap<Unit, Integer> getMaxIndexes() {
-        return maxIndexes;
+    public ConcurrentHashMap<Unit, Integer> getCurrentMaxIndexes() {
+        return currentMaxIndexes;
     }
 
     public NeuralNetwork getNeuralNetwork() {
@@ -44,14 +46,14 @@ public final class NeuralNetworkPlayer extends JarcraftPlayer {
     @Override
     public void getMoves(GameState state, HashMap<Integer, List<UnitAction>> unitActions, List<UnitAction> finalUnitActions) {
         finalUnitActions.clear();
-        maxIndexes.clear();
 
+        previousMaxIndexes = currentMaxIndexes;
+        currentMaxIndexes = new ConcurrentHashMap<>();
 
         for (int unitIndex = 0; unitIndex < unitActions.size(); unitIndex++) {
             Unit currentUnit = state.getUnit(playerId, unitIndex);
             if (currentUnit != null) {
                 List<InputNeuron> inputLayer = neuralNetwork.getInputLayer();
-                int i = 0;
 
 //                inputLayer.get(i++).setValue(getRemainingCooldown(currentUnit, state));
 
@@ -78,16 +80,21 @@ public final class NeuralNetworkPlayer extends JarcraftPlayer {
                 inputLayer.get(3).setValue(sqrt(getClosestUnit(currentUnit, getEnemyUnits(state)).getDistanceSq(currentUnit)));
                 inputLayer.get(4).setValue(sqrt(getLowestHPEnemyUnit(getEnemyUnits(state)).getDistanceSq(currentUnit)));
 
+                for (int counter = 0; counter <= 7 * 2; counter += 2) {
+                    inputLayer.get(counter + 5).setValue(howMany(previousMaxIndexes, counter / 2));
+                    inputLayer.get(counter + 6).setValue(howMany(currentMaxIndexes, counter / 2));
+                }
+
                 neuralNetwork.calculateOutput();
 
                 int maxIndex = -1;
                 double maxValue = MIN_VALUE;
 
                 List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();
-                for (int j = 0; j < outputLayer.size(); j++) {
-                    CalculableNeuron neuron = outputLayer.get(j);
+                for (int counter = 0; counter < outputLayer.size(); counter++) {
+                    CalculableNeuron neuron = outputLayer.get(counter);
                     if (neuron.getValue() >= maxValue) {
-                        maxIndex = j;
+                        maxIndex = counter;
                         maxValue = neuron.getValue();
                     }
                 }
@@ -193,9 +200,21 @@ public final class NeuralNetworkPlayer extends JarcraftPlayer {
                 }
 
                 finalUnitActions.add(unitAction);
-                maxIndexes.put(currentUnit, maxIndex);
+                currentMaxIndexes.put(currentUnit, maxIndex);
 
             }
         }
     }
+
+    private int howMany(Map<Unit, Integer> map, Integer integer) {
+        int sum = 0;
+        for (Integer value : map.values()) {
+            if (integer.equals(value)) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+
 }

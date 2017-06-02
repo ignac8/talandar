@@ -5,10 +5,10 @@ import bwmcts.sparcraft.GameState;
 import bwmcts.sparcraft.Map;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
+import bwmcts.sparcraft.players.Player;
 import bwmcts.test.JNIBWAPI_LOAD;
-import fitnessevaluator.unitselection.UnitSelection;
 import jnibwapi.types.UnitType;
-import player.JarcraftPlayer;
+import utils.Pair;
 
 import java.util.List;
 
@@ -27,12 +27,12 @@ public class JarcraftEvaluator implements FitnessEvaluator {
     private int mapWidth;
     private int gapHeight;
     private int gapWidth;
-    private JarcraftPlayer firstPlayer;
-    private UnitSelection unitSelection;
-    private JarcraftPlayer secondPlayer;
+    private Player firstPlayer;
+    private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
+    private Player secondPlayer;
 
     public JarcraftEvaluator(boolean graphics, int limit, int mapHeight, int mapWidth, int gapHeight, int gapWidth,
-                             JarcraftPlayer firstPlayer, JarcraftPlayer secondPlayer, UnitSelection unitSelection) {
+                             Player firstPlayer, Player secondPlayer, Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
         this.graphics = graphics;
         this.limit = limit;
         this.mapHeight = mapHeight;
@@ -73,8 +73,8 @@ public class JarcraftEvaluator implements FitnessEvaluator {
         try {
             GameState state = new GameState();
             state.setMap(new Map(mapWidth / TILE_SIZE, mapHeight / TILE_SIZE));
-            state = putUnits(state, false, unitSelection.getFirstPlayerUnitSelection());
-            state = putUnits(state, true, unitSelection.getSecondPlayerUnitSelection());
+            state = putUnits(state, false, unitSelection.getLeft());
+            state = putUnits(state, true, unitSelection.getRight());
             Game game = new Game(state, firstPlayer, secondPlayer, limit, graphics, true);
             game.play();
             return game.getState();
@@ -122,15 +122,15 @@ public class JarcraftEvaluator implements FitnessEvaluator {
         return unit.getMineralPrice() + 2 * unit.getGasPrice();
     }
 
-    public JarcraftPlayer getFirstPlayer() {
+    public Player getFirstPlayer() {
         return firstPlayer;
     }
 
-    public JarcraftPlayer getSecondPlayer() {
+    public Player getSecondPlayer() {
         return secondPlayer;
     }
 
-    public void setUnitSelection(UnitSelection unitSelection) {
+    public void setUnitSelection(Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
         this.unitSelection = unitSelection;
     }
 }

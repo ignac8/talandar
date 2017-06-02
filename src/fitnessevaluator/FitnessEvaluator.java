@@ -1,14 +1,14 @@
 package fitnessevaluator;
 
-import player.JarcraftPlayer;
+import bwmcts.sparcraft.players.Player;
 
 public interface FitnessEvaluator {
 
     double evaluate();
 
-    JarcraftPlayer getFirstPlayer();
+    Player getFirstPlayer();
 
-    JarcraftPlayer getSecondPlayer();
+    Player getSecondPlayer();
 
 
 }

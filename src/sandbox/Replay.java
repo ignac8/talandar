@@ -1,17 +1,18 @@
 package sandbox;
 
+import bwmcts.sparcraft.players.Player;
 import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.JarcraftEvaluator;
-import fitnessevaluator.unitselection.UnitSelection;
+import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.JarcraftPlayer;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
+import utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
+import static fitnessevaluator.unitselection.JarcraftUnitSelectionGenerator.generateAllUnitSelections;
 import static java.util.Collections.shuffle;
 import static jnibwapi.Map.TILE_SIZE;
 import static utils.FileUtils.fromJson;
@@ -30,13 +31,14 @@ public class Replay {
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        JarcraftPlayer firstPlayer = new NeuralNetworkPlayer(0);
-        JarcraftPlayer secondPlayer = new SimplePlayer(1);
+        Player firstPlayer = new NeuralNetworkPlayer(0);
+        Player secondPlayer = new SimplePlayer(1);
+
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
         NeuralNetworkPlayer neuralNetworkPlayer;
 
-        //noinspection Duplicates
-        for (UnitSelection unitSelection : generateAllTestCases()) {
+
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateAllUnitSelections()) {
             FitnessEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
                     gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
             neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());

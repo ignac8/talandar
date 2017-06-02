@@ -2,7 +2,8 @@ package sandbox;
 
 import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.JarcraftEvaluator;
-import fitnessevaluator.unitselection.UnitSelection;
+import fitnessevaluator.unitselection.JarcraftUnitSelectionGenerator;
+import jnibwapi.types.UnitType;
 import neuralnetwork.FCSNeuralNetwork;
 import player.JarcraftPlayer;
 import player.NeuralNetworkPlayer;
@@ -16,12 +17,13 @@ import solver.operator.TournamentSelection;
 import solver.operator.WeightMutation;
 import solver.operator.crosser.AverageCrosser;
 import solver.operator.mutator.GaussianMutator;
+import utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateAllTestCases;
-import static fitnessevaluator.unitselection.JarcraftTestCaseGenerator.generateRandomTestCases;
+import static fitnessevaluator.unitselection.JarcraftUnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.unitselection.JarcraftUnitSelectionGenerator.generateRandomUnitSelections;
 import static jnibwapi.Map.TILE_SIZE;
 
 public class ForwardEngineering {
@@ -31,17 +33,17 @@ public class ForwardEngineering {
         int passLimit = Integer.MAX_VALUE;
         int timeLimit = 1 * 60 * 1000;
         int populationSize = 100;
-        int inputLayerSize = 5;
+        int inputLayerSize = 21;
         int outputLayerSize = 8;
         int tournamentSize = 2;
-        double crossoverChance = 0.85;
-        double weightMutationChance = 0.5;
-        double biasMutationChance = 0.5;
+        double crossoverChance = 0;
+        double weightMutationChance = 1;
+        double biasMutationChance = 1;
         double initialStd = 10;
         double initialMean = 0;
-        double weightStd = 1;
+        double weightStd = 10;
         double weightMean = 0;
-        double biasStd = 1;
+        double biasStd = 10;
         double biasMean = 0;
         boolean graphics = false;
         int limit = 10000;
@@ -49,7 +51,7 @@ public class ForwardEngineering {
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        int numberOfTestCases = 25;
+        int numberOfUnitSelections = 10;
 
         int[] hiddenLayerSizes = {10};
 
@@ -72,7 +74,12 @@ public class ForwardEngineering {
         JarcraftPlayer secondPlayer = new SimplePlayer(1);
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
-        for (UnitSelection unitSelection : generateRandomTestCases(numberOfTestCases)) {
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
+                = generateRandomUnitSelections(numberOfUnitSelections);
+
+        unitSelections.addAll(JarcraftUnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
+
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             FitnessEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
                     gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
@@ -81,20 +88,21 @@ public class ForwardEngineering {
         Solver solver = new Solver(operators, passLimit, timeLimit, fileName, startingIndividuals, fitnessEvaluators);
 
         Individual bestOne = solver.solve();
-        solver 
+        solver.graph("graphs\\testNeuralWeb.png");
+        solver.save("testNeuralWeb.json");
 
         double totalFitness = 0;
 
-        JarcraftEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+        JarcraftEvaluator fitnessEvaluator = new JarcraftEvaluator(false, limit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, null);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());
-        List<UnitSelection> allTestCases = generateAllTestCases();
-        for (UnitSelection unitSelection : allTestCases) {
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);
             totalFitness += fitnessEvaluator.evaluate();
         }
-        totalFitness /= allTestCases.size();
+        totalFitness /= allUnitSelections.size();
 
         System.out.println("Total fitness equals: " + totalFitness);
     }

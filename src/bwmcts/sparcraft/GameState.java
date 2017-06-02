@@ -544,7 +544,7 @@ public class GameState {
 
         // make sure this player can move right now
         //int canMove=whoCanMove().getID();
-	    /*if (whoCanMove().getID() == enemyPlayer)
+        /*if (whoCanMove().getID() == enemyPlayer)
 	    {
 	    	System.out.println("GameState Error - Called generateMoves() for a player that cannot currently move");
 	        return;//throw new Exception("GameState Error - Called generateMoves() for a player that cannot currently move");

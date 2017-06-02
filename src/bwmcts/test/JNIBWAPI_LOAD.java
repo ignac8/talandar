@@ -59,7 +59,7 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
         super(new EmptyBWAPIEventListener(), false, false);
     }
 
-    public static void initialize() {
+    public static JNIBWAPI initialize() {
         if (bwapi == null) {
             bwapi = new JNIBWAPI_LOAD();
             bwapi.loadTypeData();
@@ -68,6 +68,7 @@ public class JNIBWAPI_LOAD extends JNIBWAPI {
             WeaponProperties.Init(bwapi);
             UnitProperties.Init(bwapi);
         }
+        return bwapi;
     }
 
     public void loadTypeData() {

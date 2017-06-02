@@ -4,6 +4,7 @@
  * author of the source: David Churchill
  *
  * @param args
+ * @param args
  *//*
 
 package bwmcts.sparcraft;
@@ -660,7 +661,7 @@ public class SearchExperiment {
 
     public String[][] getExpDescription(int p1Ind, int p2Ind, int state) {*/
 /*
-	    // 2-column description vector
+        // 2-column description vector
 	    svv desc(2, sv());
 
 	    std::stringstream ss;
