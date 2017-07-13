@@ -15,7 +15,7 @@ import bwmcts.sparcraft.players.Player_Kite;
 import bwmcts.sparcraft.players.Player_KiteDPS;
 import bwmcts.sparcraft.players.Player_NoOverKillAttackValue;
 import bwmcts.sparcraft.players.Player_Random;
-import bwmcts.test.JNIBWAPI_LOAD;
+import simulation.JNIBWAPI_LOAD;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.TechType;
 import jnibwapi.types.UnitType;

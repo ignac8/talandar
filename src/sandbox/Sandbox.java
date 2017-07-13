@@ -1,10 +1,9 @@
 package sandbox;
 
-import static bwmcts.sparcraft.SparcraftUI.closeWindow;
+import simulation.JNIBWAPI_LOAD;
 
 public class Sandbox {
     public static void main(String... args) {
-
-        closeWindow();
+        JNIBWAPI_LOAD.initialize();
     }
 }

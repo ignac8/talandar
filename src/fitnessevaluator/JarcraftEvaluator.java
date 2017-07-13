@@ -6,8 +6,8 @@ import bwmcts.sparcraft.Map;
 import bwmcts.sparcraft.Position;
 import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.players.Player;
-import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.types.UnitType;
+import simulation.JNIBWAPI_LOAD;
 import utils.Pair;
 
 import java.util.List;

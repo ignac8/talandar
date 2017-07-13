@@ -1,9 +1,10 @@
-package bwmcts.test;
+package simulation;
 
 import bwmcts.sparcraft.AnimationFrameData;
 import bwmcts.sparcraft.PlayerProperties;
 import bwmcts.sparcraft.UnitProperties;
 import bwmcts.sparcraft.WeaponProperties;
+import bwmcts.test.EmptyBWAPIEventListener;
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.BulletType;

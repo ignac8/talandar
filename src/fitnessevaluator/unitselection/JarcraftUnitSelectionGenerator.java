@@ -1,7 +1,7 @@
 package fitnessevaluator.unitselection;
 
-import bwmcts.test.JNIBWAPI_LOAD;
 import jnibwapi.types.UnitType;
+import simulation.JNIBWAPI_LOAD;
 import utils.Pair;
 
 import java.util.ArrayList;

@@ -16,7 +16,6 @@ import bwmcts.sparcraft.Unit;
 import bwmcts.sparcraft.UnitProperties;
 import bwmcts.sparcraft.WeaponProperties;
 import bwmcts.sparcraft.players.Player;
-import bwmcts.test.JNIBWAPI_LOAD;
 import bwmcts.uct.UctConfig;
 import bwmcts.uct.guctcd.ClusteringConfig;
 import bwmcts.uct.guctcd.GUCTCD;
@@ -25,6 +24,7 @@ import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
+import simulation.JNIBWAPI_LOAD;
 
 import java.io.BufferedWriter;
 import java.io.File;

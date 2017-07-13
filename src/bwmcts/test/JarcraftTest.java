@@ -26,6 +26,7 @@ import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
+import simulation.JNIBWAPI_LOAD;
 
 import java.io.BufferedWriter;
 import java.io.File;
