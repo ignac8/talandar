@@ -1,15 +1,18 @@
 package simulation;
 
-import jnibwapi.Position;
 import jnibwapi.types.UnitType;
 import simulation.order.Order;
 
 public class Unit {
+    private static int idCounter = 0;
+    private int id;
     private UnitType unitType;
     private double currentHitPoints;
     private double currentShields;
     private Position position;
     private Order order;
+    private double cooldown;
+    private 
 
     public double getCurrentHitPoints() {
         return currentHitPoints;
@@ -23,11 +26,23 @@ public class Unit {
         this.order = order;
     }
 
-    public void damageUnit(double damage) {
-        currentShields -= damage;
-        if (currentShields < 0) {
-            currentHitPoints += currentShields;
-            currentShields = 0;
-        }
+    public UnitType getUnitType() {
+        return unitType;
+    }
+
+    public void setCurrentHitPoints(double currentHitPoints) {
+        this.currentHitPoints = currentHitPoints;
+    }
+
+    public double getCurrentShields() {
+        return currentShields;
+    }
+
+    public void setCurrentShields(double currentShields) {
+        this.currentShields = currentShields;
+    }
+
+    public int getId() {
+        return id;
     }
 }

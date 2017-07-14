@@ -7,7 +7,7 @@ public class MoveOrder extends Order {
     private Position position;
 
     @Override
-    public void execute(GameState currentGameState, GameState futureGameState) {
+    public void execute(GameState currentGameState, GameState nextGameState) {
 
     }
 }

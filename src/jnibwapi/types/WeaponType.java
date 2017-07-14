@@ -1,5 +1,7 @@
 package jnibwapi.types;
 
+import jnibwapi.types.DamageType.DamageTypes;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -202,6 +204,10 @@ public class WeaponType {
 
     public boolean isTargetsOwn() {
         return targetsOwn;
+    }
+
+    public DamageType getDamageType() {
+        return DamageTypes.getDamageType(damageTypeID);
     }
 
     @Override

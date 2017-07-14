@@ -1,13 +1,14 @@
 package simulation;
 
-import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+import static utils.MathUtils.fastSquare;
 
 public class Position {
     private double x;
     private double y;
 
     public double getDistance(Position position) {
-        return pow(x - position.x, 2) + pow(y - position.y, 2);
+        return sqrt(fastSquare(x - position.x) + fastSquare(y - position.y));
     }
 
 }

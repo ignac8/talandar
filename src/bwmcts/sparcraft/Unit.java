@@ -178,11 +178,11 @@ public class Unit implements Comparable<Unit> {
         PlayerWeapon weapon = attacker.getWeapon(this);
         //int      damage=attacker.getWeapon(this).GetDamageBase();
 
-        //damage =Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getSize())), 2);
+        //damage =Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getUnitSizeType())), 2);
 
         //std::cout << (int)attacker.player() << " " << damage << "\n";
 
-        // setCurrentHP(getCurrentHP - Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getSize())), 2));
+        // setCurrentHP(getCurrentHP - Math.max((int)((attacker.getWeapon(this).GetDamageBase()-getArmor()) * attacker.getWeapon(this).GetDamageMultiplier(getUnitSizeType())), 2));
         currentHP -= Math.max((int) ((weapon.GetDamageBase() - getArmor()) * weapon.GetDamageMultiplier(getSize())), 2);
     }
 

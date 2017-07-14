@@ -1,10 +1,12 @@
 package simulation;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class GameState {
-    private List<List<Unit>> units;
+    private Map<Integer, Unit> units;
+    private double maxX;
+    private double maxY;
 
     public GameState copy() {
         GameState gameState = new GameState();
@@ -12,19 +14,17 @@ public class GameState {
         return gameState;
     }
 
-    public List<List<Unit>> getUnits() {
+    public Map<Integer, Unit> getUnits() {
         return units;
     }
 
     public void removeDeadUnits() {
-        for (List<Unit> playerUnits : units) {
-            Iterator<Unit> iterator = playerUnits.iterator();
-            while (iterator.hasNext()) {
-                Unit unit = iterator.next();
+        for (Entry<Integer, Unit> entry : units.entrySet()) {
+            int id = entry.getKey();
+            Unit unit = entry.getValue();
                 if (unit.getCurrentHitPoints() <= 0) {
-                    iterator.remove();
+                    units.remove(id);
                 }
             }
-        }
     }
 }

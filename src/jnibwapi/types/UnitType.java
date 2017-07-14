@@ -284,7 +284,7 @@ public class UnitType {
         return destroyScore;
     }
 
-    public UnitSizeType getSize() {
+    public UnitSizeType getUnitSizeType() {
         return UnitSizeTypes.getUnitSizeType(sizeID);
     }
 
@@ -335,6 +335,10 @@ public class UnitType {
 
     public int getMaxGroundHits() {
         return maxGroundHits;
+    }
+
+    public WeaponType getAirWeapon() {
+        return WeaponTypes.getWeaponType(airWeaponID);
     }
 
     public int getAirWeaponID() {
