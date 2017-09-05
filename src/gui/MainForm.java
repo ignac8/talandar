@@ -4,13 +4,18 @@ import bwmcts.sparcraft.SparcraftUI;
 import jnibwapi.JNIBWAPI;
 import sandbox.ForwardEngineering;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class MainForm {
+    private static JNIBWAPI bwapi;
     private JPanel panel;
     private JLabel label1;
     private JLabel label2;
@@ -47,16 +52,11 @@ public class MainForm {
     private JButton button1;
     private JButton button2;
     private SparcraftUI sparcraftUI;
-    private static JNIBWAPI bwapi;
     private ExecutorService executorService;
 
     public MainForm() {
-
-
         executorService = Executors.newSingleThreadExecutor();
         Replay replay = new Replay();
-
-
         button1.addActionListener(e -> ForwardEngineering.main());
         button2.addActionListener(e -> executorService.submit(replay));
     }

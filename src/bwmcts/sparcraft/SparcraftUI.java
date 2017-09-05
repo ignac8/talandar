@@ -16,9 +16,6 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class SparcraftUI extends JComponent {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private static SparcraftUI instance;
     private int offSetX = 0;

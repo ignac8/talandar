@@ -4,13 +4,21 @@ import simulation.order.Order;
 import simulation.player.Player;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Game {
 
+    private static final SimulationUI SIMULATION_UI = SimulationUI.getInstance();
     private GameState currentGameState;
     private List<Player> players;
+    private boolean displayed;
+
+    public Game(GameState currentGameState, List<Player> players, boolean displayed) {
+        this.currentGameState = currentGameState;
+        this.players = players;
+        this.displayed = displayed;
+    }
 
     public GameState play() {
         GameState nextGameState = currentGameState.copy();
@@ -18,16 +26,16 @@ public class Game {
             for (Player player : players) {
                 player.giveOrders(currentGameState);
             }
-                for (Entry<Integer, Unit> entry : currentGameState.getUnits().entrySet()) {
-                    int id = entry.getKey();
-                    Unit unit = entry.getValue();
-                    Order order = unit.getOrder();
-                    if (order != null) {
-                        order.execute(currentGameState, nextGameState);
-                    }
+            for (Unit unit : currentGameState.getUnits().values()) {
+                Order order = unit.getOrder();
+                if (order != null) {
+                    order.execute(currentGameState, nextGameState);
                 }
-
-            nextGameState.removeDeadUnits();
+            }
+            if (displayed) {
+                SIMULATION_UI.setGameState(currentGameState);
+                SIMULATION_UI.repaint();
+            }
             currentGameState = nextGameState;
         }
         return currentGameState;
@@ -38,11 +46,16 @@ public class Game {
     }
 
     private int getPlayersWithUnits() {
-        int playersWithUnits = 0;
-        for (Entry<Integer, Unit> playerUnits : currentGameState.getUnits().entrySet()) {
-            if (playerUnits.size() > 0)
-                playersWithUnits++;
+        Set<Integer> playersSet = new TreeSet<>();
+        for (Unit unit : currentGameState.getUnits().values()) {
+            if (unit.getHitPoints() > 0) {
+                playersSet.add(unit.getPlayerId());
+            }
         }
-        return playersWithUnits;
+        return playersSet.size();
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

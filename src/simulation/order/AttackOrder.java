@@ -16,47 +16,59 @@ import static jnibwapi.types.UnitSizeType.UnitSizeTypes.Small;
 public class AttackOrder extends Order {
     private Unit unitToAttack;
 
+    public AttackOrder(Unit unitToOrder, Unit unitToAttack) {
+        super(unitToOrder);
+        this.unitToAttack = unitToAttack;
+    }
+
+    public Unit getUnitToAttack() {
+        return unitToAttack;
+    }
+
     @Override
     public void execute(GameState currentGameState, GameState futureGameState) {
-        Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder);
-        Unit futureUnitToAttack = futureGameState.getUnits().get(unitToAttack);
-
-        WeaponType weaponType;
-        int numberOfAttacks;
-        UnitType unitToOrderUnitType = unitToOrder.getUnitType();
-        UnitType unitToAttackUnitType = unitToAttack.getUnitType();
-        if (unitToAttackUnitType.isFlyer()) {
-            weaponType = unitToOrderUnitType.getAirWeapon();
-            numberOfAttacks = unitToOrderUnitType.getMaxAirHits();
-        } else {
-            weaponType = unitToOrderUnitType.getGroundWeapon();
-            numberOfAttacks = unitToOrderUnitType.getMaxGroundHits();
-        }
-        for (int counter = 0; counter < numberOfAttacks; counter++) {
-            futureUnitToAttack.setCurrentShields(futureUnitToAttack.getCurrentShields() - weaponType.getDamageAmount());
-            if (unitToAttack.getCurrentShields() < 0) {
-                double leftoverDamage = -1 * futureUnitToAttack.getCurrentShields();
-                futureUnitToAttack.setCurrentShields(0);
-                leftoverDamage -= unitToAttackUnitType.getArmor();
-                DamageType damageType = weaponType.getDamageType();
-                UnitSizeType unitSizeType = unitToAttackUnitType.getUnitSizeType();
-                if (damageType == Explosive) {
-                    if (unitSizeType == Medium) {
-                        leftoverDamage *= 0.75;
-                    } else if (unitSizeType == Small) {
-                        leftoverDamage *= 0.5;
+        int time = currentGameState.getTime();
+        if (unitToOrder.getHitPoints() > 0 && unitToOrder.getCooldownTime() <= time) {
+            Unit futureUnitToAttack = futureGameState.getUnits().get(unitToAttack.getId());
+            Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getId());
+            WeaponType weaponType;
+            int numberOfAttacks;
+            UnitType unitToOrderUnitType = unitToOrder.getUnitType();
+            UnitType unitToAttackUnitType = unitToAttack.getUnitType();
+            if (unitToAttackUnitType.isFlyer()) {
+                weaponType = unitToOrderUnitType.getAirWeapon();
+                numberOfAttacks = unitToOrderUnitType.getMaxAirHits();
+            } else {
+                weaponType = unitToOrderUnitType.getGroundWeapon();
+                numberOfAttacks = unitToOrderUnitType.getMaxGroundHits();
+            }
+            for (int counter = 0; counter < numberOfAttacks; counter++) {
+                futureUnitToAttack.setShields(futureUnitToAttack.getShields() - weaponType.getDamageAmount());
+                if (unitToAttack.getShields() < 0) {
+                    double leftoverDamage = -1 * futureUnitToAttack.getShields();
+                    futureUnitToAttack.setShields(0);
+                    leftoverDamage -= unitToAttackUnitType.getArmor();
+                    DamageType damageType = weaponType.getDamageType();
+                    UnitSizeType unitSizeType = unitToAttackUnitType.getUnitSizeType();
+                    if (damageType == Explosive) {
+                        if (unitSizeType == Medium) {
+                            leftoverDamage *= 0.75;
+                        } else if (unitSizeType == Small) {
+                            leftoverDamage *= 0.5;
+                        }
+                    } else if (damageType == Concussive) {
+                        if (unitSizeType == Large) {
+                            leftoverDamage *= 0.25;
+                        } else if (unitSizeType == Medium) {
+                            leftoverDamage *= 0.5;
+                        }
                     }
-                } else if (damageType == Concussive) {
-                    if (unitSizeType == Large) {
-                        leftoverDamage *= 0.25;
-                    } else if (unitSizeType == Medium) {
-                        leftoverDamage *= 0.5;
+                    if (leftoverDamage < 0.5) {
+                        leftoverDamage = 0.5;
                     }
+                    futureUnitToAttack.setHitPoints(futureUnitToAttack.getHitPoints() - leftoverDamage);
                 }
-                if (leftoverDamage < 0.5) {
-                    leftoverDamage = 0.5;
-                }
-                futureUnitToAttack.setCurrentHitPoints(futureUnitToAttack.getCurrentHitPoints() - leftoverDamage);
+                futureUnitToOrder.setCooldownTime(time + weaponType.getDamageCooldown());
             }
         }
     }

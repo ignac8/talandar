@@ -6,16 +6,60 @@ import simulation.order.Order;
 public class Unit {
     private static int idCounter = 0;
     private int id;
+    private int playerId;
     private UnitType unitType;
-    private double currentHitPoints;
-    private double currentShields;
+    private double hitPoints;
+    private double shields;
     private Position position;
     private Order order;
-    private double cooldown;
-    private 
+    private double cooldownTime;
 
-    public double getCurrentHitPoints() {
-        return currentHitPoints;
+    private Unit() {
+    }
+
+    public Unit(int playerId, UnitType unitType, Position position) {
+        this.playerId = playerId;
+        this.unitType = unitType;
+        this.position = position;
+        this.id = idCounter++;
+        this.hitPoints = unitType.getMaxHitPoints();
+        this.shields = unitType.getMaxShields();
+    }
+
+    public Unit copy() {
+        Unit unit = new Unit();
+        unit.id = this.id;
+        unit.playerId = this.playerId;
+        unit.unitType = this.unitType;
+        unit.hitPoints = this.hitPoints;
+        unit.shields = this.shields;
+        unit.position = this.position.copy();
+        unit.cooldownTime = this.cooldownTime;
+        return unit;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public double getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
     }
 
     public Order getOrder() {
@@ -30,19 +74,22 @@ public class Unit {
         return unitType;
     }
 
-    public void setCurrentHitPoints(double currentHitPoints) {
-        this.currentHitPoints = currentHitPoints;
+    public double getShields() {
+        return shields;
     }
 
-    public double getCurrentShields() {
-        return currentShields;
+    public void setShields(double shields) {
+        this.shields = shields;
     }
 
-    public void setCurrentShields(double currentShields) {
-        this.currentShields = currentShields;
+    public double getCooldownTime() {
+        return cooldownTime;
     }
 
-    public int getId() {
-        return id;
+    public void setCooldownTime(double cooldownTime) {
+        this.cooldownTime = cooldownTime;
     }
+
+
 }
+
