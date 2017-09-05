@@ -33,6 +33,10 @@ public class Game {
                 }
             }
             if (displayed) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ignored) {
+                }
                 SIMULATION_UI.setGameState(currentGameState);
                 SIMULATION_UI.repaint();
             }

@@ -15,7 +15,7 @@ public class MoveOrder extends Order {
     @Override
     public void execute(GameState currentGameState, GameState futureGameState) {
         if (unitToOrder.getHitPoints() > 0) {
-            Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getId());
+            Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getUnitId());
             Position currentPosition = unitToOrder.getPosition();
             Position futurePosition = futureUnitToOrder.getPosition();
             double distance = futurePosition.getDistance(currentPosition);

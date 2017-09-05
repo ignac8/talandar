@@ -1,11 +1,12 @@
 package simulation;
 
 import jnibwapi.types.UnitType;
+import jnibwapi.types.WeaponType;
 import simulation.order.Order;
 
 public class Unit {
     private static int idCounter = 0;
-    private int id;
+    private int unitId;
     private int playerId;
     private UnitType unitType;
     private double hitPoints;
@@ -21,14 +22,14 @@ public class Unit {
         this.playerId = playerId;
         this.unitType = unitType;
         this.position = position;
-        this.id = idCounter++;
+        this.unitId = idCounter++;
         this.hitPoints = unitType.getMaxHitPoints();
         this.shields = unitType.getMaxShields();
     }
 
     public Unit copy() {
         Unit unit = new Unit();
-        unit.id = this.id;
+        unit.unitId = this.unitId;
         unit.playerId = this.playerId;
         unit.unitType = this.unitType;
         unit.hitPoints = this.hitPoints;
@@ -38,8 +39,8 @@ public class Unit {
         return unit;
     }
 
-    public int getId() {
-        return id;
+    public int getUnitId() {
+        return unitId;
     }
 
     public int getPlayerId() {
@@ -88,6 +89,18 @@ public class Unit {
 
     public void setCooldownTime(double cooldownTime) {
         this.cooldownTime = cooldownTime;
+    }
+
+    public boolean isInRangeToAttack(Unit unitToAttack) {
+        WeaponType weaponType;
+        UnitType unitToAttackUnitType = unitToAttack.getUnitType();
+        if (unitToAttackUnitType.isFlyer()) {
+            weaponType = unitType.getAirWeapon();
+        } else {
+            weaponType = unitType.getGroundWeapon();
+        }
+        double distance = position.getDistance(unitToAttack.getPosition());
+        return distance <= weaponType.getMaxRange() && distance >= weaponType.getMinRange();
     }
 
 

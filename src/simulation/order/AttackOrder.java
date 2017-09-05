@@ -29,8 +29,8 @@ public class AttackOrder extends Order {
     public void execute(GameState currentGameState, GameState futureGameState) {
         int time = currentGameState.getTime();
         if (unitToOrder.getHitPoints() > 0 && unitToOrder.getCooldownTime() <= time) {
-            Unit futureUnitToAttack = futureGameState.getUnits().get(unitToAttack.getId());
-            Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getId());
+            Unit futureUnitToAttack = futureGameState.getUnits().get(unitToAttack.getUnitId());
+            Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getUnitId());
             WeaponType weaponType;
             int numberOfAttacks;
             UnitType unitToOrderUnitType = unitToOrder.getUnitType();
@@ -42,34 +42,38 @@ public class AttackOrder extends Order {
                 weaponType = unitToOrderUnitType.getGroundWeapon();
                 numberOfAttacks = unitToOrderUnitType.getMaxGroundHits();
             }
-            for (int counter = 0; counter < numberOfAttacks; counter++) {
-                futureUnitToAttack.setShields(futureUnitToAttack.getShields() - weaponType.getDamageAmount());
-                if (unitToAttack.getShields() < 0) {
-                    double leftoverDamage = -1 * futureUnitToAttack.getShields();
-                    futureUnitToAttack.setShields(0);
-                    leftoverDamage -= unitToAttackUnitType.getArmor();
-                    DamageType damageType = weaponType.getDamageType();
-                    UnitSizeType unitSizeType = unitToAttackUnitType.getUnitSizeType();
-                    if (damageType == Explosive) {
-                        if (unitSizeType == Medium) {
-                            leftoverDamage *= 0.75;
-                        } else if (unitSizeType == Small) {
-                            leftoverDamage *= 0.5;
+            double distance = unitToOrder.getPosition().getDistance(unitToAttack.getPosition());
+            if (distance <= weaponType.getMaxRange() && distance >= weaponType.getMinRange()) {
+                for (int counter = 0; counter < numberOfAttacks; counter++) {
+                    futureUnitToAttack.setShields(futureUnitToAttack.getShields() - weaponType.getDamageAmount());
+                    if (unitToAttack.getShields() < 0) {
+                        double leftoverDamage = -1 * futureUnitToAttack.getShields();
+                        futureUnitToAttack.setShields(0);
+                        leftoverDamage -= unitToAttackUnitType.getArmor();
+                        DamageType damageType = weaponType.getDamageType();
+                        UnitSizeType unitSizeType = unitToAttackUnitType.getUnitSizeType();
+                        if (damageType == Explosive) {
+                            if (unitSizeType == Medium) {
+                                leftoverDamage *= 0.75;
+                            } else if (unitSizeType == Small) {
+                                leftoverDamage *= 0.5;
+                            }
+                        } else if (damageType == Concussive) {
+                            if (unitSizeType == Large) {
+                                leftoverDamage *= 0.25;
+                            } else if (unitSizeType == Medium) {
+                                leftoverDamage *= 0.5;
+                            }
                         }
-                    } else if (damageType == Concussive) {
-                        if (unitSizeType == Large) {
-                            leftoverDamage *= 0.25;
-                        } else if (unitSizeType == Medium) {
-                            leftoverDamage *= 0.5;
+                        if (leftoverDamage < 0.5) {
+                            leftoverDamage = 0.5;
                         }
+                        futureUnitToAttack.setHitPoints(futureUnitToAttack.getHitPoints() - leftoverDamage);
                     }
-                    if (leftoverDamage < 0.5) {
-                        leftoverDamage = 0.5;
-                    }
-                    futureUnitToAttack.setHitPoints(futureUnitToAttack.getHitPoints() - leftoverDamage);
+                    futureUnitToOrder.setCooldownTime(time + weaponType.getDamageCooldown());
                 }
-                futureUnitToOrder.setCooldownTime(time + weaponType.getDamageCooldown());
             }
+
         }
     }
 }

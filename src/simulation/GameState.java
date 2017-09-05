@@ -20,7 +20,7 @@ public class GameState {
         gameState.time = this.time;
         Map<Integer, Unit> units = new HashMap<>();
         for (Unit unit : this.units.values()) {
-            units.put(unit.getId(), unit.copy());
+            units.put(unit.getUnitId(), unit.copy());
         }
         gameState.units = units;
         return gameState;
@@ -31,7 +31,7 @@ public class GameState {
     }
 
     public void putUnit(Unit unit) {
-        units.put(unit.getId(), unit);
+        units.put(unit.getUnitId(), unit);
     }
 
     public int getTime() {
@@ -44,5 +44,19 @@ public class GameState {
 
     public double getMaxY() {
         return maxY;
+    }
+
+    public Unit getClosestEnemyUnit(Unit unit) {
+        double minDistance = Double.MAX_VALUE;
+        Position position = unit.getPosition();
+        Unit closestEnemyUnit = null;
+        for (Unit possibleEnemyUnit : units.values()) {
+            double distance = position.getDistance(possibleEnemyUnit.getPosition());
+            if (distance < minDistance && unit.getPlayerId() != possibleEnemyUnit.getPlayerId()) {
+                closestEnemyUnit = possibleEnemyUnit;
+                minDistance = distance;
+            }
+        }
+        return closestEnemyUnit;
     }
 }
