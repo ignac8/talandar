@@ -6,6 +6,7 @@ import simulation.order.Order;
 import simulation.player.Player;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -16,6 +17,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.awt.Toolkit.getDefaultToolkit;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static jnibwapi.types.UnitType.UnitTypes.getAllUnitTypes;
 
 public class SimulationUI extends JComponent {
@@ -29,6 +31,16 @@ public class SimulationUI extends JComponent {
 
     public static synchronized SimulationUI getInstance() {
         return INSTANCE;
+    }
+
+    private SimulationUI() {
+        JFrame frame = new JFrame();
+        frame.setSize(640, 640);
+        frame.setTitle("Sparcraft in JAVA");
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.getContentPane().add(this);
+        frame.setVisible(true);
+
     }
 
     private void loadImages() {
