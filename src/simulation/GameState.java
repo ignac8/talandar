@@ -17,7 +17,7 @@ public class GameState {
 
     public GameState copy() {
         GameState gameState = new GameState(this.maxX, this.maxY);
-        gameState.time = this.time;
+        gameState.time = this.time + 1;
         Map<Integer, Unit> units = new HashMap<>();
         for (Unit unit : this.units.values()) {
             units.put(unit.getUnitId(), unit.copy());

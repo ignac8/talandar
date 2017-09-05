@@ -18,14 +18,15 @@ public class MoveOrder extends Order {
             Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getUnitId());
             Position currentPosition = unitToOrder.getPosition();
             Position futurePosition = futureUnitToOrder.getPosition();
-            double distance = futurePosition.getDistance(currentPosition);
+            double distance = moveOrderPosition.getDistance(currentPosition);
             double speed = unitToOrder.getUnitType().getTopSpeed();
             if (speed < distance) {
                 double factor = speed / distance;
                 futurePosition.setX(currentPosition.getX() + (moveOrderPosition.getX() - currentPosition.getX()) * factor);
                 futurePosition.setY(currentPosition.getY() + (moveOrderPosition.getY() - currentPosition.getY()) * factor);
             } else {
-                futureUnitToOrder.setPosition(moveOrderPosition);
+                futurePosition.setX(moveOrderPosition.getX());
+                futurePosition.setY(moveOrderPosition.getY());
             }
         }
     }

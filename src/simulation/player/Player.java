@@ -5,7 +5,7 @@ import simulation.GameState;
 public abstract class Player {
     protected int playerId;
 
-    public Player(int id) {
+    public Player(int playerId) {
         this.playerId = playerId;
     }
 

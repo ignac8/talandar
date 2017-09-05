@@ -21,8 +21,8 @@ public class Game {
     }
 
     public GameState play() {
-        GameState nextGameState = currentGameState.copy();
         while (!finished()) {
+            GameState nextGameState = currentGameState.copy();
             for (Player player : players) {
                 player.giveOrders(currentGameState);
             }
@@ -34,7 +34,7 @@ public class Game {
             }
             if (displayed) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 } catch (InterruptedException ignored) {
                 }
                 SIMULATION_UI.setGameState(currentGameState);

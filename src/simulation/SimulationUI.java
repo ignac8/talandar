@@ -49,7 +49,8 @@ public class SimulationUI extends JComponent {
             images.put(unitType, getDefaultToolkit().getImage(filePath));
         }
         int i = (int) (Math.random() * 10 % 4);
-        background = getDefaultToolkit().getImage(dirPath + "ground\\ground" + (i > 0 ? i : "") + ".png");
+        String backgroundFilePath = dirPath + "ground\\ground" + (i > 0 ? i : "") + ".png";
+        background = getDefaultToolkit().getImage(backgroundFilePath);
     }
 
     public void paint(Graphics graphics) {
@@ -58,7 +59,7 @@ public class SimulationUI extends JComponent {
                 loadImages();
             }
             if (background != null) {
-                graphics.drawImage(background, (int) gameState.getMaxX(), (int) gameState.getMaxY(), this);
+                graphics.drawImage(background, 0, 0, (int) gameState.getMaxX(), (int) gameState.getMaxY(), this);
             } else {
                 graphics.drawRect(0, 0, (int) gameState.getMaxX(), (int) gameState.getMaxY());
             }
@@ -94,9 +95,9 @@ public class SimulationUI extends JComponent {
                     }
                     drawUnitHP(graphics, unit, position);
                 }
-
             }
         }
+
     }
 
     private void drawChosenActions(Graphics graphics, ConcurrentHashMap<Unit, Integer> maxIndexes) {
