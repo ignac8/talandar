@@ -1,13 +1,13 @@
 package sandbox;
 
 import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.SimulationEvaluator;
 import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCSNeuralNetwork;
-import player.jarcraft.JarcraftPlayer;
-import player.jarcraft.NeuralNetworkPlayer;
-import player.jarcraft.SimplePlayer;
+import player.simulation.NeuralNetworkPlayer;
+import player.simulation.Player;
+import player.simulation.SimplePlayer;
 import solver.Individual;
 import solver.Solver;
 import solver.operator.BiasMutation;
@@ -26,14 +26,14 @@ import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllU
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
 import static jnibwapi.Map.TILE_SIZE;
 
-public class ForwardEngineering {
+public class NewForwardEngineering {
 
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
         int passLimit = Integer.MAX_VALUE;
-        int timeLimit = 1 * 60 * 1000;
+        int timeLimit = 1 * 10 * 1000;
         int populationSize = 100;
-        int inputLayerSize = 21;
+        int inputLayerSize = 5;
         int outputLayerSize = 8;
         int tournamentSize = 2;
         double crossoverChance = 0;
@@ -70,8 +70,8 @@ public class ForwardEngineering {
         operators.add(new WeightMutation(weightMutationChance, new GaussianMutator(weightStd, weightMean)));
         operators.add(new BiasMutation(biasMutationChance, new GaussianMutator(biasStd, biasMean)));
 
-        JarcraftPlayer firstPlayer = new NeuralNetworkPlayer(0);
-        JarcraftPlayer secondPlayer = new SimplePlayer(1);
+        Player firstPlayer = new NeuralNetworkPlayer(0);
+        Player secondPlayer = new SimplePlayer(1);
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
@@ -80,7 +80,7 @@ public class ForwardEngineering {
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
-            FitnessEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, limit, mapHeight, mapWidth,
                     gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
@@ -93,7 +93,7 @@ public class ForwardEngineering {
 
         double totalFitness = 0;
 
-        JarcraftEvaluator fitnessEvaluator = new JarcraftEvaluator(false, limit, mapHeight, mapWidth,
+        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, limit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, null);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());

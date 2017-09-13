@@ -1,14 +1,9 @@
 package fitnessevaluator;
 
-import bwmcts.sparcraft.players.Player;
-
-public interface FitnessEvaluator {
+public interface FitnessEvaluator<T> {
 
     double evaluate();
-
-    Player getFirstPlayer();
-
-    Player getSecondPlayer();
-
+    T getFirstPlayer();
+    T getSecondPlayer();
 
 }

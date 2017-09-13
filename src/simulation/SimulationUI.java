@@ -1,9 +1,10 @@
 package simulation;
 
 import jnibwapi.types.UnitType;
+import player.simulation.NeuralNetworkPlayer;
+import player.simulation.Player;
 import simulation.order.AttackOrder;
 import simulation.order.Order;
-import simulation.player.Player;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -34,13 +35,12 @@ public class SimulationUI extends JComponent {
     }
 
     private SimulationUI() {
-        JFrame frame = new JFrame();
-        frame.setSize(640, 640);
-        frame.setTitle("Sparcraft in JAVA");
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.getContentPane().add(this);
-        frame.setVisible(true);
-
+//        JFrame frame = new JFrame();
+//        frame.setSize(640, 640);
+//        frame.setTitle("Sparcraft in JAVA");
+//        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        frame.getContentPane().add(this);
+//        frame.setVisible(true);
     }
 
     private void loadImages() {
@@ -64,15 +64,12 @@ public class SimulationUI extends JComponent {
                 graphics.drawRect(0, 0, (int) gameState.getMaxX(), (int) gameState.getMaxY());
             }
 
-//            if (p1 instanceof NeuralNetworkPlayer) {
-//                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p1).getCurrentMaxIndexes();
-//                drawChosenActions(graphics, maxIndexes);
-//            }
-//
-//            if (p2 instanceof NeuralNetworkPlayer) {
-//                ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) p2).getCurrentMaxIndexes();
-//                drawChosenActions(graphics, maxIndexes);
-//            }
+            for (Player player : players) {
+                if (player instanceof NeuralNetworkPlayer) {
+                    ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) player).getCurrentMaxIndexes();
+                    drawChosenActions(graphics, maxIndexes);
+                }
+            }
 
             for (Unit unit : gameState.getUnits().values()) {
                 if (unit.getHitPoints() > 0) {
@@ -84,10 +81,10 @@ public class SimulationUI extends JComponent {
                         int height = image.getHeight(this);
                         graphics.drawImage(image, (int) position.getX() - width / 2, (int) position.getY() - height / 2, width, height, this);
                     } else {
-                        graphics.drawOval((int) position.getX() - 2, (int) position.getY() - 2, 4, 4);
+                        graphics.drawOval((int) position.getX() - 4 / 2, (int) position.getY() - 4 / 2, 4, 4);
                     }
                     Order order = unit.getOrder();
-                    if (order != null && order instanceof AttackOrder) {
+                    if (order != null && order instanceof AttackOrder && order.isExecuted()) {
                         AttackOrder attackOrder = (AttackOrder) order;
                         Position attackedUnitPosition = attackOrder.getUnitToAttack().getPosition();
                         graphics.drawLine((int) position.getX() - 2, (int) position.getY() - 2,

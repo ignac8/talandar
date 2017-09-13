@@ -7,7 +7,7 @@ package bwmcts.sparcraft;
 
 import bwmcts.sparcraft.players.Player;
 import neuralnetwork.NeuralNetwork;
-import player.NeuralNetworkPlayer;
+import player.jarcraft.NeuralNetworkPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -28,6 +28,22 @@ public class MoveOrder extends Order {
                 futurePosition.setX(moveOrderPosition.getX());
                 futurePosition.setY(moveOrderPosition.getY());
             }
+            if (futurePosition.getX() < 0) {
+                futurePosition.setX(0);
+            }
+            if (futurePosition.getX() > currentGameState.getMaxX()) {
+                futurePosition.setX(currentGameState.getMaxX());
+            }
+            if (futurePosition.getY() < 0) {
+                futurePosition.setY(0);
+            }
+            if (futurePosition.getY() > currentGameState.getMaxY()) {
+                futurePosition.setY(currentGameState.getMaxY());
+            }
+            if (currentPosition.getX() != futurePosition.getY() || currentPosition.getY() != futurePosition.getY()) {
+                executed = true;
+            }
+
         }
     }
 }

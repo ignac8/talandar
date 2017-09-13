@@ -3,7 +3,7 @@ package bwmcts.sparcraft;
 import bwmcts.sparcraft.players.Player;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.UnitType.UnitTypes;
-import player.NeuralNetworkPlayer;
+import player.jarcraft.NeuralNetworkPlayer;
 
 import javax.swing.*;
 import java.awt.*;

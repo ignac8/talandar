@@ -4,13 +4,13 @@ import bwmcts.sparcraft.players.Player;
 import fitnessevaluator.JarcraftEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.NeuralNetworkPlayer;
-import player.SimplePlayer;
+import player.jarcraft.NeuralNetworkPlayer;
+import player.jarcraft.SimplePlayer;
 import utils.Pair;
 
 import java.util.List;
 
-import static fitnessevaluator.unitselection.JarcraftUnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static jnibwapi.Map.TILE_SIZE;
 import static utils.FileUtils.fromJson;
 import static utils.FileUtils.loadFile;

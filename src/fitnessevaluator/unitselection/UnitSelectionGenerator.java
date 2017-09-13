@@ -9,7 +9,7 @@ import java.util.List;
 
 import static java.util.Collections.shuffle;
 
-public class JarcraftUnitSelectionGenerator {
+public class UnitSelectionGenerator {
 
     static {
         JNIBWAPI_LOAD.initialize();

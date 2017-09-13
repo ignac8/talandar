@@ -1,7 +1,7 @@
 package solver;
 
 import fitnessevaluator.FitnessEvaluator;
-import player.NeuralNetworkPlayer;
+import player.simulation.NeuralNetworkPlayer;
 import solver.operator.Operator;
 
 import java.util.ArrayList;
@@ -48,7 +48,6 @@ public class Solver {
         }
         return bestIndividual;
     }
-
 
     private void evaluate() {
         for (Individual individual : individuals) {

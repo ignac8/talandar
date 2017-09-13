@@ -46,7 +46,7 @@ public class AttackOrder extends Order {
             if (distance <= weaponType.getMaxRange() && distance >= weaponType.getMinRange()) {
                 for (int counter = 0; counter < numberOfAttacks; counter++) {
                     futureUnitToAttack.setShields(futureUnitToAttack.getShields() - weaponType.getDamageAmount());
-                    if (unitToAttack.getShields() < 0) {
+                    if (futureUnitToAttack.getShields() < 0) {
                         double leftoverDamage = -1 * futureUnitToAttack.getShields();
                         futureUnitToAttack.setShields(0);
                         leftoverDamage -= unitToAttackUnitType.getArmor();
@@ -69,8 +69,12 @@ public class AttackOrder extends Order {
                             leftoverDamage = 0.5;
                         }
                         futureUnitToAttack.setHitPoints(futureUnitToAttack.getHitPoints() - leftoverDamage);
+                        if (futureUnitToAttack.getHitPoints() < 0) {
+                            futureUnitToAttack.setHitPoints(0);
+                        }
                     }
                     futureUnitToOrder.setCooldownTime(time + weaponType.getDamageCooldown());
+                    executed = true;
                 }
             }
 

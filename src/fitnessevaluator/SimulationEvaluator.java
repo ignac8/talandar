@@ -1,21 +1,21 @@
 package fitnessevaluator;
 
-import bwmcts.sparcraft.Game;
-import bwmcts.sparcraft.GameState;
-import bwmcts.sparcraft.Map;
-import bwmcts.sparcraft.Position;
-import bwmcts.sparcraft.Unit;
-import bwmcts.sparcraft.players.Player;
 import jnibwapi.types.UnitType;
+import player.simulation.Player;
+import simulation.Game;
+import simulation.GameState;
 import simulation.JNIBWAPI_LOAD;
+import simulation.Position;
+import simulation.Unit;
 import utils.Pair;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Math.pow;
-import static jnibwapi.Map.TILE_SIZE;
 
-public class JarcraftEvaluator implements FitnessEvaluator<Player> {
+public class SimulationEvaluator implements FitnessEvaluator<Player> {
 
     static {
         JNIBWAPI_LOAD.initialize();
@@ -28,13 +28,12 @@ public class JarcraftEvaluator implements FitnessEvaluator<Player> {
     private int gapHeight;
     private int gapWidth;
     private Player firstPlayer;
-    private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
     private Player secondPlayer;
+    private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
 
-    public JarcraftEvaluator(boolean graphics, int limit, int mapHeight, int mapWidth, int gapHeight, int gapWidth,
-                             Player firstPlayer, Player secondPlayer, Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
+    public SimulationEvaluator(boolean graphics, int limit, int mapHeight, int mapWidth, int gapHeight, int gapWidth,
+                               Player firstPlayer, Player secondPlayer, Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
         this.graphics = graphics;
-        this.limit = limit;
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
         this.gapHeight = gapHeight;
@@ -58,11 +57,11 @@ public class JarcraftEvaluator implements FitnessEvaluator<Player> {
                 if (!secondPlayer) {
                     Position position = new Position(gapWidth * i,
                             mapHeight / 2 - gapHeight * (unitTypesColumn.size() - 1) / 2 + gapHeight * j);
-                    state.addUnit(unitType, 0, position);
+                    state.putUnit(new Unit(0, unitType, position));
                 } else {
                     Position position = new Position(mapWidth - gapWidth * i,
                             mapHeight / 2 - gapHeight * (unitTypesColumn.size() - 1) / 2 + gapHeight * j);
-                    state.addUnit(unitType, 1, position);
+                    state.putUnit(new Unit(1, unitType, position));
                 }
             }
         }
@@ -71,13 +70,12 @@ public class JarcraftEvaluator implements FitnessEvaluator<Player> {
 
     private GameState playGame() {
         try {
-            GameState state = new GameState();
-            state.setMap(new Map(mapWidth / TILE_SIZE, mapHeight / TILE_SIZE));
+            GameState state = new GameState(mapWidth, mapHeight);
             state = putUnits(state, false, unitSelection.getLeft());
             state = putUnits(state, true, unitSelection.getRight());
-            Game game = new Game(state, firstPlayer, secondPlayer, limit, graphics, true);
-            game.play();
-            return game.getState();
+            List<Player> playerList = Arrays.asList(firstPlayer, secondPlayer);
+            Game game = new Game(state, playerList, graphics);
+            return game.play();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,36 +88,34 @@ public class JarcraftEvaluator implements FitnessEvaluator<Player> {
         double enemyFitness = 0;
         double enemyMaxFitness = 0;
 
-        Unit[][] allUnits = finalState.getAllUnits();
+        Map<Integer, Unit> units = finalState.getUnits();
 
-        for (int playerId = 0; playerId < allUnits.length; playerId++) {
-            Unit[] playerUnits = allUnits[playerId];
-            for (Unit unit : playerUnits) {
-                if (unit != null) {
-                    double unitWorth = unitWorthBasic(unit);
-                    double adjustedUnitWorth = unitWorthModifier(unit) * unitWorth;
-                    switch (playerId) {
-                        case 0:
-                            playerFitness += adjustedUnitWorth;
-                            playerMaxFitness += unitWorth;
-                            break;
-                        case 1:
-                            enemyFitness += adjustedUnitWorth;
-                            enemyMaxFitness += unitWorth;
-                            break;
-                    }
-                }
+        for (Unit unit : units.values()) {
+            double unitWorth = unitWorthBasic(unit);
+            double adjustedUnitWorth = unitWorthModifier(unit) * unitWorth;
+            switch (unit.getPlayerId()) {
+                case 0:
+                    playerFitness += adjustedUnitWorth;
+                    playerMaxFitness += unitWorth;
+                    break;
+                case 1:
+                    enemyFitness += adjustedUnitWorth;
+                    enemyMaxFitness += unitWorth;
+                    break;
             }
         }
-        return playerFitness / playerMaxFitness - enemyFitness / enemyMaxFitness;
+        double result = playerFitness / playerMaxFitness - enemyFitness / enemyMaxFitness;
+        return result;
     }
 
     private double unitWorthModifier(Unit unit) {
-        return pow((unit.getCurrentHP() / unit.getMaxHP()), 0.75);
+        double currentDurability = unit.getHitPoints() + unit.getShields();
+        int maxDurability = unit.getUnitType().getMaxHitPoints() + unit.getUnitType().getMaxShields();
+        return pow((currentDurability / maxDurability), 0.75);
     }
 
     private double unitWorthBasic(Unit unit) {
-        return unit.getMineralPrice() + 2 * unit.getGasPrice();
+        return unit.getUnitType().getMineralPrice() + 2 * unit.getUnitType().getGasPrice();
     }
 
     public Player getFirstPlayer() {

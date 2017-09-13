@@ -1,4 +1,4 @@
-package player;
+package player.jarcraft;
 
 import bwmcts.sparcraft.UnitAction;
 

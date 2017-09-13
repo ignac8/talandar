@@ -1,4 +1,4 @@
-package simulation.player;
+package player.simulation;
 
 import simulation.GameState;
 

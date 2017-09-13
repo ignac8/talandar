@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class GameState {
@@ -51,12 +52,44 @@ public class GameState {
         Position position = unit.getPosition();
         Unit closestEnemyUnit = null;
         for (Unit possibleEnemyUnit : units.values()) {
-            double distance = position.getDistance(possibleEnemyUnit.getPosition());
-            if (distance < minDistance && unit.getPlayerId() != possibleEnemyUnit.getPlayerId()) {
-                closestEnemyUnit = possibleEnemyUnit;
-                minDistance = distance;
+            if (unit.getPlayerId() != possibleEnemyUnit.getPlayerId() && possibleEnemyUnit.getHitPoints() > 0) {
+                double distance = position.getDistance(possibleEnemyUnit.getPosition());
+                if (distance < minDistance) {
+                    closestEnemyUnit = possibleEnemyUnit;
+                    minDistance = distance;
+                }
             }
         }
         return closestEnemyUnit;
+    }
+
+    public Unit getLowestHpEnemyUnit(Unit unit) {
+        double minHp = Double.MAX_VALUE;
+        Unit lowestHpEnemyUnit = null;
+        for (Unit possibleEnemyUnit : units.values()) {
+            double hp = possibleEnemyUnit.getHitPoints() + possibleEnemyUnit.getShields();
+            if (hp > 0 && hp < minHp && unit.getPlayerId() != possibleEnemyUnit.getPlayerId()) {
+                lowestHpEnemyUnit = possibleEnemyUnit;
+                minHp = hp;
+            }
+        }
+        return lowestHpEnemyUnit;
+    }
+
+    public boolean canUnitBeAttackedByEnemy(Unit unit) {
+        boolean canUnitBeAttackedByEnemy = false;
+        for (Iterator<Unit> iterator = units.values().iterator(); iterator.hasNext() && !canUnitBeAttackedByEnemy; ) {
+            Unit possibleEnemyUnit = iterator.next();
+            if (unit.getPlayerId() != possibleEnemyUnit.getPlayerId() && possibleEnemyUnit.getHitPoints() > 0) {
+                if (unit.getPlayerId() != possibleEnemyUnit.getPlayerId()) {
+                    double distance = unit.getPosition().getDistance(possibleEnemyUnit.getPosition());
+                    double range = unit.getUnitType().getGroundWeapon().getMaxRange();
+                    if (range >= distance) {
+                        canUnitBeAttackedByEnemy = true;
+                    }
+                }
+            }
+        }
+        return canUnitBeAttackedByEnemy;
     }
 }

@@ -91,7 +91,7 @@ public class Unit {
         this.cooldownTime = cooldownTime;
     }
 
-    public boolean isInRangeToAttack(Unit unitToAttack) {
+    public boolean canAttack(Unit unitToAttack) {
         WeaponType weaponType;
         UnitType unitToAttackUnitType = unitToAttack.getUnitType();
         if (unitToAttackUnitType.isFlyer()) {
@@ -101,6 +101,22 @@ public class Unit {
         }
         double distance = position.getDistance(unitToAttack.getPosition());
         return distance <= weaponType.getMaxRange() && distance >= weaponType.getMinRange();
+    }
+
+    public Position getRunAwayPosition(Unit enemyUnit) {
+        Position enemyPosition = enemyUnit.getPosition();
+        double enemyPositionX = enemyPosition.getX();
+        double enemyPositionY = enemyPosition.getY();
+        double positionX = position.getX();
+        double positionY = position.getY();
+        Position runAwayPosition = new Position(enemyPositionX - positionX, enemyPositionY - positionY);
+        double distance = runAwayPosition.getDistance(enemyPosition);
+        double speed = unitType.getTopSpeed();
+        if (distance < speed) {
+            double multiplier = speed / distance;
+            runAwayPosition = new Position(enemyPositionX * multiplier - positionX, enemyPositionY * multiplier - positionY);
+        }
+        return runAwayPosition;
     }
 
 
