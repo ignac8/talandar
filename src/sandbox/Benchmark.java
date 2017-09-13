@@ -1,11 +1,11 @@
 package sandbox;
 
-import bwmcts.sparcraft.players.Player;
-import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.jarcraft.NeuralNetworkPlayer;
-import player.jarcraft.SimplePlayer;
+import player.NeuralNetworkPlayer;
+import player.Player;
+import player.SimplePlayer;
 import utils.Pair;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class Benchmark {
         Player secondPlayer = new SimplePlayer(1);
 
         double totalFitness = 0;
-        JarcraftEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, limit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, null);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(bestOne);

@@ -1,13 +1,12 @@
 package simulation;
 
 import jnibwapi.types.UnitType;
-import player.simulation.NeuralNetworkPlayer;
-import player.simulation.Player;
+import player.NeuralNetworkPlayer;
+import player.Player;
 import simulation.order.AttackOrder;
 import simulation.order.Order;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,7 +17,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.awt.Toolkit.getDefaultToolkit;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static jnibwapi.types.UnitType.UnitTypes.getAllUnitTypes;
 
 public class SimulationUI extends JComponent {

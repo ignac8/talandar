@@ -1,4 +1,4 @@
-package player.simulation;
+package player;
 
 
 import jnibwapi.types.UnitType;

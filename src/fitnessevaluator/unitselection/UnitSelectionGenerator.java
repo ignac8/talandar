@@ -1,7 +1,7 @@
 package fitnessevaluator.unitselection;
 
 import jnibwapi.types.UnitType;
-import simulation.JNIBWAPI_LOAD;
+import simulation.bridge.JNIBWAPI_LOAD;
 import utils.Pair;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import static java.util.Collections.shuffle;
 public class UnitSelectionGenerator {
 
     static {
-        JNIBWAPI_LOAD.initialize();
+        JNIBWAPI_LOAD.getInstance();
     }
 
     public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateRandomUnitSelections(int number) {

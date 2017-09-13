@@ -1,10 +1,10 @@
 package fitnessevaluator;
 
 import jnibwapi.types.UnitType;
-import player.simulation.Player;
+import player.Player;
 import simulation.Game;
 import simulation.GameState;
-import simulation.JNIBWAPI_LOAD;
+import simulation.bridge.JNIBWAPI_LOAD;
 import simulation.Position;
 import simulation.Unit;
 import utils.Pair;
@@ -18,7 +18,7 @@ import static java.lang.Math.pow;
 public class SimulationEvaluator implements FitnessEvaluator<Player> {
 
     static {
-        JNIBWAPI_LOAD.initialize();
+        JNIBWAPI_LOAD.getInstance();
     }
 
     private boolean graphics;

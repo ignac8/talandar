@@ -1,4 +1,4 @@
-package bwmcts.test;
+package simulation.bridge;
 
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.Position;

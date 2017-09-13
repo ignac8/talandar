@@ -1,7 +1,7 @@
 package simulation;
 
+import player.Player;
 import simulation.order.Order;
-import player.simulation.Player;
 
 import java.util.List;
 import java.util.Set;

@@ -1,8 +1,8 @@
 package gui;
 
-import bwmcts.sparcraft.SparcraftUI;
 import jnibwapi.JNIBWAPI;
 import sandbox.ForwardEngineering;
+import simulation.SimulationUI;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -51,7 +51,7 @@ public class MainForm {
     private JTextField labelTextField16;
     private JButton button1;
     private JButton button2;
-    private SparcraftUI sparcraftUI;
+    private SimulationUI simulationUI;
     private ExecutorService executorService;
 
     public MainForm() {
@@ -70,6 +70,6 @@ public class MainForm {
     }
 
     private void createUIComponents() {
-        sparcraftUI = SparcraftUI.getUI(false);
+        simulationUI = SimulationUI.getInstance();
     }
 }

@@ -290,7 +290,7 @@
           </component>
         </children>
       </grid>
-      <component id="2dbdd" class="bwmcts.sparcraft.SparcraftUI" binding="sparcraftUI" custom-create="true">
+      <component id="ca160" class="simulation.SimulationUI" binding="simulationUI">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="640" height="640"/>
@@ -298,7 +298,6 @@
             <maximum-size width="640" height="640"/>
           </grid>
         </constraints>
-        <properties/>
       </component>
       <component id="79dcb" class="javax.swing.JButton" binding="button1" default-binding="true">
         <constraints>

@@ -1,12 +1,12 @@
 package sandbox;
 
-import bwmcts.sparcraft.players.Player;
 import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.JarcraftEvaluator;
+import fitnessevaluator.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.jarcraft.NeuralNetworkPlayer;
-import player.jarcraft.SimplePlayer;
+import player.NeuralNetworkPlayer;
+import player.Player;
+import player.SimplePlayer;
 import utils.Pair;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class Replay {
 
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateAllUnitSelections()) {
-            FitnessEvaluator fitnessEvaluator = new JarcraftEvaluator(graphics, limit, mapHeight, mapWidth,
+            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, limit, mapHeight, mapWidth,
                     gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
             neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
             neuralNetworkPlayer.setNeuralNetwork(bestOne);
