@@ -12,6 +12,29 @@ import static utils.RandomUtils.nextGaussian;
 //Fully connected sigmoid neural network
 public final class FCSNeuralNetwork extends NeuralNetwork {
 
+    //random neural network constructor
+    public FCSNeuralNetwork(int inputLayerSize, int[] hiddenLayerSizes, int outputLayerSize, double std, double mean) {
+        this(inputLayerSize, hiddenLayerSizes, outputLayerSize);
+        for (int i = 0; i < outputLayer.size(); i++) {
+            outputLayer.get(i).setBias(
+                    nextGaussian(std, mean));
+        }
+        for (int i = 0; i < hiddenLayers.size(); i++) {
+            for (int j = 0; j < hiddenLayers.get(i).size(); j++) {
+                hiddenLayers.get(i).get(j).setBias(
+                        nextGaussian(std, mean));
+            }
+        }
+        for (int i = 0; i < connectionsListList.size(); i++) {
+            for (int j = 0; j < connectionsListList.get(i).size(); j++) {
+                for (int k = 0; k < connectionsListList.get(i).get(j).size(); k++) {
+                    connectionsListList.get(i).get(j).get(k).setWeight(
+                            nextGaussian(std, mean));
+                }
+            }
+        }
+    }
+
     //clear neural network constructor
     public FCSNeuralNetwork(int inputLayerSize, int[] hiddenLayerSizes, int outputLayerSize) {
         super();
@@ -63,29 +86,6 @@ public final class FCSNeuralNetwork extends NeuralNetwork {
             connectionsList.add(connections);
         }
         connectionsListList.add(connectionsList);
-    }
-
-    //random neural network constructor
-    public FCSNeuralNetwork(int inputLayerSize, int[] hiddenLayerSizes, int outputLayerSize, double std, double mean) {
-        this(inputLayerSize, hiddenLayerSizes, outputLayerSize);
-        for (int i = 0; i < outputLayer.size(); i++) {
-            outputLayer.get(i).setBias(
-                    nextGaussian(std, mean));
-        }
-        for (int i = 0; i < hiddenLayers.size(); i++) {
-            for (int j = 0; j < hiddenLayers.get(i).size(); j++) {
-                hiddenLayers.get(i).get(j).setBias(
-                        nextGaussian(std, mean));
-            }
-        }
-        for (int i = 0; i < connectionsListList.size(); i++) {
-            for (int j = 0; j < connectionsListList.get(i).size(); j++) {
-                for (int k = 0; k < connectionsListList.get(i).get(j).size(); k++) {
-                    connectionsListList.get(i).get(j).get(k).setWeight(
-                            nextGaussian(std, mean));
-                }
-            }
-        }
     }
 
     @Override

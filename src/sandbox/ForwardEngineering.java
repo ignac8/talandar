@@ -24,18 +24,17 @@ import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
-import static jnibwapi.Map.TILE_SIZE;
 
 public class ForwardEngineering {
 
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
         int passLimit = Integer.MAX_VALUE;
-        int timeLimit = 1 * 10 * 1000;
+        int timeLimit = 1 * 60 * 1000;
         int populationSize = 100;
         int inputLayerSize = 5;
-        int outputLayerSize = 8;
-        int tournamentSize = 2;
+        int outputLayerSize = 15;
+        int tournamentSize = 1;
         double crossoverChance = 0;
         double weightMutationChance = 1;
         double biasMutationChance = 1;
@@ -47,8 +46,8 @@ public class ForwardEngineering {
         double biasMean = 0;
         boolean graphics = false;
         int limit = 10000;
-        int mapHeight = TILE_SIZE * 20;
-        int mapWidth = TILE_SIZE * 20;
+        int mapHeight = 640;
+        int mapWidth = 640;
         int gapHeight = 40;
         int gapWidth = 120;
         int numberOfUnitSelections = 10;

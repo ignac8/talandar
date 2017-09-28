@@ -13,8 +13,6 @@ import java.awt.Image;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static java.awt.Toolkit.getDefaultToolkit;
 import static jnibwapi.types.UnitType.UnitTypes.getAllUnitTypes;
@@ -28,10 +26,6 @@ public class SimulationUI extends JComponent {
     private GameState gameState;
     private List<Player> players;
 
-    public static synchronized SimulationUI getInstance() {
-        return INSTANCE;
-    }
-
     private SimulationUI() {
 //        JFrame frame = new JFrame();
 //        frame.setSize(640, 640);
@@ -41,14 +35,8 @@ public class SimulationUI extends JComponent {
 //        frame.setVisible(true);
     }
 
-    private void loadImages() {
-        for (UnitType unitType : getAllUnitTypes()) {
-            String filePath = dirPath + "units\\" + unitType.getName().replaceAll(" ", "_") + ".png";
-            images.put(unitType, getDefaultToolkit().getImage(filePath));
-        }
-        int i = (int) (Math.random() * 10 % 4);
-        String backgroundFilePath = dirPath + "ground\\ground" + (i > 0 ? i : "") + ".png";
-        background = getDefaultToolkit().getImage(backgroundFilePath);
+    public static synchronized SimulationUI getInstance() {
+        return INSTANCE;
     }
 
     public void paint(Graphics graphics) {
@@ -64,8 +52,7 @@ public class SimulationUI extends JComponent {
 
             for (Player player : players) {
                 if (player instanceof NeuralNetworkPlayer) {
-                    ConcurrentHashMap<Unit, Integer> maxIndexes = ((NeuralNetworkPlayer) player).getCurrentMaxIndexes();
-                    drawChosenActions(graphics, maxIndexes);
+                    drawChosenActions(graphics, player);
                 }
             }
 
@@ -95,12 +82,23 @@ public class SimulationUI extends JComponent {
 
     }
 
-    private void drawChosenActions(Graphics graphics, ConcurrentHashMap<Unit, Integer> maxIndexes) {
-        for (Entry<Unit, Integer> entry : maxIndexes.entrySet()) {
-            Unit unit = entry.getKey();
-            int maxIndex = entry.getValue();
-            if (entry.getKey().getHitPoints() > 0) {
-                graphics.setColor(getColor(maxIndex));
+    private void loadImages() {
+        for (UnitType unitType : getAllUnitTypes()) {
+            String filePath = dirPath + "units\\" + unitType.getName().replaceAll(" ", "_") + ".png";
+            images.put(unitType, getDefaultToolkit().getImage(filePath));
+        }
+        int i = (int) (Math.random() * 10 % 4);
+        String backgroundFilePath = dirPath + "ground\\ground" + (i > 0 ? i : "") + ".png";
+        background = getDefaultToolkit().getImage(backgroundFilePath);
+    }
+
+    private void drawChosenActions(Graphics graphics, Player player) {
+        for (Unit unit : gameState.getUnits().values()) {
+
+
+            if (unit.getPlayerId() == player.getPlayerId() && unit.getHitPoints() > 0) {
+                int outputId = unit.getOutputId();
+                graphics.setColor(getColor(outputId));
 
                 int innerRadius = 12;
                 int outerRadius = 14;
@@ -114,17 +112,6 @@ public class SimulationUI extends JComponent {
                 }
             }
         }
-    }
-
-    private void drawUnitHP(Graphics graphics, Unit unit, Position position) {
-        UnitType unitType = unit.getUnitType();
-        double currentDurability = unit.getHitPoints() + unit.getShields();
-        int maxDurability = unitType.getMaxHitPoints() + unitType.getMaxShields();
-        graphics.drawRect((int) position.getX() - 15, (int) position.getY() - 15, (int) (30 * currentDurability / maxDurability), 1);
-    }
-
-    public void setGameState(GameState state) {
-        this.gameState = state;
     }
 
     private Color getColor(int i) {
@@ -157,6 +144,17 @@ public class SimulationUI extends JComponent {
             default:
                 return Color.BLACK;
         }
+    }
+
+    private void drawUnitHP(Graphics graphics, Unit unit, Position position) {
+        UnitType unitType = unit.getUnitType();
+        double currentDurability = unit.getHitPoints() + unit.getShields();
+        int maxDurability = unitType.getMaxHitPoints() + unitType.getMaxShields();
+        graphics.drawRect((int) position.getX() - 15, (int) position.getY() - 15, (int) (30 * currentDurability / maxDurability), 1);
+    }
+
+    public void setGameState(GameState state) {
+        this.gameState = state;
     }
 
 }

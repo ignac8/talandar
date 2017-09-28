@@ -14,6 +14,7 @@ public class Unit {
     private Position position;
     private Order order;
     private double cooldownTime;
+    private int outputId;
 
     private Unit() {
     }
@@ -47,14 +48,6 @@ public class Unit {
         return playerId;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
     public double getHitPoints() {
         return hitPoints;
     }
@@ -69,10 +62,6 @@ public class Unit {
 
     public void setOrder(Order order) {
         this.order = order;
-    }
-
-    public UnitType getUnitType() {
-        return unitType;
     }
 
     public double getShields() {
@@ -91,6 +80,14 @@ public class Unit {
         this.cooldownTime = cooldownTime;
     }
 
+    public int getOutputId() {
+        return outputId;
+    }
+
+    public void setOutputId(int outputId) {
+        this.outputId = outputId;
+    }
+
     public boolean canAttack(Unit unitToAttack) {
         WeaponType weaponType;
         UnitType unitToAttackUnitType = unitToAttack.getUnitType();
@@ -101,6 +98,18 @@ public class Unit {
         }
         double distance = position.getDistance(unitToAttack.getPosition());
         return distance <= weaponType.getMaxRange() && distance >= weaponType.getMinRange();
+    }
+
+    public UnitType getUnitType() {
+        return unitType;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public Position getRunAwayPosition(Unit enemyUnit) {

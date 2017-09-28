@@ -4,9 +4,9 @@ import jnibwapi.types.UnitType;
 import player.Player;
 import simulation.Game;
 import simulation.GameState;
-import simulation.bridge.JNIBWAPI_LOAD;
 import simulation.Position;
 import simulation.Unit;
+import simulation.bridge.JNIBWAPI_LOAD;
 import utils.Pair;
 
 import java.util.Arrays;
@@ -34,6 +34,7 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
     public SimulationEvaluator(boolean graphics, int limit, int mapHeight, int mapWidth, int gapHeight, int gapWidth,
                                Player firstPlayer, Player secondPlayer, Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
         this.graphics = graphics;
+        this.limit = limit;
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
         this.gapHeight = gapHeight;
@@ -47,25 +48,6 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
         GameState finalState = playGame();
         double fitness = rateGame(finalState);
         return fitness;
-    }
-
-    private GameState putUnits(GameState state, boolean secondPlayer, List<List<UnitType>> unitTypes) {
-        for (int i = 1; i <= unitTypes.size(); i++) {
-            List<UnitType> unitTypesColumn = unitTypes.get(i - 1);
-            for (int j = 0; j < unitTypesColumn.size(); j++) {
-                UnitType unitType = unitTypesColumn.get(j);
-                if (!secondPlayer) {
-                    Position position = new Position(gapWidth * i,
-                            mapHeight / 2 - gapHeight * (unitTypesColumn.size() - 1) / 2 + gapHeight * j);
-                    state.putUnit(new Unit(0, unitType, position));
-                } else {
-                    Position position = new Position(mapWidth - gapWidth * i,
-                            mapHeight / 2 - gapHeight * (unitTypesColumn.size() - 1) / 2 + gapHeight * j);
-                    state.putUnit(new Unit(1, unitType, position));
-                }
-            }
-        }
-        return state;
     }
 
     private GameState playGame() {
@@ -108,14 +90,33 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
         return result;
     }
 
-    private double unitWorthModifier(Unit unit) {
-        double currentDurability = unit.getHitPoints() + unit.getShields();
-        int maxDurability = unit.getUnitType().getMaxHitPoints() + unit.getUnitType().getMaxShields();
-        return pow((currentDurability / maxDurability), 0.75);
+    private GameState putUnits(GameState state, boolean secondPlayer, List<List<UnitType>> unitTypes) {
+        for (int i = 1; i <= unitTypes.size(); i++) {
+            List<UnitType> unitTypesColumn = unitTypes.get(i - 1);
+            for (int j = 0; j < unitTypesColumn.size(); j++) {
+                UnitType unitType = unitTypesColumn.get(j);
+                if (!secondPlayer) {
+                    Position position = new Position(gapWidth * i,
+                            mapHeight / 2 - gapHeight * (unitTypesColumn.size() - 1) / 2 + gapHeight * j);
+                    state.putUnit(new Unit(0, unitType, position));
+                } else {
+                    Position position = new Position(mapWidth - gapWidth * i,
+                            mapHeight / 2 - gapHeight * (unitTypesColumn.size() - 1) / 2 + gapHeight * j);
+                    state.putUnit(new Unit(1, unitType, position));
+                }
+            }
+        }
+        return state;
     }
 
     private double unitWorthBasic(Unit unit) {
         return unit.getUnitType().getMineralPrice() + 2 * unit.getUnitType().getGasPrice();
+    }
+
+    private double unitWorthModifier(Unit unit) {
+        double currentDurability = unit.getHitPoints() + unit.getShields();
+        int maxDurability = unit.getUnitType().getMaxHitPoints() + unit.getUnitType().getMaxShields();
+        return pow((currentDurability / maxDurability), 0.75);
     }
 
     public Player getFirstPlayer() {

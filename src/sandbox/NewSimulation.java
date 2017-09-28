@@ -5,9 +5,9 @@ import player.Player;
 import player.SimplePlayer;
 import simulation.Game;
 import simulation.GameState;
-import simulation.bridge.JNIBWAPI_LOAD;
 import simulation.Position;
 import simulation.Unit;
+import simulation.bridge.JNIBWAPI_LOAD;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package simulation.bridge;
 
-import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.types.BulletType;
 import jnibwapi.types.DamageType;

@@ -39,16 +39,6 @@ public class Solver {
         evaluate();
     }
 
-    public Individual solve() {
-        while (!done()) {
-            for (Operator operator : operators) {
-                individuals = operator.call(individuals);
-            }
-            evaluate();
-        }
-        return bestIndividual;
-    }
-
     private void evaluate() {
         for (Individual individual : individuals) {
             double fitness = 0;
@@ -65,6 +55,16 @@ public class Solver {
             passCount++;
         }
         results.add(new Result(individuals));
+    }
+
+    public Individual solve() {
+        while (!done()) {
+            for (Operator operator : operators) {
+                individuals = operator.call(individuals);
+            }
+            evaluate();
+        }
+        return bestIndividual;
     }
 
     private boolean done() {

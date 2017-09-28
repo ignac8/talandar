@@ -30,6 +30,13 @@ public class Pair<A, B> {
     }
 
     @Override
+    public int hashCode() {
+        int result = left != null ? left.hashCode() : 0;
+        result = 31 * result + (right != null ? right.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -38,13 +45,6 @@ public class Pair<A, B> {
 
         if (left != null ? !left.equals(pair.left) : pair.left != null) return false;
         return right != null ? right.equals(pair.right) : pair.right == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = left != null ? left.hashCode() : 0;
-        result = 31 * result + (right != null ? right.hashCode() : 0);
-        return result;
     }
 
     public Pair<A, B> getSwappedPair() {

@@ -13,7 +13,6 @@ import simulation.order.MoveOrder;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.Double.MIN_VALUE;
 import static java.lang.Math.sqrt;
@@ -21,16 +20,10 @@ import static java.lang.Math.sqrt;
 
 public final class NeuralNetworkPlayer extends Player {
 
-    private ConcurrentHashMap<Unit, Integer> currentMaxIndexes = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<Unit, Integer> previousMaxIndexes = new ConcurrentHashMap<>();
     private NeuralNetwork neuralNetwork;
 
     public NeuralNetworkPlayer(int id) {
         super(id);
-    }
-
-    public ConcurrentHashMap<Unit, Integer> getCurrentMaxIndexes() {
-        return currentMaxIndexes;
     }
 
     public NeuralNetwork getNeuralNetwork() {
@@ -43,9 +36,6 @@ public final class NeuralNetworkPlayer extends Player {
 
     @Override
     public void giveOrders(GameState gameState) {
-        previousMaxIndexes = currentMaxIndexes;
-        currentMaxIndexes = new ConcurrentHashMap<>();
-
         for (Unit unit : gameState.getUnits().values()) {
             if (unit.getPlayerId() == playerId && unit.getHitPoints() > 0) {
                 UnitType unitType = unit.getUnitType();
@@ -177,12 +167,72 @@ public final class NeuralNetworkPlayer extends Player {
                             }
                         }
                         break;
+
+                    case 8:
+                        if (unit.canAttack(closestEnemyUnit)) {
+                            unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
+                        } else {
+                            unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                        }
+                        break;
+
+                    case 9:
+                        if (unit.canAttack(lowestHpEnemyUnit)) {
+                            unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
+                        } else {
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                        }
+                        break;
+
+                    case 10:
+                        if (unit.canAttack(closestEnemyUnit)) {
+                            unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
+                        } else {
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                        }
+                        break;
+
+                    case 11:
+                        if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
+                            unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
+                        } else {
+                            unit.setOrder(new MoveOrder(unit, unit.getRunAwayPosition(closestEnemyUnit)));
+                        }
+                        break;
+
+                    case 12:
+                        if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
+                            unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
+                        } else {
+                            unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                        }
+                        break;
+
+                    case 13:
+                        if (unit.canAttack(lowestHpEnemyUnit) && unit.getCooldownTime() <= time) {
+                            unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
+                        } else {
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                        }
+                        break;
+
+                    case 14:
+                        if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
+                            unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
+                        } else {
+                            if (gameState.canUnitBeAttackedByEnemy(unit) && unit.canAttack(closestEnemyUnit)) {
+                                unit.setOrder(new MoveOrder(unit, unit.getRunAwayPosition(closestEnemyUnit)));
+                            } else {
+                                unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                            }
+                        }
+                        break;
                 }
 
                 if (unit.getOrder() == null) {
                     throw new NullPointerException();
                 }
-                currentMaxIndexes.put(unit, maxIndex);
+                unit.setOutputId(maxIndex);
             }
         }
     }
