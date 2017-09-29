@@ -21,11 +21,10 @@ public class Solver {
     private long timeLimit;
     private Individual bestIndividual;
     private List<Result> results;
-    private String fileName;
     private List<FitnessEvaluator> fitnessEvaluators;
     private int passCount;
 
-    public Solver(List<Operator> operators, int passLimit, long timeLimit, String fileName,
+    public Solver(List<Operator> operators, int passLimit, long timeLimit,
                   List<Individual> startingIndividuals, List<FitnessEvaluator> fitnessEvaluators) {
         this.individuals = startingIndividuals;
         this.results = new ArrayList<>();
@@ -33,7 +32,6 @@ public class Solver {
         this.timeStart = currentTimeMillis();
         this.passLimit = passLimit;
         this.timeLimit = timeLimit;
-        this.fileName = fileName;
         this.fitnessEvaluators = fitnessEvaluators;
         this.passCount = 0;
         evaluate();

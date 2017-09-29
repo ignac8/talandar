@@ -43,8 +43,7 @@ public class Pair<A, B> {
 
         Pair<?, ?> pair = (Pair<?, ?>) o;
 
-        if (left != null ? !left.equals(pair.left) : pair.left != null) return false;
-        return right != null ? right.equals(pair.right) : pair.right == null;
+        return (left != null ? left.equals(pair.left) : pair.left == null) && (right != null ? right.equals(pair.right) : pair.right == null);
     }
 
     public Pair<A, B> getSwappedPair() {

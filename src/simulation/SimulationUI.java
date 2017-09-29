@@ -19,7 +19,6 @@ public class SimulationUI extends JComponent {
     private static final SimulationUI INSTANCE = new SimulationUI();
     private Map<UnitType, Image> images = new HashMap<>();
     private Image background;
-    private String dirPath = "img\\";
     private SimulationState simulationState;
 
     private SimulationUI() {
@@ -55,11 +54,11 @@ public class SimulationUI extends JComponent {
 
     private void loadImages() {
         for (UnitType unitType : getAllUnitTypes()) {
-            String filePath = dirPath + "units\\" + unitType.getName().replaceAll(" ", "_") + ".png";
+            String filePath = "img\\" + "units\\" + unitType.getName().replaceAll(" ", "_") + ".png";
             images.put(unitType, getDefaultToolkit().getImage(filePath));
         }
         int i = (int) (Math.random() * 10 % 4);
-        String backgroundFilePath = dirPath + "ground\\ground" + (i > 0 ? i : "") + ".png";
+        String backgroundFilePath = "img\\" + "ground\\ground" + (i > 0 ? i : "") + ".png";
         background = getDefaultToolkit().getImage(backgroundFilePath);
     }
 

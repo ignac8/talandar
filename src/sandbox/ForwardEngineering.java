@@ -28,7 +28,7 @@ import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRand
 public class ForwardEngineering {
 
     public static void main(String... args) {
-        String fileName = "testNeuralWeb.json";
+
         int passLimit = Integer.MAX_VALUE;
         int searchTimeLimit = 1 * 60 * 1000;
         int populationSize = 100;
@@ -85,7 +85,7 @@ public class ForwardEngineering {
             fitnessEvaluators.add(fitnessEvaluator);
         }
 
-        Solver solver = new Solver(operators, passLimit, searchTimeLimit, fileName, startingIndividuals, fitnessEvaluators);
+        Solver solver = new Solver(operators, passLimit, searchTimeLimit, startingIndividuals, fitnessEvaluators);
 
         Individual bestOne = solver.solve();
         solver.graph("graphs\\testNeuralWeb.png");

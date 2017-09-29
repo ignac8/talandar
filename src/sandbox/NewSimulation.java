@@ -14,6 +14,7 @@ import java.util.List;
 
 public class NewSimulation {
     public static void main(String... args) {
+
         JNIBWAPI_LOAD.getInstance();
         SimulationState simulationState = new SimulationState(600.0, 600.0, 1.0);
         simulationState.putUnit(new Unit(0, UnitType.UnitTypes.Protoss_Zealot, new Position(100, 100)));

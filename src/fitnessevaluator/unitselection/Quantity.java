@@ -1,5 +1,5 @@
 package fitnessevaluator.unitselection;
 
 public enum Quantity {
-    NONE, LESS, MORE;
+    NONE, LESS, MORE
 }
