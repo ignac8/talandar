@@ -1,7 +1,7 @@
 package player;
 
 
-import simulation.GameState;
+import simulation.SimulationState;
 import simulation.Unit;
 import simulation.order.AttackOrder;
 import simulation.order.MoveOrder;
@@ -13,10 +13,10 @@ public final class SimplePlayer extends Player {
     }
 
     @Override
-    public void giveOrders(GameState gameState) {
-        for (Unit unit : gameState.getUnits().values()) {
+    public void giveOrders(SimulationState simulationState) {
+        for (Unit unit : simulationState.getUnits().values()) {
             if (unit.getPlayerId() == playerId && unit.getHitPoints() > 0) {
-                Unit closestEnemyUnit = gameState.getClosestEnemyUnit(unit);
+                Unit closestEnemyUnit = simulationState.getClosestEnemyUnit(unit);
                 if (unit.canAttack(closestEnemyUnit)) {
                     unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                 } else {

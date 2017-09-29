@@ -1,6 +1,6 @@
 package player;
 
-import simulation.GameState;
+import simulation.SimulationState;
 
 public abstract class Player {
     protected int playerId;
@@ -13,6 +13,6 @@ public abstract class Player {
         return playerId;
     }
 
-    public abstract void giveOrders(GameState gameState);
+    public abstract void giveOrders(SimulationState simulationState);
 
 }

@@ -4,27 +4,36 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class GameState {
+public class SimulationState {
     private Map<Integer, Unit> units;
     private double maxX;
     private double maxY;
-    private int time;
+    private double time;
+    private double timeStep;
 
-    public GameState(double maxX, double maxY) {
+    public SimulationState(double maxX, double maxY, double timeStep) {
         this.units = new HashMap<>();
         this.maxX = maxX;
         this.maxY = maxY;
+        this.timeStep = timeStep;
     }
 
-    public GameState copy() {
-        GameState gameState = new GameState(this.maxX, this.maxY);
-        gameState.time = this.time + 1;
+    public SimulationState(double maxX, double maxY, double time, double timeStep) {
+        this.units = new HashMap<>();
+        this.maxX = maxX;
+        this.maxY = maxY;
+        this.time = time;
+        this.timeStep = timeStep;
+    }
+
+    public SimulationState copy() {
+        SimulationState simulationState = new SimulationState(this.maxX, this.maxY, this.time, this.timeStep);
         Map<Integer, Unit> units = new HashMap<>();
         for (Unit unit : this.units.values()) {
             units.put(unit.getUnitId(), unit.copy());
         }
-        gameState.units = units;
-        return gameState;
+        simulationState.units = units;
+        return simulationState;
     }
 
     public Map<Integer, Unit> getUnits() {
@@ -35,7 +44,7 @@ public class GameState {
         units.put(unit.getUnitId(), unit);
     }
 
-    public int getTime() {
+    public double getTime() {
         return time;
     }
 
@@ -45,6 +54,10 @@ public class GameState {
 
     public double getMaxY() {
         return maxY;
+    }
+
+    public void incrementTime() {
+        time += this.timeStep;
     }
 
     public Unit getClosestEnemyUnit(Unit unit) {
@@ -91,5 +104,9 @@ public class GameState {
             }
         }
         return canUnitBeAttackedByEnemy;
+    }
+
+    public double getTimeStep() {
+        return timeStep;
     }
 }

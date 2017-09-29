@@ -26,7 +26,8 @@ public class Replay {
         String json = loadFile(fileName);
         NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
         boolean graphics = true;
-        int limit = Integer.MAX_VALUE;
+        double simulationTimeStep = 1.0;
+        double simulationTimeLimit = 10000;
         int mapHeight = TILE_SIZE * 20;
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
@@ -39,7 +40,7 @@ public class Replay {
 
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateAllUnitSelections()) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, limit, mapHeight, mapWidth,
+            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
                     gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
             neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
             neuralNetworkPlayer.setNeuralNetwork(bestOne);

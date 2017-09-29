@@ -22,8 +22,9 @@ public class Benchmark {
         String fileName = "testNeuralWeb.json";
         String json = loadFile(fileName);
         NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
-        boolean graphics = true;
-        int limit = Integer.MAX_VALUE;
+        boolean graphics = false;
+        double simulationTimeStep = 3.0;
+        double simulationTimeLimit = 10000;
         int mapHeight = TILE_SIZE * 20;
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
@@ -32,7 +33,7 @@ public class Benchmark {
         Player secondPlayer = new SimplePlayer(1);
 
         double totalFitness = 0;
-        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, limit, mapHeight, mapWidth,
+        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, null);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(bestOne);

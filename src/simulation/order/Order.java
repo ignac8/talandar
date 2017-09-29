@@ -1,6 +1,6 @@
 package simulation.order;
 
-import simulation.GameState;
+import simulation.SimulationState;
 import simulation.Unit;
 
 public abstract class Order {
@@ -12,7 +12,7 @@ public abstract class Order {
         executed = false;
     }
 
-    abstract public void execute(GameState currentGameState, GameState nextGameState);
+    abstract public void execute(SimulationState currentSimulationState, SimulationState nextSimulationState);
 
     public boolean isExecuted() {
         return executed;

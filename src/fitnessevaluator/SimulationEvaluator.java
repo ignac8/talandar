@@ -2,9 +2,9 @@ package fitnessevaluator;
 
 import jnibwapi.types.UnitType;
 import player.Player;
-import simulation.Game;
-import simulation.GameState;
 import simulation.Position;
+import simulation.Simulation;
+import simulation.SimulationState;
 import simulation.Unit;
 import simulation.bridge.JNIBWAPI_LOAD;
 import utils.Pair;
@@ -22,19 +22,21 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
     }
 
     private boolean graphics;
-    private int limit;
-    private int mapHeight;
-    private int mapWidth;
-    private int gapHeight;
-    private int gapWidth;
+    private double timeStep;
+    private double timeLimit;
+    private double mapHeight;
+    private double mapWidth;
+    private double gapHeight;
+    private double gapWidth;
     private Player firstPlayer;
     private Player secondPlayer;
     private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
 
-    public SimulationEvaluator(boolean graphics, int limit, int mapHeight, int mapWidth, int gapHeight, int gapWidth,
+    public SimulationEvaluator(boolean graphics, double timeStep, double timeLimit, double mapHeight, double mapWidth, double gapHeight, double gapWidth,
                                Player firstPlayer, Player secondPlayer, Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
         this.graphics = graphics;
-        this.limit = limit;
+        this.timeStep = timeStep;
+        this.timeLimit = timeLimit;
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
         this.gapHeight = gapHeight;
@@ -45,26 +47,26 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
     }
 
     public double evaluate() {
-        GameState finalState = playGame();
+        SimulationState finalState = playGame();
         double fitness = rateGame(finalState);
         return fitness;
     }
 
-    private GameState playGame() {
+    private SimulationState playGame() {
         try {
-            GameState state = new GameState(mapWidth, mapHeight);
+            SimulationState state = new SimulationState(mapWidth, mapHeight, timeStep);
             state = putUnits(state, false, unitSelection.getLeft());
             state = putUnits(state, true, unitSelection.getRight());
             List<Player> playerList = Arrays.asList(firstPlayer, secondPlayer);
-            Game game = new Game(state, playerList, graphics);
-            return game.play();
+            Simulation simulation = new Simulation(state, playerList, graphics, timeLimit);
+            return simulation.play();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private double rateGame(GameState finalState) {
+    private double rateGame(SimulationState finalState) {
         double playerFitness = 0;
         double playerMaxFitness = 0;
         double enemyFitness = 0;
@@ -90,7 +92,7 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
         return result;
     }
 
-    private GameState putUnits(GameState state, boolean secondPlayer, List<List<UnitType>> unitTypes) {
+    private SimulationState putUnits(SimulationState state, boolean secondPlayer, List<List<UnitType>> unitTypes) {
         for (int i = 1; i <= unitTypes.size(); i++) {
             List<UnitType> unitTypesColumn = unitTypes.get(i - 1);
             for (int j = 0; j < unitTypesColumn.size(); j++) {

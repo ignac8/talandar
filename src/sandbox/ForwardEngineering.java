@@ -30,7 +30,7 @@ public class ForwardEngineering {
     public static void main(String... args) {
         String fileName = "testNeuralWeb.json";
         int passLimit = Integer.MAX_VALUE;
-        int timeLimit = 1 * 60 * 1000;
+        int searchTimeLimit = 1 * 60 * 1000;
         int populationSize = 100;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
@@ -45,11 +45,12 @@ public class ForwardEngineering {
         double biasStd = 10;
         double biasMean = 0;
         boolean graphics = false;
-        int limit = 10000;
-        int mapHeight = 640;
-        int mapWidth = 640;
-        int gapHeight = 40;
-        int gapWidth = 120;
+        double simulationTimeStep = 1.0;
+        double simulationTimeLimit = 10000;
+        double mapHeight = 640.0;
+        double mapWidth = 640.0;
+        double gapHeight = 40.0;
+        double gapWidth = 120.0;
         int numberOfUnitSelections = 10;
 
         int[] hiddenLayerSizes = {10};
@@ -79,12 +80,12 @@ public class ForwardEngineering {
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, limit, mapHeight, mapWidth,
+            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
                     gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
 
-        Solver solver = new Solver(operators, passLimit, timeLimit, fileName, startingIndividuals, fitnessEvaluators);
+        Solver solver = new Solver(operators, passLimit, searchTimeLimit, fileName, startingIndividuals, fitnessEvaluators);
 
         Individual bestOne = solver.solve();
         solver.graph("graphs\\testNeuralWeb.png");
@@ -92,7 +93,7 @@ public class ForwardEngineering {
 
         double totalFitness = 0;
 
-        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, limit, mapHeight, mapWidth,
+        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, null);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());

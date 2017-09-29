@@ -1,7 +1,7 @@
 package simulation.order;
 
-import simulation.GameState;
 import simulation.Position;
+import simulation.SimulationState;
 import simulation.Unit;
 
 public class MoveOrder extends Order {
@@ -13,13 +13,13 @@ public class MoveOrder extends Order {
     }
 
     @Override
-    public void execute(GameState currentGameState, GameState futureGameState) {
+    public void execute(SimulationState currentSimulationState, SimulationState futureSimulationState) {
         if (unitToOrder.getHitPoints() > 0) {
-            Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getUnitId());
+            Unit futureUnitToOrder = futureSimulationState.getUnits().get(unitToOrder.getUnitId());
             Position currentPosition = unitToOrder.getPosition();
             Position futurePosition = futureUnitToOrder.getPosition();
             double distance = moveOrderPosition.getDistance(currentPosition);
-            double speed = unitToOrder.getUnitType().getTopSpeed();
+            double speed = unitToOrder.getUnitType().getTopSpeed() * currentSimulationState.getTimeStep();
             if (speed < distance) {
                 double factor = speed / distance;
                 futurePosition.setX(currentPosition.getX() + (moveOrderPosition.getX() - currentPosition.getX()) * factor);
@@ -31,14 +31,14 @@ public class MoveOrder extends Order {
             if (futurePosition.getX() < 0) {
                 futurePosition.setX(0);
             }
-            if (futurePosition.getX() > currentGameState.getMaxX()) {
-                futurePosition.setX(currentGameState.getMaxX());
+            if (futurePosition.getX() > currentSimulationState.getMaxX()) {
+                futurePosition.setX(currentSimulationState.getMaxX());
             }
             if (futurePosition.getY() < 0) {
                 futurePosition.setY(0);
             }
-            if (futurePosition.getY() > currentGameState.getMaxY()) {
-                futurePosition.setY(currentGameState.getMaxY());
+            if (futurePosition.getY() > currentSimulationState.getMaxY()) {
+                futurePosition.setY(currentSimulationState.getMaxY());
             }
             if (currentPosition.getX() != futurePosition.getY() || currentPosition.getY() != futurePosition.getY()) {
                 executed = true;

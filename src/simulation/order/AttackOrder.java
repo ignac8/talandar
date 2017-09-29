@@ -4,7 +4,7 @@ import jnibwapi.types.DamageType;
 import jnibwapi.types.UnitSizeType;
 import jnibwapi.types.UnitType;
 import jnibwapi.types.WeaponType;
-import simulation.GameState;
+import simulation.SimulationState;
 import simulation.Unit;
 
 import static jnibwapi.types.DamageType.DamageTypes.Concussive;
@@ -26,11 +26,11 @@ public class AttackOrder extends Order {
     }
 
     @Override
-    public void execute(GameState currentGameState, GameState futureGameState) {
-        int time = currentGameState.getTime();
+    public void execute(SimulationState currentSimulationState, SimulationState futureSimulationState) {
+        double time = currentSimulationState.getTime();
         if (unitToOrder.getHitPoints() > 0 && unitToOrder.getCooldownTime() <= time) {
-            Unit futureUnitToAttack = futureGameState.getUnits().get(unitToAttack.getUnitId());
-            Unit futureUnitToOrder = futureGameState.getUnits().get(unitToOrder.getUnitId());
+            Unit futureUnitToAttack = futureSimulationState.getUnits().get(unitToAttack.getUnitId());
+            Unit futureUnitToOrder = futureSimulationState.getUnits().get(unitToOrder.getUnitId());
             WeaponType weaponType;
             int numberOfAttacks;
             UnitType unitToOrderUnitType = unitToOrder.getUnitType();
