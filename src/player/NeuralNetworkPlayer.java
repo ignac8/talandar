@@ -65,13 +65,16 @@ public final class NeuralNetworkPlayer extends Player {
                 UnitType closestEnemyUnitType = closestEnemyUnit.getUnitType();
                 Unit lowestHpEnemyUnit = simulationState.getLowestHpEnemyUnit(unit);
                 Position position = unit.getPosition();
+                Position closestEnemyUnitPosition = closestEnemyUnit.getPosition();
+                Position lowestHpEnemyUnitPosition = lowestHpEnemyUnit.getPosition();
+                Position runAwayPosition = getRunawayPosition(unit, simulationState, closestEnemyUnitPosition);
                 double time = simulationState.getTime();
 
                 inputLayer.get(0).setValue(unit.getHitPoints());
                 inputLayer.get(1).setValue(sqrt(unitType.getGroundWeapon().getMaxRange()));
                 inputLayer.get(2).setValue(sqrt(closestEnemyUnitType.getGroundWeapon().getMaxRange()));
-                inputLayer.get(3).setValue(sqrt(position.getDistance(closestEnemyUnit.getPosition())));
-                inputLayer.get(4).setValue(sqrt(position.getDistance(lowestHpEnemyUnit.getPosition())));
+                inputLayer.get(3).setValue(sqrt(position.getDistance(closestEnemyUnitPosition)));
+                inputLayer.get(4).setValue(sqrt(position.getDistance(lowestHpEnemyUnitPosition)));
 
 //                for (int counter = 0; counter <= 5 * 2; counter += 2) {
 //                    inputLayer.get(counter + 5).setValue(howMany(previousMaxIndexes, counter / 2));
@@ -92,6 +95,7 @@ public final class NeuralNetworkPlayer extends Player {
                     }
                 }
 
+
                 switch (maxIndex) {
                     case 0:
                         if (unit.canAttack(lowestHpEnemyUnit)) {
@@ -99,12 +103,11 @@ public final class NeuralNetworkPlayer extends Player {
                         } else if (unit.canAttack(closestEnemyUnit)) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, closestEnemyUnitPosition));
                         }
                         break;
 
                     case 1:
-                        Position runAwayPosition = unit.getRunAwayPosition(closestEnemyUnit);
                         unit.setOrder(new MoveOrder(unit, runAwayPosition));
                         break;
 
@@ -112,7 +115,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(lowestHpEnemyUnit)) {
                             unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnitPosition));
                         }
                         break;
 
@@ -122,7 +125,7 @@ public final class NeuralNetworkPlayer extends Player {
                         } else if (unit.canAttack(closestEnemyUnit)) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnitPosition));
                         }
                         break;
 
@@ -132,7 +135,7 @@ public final class NeuralNetworkPlayer extends Player {
                         } else if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, unit.getRunAwayPosition(closestEnemyUnit)));
+                            unit.setOrder(new MoveOrder(unit, runAwayPosition));
                         }
                         break;
 
@@ -142,7 +145,7 @@ public final class NeuralNetworkPlayer extends Player {
                         } else if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, closestEnemyUnitPosition));
                         }
                         break;
 
@@ -150,7 +153,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(lowestHpEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnitPosition));
                         }
                         break;
 
@@ -161,9 +164,9 @@ public final class NeuralNetworkPlayer extends Player {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
                             if (simulationState.canUnitBeAttackedByEnemy(unit) && unit.canAttack(closestEnemyUnit)) {
-                                unit.setOrder(new MoveOrder(unit, unit.getRunAwayPosition(closestEnemyUnit)));
+                                unit.setOrder(new MoveOrder(unit, runAwayPosition));
                             } else {
-                                unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                                unit.setOrder(new MoveOrder(unit, closestEnemyUnitPosition));
                             }
                         }
                         break;
@@ -172,7 +175,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(closestEnemyUnit)) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, closestEnemyUnitPosition));
                         }
                         break;
 
@@ -180,7 +183,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(lowestHpEnemyUnit)) {
                             unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnitPosition));
                         }
                         break;
 
@@ -188,7 +191,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(closestEnemyUnit)) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnitPosition));
                         }
                         break;
 
@@ -196,7 +199,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, unit.getRunAwayPosition(closestEnemyUnit)));
+                            unit.setOrder(new MoveOrder(unit, runAwayPosition));
                         }
                         break;
 
@@ -204,7 +207,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, closestEnemyUnitPosition));
                         }
                         break;
 
@@ -212,7 +215,7 @@ public final class NeuralNetworkPlayer extends Player {
                         if (unit.canAttack(lowestHpEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
                         } else {
-                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnit.getPosition()));
+                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnitPosition));
                         }
                         break;
 
@@ -221,9 +224,9 @@ public final class NeuralNetworkPlayer extends Player {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
                             if (simulationState.canUnitBeAttackedByEnemy(unit) && unit.canAttack(closestEnemyUnit)) {
-                                unit.setOrder(new MoveOrder(unit, unit.getRunAwayPosition(closestEnemyUnit)));
+                                unit.setOrder(new MoveOrder(unit, runAwayPosition));
                             } else {
-                                unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                                unit.setOrder(new MoveOrder(unit, closestEnemyUnitPosition));
                             }
                         }
                         break;
@@ -235,6 +238,35 @@ public final class NeuralNetworkPlayer extends Player {
                 unit.setOutputId(maxIndex);
             }
         }
+    }
+
+    private Position getRunawayPosition(Unit unit, SimulationState simulationState, Position closestEnemyUnitPosition) {
+        Position runAwayPosition = unit.getRunAwayPosition(simulationState);
+        if (runAwayPosition == null || runAwayPosition.equals(unit.getPosition())) {
+            runAwayPosition = unit.getRunAwayPosition(closestEnemyUnitPosition);
+        }
+        if (runAwayPosition == null || runAwayPosition.equals(unit.getPosition())) {
+            if (playerId == 0) {
+                runAwayPosition = new Position(0, 0);
+            } else if (playerId == 1) {
+                runAwayPosition = new Position(simulationState.getMaxX(), simulationState.getMaxY());
+            }
+        }
+        if (runAwayPosition == null || runAwayPosition.equals(unit.getPosition())) {
+            if (playerId == 0) {
+                runAwayPosition = new Position(0, simulationState.getMaxY());
+            } else if (playerId == 1) {
+                runAwayPosition = new Position(simulationState.getMaxX(), 0);
+            }
+        }
+        if (runAwayPosition == null || runAwayPosition.equals(unit.getPosition())) {
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return runAwayPosition;
     }
 
     private int howMany(Map<Unit, Integer> map, Integer integer) {

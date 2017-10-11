@@ -4,6 +4,8 @@ import simulation.Position;
 import simulation.SimulationState;
 import simulation.Unit;
 
+import static java.lang.Double.isFinite;
+
 public class MoveOrder extends Order {
     private Position moveOrderPosition;
 
@@ -20,7 +22,7 @@ public class MoveOrder extends Order {
             Position futurePosition = futureUnitToOrder.getPosition();
             double distance = moveOrderPosition.getDistance(currentPosition);
             double speed = unitToOrder.getUnitType().getTopSpeed() * currentSimulationState.getTimeStep();
-            if (distance > 0) {
+            if (distance > 0 && isFinite(distance)) {
                 if (speed < distance) {
                     double factor = speed / distance;
                     futurePosition.setX(currentPosition.getX() + (moveOrderPosition.getX() - currentPosition.getX()) * factor);
