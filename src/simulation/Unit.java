@@ -44,18 +44,6 @@ public class Unit {
         return unitId;
     }
 
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    public double getHitPoints() {
-        return hitPoints;
-    }
-
-    public void setHitPoints(double hitPoints) {
-        this.hitPoints = hitPoints;
-    }
-
     public Order getOrder() {
         return order;
     }
@@ -112,8 +100,33 @@ public class Unit {
         this.position = position;
     }
 
-    public Position getRunAwayPosition(Unit enemyUnit) {
-        Position enemyPosition = enemyUnit.getPosition();
+    public Position getRunAwayPosition(SimulationState simulationState) {
+        double sumX = 0;
+        double sumY = 0;
+        int num = 0;
+
+        for (Unit unit : simulationState.getUnits().values()) {
+            if (unit.getHitPoints() > 0 && unit.getPlayerId() != playerId) {
+                Position position = unit.getPosition();
+                sumX += position.getX();
+                sumY += position.getY();
+                num++;
+            }
+        }
+
+        Position averagePosition = new Position(sumX / num, sumY / num);
+        return getRunAwayPosition(averagePosition);
+    }
+
+    public double getHitPoints() {
+        return hitPoints;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public Position getRunAwayPosition(Position enemyPosition) {
         double enemyPositionX = enemyPosition.getX();
         double enemyPositionY = enemyPosition.getY();
         double positionX = position.getX();
@@ -121,11 +134,19 @@ public class Unit {
         Position runAwayPosition = new Position(enemyPositionX - positionX, enemyPositionY - positionY);
         double distance = runAwayPosition.getDistance(enemyPosition);
         double speed = unitType.getTopSpeed();
-        if (distance < speed) {
-            double multiplier = speed / distance;
-            runAwayPosition = new Position(enemyPositionX * multiplier - positionX, enemyPositionY * multiplier - positionY);
+        if (Double.isFinite(distance) && distance > 0) {
+            if (distance < speed) {
+                double multiplier = speed / distance;
+                runAwayPosition = new Position(enemyPositionX * multiplier - positionX, enemyPositionY * multiplier - positionY);
+            }
+        } else {
+            runAwayPosition = null;
         }
         return runAwayPosition;
+    }
+
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
     }
 
 
