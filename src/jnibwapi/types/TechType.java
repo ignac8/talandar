@@ -64,14 +64,6 @@ public class TechType {
         name = techType.name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
     public int getRaceID() {
         return raceID;
     }
@@ -116,6 +108,14 @@ public class TechType {
     @Override
     public String toString() {
         return getName() + " (" + getID() + ")";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public static class TechTypes {

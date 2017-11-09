@@ -73,6 +73,10 @@ public class Map {
         }
     }
 
+    public boolean isWalkable(Position p) {
+        return p.isValid() && walkable[p.getWX() + size.getWX() * p.getWY()];
+    }
+
     /**
      * Initialise the map with regions and base locations
      */
@@ -179,13 +183,6 @@ public class Map {
         return hash;
     }
 
-    /**
-     * Converts a position to a 1-dimensional build tile array index for this map
-     */
-    private int getBuildTileArrayIndex(Position p) {
-        return p.getBX() + size.getBX() * p.getBY();
-    }
-
     public int getGroundHeight(Position p) {
         if (p.isValid()) {
             return heightMap[getBuildTileArrayIndex(p)];
@@ -195,37 +192,14 @@ public class Map {
     }
 
     /**
-     * Works only after initialize(). Returns null if the specified position is invalid. Build tile
-     * accuracy (so may not precisely agree with region polygons).
+     * Converts a position to a 1-dimensional build tile array index for this map
      */
-    public Region getRegion(Position p) {
-        if (p.isValid()) {
-            return idToRegion.get(regionMap[getBuildTileArrayIndex(p)]);
-        } else {
-            return null;
-        }
+    private int getBuildTileArrayIndex(Position p) {
+        return p.getBX() + size.getBX() * p.getBY();
     }
 
     public boolean isBuildable(Position p) {
         return p.isValid() && buildable[getBuildTileArrayIndex(p)];
-    }
-
-    public boolean isWalkable(Position p) {
-        return p.isValid() && walkable[p.getWX() + size.getWX() * p.getWY()];
-    }
-
-    /**
-     * Checks whether all 16 walk tiles in a build tile are walkable
-     */
-    public boolean isLowResWalkable(Position p) {
-        return p.isValid() && lowResWalkable[getBuildTileArrayIndex(p)];
-    }
-
-    /**
-     * Works only after initialize()
-     */
-    public List<Region> getRegions() {
-        return Collections.unmodifiableList(regions);
     }
 
     /**
@@ -233,20 +207,6 @@ public class Map {
      */
     public Region getRegion(int regionID) {
         return idToRegion.get(regionID);
-    }
-
-    /**
-     * Works only after initialize()
-     */
-    public List<ChokePoint> getChokePoints() {
-        return Collections.unmodifiableList(chokePoints);
-    }
-
-    /**
-     * Works only after initialize()
-     */
-    public List<BaseLocation> getBaseLocations() {
-        return Collections.unmodifiableList(baseLocations);
     }
 
     /**
@@ -345,6 +305,25 @@ public class Map {
     }
 
     /**
+     * Works only after initialize(). Returns null if the specified position is invalid. Build tile
+     * accuracy (so may not precisely agree with region polygons).
+     */
+    public Region getRegion(Position p) {
+        if (p.isValid()) {
+            return idToRegion.get(regionMap[getBuildTileArrayIndex(p)]);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Checks whether all 16 walk tiles in a build tile are walkable
+     */
+    public boolean isLowResWalkable(Position p) {
+        return p.isValid() && lowResWalkable[getBuildTileArrayIndex(p)];
+    }
+
+    /**
      * Debugging method to check terrain has been analysed properly. Taken from BWAPI's
      * ExampleAIClient
      */
@@ -395,6 +374,27 @@ public class Map {
             Position point2 = cp.getSecondSide();
             bwapi.drawLine(point1, point2, BWColor.Red, false);
         }
+    }
+
+    /**
+     * Works only after initialize()
+     */
+    public List<BaseLocation> getBaseLocations() {
+        return Collections.unmodifiableList(baseLocations);
+    }
+
+    /**
+     * Works only after initialize()
+     */
+    public List<Region> getRegions() {
+        return Collections.unmodifiableList(regions);
+    }
+
+    /**
+     * Works only after initialize()
+     */
+    public List<ChokePoint> getChokePoints() {
+        return Collections.unmodifiableList(chokePoints);
     }
 
     private static class AStarTile implements Comparable<AStarTile> {

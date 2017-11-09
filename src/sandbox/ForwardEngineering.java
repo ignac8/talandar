@@ -5,10 +5,12 @@ import fitnessevaluator.SimulationEvaluator;
 import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCSNeuralNetwork;
+import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
 import solver.Individual;
+import solver.Result;
 import solver.Solver;
 import solver.operator.BiasMutation;
 import solver.operator.NeuronCrossover;
@@ -24,6 +26,9 @@ import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
+import static utils.FileUtils.saveFile;
+import static utils.FileUtils.saveGraphToFile;
+import static utils.FileUtils.toJson;
 
 public class ForwardEngineering {
 
@@ -34,8 +39,8 @@ public class ForwardEngineering {
         int populationSize = 100;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
-        int tournamentSize = 1;
-        double crossoverChance = 0;
+        int tournamentSize = 2;
+        double crossoverChance = 0.85;
         double weightMutationChance = 1;
         double biasMutationChance = 1;
         double initialStd = 10;
@@ -87,16 +92,18 @@ public class ForwardEngineering {
 
         Solver solver = new Solver(operators, passLimit, searchTimeLimit, startingIndividuals, fitnessEvaluators);
 
-        Individual bestOne = solver.solve();
-        solver.graph("graphs\\testNeuralWeb.png");
-        solver.save("testNeuralWeb.json");
+        Result result = solver.solve();
+        NeuralNetwork neuralNetwork = result.getNeuralNetwork();
+        saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs\\testNeuralWeb.png");
+        String json = toJson(neuralNetwork);
+        saveFile("testNeuralWeb.json", json);
 
         double totalFitness = 0;
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, null);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
-        neuralNetworkPlayer.setNeuralNetwork(bestOne.getNeuralNetwork());
+        neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);

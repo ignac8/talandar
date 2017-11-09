@@ -21,28 +21,28 @@ public class UnitCommand {
      */
     private int extra = 0;
 
+    public UnitCommand(Unit u, UnitCommandType t, Unit target) {
+        this(u, t);
+        this.target = target;
+    }
+
     public UnitCommand(Unit u, UnitCommandType t) {
         unit = u;
         type = t;
     }
 
-    public UnitCommand(Unit u, UnitCommandType t, int extra) {
-        this(u, t);
-        this.extra = extra;
+    public UnitCommand(Unit u, UnitCommandType t, Unit target, boolean queued) {
+        this(u, t, queued);
+        this.target = target;
     }
 
     public UnitCommand(Unit u, UnitCommandType t, boolean queued) {
         this(u, t, queued ? 1 : 0);
     }
 
-    public UnitCommand(Unit u, UnitCommandType t, Unit target) {
+    public UnitCommand(Unit u, UnitCommandType t, int extra) {
         this(u, t);
-        this.target = target;
-    }
-
-    public UnitCommand(Unit u, UnitCommandType t, Unit target, boolean queued) {
-        this(u, t, queued);
-        this.target = target;
+        this.extra = extra;
     }
 
     public UnitCommand(Unit u, UnitCommandType t, Unit target, int extra) {
@@ -92,10 +92,6 @@ public class UnitCommand {
         return targetPosition.getX(getPosType());
     }
 
-    public int getY() {
-        return targetPosition.getY(getPosType());
-    }
-
     /**
      * Necessary to differentiate commands which take tilePositions
      */
@@ -105,6 +101,10 @@ public class UnitCommand {
                 type == UnitCommandTypes.Place_COP)
             return PosType.BUILD;
         return PosType.PIXEL;
+    }
+
+    public int getY() {
+        return targetPosition.getY(getPosType());
     }
 
     public int getExtra() {

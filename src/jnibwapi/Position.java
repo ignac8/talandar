@@ -13,19 +13,19 @@ public class Position {
     private final int y;
 
     /**
+     * Creates a new Position representing the given x and y as Pixel coordinates.
+     */
+    public Position(int x, int y) {
+        this(x, y, PosType.PIXEL);
+    }
+
+    /**
      * Creates a new Position representing the given x and y as Pixel, Walk Tile, or Build Tile
      * coordinates (depending on the PosType given).
      */
     public Position(int x, int y, PosType posType) {
         this.x = x * posType.scale;
         this.y = y * posType.scale;
-    }
-
-    /**
-     * Creates a new Position representing the given x and y as Pixel coordinates.
-     */
-    public Position(int x, int y) {
-        this(x, y, PosType.PIXEL);
     }
 
     /**
@@ -47,20 +47,6 @@ public class Position {
     }
 
     /**
-     * Returns the x-coordinate, in pixels
-     */
-    public int getPX() {
-        return x / PosType.PIXEL.scale;
-    }
-
-    /**
-     * Returns the y-coordinate, in pixels
-     */
-    public int getPY() {
-        return y / PosType.PIXEL.scale;
-    }
-
-    /**
      * Returns the x-coordinate, in walk tiles
      */
     public int getWX() {
@@ -74,18 +60,8 @@ public class Position {
         return y / PosType.WALK.scale;
     }
 
-    /**
-     * Returns the x-coordinate, in build tiles
-     */
-    public int getBX() {
-        return x / PosType.BUILD.scale;
-    }
-
-    /**
-     * Returns the y-coordinate, in build tiles
-     */
-    public int getBY() {
-        return y / PosType.BUILD.scale;
+    public double getWDistance(Position target) {
+        return getPDistance(target) / PosType.WALK.scale;
     }
 
     /**
@@ -99,12 +75,12 @@ public class Position {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    public double getWDistance(Position target) {
-        return getPDistance(target) / PosType.WALK.scale;
-    }
-
     public double getBDistance(Position target) {
         return getPDistance(target) / PosType.BUILD.scale;
+    }
+
+    public int getApproxWDistance(Position target) {
+        return getApproxPDistance(target) / PosType.WALK.scale;
     }
 
     /**
@@ -131,30 +107,8 @@ public class Position {
         return ((minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6));
     }
 
-    public int getApproxWDistance(Position target) {
-        return getApproxPDistance(target) / PosType.WALK.scale;
-    }
-
     public int getApproxBDistance(Position target) {
         return getApproxPDistance(target) / PosType.BUILD.scale;
-    }
-
-    /**
-     * Returns true if the position is on the map. Note: if map info is unavailable, this function
-     * will check validity against the largest (256x256) map size.
-     */
-    public boolean isValid() {
-        if (x < 0 || y < 0)
-            return false;
-        Map map;
-        if (JNIBWAPI.getInstance() != null)
-            map = JNIBWAPI.getInstance().getMap();
-        else
-            map = null;
-        if (map == null)
-            return getBX() < 256 && getBY() < 256;
-        else
-            return x < map.getSize().getPX() && y < map.getSize().getPY();
     }
 
     /**
@@ -181,6 +135,52 @@ public class Position {
             newBtY = Math.min(newBtY, map.getSize().getBY() - 1);
         }
         return new Position(newBtX, newBtY, PosType.BUILD);
+    }
+
+    /**
+     * Returns true if the position is on the map. Note: if map info is unavailable, this function
+     * will check validity against the largest (256x256) map size.
+     */
+    public boolean isValid() {
+        if (x < 0 || y < 0)
+            return false;
+        Map map;
+        if (JNIBWAPI.getInstance() != null)
+            map = JNIBWAPI.getInstance().getMap();
+        else
+            map = null;
+        if (map == null)
+            return getBX() < 256 && getBY() < 256;
+        else
+            return x < map.getSize().getPX() && y < map.getSize().getPY();
+    }
+
+    /**
+     * Returns the x-coordinate, in build tiles
+     */
+    public int getBX() {
+        return x / PosType.BUILD.scale;
+    }
+
+    /**
+     * Returns the y-coordinate, in build tiles
+     */
+    public int getBY() {
+        return y / PosType.BUILD.scale;
+    }
+
+    /**
+     * Returns the x-coordinate, in pixels
+     */
+    public int getPX() {
+        return x / PosType.PIXEL.scale;
+    }
+
+    /**
+     * Returns the y-coordinate, in pixels
+     */
+    public int getPY() {
+        return y / PosType.PIXEL.scale;
     }
 
     /**

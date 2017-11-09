@@ -12,7 +12,7 @@ import static java.util.Collections.shuffle;
 public class UnitSelectionGenerator {
 
     static {
-        JNIBWAPI_LOAD.getInstance();
+        JNIBWAPI_LOAD.loadIfNecessary();
     }
 
     public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateRandomUnitSelections(int number) {
@@ -24,7 +24,6 @@ public class UnitSelectionGenerator {
         }
         return randomUnitSelections;
     }
-
 
     public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateAllUnitSelections() {
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = new ArrayList<>();
@@ -39,7 +38,6 @@ public class UnitSelectionGenerator {
                 unitSelections.add(unitSelection);
             }
         }
-
         return unitSelections;
     }
 

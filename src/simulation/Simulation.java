@@ -1,6 +1,8 @@
 package simulation;
 
+import gui.SimulationUI;
 import player.Player;
+import simulation.bridge.JNIBWAPI_LOAD;
 import simulation.order.Order;
 
 import java.util.HashSet;
@@ -10,6 +12,11 @@ import java.util.Set;
 public class Simulation {
 
     private static final SimulationUI SIMULATION_UI = SimulationUI.getInstance();
+
+    static {
+        JNIBWAPI_LOAD.loadIfNecessary();
+    }
+
     private SimulationState currentSimulationState;
     private List<Player> players;
     private boolean displayed;

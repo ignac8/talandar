@@ -61,14 +61,6 @@ public class UpgradeType {
         name = upgradeType.name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
     public int getRaceID() {
         return raceID;
     }
@@ -108,6 +100,14 @@ public class UpgradeType {
     @Override
     public String toString() {
         return getName() + " (" + getID() + ")";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public static class UpgradeTypes {

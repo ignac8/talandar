@@ -34,17 +34,17 @@ public class BulletType {
         name = bulletType.name;
     }
 
+    @Override
+    public String toString() {
+        return getName() + " (" + getID() + ")";
+    }
+
     public String getName() {
         return name;
     }
 
     public int getID() {
         return ID;
-    }
-
-    @Override
-    public String toString() {
-        return getName() + " (" + getID() + ")";
     }
 
     public static class BulletTypes {

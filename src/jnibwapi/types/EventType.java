@@ -40,16 +40,16 @@ public enum EventType {
         return Collections.unmodifiableCollection(Arrays.asList(EventType.values()));
     }
 
-    public int getID() {
-        return ordinal();
+    @Override
+    public String toString() {
+        return getName() + " (" + getID() + ")";
     }
 
     public String getName() {
         return name();
     }
 
-    @Override
-    public String toString() {
-        return getName() + " (" + getID() + ")";
+    public int getID() {
+        return ordinal();
     }
 }

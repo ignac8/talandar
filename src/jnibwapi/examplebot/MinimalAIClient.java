@@ -13,13 +13,13 @@ import jnibwapi.util.BWColor;
 public class MinimalAIClient implements BWAPIEventListener {
     private JNIBWAPI bwapi;
 
-    public static void main(String[] args) {
-        new MinimalAIClient();
-    }
-
     public MinimalAIClient() {
         bwapi = new JNIBWAPI(this, false, true);
         bwapi.start();
+    }
+
+    public static void main(String[] args) {
+        new MinimalAIClient();
     }
 
     @Override
@@ -38,11 +38,11 @@ public class MinimalAIClient implements BWAPIEventListener {
     }
 
     @Override
-    public void keyPressed(int keyCode) {
+    public void matchEnd(boolean winner) {
     }
 
     @Override
-    public void matchEnd(boolean winner) {
+    public void keyPressed(int keyCode) {
     }
 
     @Override
@@ -54,23 +54,15 @@ public class MinimalAIClient implements BWAPIEventListener {
     }
 
     @Override
+    public void playerLeft(int playerID) {
+    }
+
+    @Override
     public void nukeDetect(Position p) {
     }
 
     @Override
     public void nukeDetect() {
-    }
-
-    @Override
-    public void playerLeft(int playerID) {
-    }
-
-    @Override
-    public void unitCreate(int unitID) {
-    }
-
-    @Override
-    public void unitDestroy(int unitID) {
     }
 
     @Override
@@ -82,15 +74,23 @@ public class MinimalAIClient implements BWAPIEventListener {
     }
 
     @Override
+    public void unitShow(int unitID) {
+    }
+
+    @Override
     public void unitHide(int unitID) {
     }
 
     @Override
-    public void unitMorph(int unitID) {
+    public void unitCreate(int unitID) {
     }
 
     @Override
-    public void unitShow(int unitID) {
+    public void unitDestroy(int unitID) {
+    }
+
+    @Override
+    public void unitMorph(int unitID) {
     }
 
     @Override

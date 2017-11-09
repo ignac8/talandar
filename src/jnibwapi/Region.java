@@ -71,10 +71,6 @@ public class Region {
         connectedRegions.add(other);
     }
 
-    public Set<Region> getConnectedRegions() {
-        return Collections.unmodifiableSet(connectedRegions);
-    }
-
     /**
      * Get all transitively connected regions for a given region
      */
@@ -92,6 +88,10 @@ public class Region {
             }
         }
         return Collections.unmodifiableSet(allConnectedRegions);
+    }
+
+    public Set<Region> getConnectedRegions() {
+        return Collections.unmodifiableSet(connectedRegions);
     }
 
 }

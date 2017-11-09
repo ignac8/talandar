@@ -212,10 +212,6 @@ public class UnitType {
         requiredUnits = unitType.requiredUnits;
     }
 
-    public int getID() {
-        return ID;
-    }
-
     public int getRaceID() {
         return raceID;
     }
@@ -453,10 +449,6 @@ public class UnitType {
         return spell;
     }
 
-    public String getName() {
-        return name;
-    }
-
     /**
      * A map from UnitTypeID to quantity required (usually 1, but 2 for Archons)
      */
@@ -473,6 +465,14 @@ public class UnitType {
     @Override
     public String toString() {
         return getName() + " (" + getID() + ")";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public boolean isCanAttackGround() {

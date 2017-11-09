@@ -151,54 +151,9 @@ public class JNIBWAPI {
         }
     }
 
-    /**
-     * Get a reference to the JNIBWAPI object. Note it will be unusable until the
-     * {@link #connected()} callback, and all game-related fields may be undefined until the
-     * {@link #gameStarted()} callback.
-     */
-    public static JNIBWAPI getInstance() {
-        return instance;
-    }
-
-    /**
-     * Convenience method to write out each part of BWTA map data to a stream
-     */
-    private static void writeMapData(BufferedWriter writer, int[] data) throws IOException {
-        boolean first = true;
-        for (int val : data) {
-            if (first) {
-                first = false;
-                writer.write("" + val);
-            } else {
-                writer.write("," + val);
-            }
-        }
-        writer.write("\n");
-    }
-
-    /**
-     * Convenience method to read each part of BWTA map data from a stream
-     *
-     * @return null when end of stream is reached, otherwise an int array (possibly empty)
-     */
-    private static int[] readMapData(BufferedReader reader) throws IOException {
-        int[] data = new int[0];
-        String line = reader.readLine();
-        if (line == null)
-            return null;
-        String[] stringData = line.split(",");
-        if (stringData.length > 0 && !stringData[0].equals("")) {
-            data = new int[stringData.length];
-            for (int i = 0; i < stringData.length; i++) {
-                data[i] = Integer.parseInt(stringData[i]);
-            }
-        }
-        return data;
-    }
-
     public void loadLibrary() {
         LOADED = true;
-        // load the BWAPI client library
+        // loadIfNecessary the BWAPI client library
         try {
             System.loadLibrary("client-bridge-" + System.getProperty("os.arch"));
             System.out.println("Loaded client bridge library.");
@@ -209,8 +164,17 @@ public class JNIBWAPI {
             if (!dll.exists()) {
                 System.err.println("Native code library not found: " + dll.getAbsolutePath());
             }
-            System.err.println("Native code library failed to load." + e);
+            System.err.println("Native code library failed to loadIfNecessary." + e);
         }
+    }
+
+    /**
+     * Get a reference to the JNIBWAPI object. Note it will be unusable until the
+     * {@link #connected()} callback, and all game-related fields may be undefined until the
+     * {@link #gameStarted()} callback.
+     */
+    public static JNIBWAPI getInstance() {
+        return instance;
     }
 
     /**
@@ -227,116 +191,10 @@ public class JNIBWAPI {
     // invokes the main native method
     private native void startClient(JNIBWAPI jniBWAPI);
 
-    // query methods
-    private native int getFrame();
-
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#getReplayFrameCount
      */
     public native int getReplayFrameTotal();
-
-    private native int[] getPlayersData();
-
-    private native int[] getPlayerUpdate(int playerID);
-
-    /**
-     * Returns string as a byte[] to properly handle ASCII-extended characters
-     */
-    private native byte[] getPlayerName(int playerID);
-
-    private native int[] getResearchStatus(int playerID);
-
-    private native int[] getUpgradeStatus(int playerID);
-
-    private native int[] getAllUnitsData();
-
-    private native int[] getStaticNeutralUnitsData();
-
-    private native int[] getRaceTypes();
-
-    private native String getRaceTypeName(int raceID);
-
-    private native int[] getUnitTypes();
-
-    private native String getUnitTypeName(int unitTypeID);
-
-    private native int[] getRequiredUnits(int unitTypeID);
-
-    private native int[] getTechTypes();
-
-    private native String getTechTypeName(int techID);
-
-    private native int[] getUpgradeTypes();
-
-    private native String getUpgradeTypeName(int upgradeID);
-
-    private native int[] getWeaponTypes();
-
-    private native String getWeaponTypeName(int weaponID);
-
-    private native int[] getUnitSizeTypes();
-
-    private native String getUnitSizeTypeName(int sizeID);
-
-    private native int[] getBulletTypes();
-
-    private native String getBulletTypeName(int bulletID);
-
-    private native int[] getDamageTypes();
-
-    private native String getDamageTypeName(int damageID);
-
-    private native int[] getExplosionTypes();
-
-    private native String getExplosionTypeName(int explosionID);
-
-    private native int[] getUnitCommandTypes();
-
-    private native String getUnitCommandTypeName(int unitCommandID);
-
-    private native int[] getOrderTypes();
-
-    private native String getOrderTypeName(int unitCommandID);
-
-    private native int[] getUnitIdsOnTile(int tx, int ty);
-
-    // map data
-    private native void analyzeTerrain();
-
-    private native int getMapWidth();
-
-    private native int getMapHeight();
-
-    /**
-     * Returns string as a byte[] to properly handle ASCII-extended characters
-     */
-    private native byte[] getMapName();
-
-    private native String getMapFileName();
-
-    private native String getMapHash();
-
-    private native int[] getHeightData();
-
-    /**
-     * Returns the regionId for each map tile
-     */
-    private native int[] getRegionMap();
-
-    private native int[] getWalkableData();
-
-    private native int[] getBuildableData();
-
-    private native int[] getChokePoints();
-
-    private native int[] getRegions();
-
-    private native int[] getPolygon(int regionID);
-
-    private native int[] getBaseLocations();
-
-    // Unit commands. These should generally be accessed via the Unit class now.
-    private native boolean canIssueCommand(int unitID, int unitCommandTypeID, int targetUnitID, int x, int y, int extra);
 
     /**
      * Differs from the BWAPI command in that the Unit receiving the command is encapsulated in the
@@ -347,7 +205,8 @@ public class JNIBWAPI {
                 cmd.getX(), cmd.getY(), cmd.getExtra());
     }
 
-    private native boolean issueCommand(int unitID, int unitCommandTypeID, int targetUnitID, int x, int y, int extra);
+    // Unit commands. These should generally be accessed via the Unit class now.
+    private native boolean canIssueCommand(int unitID, int unitCommandTypeID, int targetUnitID, int x, int y, int extra);
 
     /**
      * Differs from the BWAPI command in that the Unit receiving the command is encapsulated in the
@@ -358,6 +217,8 @@ public class JNIBWAPI {
         return issueCommand(cmd.getUnit().getID(), cmd.getType().getID(), cmd.getTargetUnitID(),
                 cmd.getX(), cmd.getY(), cmd.getExtra());
     }
+
+    private native boolean issueCommand(int unitID, int unitCommandTypeID, int targetUnitID, int x, int y, int extra);
 
     /**
      * @deprecated Use the one in {@link Unit} instead
@@ -564,8 +425,6 @@ public class JNIBWAPI {
      */
     public native boolean useTech(int unitID, int typeID, int x, int y);
 
-    // utility commands
-
     /**
      * @deprecated Use the one in {@link Unit} instead
      */
@@ -622,9 +481,6 @@ public class JNIBWAPI {
      */
     public native void leaveGame();
 
-    // draw commands (if screenCoords is false, draws at map pixel coordinates)
-    private native void drawBox(int left, int top, int right, int bottom, int color, boolean fill, boolean screenCoords);
-
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawBox
      *
@@ -634,7 +490,8 @@ public class JNIBWAPI {
         drawBox(topLeft.getPX(), topLeft.getPY(), bottomRight.getPX(), bottomRight.getPY(), bWColor.getID(), fill, screenCoords);
     }
 
-    public native void drawCircle(int x, int y, int radius, int color, boolean fill, boolean screenCoords);
+    // draw commands (if screenCoords is false, draws at map pixel coordinates)
+    private native void drawBox(int left, int top, int right, int bottom, int color, boolean fill, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawCircle
@@ -645,7 +502,7 @@ public class JNIBWAPI {
         drawCircle(p.getPX(), p.getPY(), radius, bWColor.getID(), fill, screenCoords);
     }
 
-    public native void drawLine(int x1, int y1, int x2, int y2, int color, boolean screenCoords);
+    public native void drawCircle(int x, int y, int radius, int color, boolean fill, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawLine
@@ -656,7 +513,7 @@ public class JNIBWAPI {
         drawLine(start.getPX(), start.getPY(), end.getPX(), end.getPY(), bWColor.getID(), screenCoords);
     }
 
-    private native void drawDot(int x, int y, int color, boolean screenCoords);
+    public native void drawLine(int x1, int y1, int x2, int y2, int color, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawDot
@@ -667,7 +524,7 @@ public class JNIBWAPI {
         drawDot(p.getPX(), p.getPY(), bWColor.getID(), screenCoords);
     }
 
-    public native void drawText(int x, int y, String msg, boolean screenCoords);
+    private native void drawDot(int x, int y, int color, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#drawText
@@ -678,8 +535,7 @@ public class JNIBWAPI {
         drawText(a.getPX(), a.getPY(), msg, screenCoords);
     }
 
-    // Extended Commands
-    private native boolean isVisible(int tileX, int tileY);
+    public native void drawText(int x, int y, String msg, boolean screenCoords);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#isVisible
@@ -688,7 +544,8 @@ public class JNIBWAPI {
         return isVisible(p.getBX(), p.getBY());
     }
 
-    private native boolean isExplored(int tileX, int tileY);
+    // Extended Commands
+    private native boolean isVisible(int tileX, int tileY);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#isExplored
@@ -697,7 +554,7 @@ public class JNIBWAPI {
         return isExplored(p.getBX(), p.getBY());
     }
 
-    private native boolean isBuildable(int tx, int ty, boolean includeBuildings);
+    private native boolean isExplored(int tileX, int tileY);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#isBuildable
@@ -706,7 +563,7 @@ public class JNIBWAPI {
         return isBuildable(p.getBX(), p.getBY(), includeBuildings);
     }
 
-    private native boolean hasCreep(int tileX, int tileY);
+    private native boolean isBuildable(int tx, int ty, boolean includeBuildings);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#hasCreep
@@ -715,7 +572,7 @@ public class JNIBWAPI {
         return hasCreep(p.getBX(), p.getBY());
     }
 
-    private native boolean hasPower(int tileX, int tileY, int unitTypeID);
+    private native boolean hasCreep(int tileX, int tileY);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#hasPower
@@ -731,7 +588,7 @@ public class JNIBWAPI {
         return hasPower(p.getBX(), p.getBY(), ut.getID());
     }
 
-    private native boolean hasPower(int tileX, int tileY, int tileWidth, int tileHeight, int unitTypeID);
+    private native boolean hasPower(int tileX, int tileY, int unitTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#hasPower
@@ -747,7 +604,7 @@ public class JNIBWAPI {
         return hasPower(p.getBX(), p.getBY(), tileWidth, tileHeight, ut.getID());
     }
 
-    private native boolean hasPowerPrecise(int x, int y, int unitTypeID);
+    private native boolean hasPower(int tileX, int tileY, int tileWidth, int tileHeight, int unitTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#hasPowerPrecise
@@ -763,7 +620,7 @@ public class JNIBWAPI {
         return hasPowerPrecise(p.getPX(), p.getPY(), ut.getID());
     }
 
-    private native boolean hasPath(int fromX, int fromY, int toX, int toY);
+    private native boolean hasPowerPrecise(int x, int y, int unitTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#hasPath
@@ -772,7 +629,7 @@ public class JNIBWAPI {
         return hasPath(from.getPX(), from.getPY(), to.getPX(), to.getPY());
     }
 
-    protected native boolean hasPath(int unitID, int targetID);
+    private native boolean hasPath(int fromX, int fromY, int toX, int toY);
 
     /**
      * @deprecated Use the one in {@link Unit} instead
@@ -781,7 +638,7 @@ public class JNIBWAPI {
         return hasPath(u.getID(), target.getID());
     }
 
-    protected native boolean hasPath(int unitID, int toX, int toY);
+    protected native boolean hasPath(int unitID, int targetID);
 
     /**
      * @deprecated Use the one in {@link Unit} instead
@@ -790,19 +647,21 @@ public class JNIBWAPI {
         return hasPath(u.getID(), to.getPX(), to.getPY());
     }
 
+    protected native boolean hasPath(int unitID, int toX, int toY);
+
     protected native int[] getLoadedUnits(int unitID);
 
     protected native int[] getInterceptors(int unitID);
 
     protected native int[] getLarva(int unitID);
 
-    private native boolean canBuildHere(int tileX, int tileY, int unitTypeID, boolean checkExplored);
-
     public boolean canBuildHere(Position p, UnitType ut, boolean checkExplored) {
         return canBuildHere(p.getBX(), p.getBY(), ut.getID(), checkExplored);
     }
 
-    private native boolean canBuildHere(int unitID, int tileX, int tileY, int unitTypeID, boolean checkExplored);
+    private native boolean canBuildHere(int tileX, int tileY, int unitTypeID, boolean checkExplored);
+
+    // utility commands
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#canBuildHere
@@ -811,7 +670,7 @@ public class JNIBWAPI {
         return canBuildHere(u == null ? -1 : u.getID(), p.getBX(), p.getBY(), ut.getID(), checkExplored);
     }
 
-    private native boolean canMake(int unitTypeID);
+    private native boolean canBuildHere(int unitID, int tileX, int tileY, int unitTypeID, boolean checkExplored);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#canMake
@@ -820,7 +679,7 @@ public class JNIBWAPI {
         return canMake(ut.getID());
     }
 
-    private native boolean canMake(int unitID, int unitTypeID);
+    private native boolean canMake(int unitTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#canMake
@@ -829,7 +688,7 @@ public class JNIBWAPI {
         return canMake(u.getID(), ut.getID());
     }
 
-    private native boolean canResearch(int techTypeID);
+    private native boolean canMake(int unitID, int unitTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#canResearch
@@ -838,7 +697,7 @@ public class JNIBWAPI {
         return canResearch(tt.getID());
     }
 
-    private native boolean canResearch(int unitID, int techTypeID);
+    private native boolean canResearch(int techTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#canResearch
@@ -847,7 +706,7 @@ public class JNIBWAPI {
         return canResearch(u.getID(), tt.getID());
     }
 
-    private native boolean canUpgrade(int upgradeTypeID);
+    private native boolean canResearch(int unitID, int techTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#canUpgrade
@@ -856,7 +715,7 @@ public class JNIBWAPI {
         return canUpgrade(ut.getID());
     }
 
-    private native boolean canUpgrade(int unitID, int upgradeTypeID);
+    private native boolean canUpgrade(int upgradeTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#canUpgrade
@@ -864,6 +723,8 @@ public class JNIBWAPI {
     public boolean canUpgrade(Unit u, UpgradeType ut) {
         return canUpgrade(u.getID(), ut.getID());
     }
+
+    private native boolean canUpgrade(int unitID, int upgradeTypeID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#printf
@@ -886,18 +747,13 @@ public class JNIBWAPI {
     public native void setCommandOptimizationLevel(int level);
 
     /**
-     * See https://code.google.com/p/bwapi/wiki/Game#isReplay
-     */
-    public native boolean isReplay();
-
-    protected native boolean isVisibleToPlayer(int unitID, int playerID);
-
-    /**
      * @deprecated Use the one in {@link Unit} instead
      */
     public boolean isVisibleToPlayer(Unit u, Player p) {
         return isVisibleToPlayer(u.getID(), p.getID());
     }
+
+    protected native boolean isVisibleToPlayer(int unitID, int playerID);
 
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#getLastError<br>
@@ -1012,8 +868,6 @@ public class JNIBWAPI {
         return getAllExplosionTypes();
     }
 
-    // ID Lookup Methods (should not usually be needed)
-
     @Deprecated
     public Collection<UnitCommandType> unitCommandTypes() {
         return getAllUnitCommandTypes();
@@ -1024,20 +878,11 @@ public class JNIBWAPI {
         return getAllOrderTypes();
     }
 
-    // game state accessors
-
     /**
      * See https://code.google.com/p/bwapi/wiki/Game#getPlayer
      */
     public Player getPlayer(int playerID) {
         return players.get(playerID);
-    }
-
-    /**
-     * See https://code.google.com/p/bwapi/wiki/Game#getUnit
-     */
-    public Unit getUnit(int unitID) {
-        return units.get(unitID);
     }
 
     /**
@@ -1151,6 +996,15 @@ public class JNIBWAPI {
         return units;
     }
 
+    private native int[] getUnitIdsOnTile(int tx, int ty);
+
+    /**
+     * See https://code.google.com/p/bwapi/wiki/Game#getUnit
+     */
+    public Unit getUnit(int unitID) {
+        return units.get(unitID);
+    }
+
     /**
      * Returns the map.
      */
@@ -1159,9 +1013,38 @@ public class JNIBWAPI {
     }
 
     /**
+     * C++ callback function.<br>
+     * <p>
+     * Utility function for printing to the java console from C++.
+     */
+    private void javaPrint(String msg) {
+        try {
+            System.out.println("Bridge: " + msg);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    /**
+     * C++ callback function.<br>
+     * <p>
+     * Notifies the client and event listener that a connection has been formed to the bridge.
+     */
+    private void connected() {
+        try {
+            loadTypeData();
+            dumpGameDataArrays();
+            dumpGameDataClasses();
+            listener.connected();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    /**
      * Loads type data from BWAPI.
      */
-    public void loadTypeData() {
+    private void loadTypeData() {
         // race types
         int[] raceTypeData = getRaceTypes();
         for (int index = 0; index < raceTypeData.length; index += RaceType.numAttributes) {
@@ -1240,7 +1123,7 @@ public class JNIBWAPI {
             OrderTypes.getOrderType(id).initialize(orderTypeData, index, getOrderTypeName(id));
         }
 
-        // event types - no extra data to load
+        // event types - no extra data to loadIfNecessary
     }
 
     private void dumpGameDataArrays() {
@@ -1258,11 +1141,6 @@ public class JNIBWAPI {
         System.out.println("Data dumped!");
     }
 
-    private void dumpGameDataArray(int[] dataArray, String fileName) {
-        String json = toJson(dataArray);
-        saveFile(fileName, json);
-    }
-
     private void dumpGameDataClasses() {
         dumpGameDataClass(getAllRaceTypes(), RACE_TYPES_CLASS);
         dumpGameDataClass(getAllUnitTypes(), UNIT_TYPES_CLASS);
@@ -1278,128 +1156,62 @@ public class JNIBWAPI {
         System.out.println("Data dumped!");
     }
 
-    private <T> void dumpGameDataClass(Collection<T> gameDataClass, String fileName) {
-        String json = toJson(gameDataClass);
+    private native int[] getRaceTypes();
+
+    private native String getRaceTypeName(int raceID);
+
+    private native int[] getUnitTypes();
+
+    private native String getUnitTypeName(int unitTypeID);
+
+    private native int[] getRequiredUnits(int unitTypeID);
+
+    private native int[] getTechTypes();
+
+    private native String getTechTypeName(int techID);
+
+    private native int[] getUpgradeTypes();
+
+    private native String getUpgradeTypeName(int upgradeID);
+
+    private native int[] getWeaponTypes();
+
+    private native String getWeaponTypeName(int weaponID);
+
+    private native int[] getUnitSizeTypes();
+
+    private native String getUnitSizeTypeName(int sizeID);
+
+    private native int[] getBulletTypes();
+
+    private native String getBulletTypeName(int bulletID);
+
+    private native int[] getDamageTypes();
+
+    private native String getDamageTypeName(int damageID);
+
+    private native int[] getExplosionTypes();
+
+    private native String getExplosionTypeName(int explosionID);
+
+    private native int[] getUnitCommandTypes();
+
+    private native String getUnitCommandTypeName(int unitCommandID);
+
+    private native int[] getOrderTypes();
+
+    private native String getOrderTypeName(int unitCommandID);
+
+    private void dumpGameDataArray(int[] dataArray, String fileName) {
+        String json = toJson(dataArray);
         saveFile(fileName, json);
     }
 
+    // ID Lookup Methods (should not usually be needed)
 
-    /**
-     * Loads map data and (if enableBWTA is true) BWTA data.
-     * <p>
-     * TODO: figure out how to use BWTA's internal map storage
-     */
-    public void loadMapData() {
-        String mapName = new String(getMapName(), charset);
-        map = new Map(getMapWidth(), getMapHeight(), mapName, getMapFileName(), getMapHash(),
-                getHeightData(), getBuildableData(), getWalkableData());
-        if (!enableBWTA) {
-            return;
-        }
-
-        // get region and choke point data
-        File bwtaFile = new File("mapData" + File.separator + map.getHash() + ".jbwta");
-        String mapHash = map.getHash();
-        File mapDir = bwtaFile.getParentFile();
-        if (mapDir != null) {
-            mapDir.mkdirs();
-        }
-        boolean analyzed = bwtaFile.exists();
-        int[] regionMapData = null;
-        int[] regionData = null;
-        int[] chokePointData = null;
-        int[] baseLocationData = null;
-        HashMap<Integer, int[]> polygons = new HashMap<>();
-
-        // run BWTA
-        if (!analyzed) {
-            analyzeTerrain();
-            regionMapData = getRegionMap();
-            regionData = getRegions();
-            chokePointData = getChokePoints();
-            baseLocationData = getBaseLocations();
-            for (int index = 0; index < regionData.length; index += Region.numAttributes) {
-                int id = regionData[index];
-                polygons.put(id, getPolygon(id));
-            }
-
-            // sometimes BWTA seems to crash on analyse. Make sure we are definitely in the same map
-            if (!mapHash.equals(map.getHash())) {
-                System.err.println("Error: Map changed during analysis! BWTA file not saved.");
-                System.exit(1);
-            }
-
-            // store the results to a local file (bwta directory)
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(bwtaFile));
-
-                writeMapData(writer, regionMapData);
-                writeMapData(writer, regionData);
-                writeMapData(writer, chokePointData);
-                writeMapData(writer, baseLocationData);
-                for (int id : polygons.keySet()) {
-                    writer.write("" + id + ",");
-                    writeMapData(writer, polygons.get(id));
-                }
-
-                writer.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        // load from file
-        else {
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(bwtaFile));
-
-                regionMapData = readMapData(reader);
-                regionData = readMapData(reader);
-                chokePointData = readMapData(reader);
-                baseLocationData = readMapData(reader);
-                // polygons (first integer is ID)
-                int[] polygonData;
-                while ((polygonData = readMapData(reader)) != null) {
-                    int[] coordinateData = Arrays.copyOfRange(polygonData, 1, polygonData.length);
-
-                    polygons.put(polygonData[0], coordinateData);
-                }
-
-                reader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        map.initialize(regionMapData, regionData, polygons, chokePointData, baseLocationData);
-    }
-
-    /**
-     * C++ callback function.<br>
-     * <p>
-     * Utility function for printing to the java console from C++.
-     */
-    private void javaPrint(String msg) {
-        try {
-            System.out.println("Bridge: " + msg);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
-    /**
-     * C++ callback function.<br>
-     * <p>
-     * Notifies the client and event listener that a connection has been formed to the bridge.
-     */
-    private void connected() {
-        try {
-            loadTypeData();
-            dumpGameDataArrays();
-            dumpGameDataClasses();
-            listener.connected();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+    private <T> void dumpGameDataClass(Collection<T> gameDataClass, String fileName) {
+        String json = toJson(gameDataClass);
+        saveFile(fileName, json);
     }
 
     /**
@@ -1483,6 +1295,182 @@ public class JNIBWAPI {
         }
     }
 
+    // game state accessors
+
+    private native int[] getPlayersData();
+
+    /**
+     * Returns string as a byte[] to properly handle ASCII-extended characters
+     */
+    private native byte[] getPlayerName(int playerID);
+
+    private native int[] getAllUnitsData();
+
+    private native int[] getStaticNeutralUnitsData();
+
+    // query methods
+    private native int getFrame();
+
+    /**
+     * Loads map data and (if enableBWTA is true) BWTA data.
+     * <p>
+     * TODO: figure out how to use BWTA's internal map storage
+     */
+    public void loadMapData() {
+        String mapName = new String(getMapName(), charset);
+        map = new Map(getMapWidth(), getMapHeight(), mapName, getMapFileName(), getMapHash(),
+                getHeightData(), getBuildableData(), getWalkableData());
+        if (!enableBWTA) {
+            return;
+        }
+
+        // get region and choke point data
+        File bwtaFile = new File("mapData" + File.separator + map.getHash() + ".jbwta");
+        String mapHash = map.getHash();
+        File mapDir = bwtaFile.getParentFile();
+        if (mapDir != null) {
+            mapDir.mkdirs();
+        }
+        boolean analyzed = bwtaFile.exists();
+        int[] regionMapData = null;
+        int[] regionData = null;
+        int[] chokePointData = null;
+        int[] baseLocationData = null;
+        HashMap<Integer, int[]> polygons = new HashMap<>();
+
+        // run BWTA
+        if (!analyzed) {
+            analyzeTerrain();
+            regionMapData = getRegionMap();
+            regionData = getRegions();
+            chokePointData = getChokePoints();
+            baseLocationData = getBaseLocations();
+            for (int index = 0; index < regionData.length; index += Region.numAttributes) {
+                int id = regionData[index];
+                polygons.put(id, getPolygon(id));
+            }
+
+            // sometimes BWTA seems to crash on analyse. Make sure we are definitely in the same map
+            if (!mapHash.equals(map.getHash())) {
+                System.err.println("Error: Map changed during analysis! BWTA file not saved.");
+                System.exit(1);
+            }
+
+            // store the results to a local file (bwta directory)
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(bwtaFile));
+
+                writeMapData(writer, regionMapData);
+                writeMapData(writer, regionData);
+                writeMapData(writer, chokePointData);
+                writeMapData(writer, baseLocationData);
+                for (int id : polygons.keySet()) {
+                    writer.write("" + id + ",");
+                    writeMapData(writer, polygons.get(id));
+                }
+
+                writer.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // loadIfNecessary from file
+        else {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(bwtaFile));
+
+                regionMapData = readMapData(reader);
+                regionData = readMapData(reader);
+                chokePointData = readMapData(reader);
+                baseLocationData = readMapData(reader);
+                // polygons (first integer is ID)
+                int[] polygonData;
+                while ((polygonData = readMapData(reader)) != null) {
+                    int[] coordinateData = Arrays.copyOfRange(polygonData, 1, polygonData.length);
+
+                    polygons.put(polygonData[0], coordinateData);
+                }
+
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        map.initialize(regionMapData, regionData, polygons, chokePointData, baseLocationData);
+    }
+
+    /**
+     * Returns string as a byte[] to properly handle ASCII-extended characters
+     */
+    private native byte[] getMapName();
+
+    private native int getMapWidth();
+
+    private native int getMapHeight();
+
+    private native String getMapFileName();
+
+    private native String getMapHash();
+
+    private native int[] getHeightData();
+
+    private native int[] getBuildableData();
+
+    private native int[] getWalkableData();
+
+    // map data
+    private native void analyzeTerrain();
+
+    /**
+     * Returns the regionId for each map tile
+     */
+    private native int[] getRegionMap();
+
+    private native int[] getRegions();
+
+    private native int[] getChokePoints();
+
+    private native int[] getBaseLocations();
+
+    private native int[] getPolygon(int regionID);
+
+    /**
+     * Convenience method to write out each part of BWTA map data to a stream
+     */
+    private static void writeMapData(BufferedWriter writer, int[] data) throws IOException {
+        boolean first = true;
+        for (int val : data) {
+            if (first) {
+                first = false;
+                writer.write("" + val);
+            } else {
+                writer.write("," + val);
+            }
+        }
+        writer.write("\n");
+    }
+
+    /**
+     * Convenience method to read each part of BWTA map data from a stream
+     *
+     * @return null when end of stream is reached, otherwise an int array (possibly empty)
+     */
+    private static int[] readMapData(BufferedReader reader) throws IOException {
+        int[] data = new int[0];
+        String line = reader.readLine();
+        if (line == null)
+            return null;
+        String[] stringData = line.split(",");
+        if (stringData.length > 0 && !stringData[0].equals("")) {
+            data = new int[stringData.length];
+            for (int i = 0; i < stringData.length; i++) {
+                data[i] = Integer.parseInt(stringData[i]);
+            }
+        }
+        return data;
+    }
+
     /**
      * C++ callback function.<br>
      * <p>
@@ -1558,6 +1546,17 @@ public class JNIBWAPI {
             t.printStackTrace();
         }
     }
+
+    /**
+     * See https://code.google.com/p/bwapi/wiki/Game#isReplay
+     */
+    public native boolean isReplay();
+
+    private native int[] getPlayerUpdate(int playerID);
+
+    private native int[] getResearchStatus(int playerID);
+
+    private native int[] getUpgradeStatus(int playerID);
 
     /**
      * C++ callback function.<br>

@@ -18,7 +18,7 @@ import static java.lang.Math.pow;
 public class SimulationEvaluator implements FitnessEvaluator<Player> {
 
     static {
-        JNIBWAPI_LOAD.getInstance();
+        JNIBWAPI_LOAD.loadIfNecessary();
     }
 
     private boolean graphics;
@@ -32,8 +32,9 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
     private Player secondPlayer;
     private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
 
-    public SimulationEvaluator(boolean graphics, double timeStep, double timeLimit, double mapHeight, double mapWidth, double gapHeight, double gapWidth,
-                               Player firstPlayer, Player secondPlayer, Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
+    public SimulationEvaluator(boolean graphics, double timeStep, double timeLimit, double mapHeight, double mapWidth,
+                               double gapHeight, double gapWidth, Player firstPlayer, Player secondPlayer,
+                               Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
         this.graphics = graphics;
         this.timeStep = timeStep;
         this.timeLimit = timeLimit;
@@ -131,5 +132,9 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
 
     public void setUnitSelection(Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
         this.unitSelection = unitSelection;
+    }
+
+    public void setGraphics(boolean graphics) {
+        this.graphics = graphics;
     }
 }

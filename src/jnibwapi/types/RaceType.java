@@ -49,14 +49,6 @@ public class RaceType {
         this.name = raceType.name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
     public int getWorkerID() {
         return workerID;
     }
@@ -80,6 +72,14 @@ public class RaceType {
     @Override
     public String toString() {
         return getName() + " (" + getID() + ")";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public static class RaceTypes {

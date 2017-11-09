@@ -287,23 +287,6 @@ public class Unit implements Cloneable {
         visible = data[index++] == 1;
     }
 
-    @Override
-    public Unit clone() {
-        /*
-         * Safe to use clone for this class because it has only primitive fields and a reference to
-		 * BWAPI, which should be shallow-copied. Beware when using equals or == with cloned Units
-		 * as they will be considered equal (and not ==) regardless of any changes in their
-		 * properties over time.
-		 */
-        try {
-            return (Unit) super.clone();
-        } catch (CloneNotSupportedException e) {
-            // Should never happen, as this implements Cloneable and extends Object
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     /**
      * Returns the edge-to-edge distance between the current unit and the target unit.
      */
@@ -329,6 +312,30 @@ public class Unit implements Cloneable {
             }
         }
         return new Position(0, 0).getPDistance(new Position(xDist, yDist));
+    }
+
+    public boolean isExists() {
+        return exists;
+    }
+
+    private int getLeft() {
+        return x - getType().getDimensionLeft();
+    }
+
+    private int getRight() {
+        return x + getType().getDimensionRight();
+    }
+
+    private int getTop() {
+        return y - getType().getDimensionUp();
+    }
+
+    private int getBottom() {
+        return y + getType().getDimensionDown();
+    }
+
+    public UnitType getType() {
+        return UnitTypes.getUnitType(typeID);
     }
 
     /**
@@ -361,33 +368,13 @@ public class Unit implements Cloneable {
         return new Position(getLeft(), getTop());
     }
 
+    // ------------------------------ FIELD ACCESSOR METHODS ------------------------------ //
+
     /**
      * The bottom right corner of the unit's collision boundary.
      */
     public Position getBottomRight() {
         return new Position(getRight(), getBottom());
-    }
-
-    private int getLeft() {
-        return x - getType().getDimensionLeft();
-    }
-
-    private int getTop() {
-        return y - getType().getDimensionUp();
-    }
-
-    private int getRight() {
-        return x + getType().getDimensionRight();
-    }
-
-    private int getBottom() {
-        return y + getType().getDimensionDown();
-    }
-
-    // ------------------------------ FIELD ACCESSOR METHODS ------------------------------ //
-
-    public int getID() {
-        return ID;
     }
 
     public int getReplayID() {
@@ -406,10 +393,6 @@ public class Unit implements Cloneable {
     @Deprecated
     public int getTypeID() {
         return typeID;
-    }
-
-    public UnitType getType() {
-        return UnitTypes.getUnitType(typeID);
     }
 
     /**
@@ -490,6 +473,10 @@ public class Unit implements Cloneable {
 
     public boolean hasPath(Unit target) {
         return bwapi.hasPath(this.getID(), target.getID());
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public boolean hasPath(Position target) {
@@ -860,10 +847,6 @@ public class Unit implements Cloneable {
         return bwapi.getUnit(powerUpUnitID);
     }
 
-    public boolean isExists() {
-        return exists;
-    }
-
     public boolean isNukeReady() {
         return nukeReady;
     }
@@ -900,20 +883,12 @@ public class Unit implements Cloneable {
         return braking;
     }
 
-    public boolean isBurrowed() {
-        return burrowed;
-    }
-
     public boolean isCarryingGas() {
         return carryingGas;
     }
 
     public boolean isCarryingMinerals() {
         return carryingMinerals;
-    }
-
-    public boolean isCloaked() {
-        return cloaked;
     }
 
     public boolean isCompleted() {
@@ -1016,10 +991,6 @@ public class Unit implements Cloneable {
         return selected;
     }
 
-    public boolean isSieged() {
-        return sieged;
-    }
-
     public boolean isStartingAttack() {
         return startingAttack;
     }
@@ -1072,8 +1043,6 @@ public class Unit implements Cloneable {
         return bwapi.isVisibleToPlayer(this.getID(), p.getID());
     }
 
-    // ------------------------------ UNIT COMMANDS ------------------------------ //
-
     /**
      * Included for completeness to match BWAPI. Preferable to use
      * {@link JNIBWAPI#canIssueCommand(UnitCommand)} directly.
@@ -1103,6 +1072,8 @@ public class Unit implements Cloneable {
     public boolean attack(Unit target, boolean queued) {
         return bwapi.issueCommand(new UnitCommand(this, UnitCommandTypes.Attack_Unit, target, queued));
     }
+
+    // ------------------------------ UNIT COMMANDS ------------------------------ //
 
     public boolean build(Position p, UnitType type) {
         return bwapi.issueCommand(new UnitCommand(this, UnitCommandTypes.Build, p, type.getID()));
@@ -1280,6 +1251,18 @@ public class Unit implements Cloneable {
         return bwapi.issueCommand(new UnitCommand(this, uct, tech.getID()));
     }
 
+    public boolean isBurrowed() {
+        return burrowed;
+    }
+
+    public boolean isCloaked() {
+        return cloaked;
+    }
+
+    public boolean isSieged() {
+        return sieged;
+    }
+
     public boolean useTech(TechType tech, Position p) {
         return bwapi.issueCommand(new UnitCommand(this, UnitCommandTypes.Use_Tech_Position, p, tech.getID()));
     }
@@ -1292,12 +1275,12 @@ public class Unit implements Cloneable {
         return bwapi.issueCommand(new UnitCommand(this, UnitCommandTypes.Place_COP, p));
     }
 
-    // ------------------------------ HASHCODE & EQUALS ------------------------------ //
-
     @Override
     public int hashCode() {
         return ID;
     }
+
+    // ------------------------------ HASHCODE & EQUALS ------------------------------ //
 
     @Override
     public boolean equals(Object obj) {
@@ -1311,5 +1294,22 @@ public class Unit implements Cloneable {
         if (ID != other.ID)
             return false;
         return true;
+    }
+
+    @Override
+    public Unit clone() {
+        /*
+         * Safe to use clone for this class because it has only primitive fields and a reference to
+		 * BWAPI, which should be shallow-copied. Beware when using equals or == with cloned Units
+		 * as they will be considered equal (and not ==) regardless of any changes in their
+		 * properties over time.
+		 */
+        try {
+            return (Unit) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Should never happen, as this implements Cloneable and extends Object
+            e.printStackTrace();
+            return null;
+        }
     }
 }

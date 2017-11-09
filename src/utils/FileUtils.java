@@ -16,7 +16,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import solver.Result;
+import solver.PopulationFitnessStatistic;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -52,9 +52,9 @@ public class FileUtils {
                 .create();
     }
 
-    public static String loadFile(String fileName) {
+    public static String loadFile(String filePath) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
             String fileContent = reader.readLine();
             return fileContent;
         } catch (IOException e) {
@@ -63,9 +63,9 @@ public class FileUtils {
         }
     }
 
-    public static void saveFile(String fileName, String fileContent) {
+    public static void saveFile(String filePath, String fileContent) {
         try {
-            File file = new File(fileName);
+            File file = new File(filePath);
             if (file.getParentFile() != null) {
                 file.getParentFile().mkdirs();
             }
@@ -85,15 +85,15 @@ public class FileUtils {
         return GSON.fromJson(json, type);
     }
 
-    public static void saveGraphToFile(List<Result> results, String fileName) {
+    public static void saveGraphToFile(List<PopulationFitnessStatistic> populationFitnessStatistics, String fileName) {
         XYSeries popMin = new XYSeries("Min");
         XYSeries popAvg = new XYSeries("Avg");
         XYSeries popMax = new XYSeries("Max");
-        for (int counter = 0; counter < results.size(); counter++) {
-            Result result = results.get(counter);
-            popMin.add(counter, result.getMin());
-            popAvg.add(counter, result.getAvg());
-            popMax.add(counter, result.getMax());
+        for (int counter = 0; counter < populationFitnessStatistics.size(); counter++) {
+            PopulationFitnessStatistic populationFitnessStatistic = populationFitnessStatistics.get(counter);
+            popMin.add(counter, populationFitnessStatistic.getMin());
+            popAvg.add(counter, populationFitnessStatistic.getAvg());
+            popMax.add(counter, populationFitnessStatistic.getMax());
         }
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(popMin);
@@ -101,8 +101,8 @@ public class FileUtils {
         dataset.addSeries(popMax);
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Talandar",
-                "Pokolenie",
-                "Ocena",
+                "Generation",
+                "Fitness",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,

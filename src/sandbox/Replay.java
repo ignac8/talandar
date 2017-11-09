@@ -24,7 +24,7 @@ public class Replay {
 
         String fileName = "testNeuralWeb.json";
         String json = loadFile(fileName);
-        NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
+        NeuralNetwork neuralNetwork = fromJson(json, NeuralNetwork.class);
         boolean graphics = true;
         double simulationTimeStep = 1.0;
         double simulationTimeLimit = 10000;
@@ -36,14 +36,13 @@ public class Replay {
         Player secondPlayer = new SimplePlayer(1);
 
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
-        NeuralNetworkPlayer neuralNetworkPlayer;
+        ((NeuralNetworkPlayer) (firstPlayer)).setNeuralNetwork(neuralNetwork);
 
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateAllUnitSelections()) {
             FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
                     gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
-            neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
-            neuralNetworkPlayer.setNeuralNetwork(bestOne);
+
             fitnessEvaluators.add(fitnessEvaluator);
         }
 

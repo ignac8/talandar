@@ -29,21 +29,26 @@ import static utils.FileUtils.loadFile;
 
 public class JNIBWAPI_LOAD extends JNIBWAPI {
 
-    private static JNIBWAPI bwapi;
+    private static final JNIBWAPI_LOAD bwapi;
+
+    static {
+        bwapi = new JNIBWAPI_LOAD();
+        bwapi.loadTypeData();
+    }
 
     private JNIBWAPI_LOAD() {
         super(new EmptyBWAPIEventListener(), false, false);
     }
 
     public static JNIBWAPI getInstance() {
-        if (bwapi == null) {
-            bwapi = new JNIBWAPI_LOAD();
-            bwapi.loadTypeData();
-        }
         return bwapi;
     }
 
-    public void loadTypeData() {
+    public static void loadIfNecessary() {
+
+    }
+
+    private void loadTypeData() {
         String raceTypesJson = loadFile(RACE_TYPES_CLASS);
         RaceType[] raceTypes = fromJson(raceTypesJson, RaceType[].class);
         for (RaceType raceType : raceTypes) {

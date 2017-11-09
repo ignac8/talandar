@@ -1,6 +1,9 @@
-package simulation;
+package gui;
 
 import jnibwapi.types.UnitType;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import simulation.order.AttackOrder;
 import simulation.order.Order;
 
@@ -22,12 +25,6 @@ public class SimulationUI extends JComponent {
     private SimulationState simulationState;
 
     private SimulationUI() {
-//        JFrame jFrame = new JFrame();
-//        jFrame.setSize(640, 640);
-//        jFrame.setTitle("Sparcraft in JAVA");
-//        jFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        jFrame.getContentPane().add(this);
-//        jFrame.setVisible(true);
     }
 
     public static synchronized SimulationUI getInstance() {
@@ -64,7 +61,8 @@ public class SimulationUI extends JComponent {
 
     private void drawBackground(Graphics graphics) {
         if (background != null) {
-            graphics.drawImage(background, 0, 0, (int) simulationState.getMaxX(), (int) simulationState.getMaxY(), this);
+            graphics.drawImage(background, 0, 0,
+                    (int) simulationState.getMaxX(), (int) simulationState.getMaxY(), this);
         } else {
             graphics.drawRect(0, 0, (int) simulationState.getMaxX(), (int) simulationState.getMaxY());
         }
@@ -95,6 +93,30 @@ public class SimulationUI extends JComponent {
             case 10:
                 return Color.GRAY;
             case 11:
+                return Color.DARK_GRAY;
+            case 12:
+                return Color.RED;
+            case 13:
+                return Color.YELLOW;
+            case 14:
+                return Color.GREEN;
+            case 15:
+                return Color.CYAN;
+            case 16:
+                return Color.BLUE;
+            case 17:
+                return Color.MAGENTA;
+            case 18:
+                return Color.ORANGE;
+            case 19:
+                return Color.PINK;
+            case 20:
+                return Color.WHITE;
+            case 21:
+                return Color.LIGHT_GRAY;
+            case 22:
+                return Color.GRAY;
+            case 23:
                 return Color.DARK_GRAY;
             default:
                 return Color.BLACK;

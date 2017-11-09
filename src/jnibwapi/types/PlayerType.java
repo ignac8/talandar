@@ -38,16 +38,16 @@ public enum PlayerType {
         return Collections.unmodifiableCollection(Arrays.asList(PlayerType.values()));
     }
 
-    public int getID() {
-        return ID;
+    @Override
+    public String toString() {
+        return getName() + " (" + getID() + ")";
     }
 
     public String getName() {
         return name();
     }
 
-    @Override
-    public String toString() {
-        return getName() + " (" + getID() + ")";
+    public int getID() {
+        return ID;
     }
 }
