@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +26,8 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
+import static javax.swing.UIManager.getSystemLookAndFeelClassName;
+import static javax.swing.UIManager.setLookAndFeel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static utils.FileUtils.fromJson;
 import static utils.FileUtils.loadFile;
@@ -97,9 +100,21 @@ public class MainForm {
     private int hiddenLayerSize;
 
     public MainForm() {
+        prepareNativeLook();
         resetToDefaultValues();
         prepareLogger();
         prepareMethodListeners();
+    }
+
+    private void prepareNativeLook() {
+        try {
+            setLookAndFeel(getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException
+                | InstantiationException
+                | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
     }
 
     private void resetToDefaultValues() {
