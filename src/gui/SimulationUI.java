@@ -39,8 +39,8 @@ public class SimulationUI extends JComponent {
             drawBackground(graphics);
             for (Unit unit : simulationState.getUnits().values()) {
                 if (unit.getHitPoints() > 0) {
-                    graphics.setColor(getColor(unit.getPlayerId()));
                     drawChosenAction(graphics, unit);
+                    graphics.setColor(getColor(unit.getPlayerId()));
                     drawUnit(graphics, unit);
                     drawAttack(graphics, unit);
                     drawUnitHP(graphics, unit);
@@ -73,13 +73,13 @@ public class SimulationUI extends JComponent {
             case 0:
                 return Color.RED;
             case 1:
-                return Color.YELLOW;
+                return Color.BLUE;
             case 2:
                 return Color.GREEN;
             case 3:
                 return Color.CYAN;
             case 4:
-                return Color.BLUE;
+                return Color.YELLOW;
             case 5:
                 return Color.MAGENTA;
             case 6:
