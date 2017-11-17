@@ -8,3 +8,4 @@ graphs/*
 .idea/misc.xml
 doc/~$*
 doc/~*.tmp
+.idea/kotlinc.xml
