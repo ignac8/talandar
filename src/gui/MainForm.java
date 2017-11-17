@@ -2,6 +2,9 @@ package gui;
 
 import gui.action.Learn;
 import gui.action.Replay;
+import gui.component.SimulationUI;
+import gui.updater.Logger;
+import gui.updater.SimulationPainter;
 import neuralnetwork.NeuralNetwork;
 import solver.Result;
 import utils.FileUtils;
@@ -19,7 +22,6 @@ import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 
-import static java.awt.Frame.MAXIMIZED_BOTH;
 import static java.time.ZonedDateTime.now;
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.concurrent.Executors.newScheduledThreadPool;
@@ -78,6 +80,7 @@ public class MainForm {
     private JButton resetToDefaultValuesButton;
     private ExecutorService actionExecutorService = newSingleThreadExecutor();
     private Logger logger;
+    private SimulationPainter simulationPainter;
     private NeuralNetwork neuralNetwork;
     private JFileChooser fileChooser = new JFileChooser();
     private DateTimeFormatter dateTimeFormatter = ofPattern("yyyy'_'MM'_'dd'_'HH'_'mm'_'ss'_'");
@@ -103,6 +106,7 @@ public class MainForm {
         prepareNativeLook();
         resetToDefaultValues();
         prepareLogger();
+        prepareSimulationPainter();
         prepareMethodListeners();
     }
 
@@ -139,6 +143,11 @@ public class MainForm {
         logger = Logger.getInstance();
         logger.setLoggerTextArea(loggerTextArea);
         newScheduledThreadPool(1).scheduleAtFixedRate(logger, 0, 100, MILLISECONDS);
+    }
+
+    private void prepareSimulationPainter() {
+        simulationPainter = SimulationPainter.getInstance();
+        newScheduledThreadPool(1).scheduleAtFixedRate(simulationPainter, 0, 1000 / 42, MILLISECONDS);
     }
 
     private void prepareMethodListeners() {
@@ -376,7 +385,6 @@ public class MainForm {
         rootFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         rootFrame.pack();
         rootFrame.setVisible(true);
-        rootFrame.setExtendedState(rootFrame.getExtendedState() | MAXIMIZED_BOTH);
     }
 
     private void createUIComponents() {

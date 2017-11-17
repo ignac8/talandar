@@ -4,21 +4,19 @@ import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.SimulationEvaluator;
 import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import jnibwapi.types.UnitType;
-import neuralnetwork.FCSNeuralNetwork;
-import neuralnetwork.NeuralNetwork;
+import neuralnetwork.FCFSNeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
-import solver.operator.BiasMutation;
-import solver.operator.NeuronCrossover;
 import solver.operator.Operator;
-import solver.operator.TournamentSelection;
-import solver.operator.WeightMutation;
-import solver.operator.crosser.AverageCrosser;
-import solver.operator.mutator.GaussianMutator;
+import solver.operator.crossover.NeuronCrossover;
+import solver.operator.crossover.crosser.AverageCrosser;
+import solver.operator.mutation.NeuronMutation;
+import solver.operator.mutation.mutator.GaussianMutator;
+import solver.operator.selection.TournamentSelection;
 import utils.Pair;
 
 import java.util.ArrayList;
@@ -35,28 +33,23 @@ public class ForwardEngineering {
     public static void main(String... args) {
 
         int passLimit = Integer.MAX_VALUE;
-        int searchTimeLimit = 1 * 60 * 1000;
+        int searchTimeLimit = 1 * 10 * 1000;
         int populationSize = 100;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
-        int tournamentSize = 2;
-        double crossoverChance = 0.85;
-        double weightMutationChance = 1;
-        double biasMutationChance = 1;
-        double initialStd = 10;
-        double initialMean = 0;
-        double weightStd = 10;
-        double weightMean = 0;
-        double biasStd = 10;
-        double biasMean = 0;
+        int tournamentSize = 5;
+        double crossoverChance = 0;
+        double mutationChance = 0.01;
+        double std = 1000;
+        double mean = 0;
         boolean graphics = false;
         double simulationTimeStep = 1.0;
-        double simulationTimeLimit = 10000;
+        double simulationTimeLimit = Double.MAX_VALUE;
         double mapHeight = 640.0;
         double mapWidth = 640.0;
         double gapHeight = 40.0;
         double gapWidth = 120.0;
-        int numberOfUnitSelections = 10;
+        int numberOfUnitSelections = 1;
 
         int[] hiddenLayerSizes = {10};
 
@@ -64,16 +57,14 @@ public class ForwardEngineering {
 
         for (int counter = 0; counter < populationSize; counter++) {
             Individual randomIndividual =
-                    new Individual(new FCSNeuralNetwork(inputLayerSize, hiddenLayerSizes,
-                            outputLayerSize, initialStd, initialMean));
+                    new Individual(new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean));
             startingIndividuals.add(randomIndividual);
         }
 
         List<Operator> operators = new ArrayList<>();
         operators.add(new TournamentSelection(tournamentSize));
         operators.add(new NeuronCrossover(crossoverChance, new AverageCrosser()));
-        operators.add(new WeightMutation(weightMutationChance, new GaussianMutator(weightStd, weightMean)));
-        operators.add(new BiasMutation(biasMutationChance, new GaussianMutator(biasStd, biasMean)));
+        operators.add(new NeuronMutation(mutationChance, new GaussianMutator(std, mean)));
 
         Player firstPlayer = new NeuralNetworkPlayer(0);
         Player secondPlayer = new SimplePlayer(1);
@@ -85,25 +76,26 @@ public class ForwardEngineering {
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
-                    gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
+            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer,
+                    unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
 
         Solver solver = new Solver(operators, passLimit, searchTimeLimit, startingIndividuals, fitnessEvaluators);
 
         Result result = solver.solve();
-        NeuralNetwork neuralNetwork = result.getNeuralNetwork();
+
         saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs\\testNeuralWeb.png");
-        String json = toJson(neuralNetwork);
-        saveFile("testNeuralWeb.json", json);
+        saveFile("testNeuralWeb.json", toJson(result.getNeuralNetwork()));
 
         double totalFitness = 0;
 
-        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
+        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
+                simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer, null);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
-        neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
+        neuralNetworkPlayer.setNeuralNetwork(result.getNeuralNetwork());
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);

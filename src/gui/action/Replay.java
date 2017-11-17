@@ -1,7 +1,7 @@
 package gui.action;
 
 import fitnessevaluator.SimulationEvaluator;
-import gui.Logger;
+import gui.updater.Logger;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;

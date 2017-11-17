@@ -10,7 +10,7 @@ public final class FastSigmoidNeuron extends CalculableNeuron {
 
     @Override
     protected double activation(double value) {
-        return 1 / (1 + abs(value));
+        return value / (1 + abs(value));
     }
 
 }

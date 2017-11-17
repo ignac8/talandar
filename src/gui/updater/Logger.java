@@ -1,4 +1,4 @@
-package gui;
+package gui.updater;
 
 import javax.swing.JTextArea;
 import java.util.concurrent.BlockingQueue;

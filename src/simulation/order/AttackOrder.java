@@ -26,7 +26,8 @@ public class AttackOrder extends Order {
     }
 
     @Override
-    public void execute(SimulationState currentSimulationState, SimulationState futureSimulationState) {
+    public void execute(SimulationState currentSimulationState, SimulationState futureSimulationState,
+                        double timeStep) {
         double time = currentSimulationState.getTime();
         if (unitToOrder.getHitPoints() > 0 && unitToOrder.getCooldownTime() <= time) {
             Unit futureUnitToAttack = futureSimulationState.getUnits().get(unitToAttack.getUnitId());

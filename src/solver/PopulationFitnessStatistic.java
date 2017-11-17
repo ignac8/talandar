@@ -2,6 +2,7 @@ package solver;
 
 import java.util.List;
 
+import static java.lang.Double.MAX_VALUE;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -11,8 +12,8 @@ public class PopulationFitnessStatistic {
     private double max;
 
     public PopulationFitnessStatistic(List<Individual> individuals) {
-        min = Double.MAX_VALUE;
-        max = Double.MIN_VALUE;
+        min = MAX_VALUE;
+        max = -1 * MAX_VALUE;
         double sum = 0;
         for (Individual individual : individuals) {
             double fitness = individual.getFitness();

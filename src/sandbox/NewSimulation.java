@@ -19,8 +19,7 @@ public class NewSimulation {
         List<Player> players = new ArrayList<>();
         players.add(new SimplePlayer(0));
         players.add(new SimplePlayer(1));
-        Simulation simulation = new Simulation(simulationState, players, true, Double.MAX_VALUE);
+        Simulation simulation = new Simulation(simulationState, players, true, 1, Double.MAX_VALUE);
         simulation.play();
-
     }
 }

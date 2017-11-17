@@ -12,7 +12,8 @@ public abstract class Order {
         executed = false;
     }
 
-    abstract public void execute(SimulationState currentSimulationState, SimulationState nextSimulationState);
+    abstract public void execute(SimulationState currentSimulationState, SimulationState nextSimulationState,
+                                 double timeStep);
 
     public boolean isExecuted() {
         return executed;

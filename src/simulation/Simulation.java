@@ -1,6 +1,6 @@
 package simulation;
 
-import gui.SimulationUI;
+import gui.component.SimulationUI;
 import player.Player;
 import simulation.bridge.JNIBWAPI_LOAD;
 import simulation.order.Order;
@@ -20,35 +20,33 @@ public class Simulation {
     private SimulationState currentSimulationState;
     private List<Player> players;
     private boolean displayed;
+    private double timeStep;
     private double timeLimit;
 
-    public Simulation(SimulationState currentSimulationState, List<Player> players, boolean displayed, double timeLimit) {
+    public Simulation(SimulationState currentSimulationState, List<Player> players, boolean displayed,
+                      double timeStep, double timeLimit) {
         this.currentSimulationState = currentSimulationState;
         this.players = players;
         this.displayed = displayed;
+        this.timeStep = timeStep;
         this.timeLimit = timeLimit;
     }
 
     public SimulationState play() {
         while (!finished()) {
             SimulationState nextSimulationState = currentSimulationState.copy();
-            nextSimulationState.incrementTime();
+            nextSimulationState.setTime(nextSimulationState.getTime() + timeStep);
             for (Player player : players) {
                 player.giveOrders(currentSimulationState);
             }
             for (Unit unit : currentSimulationState.getUnits().values()) {
                 Order order = unit.getOrder();
                 if (order != null) {
-                    order.execute(currentSimulationState, nextSimulationState);
+                    order.execute(currentSimulationState, nextSimulationState, timeStep);
                 }
             }
             if (displayed) {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ignored) {
-                }
                 SIMULATION_UI.setSimulationState(currentSimulationState);
-                SIMULATION_UI.repaint();
             }
             currentSimulationState = nextSimulationState;
         }

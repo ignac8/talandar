@@ -1,4 +1,4 @@
-package gui;
+package gui.component;
 
 import jnibwapi.types.UnitType;
 import simulation.Position;

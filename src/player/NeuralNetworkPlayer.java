@@ -14,6 +14,7 @@ import simulation.order.MoveOrder;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Double.MAX_VALUE;
 import static java.lang.Double.MIN_VALUE;
 import static java.lang.Math.sqrt;
 
@@ -84,7 +85,7 @@ public final class NeuralNetworkPlayer extends Player {
                 neuralNetwork.calculateOutput();
 
                 int maxIndex = -1;
-                double maxValue = MIN_VALUE;
+                double maxValue = -1 * MAX_VALUE;
 
                 List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();
                 for (int counter = 0; counter < outputLayer.size(); counter++) {
@@ -94,7 +95,6 @@ public final class NeuralNetworkPlayer extends Player {
                         maxValue = neuron.getValue();
                     }
                 }
-
 
                 switch (maxIndex) {
                     case 0:
@@ -235,6 +235,7 @@ public final class NeuralNetworkPlayer extends Player {
                 if (unit.getOrder() == null) {
                     throw new NullPointerException();
                 }
+
                 unit.setOutputId(maxIndex);
             }
         }

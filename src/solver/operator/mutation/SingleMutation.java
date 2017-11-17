@@ -1,7 +1,8 @@
-package solver.operator;
+package solver.operator.mutation;
 
 import solver.Individual;
-import solver.operator.mutator.Mutator;
+import solver.operator.Operator;
+import solver.operator.mutation.mutator.Mutator;
 
 import java.util.List;
 

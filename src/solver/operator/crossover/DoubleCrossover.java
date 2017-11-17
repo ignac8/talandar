@@ -1,7 +1,8 @@
-package solver.operator;
+package solver.operator.crossover;
 
 import solver.Individual;
-import solver.operator.crosser.Crosser;
+import solver.operator.Operator;
+import solver.operator.crossover.crosser.Crosser;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public abstract class DoubleCrossover implements Operator {
     public List<Individual> call(List<Individual> individuals) {
         shuffle(individuals);
         for (int counter = 0; counter < individuals.size() - 1; counter += 2) {
-            if (nextDouble() < chance) {
+            if (nextDouble(0, 1) < chance) {
                 Individual firstIndividual = individuals.get(counter);
                 Individual secondIndividual = individuals.get(counter + 1);
                 crossover(firstIndividual, secondIndividual);

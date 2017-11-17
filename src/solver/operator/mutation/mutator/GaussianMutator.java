@@ -1,4 +1,4 @@
-package solver.operator.mutator;
+package solver.operator.mutation.mutator;
 
 import static utils.RandomUtils.nextGaussian;
 
@@ -14,6 +14,6 @@ public class GaussianMutator implements Mutator {
 
     @Override
     public double mutate(double value) {
-        return value + nextGaussian(std, mean);
+        return nextGaussian(std, mean);
     }
 }

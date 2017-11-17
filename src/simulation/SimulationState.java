@@ -9,25 +9,22 @@ public class SimulationState {
     private double maxX;
     private double maxY;
     private double time;
-    private double timeStep;
 
-    public SimulationState(double maxX, double maxY, double timeStep) {
+    public SimulationState(double maxX, double maxY) {
         this.units = new HashMap<>();
         this.maxX = maxX;
         this.maxY = maxY;
-        this.timeStep = timeStep;
     }
 
-    public SimulationState(double maxX, double maxY, double time, double timeStep) {
+    public SimulationState(double maxX, double maxY, double time) {
         this.units = new HashMap<>();
         this.maxX = maxX;
         this.maxY = maxY;
         this.time = time;
-        this.timeStep = timeStep;
     }
 
     public SimulationState copy() {
-        SimulationState simulationState = new SimulationState(this.maxX, this.maxY, this.time, this.timeStep);
+        SimulationState simulationState = new SimulationState(this.maxX, this.maxY, this.time);
         Map<Integer, Unit> units = new HashMap<>();
         for (Unit unit : this.units.values()) {
             units.put(unit.getUnitId(), unit.copy());
@@ -48,16 +45,16 @@ public class SimulationState {
         return time;
     }
 
+    public void setTime(double time) {
+        this.time = time;
+    }
+
     public double getMaxX() {
         return maxX;
     }
 
     public double getMaxY() {
         return maxY;
-    }
-
-    public void incrementTime() {
-        time += this.timeStep;
     }
 
     public Unit getClosestEnemyUnit(Unit unit) {
@@ -106,7 +103,4 @@ public class SimulationState {
         return canUnitBeAttackedByEnemy;
     }
 
-    public double getTimeStep() {
-        return timeStep;
-    }
 }

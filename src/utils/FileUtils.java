@@ -3,6 +3,7 @@ package utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.FCSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
@@ -36,7 +37,8 @@ public class FileUtils {
     static {
         RuntimeTypeAdapterFactory<NeuralNetwork> neuralNetworkRuntimeTypeAdapterFactory =
                 RuntimeTypeAdapterFactory.of(NeuralNetwork.class)
-                        .registerSubtype(FCSNeuralNetwork.class);
+                        .registerSubtype(FCSNeuralNetwork.class)
+                        .registerSubtype(FCFSNeuralNetwork.class);
 
         RuntimeTypeAdapterFactory<Neuron> neuronRuntimeTypeAdapterFactory =
                 RuntimeTypeAdapterFactory.of(Neuron.class)

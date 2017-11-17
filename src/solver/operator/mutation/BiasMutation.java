@@ -1,9 +1,9 @@
-package solver.operator;
+package solver.operator.mutation;
 
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import solver.Individual;
-import solver.operator.mutator.Mutator;
+import solver.operator.mutation.mutator.Mutator;
 
 import java.util.List;
 
@@ -21,13 +21,13 @@ public final class BiasMutation extends SingleMutation {
         List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();
         List<List<CalculableNeuron>> hiddenLayers = neuralNetwork.getHiddenLayers();
         for (CalculableNeuron neuron : outputLayer) {
-            if (nextDouble() < chance) {
+            if (nextDouble(0, 1) < chance) {
                 neuron.setBias(mutator.mutate(neuron.getBias()));
             }
         }
         for (List<CalculableNeuron> hiddenLayer : hiddenLayers) {
             for (CalculableNeuron neuron : hiddenLayer) {
-                if (nextDouble() < chance) {
+                if (nextDouble(0, 1) < chance) {
                     neuron.setBias(mutator.mutate(neuron.getBias()));
                 }
             }

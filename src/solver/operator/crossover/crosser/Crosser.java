@@ -1,4 +1,4 @@
-package solver.operator.crosser;
+package solver.operator.crossover.crosser;
 
 import neuralnetwork.neuron.CalculableNeuron;
 

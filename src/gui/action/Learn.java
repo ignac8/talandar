@@ -3,7 +3,7 @@ package gui.action;
 import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.SimulationEvaluator;
 import fitnessevaluator.unitselection.UnitSelectionGenerator;
-import gui.Logger;
+import gui.updater.Logger;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCSNeuralNetwork;
 import player.NeuralNetworkPlayer;
@@ -12,13 +12,13 @@ import player.SimplePlayer;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
-import solver.operator.BiasMutation;
-import solver.operator.NeuronCrossover;
 import solver.operator.Operator;
-import solver.operator.TournamentSelection;
-import solver.operator.WeightMutation;
-import solver.operator.crosser.SwapCrosser;
-import solver.operator.mutator.GaussianMutator;
+import solver.operator.crossover.NeuronCrossover;
+import solver.operator.crossover.crosser.SwapCrosser;
+import solver.operator.mutation.BiasMutation;
+import solver.operator.mutation.WeightMutation;
+import solver.operator.mutation.mutator.GaussianAdditionMutator;
+import solver.operator.selection.TournamentSelection;
 import utils.Pair;
 
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class Learn implements Runnable {
         List<Operator> operators = new ArrayList<>();
         operators.add(new TournamentSelection(tournamentSize));
         operators.add(new NeuronCrossover(crossoverChance, new SwapCrosser()));
-        operators.add(new WeightMutation(weightMutationChance, new GaussianMutator(weightStd, weightMean)));
-        operators.add(new BiasMutation(biasMutationChance, new GaussianMutator(biasStd, biasMean)));
+        operators.add(new WeightMutation(weightMutationChance, new GaussianAdditionMutator(weightStd, weightMean)));
+        operators.add(new BiasMutation(biasMutationChance, new GaussianAdditionMutator(biasStd, biasMean)));
 
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 

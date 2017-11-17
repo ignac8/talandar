@@ -55,11 +55,11 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
 
     private SimulationState playGame() {
         try {
-            SimulationState state = new SimulationState(mapWidth, mapHeight, timeStep);
+            SimulationState state = new SimulationState(mapWidth, mapHeight);
             state = putUnits(state, false, unitSelection.getLeft());
             state = putUnits(state, true, unitSelection.getRight());
             List<Player> playerList = Arrays.asList(firstPlayer, secondPlayer);
-            Simulation simulation = new Simulation(state, playerList, graphics, timeLimit);
+            Simulation simulation = new Simulation(state, playerList, graphics, timeStep, timeLimit);
             return simulation.play();
         } catch (Exception e) {
             e.printStackTrace();

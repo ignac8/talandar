@@ -15,18 +15,21 @@ public class MoveOrder extends Order {
     }
 
     @Override
-    public void execute(SimulationState currentSimulationState, SimulationState futureSimulationState) {
+    public void execute(SimulationState currentSimulationState, SimulationState futureSimulationState,
+                        double timeStep) {
         if (unitToOrder.getHitPoints() > 0) {
             Unit futureUnitToOrder = futureSimulationState.getUnits().get(unitToOrder.getUnitId());
             Position currentPosition = unitToOrder.getPosition();
             Position futurePosition = futureUnitToOrder.getPosition();
             double distance = moveOrderPosition.getDistance(currentPosition);
-            double speed = unitToOrder.getUnitType().getTopSpeed() * currentSimulationState.getTimeStep();
+            double speed = unitToOrder.getUnitType().getTopSpeed() * timeStep;
             if (distance > 0 && isFinite(distance)) {
                 if (speed < distance) {
                     double factor = speed / distance;
-                    futurePosition.setX(currentPosition.getX() + (moveOrderPosition.getX() - currentPosition.getX()) * factor);
-                    futurePosition.setY(currentPosition.getY() + (moveOrderPosition.getY() - currentPosition.getY()) * factor);
+                    futurePosition.setX(currentPosition.getX()
+                            + (moveOrderPosition.getX() - currentPosition.getX()) * factor);
+                    futurePosition.setY(currentPosition.getY()
+                            + (moveOrderPosition.getY() - currentPosition.getY()) * factor);
                 } else {
                     futurePosition.setX(moveOrderPosition.getX());
                     futurePosition.setY(moveOrderPosition.getY());

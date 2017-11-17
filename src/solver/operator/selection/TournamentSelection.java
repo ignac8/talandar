@@ -1,6 +1,7 @@
-package solver.operator;
+package solver.operator.selection;
 
 import solver.Individual;
+import solver.operator.Operator;
 
 import java.util.ArrayList;
 import java.util.List;

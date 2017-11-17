@@ -1,9 +1,9 @@
-package solver.operator;
+package solver.operator.mutation;
 
 import neuralnetwork.Connection;
 import neuralnetwork.NeuralNetwork;
 import solver.Individual;
-import solver.operator.mutator.Mutator;
+import solver.operator.mutation.mutator.Mutator;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public final class WeightMutation extends SingleMutation {
         for (List<List<Connection>> ConnectionsList : connectionsListList) {
             for (List<Connection> Connections : ConnectionsList) {
                 for (Connection connection : Connections) {
-                    if (nextDouble() < chance) {
+                    if (nextDouble(0, 1) < chance) {
                         connection.setWeight(mutator.mutate(connection.getWeight()));
                     }
                 }
