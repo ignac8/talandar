@@ -30,7 +30,7 @@ public class LocalSearchSandbox {
 
     public static void main(String... args) {
 
-        int passLimit = 10000;
+        int passLimit = 1000;
         int searchTimeLimit = 600 * 1 * 1000;
         int populationSize = 1;
         int inputLayerSize = 5;
@@ -47,7 +47,7 @@ public class LocalSearchSandbox {
         int numberOfUnitSelections = 10;
         int neighbourSize = 1;
         double decTemp = 0.999;
-        double modifier = 1;
+        double modifier = 10;
 
         int[] hiddenLayerSizes = {5};
 

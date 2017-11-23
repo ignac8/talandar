@@ -23,8 +23,8 @@ public class Benchmark {
         String json = loadFile(fileName);
         NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
         boolean graphics = false;
-        double simulationTimeStep = 3.0;
-        double simulationTimeLimit = 10000;
+        double simulationTimeStep = 1.0;
+        double simulationTimeLimit = 10000000;
         int mapHeight = TILE_SIZE * 20;
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;

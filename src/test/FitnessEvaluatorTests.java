@@ -29,7 +29,7 @@ public class FitnessEvaluatorTests {
         double mapWidth = 640.0;
         double gapHeight = 40.0;
         double gapWidth = 120.0;
-        int numberOfUnitSelections = 1;
+        int numberOfUnitSelections = 10;
 
         NeuralNetwork neuralNetwork = fromJson(loadFile("testNeuralWeb.json"), NeuralNetwork.class);
 
@@ -54,7 +54,7 @@ public class FitnessEvaluatorTests {
 
         for (FitnessEvaluator fitnessEvaluator : fitnessEvaluators) {
             double previousFitness = fitnessEvaluator.evaluate();
-            for (int counter = 0; counter < 100; counter++) {
+            for (int counter = 0; counter < 1000; counter++) {
                 double currentFitness = fitnessEvaluator.evaluate();
                 assertThat(currentFitness, is(previousFitness));
                 previousFitness = currentFitness;
