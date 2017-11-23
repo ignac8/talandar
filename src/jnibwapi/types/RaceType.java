@@ -2,7 +2,7 @@ package jnibwapi.types;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Map;
 public class RaceType {
 
     public static final int numAttributes = 6;
-    private static Map<Integer, RaceType> idToRaceType = new HashMap<>();
+    private static Map<Integer, RaceType> idToRaceType = new LinkedHashMap<>();
     private String name;
     private int ID;
     private int workerID;

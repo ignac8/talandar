@@ -2,7 +2,9 @@ package solver;
 
 import neuralnetwork.NeuralNetwork;
 
-public class Individual {
+import static java.lang.Double.compare;
+
+public class Individual implements Comparable<Individual> {
 
     private double fitness;
     private NeuralNetwork neuralNetwork;
@@ -31,5 +33,10 @@ public class Individual {
 
     public NeuralNetwork getNeuralNetwork() {
         return neuralNetwork;
+    }
+
+    @Override
+    public int compareTo(Individual individual) {
+        return compare(individual.fitness, fitness);
     }
 }

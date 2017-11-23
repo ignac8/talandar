@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -112,7 +112,7 @@ public class JNIBWAPI {
     // game state
     private int gameFrame = 0;
     private Map map;
-    private HashMap<Integer, Unit> units = new HashMap<>();
+    private LinkedHashMap<Integer, Unit> units = new LinkedHashMap<>();
     private ArrayList<Unit> playerUnits = new ArrayList<>();
     private ArrayList<Unit> alliedUnits = new ArrayList<>();
     private ArrayList<Unit> enemyUnits = new ArrayList<>();
@@ -121,7 +121,7 @@ public class JNIBWAPI {
     // player lists
     private Player self;
     private Player neutralPlayer;
-    private HashMap<Integer, Player> players = new HashMap<>();
+    private LinkedHashMap<Integer, Player> players = new LinkedHashMap<>();
     private HashSet<Player> allies = new HashSet<>();
     private HashSet<Player> enemies = new HashSet<>();
 
@@ -1336,7 +1336,7 @@ public class JNIBWAPI {
         int[] regionData = null;
         int[] chokePointData = null;
         int[] baseLocationData = null;
-        HashMap<Integer, int[]> polygons = new HashMap<>();
+        LinkedHashMap<Integer, int[]> polygons = new LinkedHashMap<>();
 
         // run BWTA
         if (!analyzed) {

@@ -4,7 +4,7 @@ import jnibwapi.types.DamageType.DamageTypes;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +15,7 @@ import java.util.Map;
 public class WeaponType {
 
     public static final int numAttributes = 24;
-    private static Map<Integer, WeaponType> idToWeaponType = new HashMap<>();
+    private static Map<Integer, WeaponType> idToWeaponType = new LinkedHashMap<>();
     private String name;
     private int ID;
     private int techID;

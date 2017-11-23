@@ -4,7 +4,7 @@ import jnibwapi.types.UnitType.UnitTypes;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +15,7 @@ import java.util.Map;
 public class TechType {
 
     public static final int numAttributes = 10;
-    private static Map<Integer, TechType> idToTechType = new HashMap<>();
+    private static Map<Integer, TechType> idToTechType = new LinkedHashMap<>();
     private String name;
     private int ID;
     private int raceID;

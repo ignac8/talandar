@@ -2,7 +2,7 @@ package jnibwapi.types;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Map;
 public class DamageType {
 
     public static final int numAttributes = 1;
-    private static Map<Integer, DamageType> idToDamageType = new HashMap<>();
+    private static Map<Integer, DamageType> idToDamageType = new LinkedHashMap<>();
     private String name;
     private int ID;
 

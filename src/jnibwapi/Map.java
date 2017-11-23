@@ -7,7 +7,7 @@ import jnibwapi.util.BWColor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +39,7 @@ public class Map {
     private List<Region> regions = null;
     private List<ChokePoint> chokePoints = null;
     private List<BaseLocation> baseLocations = null;
-    private HashMap<Integer, Region> idToRegion = null;
+    private LinkedHashMap<Integer, Region> idToRegion = null;
 
     public Map(int width, int height, String name, String fileName, String hash, int[] heightMap,
                int[] buildable, int[] walkable) {
@@ -81,7 +81,7 @@ public class Map {
      * Initialise the map with regions and base locations
      */
     protected void initialize(int[] regionMapData, int[] regionData,
-                              HashMap<Integer, int[]> regionPolygons, int[] chokePointData, int[] baseLocationData) {
+                              LinkedHashMap<Integer, int[]> regionPolygons, int[] chokePointData, int[] baseLocationData) {
         // regionMap
         assert (regionMapData != null && regionMapData.length == size.getBX() * size.getBY());
         regionMap = regionMapData;
@@ -95,7 +95,7 @@ public class Map {
                 regions.add(region);
             }
         }
-        idToRegion = new HashMap<>();
+        idToRegion = new LinkedHashMap<>();
         for (Region region : regions) {
             idToRegion.put(region.getID(), region);
         }
@@ -252,7 +252,7 @@ public class Map {
         final int mvmtCostDiag = 14;
         PriorityQueue<AStarTile> openTiles = new PriorityQueue<>(); // min heap
         // Map from tile to distance
-        HashMap<Position, Integer> gmap = new HashMap<>();
+        LinkedHashMap<Position, Integer> gmap = new LinkedHashMap<>();
         HashSet<Position> closedTiles = new HashSet<>();
         openTiles.add(new AStarTile(start, 0));
         gmap.put(start, 0);

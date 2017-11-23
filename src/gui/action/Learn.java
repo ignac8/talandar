@@ -73,12 +73,6 @@ public class Learn implements Runnable {
             startingIndividuals.add(randomIndividual);
         }
 
-        List<Operator> operators = new ArrayList<>();
-        operators.add(new TournamentSelection(tournamentSize));
-        operators.add(new NeuronCrossover(crossoverChance, new SwapCrosser()));
-        operators.add(new WeightMutation(weightMutationChance, new GaussianAdditionMutator(weightStd, weightMean)));
-        operators.add(new BiasMutation(biasMutationChance, new GaussianAdditionMutator(biasStd, biasMean)));
-
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
@@ -93,9 +87,17 @@ public class Learn implements Runnable {
             fitnessEvaluators.add(fitnessEvaluator);
         }
 
-        Solver solver = new Solver(operators, passLimit, searchTimeLimit, startingIndividuals, fitnessEvaluators);
+        Solver solver = new Solver(passLimit, searchTimeLimit, fitnessEvaluators);
 
-        result = solver.solve();
+        List<Operator> operators = new ArrayList<>();
+        operators.add(new TournamentSelection(tournamentSize));
+        operators.add(new NeuronCrossover(crossoverChance, new SwapCrosser()));
+        operators.add(new WeightMutation(weightMutationChance, new GaussianAdditionMutator(weightStd, weightMean)));
+        operators.add(new BiasMutation(biasMutationChance, new GaussianAdditionMutator(biasStd, biasMean)));
+
+        solver.setOperators(operators);
+
+        result = solver.solve(startingIndividuals);
         double totalFitness = 0;
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,

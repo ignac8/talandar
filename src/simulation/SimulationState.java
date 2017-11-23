@@ -1,6 +1,6 @@
 package simulation;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -11,13 +11,13 @@ public class SimulationState {
     private double time;
 
     public SimulationState(double maxX, double maxY) {
-        this.units = new HashMap<>();
+        this.units = new LinkedHashMap<>();
         this.maxX = maxX;
         this.maxY = maxY;
     }
 
     public SimulationState(double maxX, double maxY, double time) {
-        this.units = new HashMap<>();
+        this.units = new LinkedHashMap<>();
         this.maxX = maxX;
         this.maxY = maxY;
         this.time = time;
@@ -25,7 +25,7 @@ public class SimulationState {
 
     public SimulationState copy() {
         SimulationState simulationState = new SimulationState(this.maxX, this.maxY, this.time);
-        Map<Integer, Unit> units = new HashMap<>();
+        Map<Integer, Unit> units = new LinkedHashMap<>();
         for (Unit unit : this.units.values()) {
             units.put(unit.getUnitId(), unit.copy());
         }

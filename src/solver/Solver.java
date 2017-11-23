@@ -11,7 +11,6 @@ import static java.lang.System.currentTimeMillis;
 
 public class Solver {
 
-    private List<Individual> individuals;
     private List<Operator> operators;
     private int passLimit;
     private long timeStart;
@@ -21,20 +20,28 @@ public class Solver {
     private List<FitnessEvaluator> fitnessEvaluators;
     private int passCount;
 
-    public Solver(List<Operator> operators, int passLimit, long timeLimit,
-                  List<Individual> startingIndividuals, List<FitnessEvaluator> fitnessEvaluators) {
-        this.individuals = startingIndividuals;
+    public Solver(int passLimit, long timeLimit, List<FitnessEvaluator> fitnessEvaluators) {
         this.populationFitnessStatistics = new ArrayList<>();
-        this.operators = operators;
         this.timeStart = currentTimeMillis();
         this.passLimit = passLimit;
         this.timeLimit = timeLimit;
         this.fitnessEvaluators = fitnessEvaluators;
-        this.passCount = 0;
-        evaluate();
     }
 
-    private void evaluate() {
+    public Result solve(List<Individual> individuals) {
+        this.passCount = 0;
+        evaluate(individuals);
+        while (!done()) {
+            for (Operator operator : operators) {
+                individuals = operator.call(individuals);
+            }
+            evaluate(individuals);
+            populationFitnessStatistics.add(new PopulationFitnessStatistic(individuals));
+        }
+        return new Result(bestIndividual.getNeuralNetwork(), populationFitnessStatistics);
+    }
+
+    public void evaluate(List<Individual> individuals) {
         for (Individual individual : individuals) {
             double fitness = 0;
             for (FitnessEvaluator fitnessEvaluator : fitnessEvaluators) {
@@ -49,21 +56,13 @@ public class Solver {
             }
             passCount++;
         }
-        populationFitnessStatistics.add(new PopulationFitnessStatistic(individuals));
-    }
-
-    public Result solve() {
-        while (!done()) {
-            for (Operator operator : operators) {
-                individuals = operator.call(individuals);
-            }
-            evaluate();
-        }
-        return new Result(bestIndividual.getNeuralNetwork(), populationFitnessStatistics);
     }
 
     private boolean done() {
         return currentTimeMillis() - timeStart > timeLimit || passCount > passLimit;
     }
 
+    public void setOperators(List<Operator> operators) {
+        this.operators = operators;
+    }
 }

@@ -12,11 +12,9 @@ import solver.Individual;
 import solver.Result;
 import solver.Solver;
 import solver.operator.Operator;
-import solver.operator.crossover.NeuronCrossover;
-import solver.operator.crossover.crosser.AverageCrosser;
+import solver.operator.localsearch.SimulatedAnnealing;
 import solver.operator.mutation.NeuronMutation;
-import solver.operator.mutation.mutator.GaussianMutator;
-import solver.operator.selection.TournamentSelection;
+import solver.operator.mutation.mutator.GaussianAdditionMutator;
 import utils.Pair;
 
 import java.util.ArrayList;
@@ -28,18 +26,15 @@ import static utils.FileUtils.saveFile;
 import static utils.FileUtils.saveGraphToFile;
 import static utils.FileUtils.toJson;
 
-public class ForwardEngineering {
+public class LocalSearchSandbox {
 
     public static void main(String... args) {
 
-        int passLimit = Integer.MAX_VALUE;
-        int searchTimeLimit = 1 * 10 * 1000;
-        int populationSize = 100;
+        int passLimit = 1000;
+        int searchTimeLimit = 600 * 1 * 1000;
+        int populationSize = 1;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
-        int tournamentSize = 5;
-        double crossoverChance = 0;
-        double mutationChance = 0.01;
         double std = 1000;
         double mean = 0;
         boolean graphics = false;
@@ -49,9 +44,12 @@ public class ForwardEngineering {
         double mapWidth = 640.0;
         double gapHeight = 40.0;
         double gapWidth = 120.0;
-        int numberOfUnitSelections = 1;
+        int numberOfUnitSelections = 10;
+        int neighbourSize = 1;
+        double decTemp = 1;
+        double modifier = 100000;
 
-        int[] hiddenLayerSizes = {10};
+        int[] hiddenLayerSizes = {5};
 
         List<Individual> startingIndividuals = new ArrayList<>();
 
@@ -80,10 +78,8 @@ public class ForwardEngineering {
         Solver solver = new Solver(passLimit, searchTimeLimit, fitnessEvaluators);
 
         List<Operator> operators = new ArrayList<>();
-        operators.add(new TournamentSelection(tournamentSize));
-        operators.add(new NeuronCrossover(crossoverChance, new AverageCrosser()));
-        operators.add(new NeuronMutation(mutationChance, new GaussianMutator(std, mean)));
-
+        operators.add(new SimulatedAnnealing(neighbourSize, solver,
+                new NeuronMutation(1, new GaussianAdditionMutator(std, mean)), decTemp, modifier, populationSize));
         solver.setOperators(operators);
 
         Result result = solver.solve(startingIndividuals);

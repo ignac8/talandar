@@ -5,7 +5,7 @@ import jnibwapi.types.WeaponType.WeaponTypes;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -17,7 +17,7 @@ public class UnitType {
 
     public static final int numAttributes = 57;
     public static final double fixedScale = 100.0;
-    private static Map<Integer, UnitType> idToUnitType = new HashMap<>();
+    private static Map<Integer, UnitType> idToUnitType = new LinkedHashMap<>();
     private int ID;
     private int raceID;
     private int whatBuildID;
@@ -76,7 +76,7 @@ public class UnitType {
     private boolean flyingBuilding;
     private boolean spell;
     private String name;
-    private Map<Integer, Integer> requiredUnits = new HashMap<>();
+    private Map<Integer, Integer> requiredUnits = new LinkedHashMap<>();
 
     public UnitType(int ID) {
         this.ID = ID;

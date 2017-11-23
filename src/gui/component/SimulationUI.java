@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static java.awt.Toolkit.getDefaultToolkit;
@@ -20,7 +20,7 @@ import static jnibwapi.types.UnitType.UnitTypes.getAllUnitTypes;
 public class SimulationUI extends JComponent {
 
     private static final SimulationUI INSTANCE = new SimulationUI();
-    private Map<UnitType, Image> images = new HashMap<>();
+    private Map<UnitType, Image> images = new LinkedHashMap<>();
     private Image background;
     private SimulationState simulationState;
 
