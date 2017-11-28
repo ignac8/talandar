@@ -1,6 +1,6 @@
 package solver.operator.mutation.mutator;
 
-import static utils.RandomUtils.nextGaussian;
+import static util.RandomUtils.nextGaussian;
 
 public class GaussianAdditionMutator implements Mutator {
 

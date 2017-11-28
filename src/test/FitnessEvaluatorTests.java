@@ -7,7 +7,7 @@ import org.junit.Test;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
-import utils.Pair;
+import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static utils.FileUtils.fromJson;
-import static utils.FileUtils.loadFile;
+import static util.FileUtils.fromJson;
+import static util.FileUtils.loadFile;
 
 public class FitnessEvaluatorTests {
 

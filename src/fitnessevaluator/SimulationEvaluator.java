@@ -7,7 +7,7 @@ import simulation.Simulation;
 import simulation.SimulationState;
 import simulation.Unit;
 import simulation.bridge.JNIBWAPI_LOAD;
-import utils.Pair;
+import util.Pair;
 
 import java.util.Arrays;
 import java.util.List;

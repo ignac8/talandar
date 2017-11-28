@@ -1,7 +1,7 @@
 package simulation;
 
 import static java.lang.Math.sqrt;
-import static utils.MathUtils.fastSquare;
+import static util.MathUtils.fastSquare;
 
 public class Position {
     private double x;

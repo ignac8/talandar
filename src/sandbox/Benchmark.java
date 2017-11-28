@@ -6,14 +6,14 @@ import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
-import utils.Pair;
+import util.Pair;
 
 import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static jnibwapi.Map.TILE_SIZE;
-import static utils.FileUtils.fromJson;
-import static utils.FileUtils.loadFile;
+import static util.FileUtils.fromJson;
+import static util.FileUtils.loadFile;
 
 public class Benchmark {
 
@@ -45,7 +45,5 @@ public class Benchmark {
         totalFitness /= allUnitSelections.size();
 
         System.out.println("Total fitness equals: " + totalFitness);
-
-
     }
 }

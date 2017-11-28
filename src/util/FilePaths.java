@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 public class FilePaths {
     public static final String RES = "res\\";

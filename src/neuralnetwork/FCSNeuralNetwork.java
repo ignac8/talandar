@@ -7,7 +7,7 @@ import neuralnetwork.neuron.SigmoidNeuron;
 import java.util.ArrayList;
 import java.util.List;
 
-import static utils.RandomUtils.nextGaussian;
+import static util.RandomUtils.nextGaussian;
 
 //Fully connected sigmoid neural network
 public final class FCSNeuralNetwork extends NeuralNetwork {

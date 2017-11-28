@@ -7,7 +7,7 @@ import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
-import utils.Pair;
+import util.Pair;
 
 import java.util.List;
 

@@ -15,16 +15,16 @@ import solver.operator.Operator;
 import solver.operator.localsearch.SimulatedAnnealing;
 import solver.operator.mutation.NeuronMutation;
 import solver.operator.mutation.mutator.GaussianAdditionMutator;
-import utils.Pair;
+import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
-import static utils.FileUtils.saveFile;
-import static utils.FileUtils.saveGraphToFile;
-import static utils.FileUtils.toJson;
+import static util.FileUtils.saveFile;
+import static util.FileUtils.saveGraphToFile;
+import static util.FileUtils.toJson;
 
 public class LocalSearchSandbox {
 

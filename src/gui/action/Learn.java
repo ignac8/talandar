@@ -19,7 +19,7 @@ import solver.operator.mutation.BiasMutation;
 import solver.operator.mutation.WeightMutation;
 import solver.operator.mutation.mutator.GaussianAdditionMutator;
 import solver.operator.selection.TournamentSelection;
-import utils.Pair;
+import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

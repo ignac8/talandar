@@ -7,7 +7,7 @@ import gui.updater.Logger;
 import gui.updater.SimulationPainter;
 import neuralnetwork.NeuralNetwork;
 import solver.Result;
-import utils.FileUtils;
+import util.FileUtils;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -31,10 +31,10 @@ import static javax.swing.JFileChooser.APPROVE_OPTION;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 import static javax.swing.UIManager.setLookAndFeel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import static utils.FileUtils.fromJson;
-import static utils.FileUtils.loadFile;
-import static utils.FileUtils.saveFile;
-import static utils.FileUtils.toJson;
+import static util.FileUtils.fromJson;
+import static util.FileUtils.loadFile;
+import static util.FileUtils.saveFile;
+import static util.FileUtils.toJson;
 
 public class MainForm {
 

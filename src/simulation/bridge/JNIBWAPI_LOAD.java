@@ -13,19 +13,19 @@ import jnibwapi.types.UnitType;
 import jnibwapi.types.UpgradeType;
 import jnibwapi.types.WeaponType;
 
-import static utils.FilePaths.BULLET_TYPES_CLASS;
-import static utils.FilePaths.DAMAGE_TYPES_CLASS;
-import static utils.FilePaths.EXPLOSION_TYPES_CLASS;
-import static utils.FilePaths.ORDER_TYPES_CLASS;
-import static utils.FilePaths.RACE_TYPES_CLASS;
-import static utils.FilePaths.TECH_TYPES_CLASS;
-import static utils.FilePaths.UNIT_COMMAND_TYPES_CLASS;
-import static utils.FilePaths.UNIT_SIZE_TYPES_CLASS;
-import static utils.FilePaths.UNIT_TYPES_CLASS;
-import static utils.FilePaths.UPGRADE_TYPES_CLASS;
-import static utils.FilePaths.WEAPON_TYPES_CLASS;
-import static utils.FileUtils.fromJson;
-import static utils.FileUtils.loadFile;
+import static util.FilePaths.BULLET_TYPES_CLASS;
+import static util.FilePaths.DAMAGE_TYPES_CLASS;
+import static util.FilePaths.EXPLOSION_TYPES_CLASS;
+import static util.FilePaths.ORDER_TYPES_CLASS;
+import static util.FilePaths.RACE_TYPES_CLASS;
+import static util.FilePaths.TECH_TYPES_CLASS;
+import static util.FilePaths.UNIT_COMMAND_TYPES_CLASS;
+import static util.FilePaths.UNIT_SIZE_TYPES_CLASS;
+import static util.FilePaths.UNIT_TYPES_CLASS;
+import static util.FilePaths.UPGRADE_TYPES_CLASS;
+import static util.FilePaths.WEAPON_TYPES_CLASS;
+import static util.FileUtils.fromJson;
+import static util.FileUtils.loadFile;
 
 public class JNIBWAPI_LOAD extends JNIBWAPI {
 

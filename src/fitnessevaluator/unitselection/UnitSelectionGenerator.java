@@ -2,7 +2,7 @@ package fitnessevaluator.unitselection;
 
 import jnibwapi.types.UnitType;
 import simulation.bridge.JNIBWAPI_LOAD;
-import utils.Pair;
+import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
