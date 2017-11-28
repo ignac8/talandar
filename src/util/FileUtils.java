@@ -18,6 +18,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import solver.PopulationFitnessStatistic;
+import utils.serializer.FCFSNeuralNetworkSerializer;
+import utils.serializer.FCSNeuralNetworkSerializer;
+import utils.serializer.NeuralNetworkSerializer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,22 +38,10 @@ public class FileUtils {
     private static final Gson GSON;
 
     static {
-        RuntimeTypeAdapterFactory<NeuralNetwork> neuralNetworkRuntimeTypeAdapterFactory =
-                RuntimeTypeAdapterFactory.of(NeuralNetwork.class)
-                        .registerSubtype(FCSNeuralNetwork.class)
-                        .registerSubtype(FCFSNeuralNetwork.class);
-
-        RuntimeTypeAdapterFactory<Neuron> neuronRuntimeTypeAdapterFactory =
-                RuntimeTypeAdapterFactory.of(Neuron.class)
-                        .registerSubtype(InputNeuron.class)
-                        .registerSubtype(CalculableNeuron.class)
-                        .registerSubtype(SigmoidNeuron.class)
-                        .registerSubtype(StepNeuron.class)
-                        .registerSubtype(FastSigmoidNeuron.class);
-
         GSON = new GsonBuilder()
-                .registerTypeAdapterFactory(neuralNetworkRuntimeTypeAdapterFactory)
-                .registerTypeAdapterFactory(neuronRuntimeTypeAdapterFactory)
+                .registerTypeAdapter(NeuralNetwork.class, new NeuralNetworkSerializer())
+                .registerTypeAdapter(FCSNeuralNetwork.class, new FCSNeuralNetworkSerializer())
+                .registerTypeAdapter(FCFSNeuralNetwork.class, new FCFSNeuralNetworkSerializer())
                 .create();
     }
 
