@@ -21,6 +21,7 @@ import java.util.List;
 import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateMirrorUnitSelections;
+import static java.util.Collections.shuffle;
 import static org.jfree.chart.ChartUtilities.saveChartAsPNG;
 
 public class UnitSelectionsTesting {
@@ -48,6 +49,7 @@ public class UnitSelectionsTesting {
         SimplePlayer simplePlayer = new SimplePlayer(1);
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
+        shuffle(allUnitSelections);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> mirrorUnitSelections = generateMirrorUnitSelections(allUnitSelections);
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
