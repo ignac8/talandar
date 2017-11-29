@@ -40,9 +40,9 @@ public class Replay {
 
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateAllUnitSelections()) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
-                    gapHeight, gapWidth, firstPlayer, secondPlayer, unitSelection);
-
+            SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+            fitnessEvaluator.setUnitSelection(unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
 

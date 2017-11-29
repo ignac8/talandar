@@ -1,7 +1,7 @@
 package neuralnetwork;
 
 import neuralnetwork.neuron.CalculableNeuron;
-import neuralnetwork.neuron.InputNeuron;
+import neuralnetwork.neuron.ConstantNeuron;
 import neuralnetwork.neuron.Neuron;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class NeuralNetwork {
 
-    protected List<InputNeuron> inputLayer;
+    protected List<ConstantNeuron> inputLayer;
     protected List<CalculableNeuron> outputLayer;
     protected List<List<CalculableNeuron>> hiddenLayers;
     protected List<List<List<Connection>>> connectionsListList;
@@ -21,7 +21,7 @@ public abstract class NeuralNetwork {
         connectionsListList = new ArrayList<>();
     }
 
-    public List<InputNeuron> getInputLayer() {
+    public List<ConstantNeuron> getInputLayer() {
         return inputLayer;
     }
 

@@ -34,7 +34,7 @@ public class Benchmark {
 
         double totalFitness = 0;
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, null);
+                gapHeight, gapWidth, firstPlayer, secondPlayer);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(bestOne);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();

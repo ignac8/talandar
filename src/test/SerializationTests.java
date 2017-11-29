@@ -38,8 +38,7 @@ public class SerializationTests {
         Player simplePlayer = new SimplePlayer(1);
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer,
-                null);
+                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
 
         double oldFitness = 0;

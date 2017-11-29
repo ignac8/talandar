@@ -4,7 +4,7 @@ package player;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
-import neuralnetwork.neuron.InputNeuron;
+import neuralnetwork.neuron.ConstantNeuron;
 import simulation.Position;
 import simulation.SimulationState;
 import simulation.Unit;
@@ -40,7 +40,7 @@ public final class NeuralNetworkPlayer extends Player {
             if (unit.getPlayerId() == playerId && unit.getHitPoints() > 0) {
                 UnitType unitType = unit.getUnitType();
 
-                List<InputNeuron> inputLayer = neuralNetwork.getInputLayer();
+                List<ConstantNeuron> inputLayer = neuralNetwork.getInputLayer();
 
 //                inputLayer.get(i++).setValue(getRemainingCooldown(unit, state));
 

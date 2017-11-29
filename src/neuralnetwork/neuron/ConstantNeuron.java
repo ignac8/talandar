@@ -1,6 +1,6 @@
 package neuralnetwork.neuron;
 
-public class InputNeuron extends Neuron {
+public class ConstantNeuron extends Neuron {
 
     @Override
     public void calculate() {

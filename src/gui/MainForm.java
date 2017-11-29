@@ -4,7 +4,6 @@ import gui.action.Learn;
 import gui.action.Replay;
 import gui.component.SimulationUI;
 import gui.updater.Logger;
-import gui.updater.SimulationPainter;
 import neuralnetwork.NeuralNetwork;
 import solver.Result;
 import util.FileUtils;
@@ -80,7 +79,7 @@ public class MainForm {
     private JButton resetToDefaultValuesButton;
     private ExecutorService actionExecutorService = newSingleThreadExecutor();
     private Logger logger;
-    private SimulationPainter simulationPainter;
+    //private SimulationPainter simulationPainter;
     private NeuralNetwork neuralNetwork;
     private JFileChooser fileChooser = new JFileChooser();
     private DateTimeFormatter dateTimeFormatter = ofPattern("yyyy'_'MM'_'dd'_'HH'_'mm'_'ss'_'");
@@ -106,7 +105,7 @@ public class MainForm {
         prepareNativeLook();
         resetToDefaultValues();
         prepareLogger();
-        prepareSimulationPainter();
+        //prepareSimulationPainter();
         prepareMethodListeners();
     }
 
@@ -145,10 +144,10 @@ public class MainForm {
         newScheduledThreadPool(1).scheduleAtFixedRate(logger, 0, 100, MILLISECONDS);
     }
 
-    private void prepareSimulationPainter() {
-        simulationPainter = SimulationPainter.getInstance();
-        newScheduledThreadPool(1).scheduleAtFixedRate(simulationPainter, 0, 1000 / 42, MILLISECONDS);
-    }
+//    private void prepareSimulationPainter() {
+//        simulationPainter = SimulationPainter.getInstance();
+//        newScheduledThreadPool(1).scheduleAtFixedRate(simulationPainter, 0, 1000 / 42, MILLISECONDS);
+//    }
 
     private void prepareMethodListeners() {
         resetToDefaultValuesButton.addActionListener(e -> resetToDefaultValues());

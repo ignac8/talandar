@@ -51,9 +51,9 @@ public class FitnessEvaluatorTests {
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer,
-                    unitSelection);
+            SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+            fitnessEvaluator.setUnitSelection(unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
 
@@ -89,9 +89,9 @@ public class FitnessEvaluatorTests {
         Player secondPlayer = new SimplePlayer(1);
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer,
-                    unitSelection);
+            SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+            fitnessEvaluator.setUnitSelection(unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
 

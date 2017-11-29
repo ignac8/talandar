@@ -47,6 +47,12 @@ public class Simulation {
             }
             if (displayed) {
                 SIMULATION_UI.setSimulationState(currentSimulationState);
+                SIMULATION_UI.repaint();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             currentSimulationState = nextSimulationState;
         }

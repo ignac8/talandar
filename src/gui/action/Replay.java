@@ -25,7 +25,7 @@ public class Replay implements Runnable {
     private boolean graphics;
     private Logger logger = Logger.getInstance();
     private SimulationEvaluator simulationEvaluator = new SimulationEvaluator(graphics, 1, 10000,
-            mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer, null);
+            mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
 
     @Override
     public void run() {

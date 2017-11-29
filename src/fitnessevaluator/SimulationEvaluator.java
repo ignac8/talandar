@@ -33,8 +33,7 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
     private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
 
     public SimulationEvaluator(boolean graphics, double timeStep, double timeLimit, double mapHeight, double mapWidth,
-                               double gapHeight, double gapWidth, Player firstPlayer, Player secondPlayer,
-                               Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {
+                               double gapHeight, double gapWidth, Player firstPlayer, Player secondPlayer) {
         this.graphics = graphics;
         this.timeStep = timeStep;
         this.timeLimit = timeLimit;
@@ -44,7 +43,6 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
         this.gapWidth = gapWidth;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
-        this.unitSelection = unitSelection;
     }
 
     public double evaluate() {

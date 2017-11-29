@@ -2,7 +2,7 @@ import neuralnetwork.Connection;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
-import neuralnetwork.neuron.InputNeuron;
+import neuralnetwork.neuron.ConstantNeuron;
 import neuralnetwork.neuron.Neuron;
 import neuralnetwork.neuron.SigmoidNeuron;
 import org.apache.commons.math3.analysis.function.Sigmoid;
@@ -99,8 +99,8 @@ public class NeuralNetworkTests {
     }
 
     private void sigmoidCalculation(double value1, double value2, double weight1, double weight2, double bias) {
-        InputNeuron inputNeuron1 = new InputNeuron();
-        InputNeuron inputNeuron2 = new InputNeuron();
+        ConstantNeuron inputNeuron1 = new ConstantNeuron();
+        ConstantNeuron inputNeuron2 = new ConstantNeuron();
         inputNeuron1.setValue(value1);
         inputNeuron2.setValue(value2);
         CalculableNeuron sigmoidNeuron = new SigmoidNeuron();
@@ -122,7 +122,7 @@ public class NeuralNetworkTests {
     public void connectionsTest() {
         List<Integer> hiddenLayersSizes = asList(100, 100, 100);
         NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(10, hiddenLayersSizes, 10);
-        List<InputNeuron> inputLayer = neuralNetwork.getInputLayer();
+        List<ConstantNeuron> inputLayer = neuralNetwork.getInputLayer();
         List<List<CalculableNeuron>> hiddenLayers = neuralNetwork.getHiddenLayers();
         List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();
         layerTest(hiddenLayers.get(0), inputLayer);

@@ -1,8 +1,8 @@
 package neuralnetwork;
 
 import neuralnetwork.neuron.CalculableNeuron;
+import neuralnetwork.neuron.ConstantNeuron;
 import neuralnetwork.neuron.FastSigmoidNeuron;
-import neuralnetwork.neuron.InputNeuron;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public final class FCFSNeuralNetwork extends NeuralNetwork {
     public FCFSNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
         super();
         for (int counter = 0; counter < inputLayerSize; counter++) {
-            inputLayer.add(new InputNeuron());
+            inputLayer.add(new ConstantNeuron());
         }
         List<List<Connection>> connectionsList = new ArrayList<>();
         List<CalculableNeuron> hiddenLayer = new ArrayList<>();

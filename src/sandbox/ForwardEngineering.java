@@ -26,8 +26,6 @@ import java.util.List;
 import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
-import static util.FileUtils.fromJson;
-import static util.FileUtils.loadFile;
 import static util.FileUtils.saveFile;
 import static util.FileUtils.saveGraphToFile;
 import static util.FileUtils.toJson;
@@ -75,9 +73,9 @@ public class ForwardEngineering {
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer,
-                    unitSelection);
+            SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+            fitnessEvaluator.setUnitSelection(unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
 
@@ -98,8 +96,7 @@ public class ForwardEngineering {
         double totalFitness = 0;
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
-                simulationTimeLimit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, null);
+                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         NeuralNetwork neuralNetwork = result.getNeuralNetwork();
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);

@@ -70,9 +70,9 @@ public class LocalSearchSandbox {
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
-            FitnessEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer,
-                    unitSelection);
+            SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+            fitnessEvaluator.setUnitSelection(unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
 
@@ -92,7 +92,7 @@ public class LocalSearchSandbox {
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer, null);
+                gapHeight, gapWidth, firstPlayer, secondPlayer);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(result.getNeuralNetwork());
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
