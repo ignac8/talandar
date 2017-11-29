@@ -2,25 +2,16 @@ package util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import neuralnetwork.FCFSNeuralNetwork;
-import neuralnetwork.FCSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
-import neuralnetwork.neuron.CalculableNeuron;
-import neuralnetwork.neuron.FastSigmoidNeuron;
-import neuralnetwork.neuron.InputNeuron;
-import neuralnetwork.neuron.Neuron;
-import neuralnetwork.neuron.SigmoidNeuron;
-import neuralnetwork.neuron.StepNeuron;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import solver.PopulationFitnessStatistic;
-import utils.serializer.FCFSNeuralNetworkSerializer;
-import utils.serializer.FCSNeuralNetworkSerializer;
-import utils.serializer.NeuralNetworkSerializer;
+import util.serializer.FCFSNeuralNetworkSerializer;
+import util.serializer.NeuralNetworkSerializer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,7 +31,6 @@ public class FileUtils {
     static {
         GSON = new GsonBuilder()
                 .registerTypeAdapter(NeuralNetwork.class, new NeuralNetworkSerializer())
-                .registerTypeAdapter(FCSNeuralNetwork.class, new FCSNeuralNetworkSerializer())
                 .registerTypeAdapter(FCFSNeuralNetwork.class, new FCFSNeuralNetworkSerializer())
                 .create();
     }

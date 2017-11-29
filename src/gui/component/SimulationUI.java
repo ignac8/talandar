@@ -68,6 +68,24 @@ public class SimulationUI extends JComponent {
         }
     }
 
+    private void drawChosenAction(Graphics graphics, Unit unit) {
+        int outputId = unit.getOutputId();
+        if (outputId != -1 && unit.getHitPoints() > 0) {
+            graphics.setColor(getColor(outputId));
+
+            int innerRadius = 12;
+            int outerRadius = 14;
+
+            for (int counter = innerRadius; counter <= outerRadius; counter++) {
+                graphics.drawOval(
+                        (int) unit.getPosition().getX() - counter,
+                        (int) unit.getPosition().getY() - counter,
+                        counter * 2,
+                        counter * 2);
+            }
+        }
+    }
+
     private Color getColor(int i) {
         switch (i) {
             case 0:
@@ -120,24 +138,6 @@ public class SimulationUI extends JComponent {
                 return Color.DARK_GRAY;
             default:
                 return Color.BLACK;
-        }
-    }
-
-    private void drawChosenAction(Graphics graphics, Unit unit) {
-        int outputId = unit.getOutputId();
-        if (outputId != -1 && unit.getHitPoints() > 0) {
-            graphics.setColor(getColor(outputId));
-
-            int innerRadius = 12;
-            int outerRadius = 14;
-
-            for (int counter = innerRadius; counter <= outerRadius; counter++) {
-                graphics.drawOval(
-                        (int) unit.getPosition().getX() - counter,
-                        (int) unit.getPosition().getY() - counter,
-                        counter * 2,
-                        counter * 2);
-            }
         }
     }
 

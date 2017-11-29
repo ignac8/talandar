@@ -20,6 +20,7 @@ import util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
 import static util.FileUtils.saveFile;
@@ -49,7 +50,7 @@ public class LocalSearchSandbox {
         double decTemp = 0.999;
         double modifier = 10;
 
-        int[] hiddenLayerSizes = {5};
+        List<Integer> hiddenLayerSizes = asList(5);
 
         List<Individual> startingIndividuals = new ArrayList<>();
 

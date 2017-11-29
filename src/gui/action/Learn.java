@@ -5,7 +5,7 @@ import fitnessevaluator.SimulationEvaluator;
 import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import gui.updater.Logger;
 import jnibwapi.types.UnitType;
-import neuralnetwork.FCSNeuralNetwork;
+import neuralnetwork.FCFSNeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
@@ -24,6 +24,7 @@ import util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
 
@@ -63,12 +64,12 @@ public class Learn implements Runnable {
     @Override
     public void run() {
 
-        int[] hiddenLayerSizes = {hiddenLayerSize};
+        List<Integer> hiddenLayerSizes = asList(hiddenLayerSize);
 
         List<Individual> startingIndividuals = new ArrayList<>();
         for (int counter = 0; counter < populationSize; counter++) {
             Individual randomIndividual =
-                    new Individual(new FCSNeuralNetwork(inputLayerSize, hiddenLayerSizes,
+                    new Individual(new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes,
                             outputLayerSize, initialStd, initialMean));
             startingIndividuals.add(randomIndividual);
         }

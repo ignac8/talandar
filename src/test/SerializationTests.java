@@ -6,15 +6,16 @@ import org.junit.Test;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
-import utils.Pair;
+import util.Pair;
 
 import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static utils.FileUtils.fromJson;
-import static utils.FileUtils.toJson;
+import static util.FileUtils.fromJson;
+import static util.FileUtils.toJson;
 
 public class SerializationTests {
 
@@ -31,12 +32,12 @@ public class SerializationTests {
         double mapWidth = 640.0;
         double gapHeight = 40.0;
         double gapWidth = 120.0;
-        int[] hiddenLayerSizes = {10};
+        List<Integer> hiddenLayerSizes = asList(10);
 
         NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
         Player simplePlayer = new SimplePlayer(1);
 
-        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
+        SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer,
                 null);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();

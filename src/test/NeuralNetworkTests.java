@@ -1,5 +1,5 @@
 import neuralnetwork.Connection;
-import neuralnetwork.FCSNeuralNetwork;
+import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import neuralnetwork.neuron.InputNeuron;
@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static com.google.common.primitives.Ints.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -20,27 +21,31 @@ public class NeuralNetworkTests {
 
     @Test
     public void calculationTest() {
-        int[] hiddenLayersSizes = {1};
-        NeuralNetwork neuralNetwork = new FCSNeuralNetwork(1, hiddenLayersSizes, 1);
+        List<Integer> hiddenLayersSizes = asList(1);
+        NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(1, hiddenLayersSizes, 1);
 
         neuralNetwork.getHiddenLayers().get(0).get(0).getConnections().get(0).setWeight(1);
         neuralNetwork.getOutputLayer().get(0).getConnections().get(0).setWeight(1);
         neuralNetwork.getOutputLayer().get(0).setBias(-0.75);
 
+        double value;
+
         neuralNetwork.getInputLayer().get(0).setValue(0);
         neuralNetwork.calculateOutput();
-        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), lessThan(0.5));
+        value = neuralNetwork.getOutputLayer().get(0).getValue();
+        assertThat(value, lessThan(0.0));
 
         neuralNetwork.getInputLayer().get(0).setValue(10);
         neuralNetwork.calculateOutput();
-        assertThat(neuralNetwork.getOutputLayer().get(0).getValue(), greaterThan(0.5));
+        value = neuralNetwork.getOutputLayer().get(0).getValue();
+        assertThat(value, greaterThan(0.0));
 
     }
 
     @Test
     public void neuralNetworkCopyTest() {
-        int[] hiddenLayersSizes = {100, 100, 100};
-        NeuralNetwork neuralNetwork = new FCSNeuralNetwork(10, hiddenLayersSizes, 10);
+        List<Integer> hiddenLayersSizes = asList(100, 100, 100);
+        NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(10, hiddenLayersSizes, 10);
         for (int i = 0; i < neuralNetwork.getInputLayer().size(); i++) {
             neuralNetwork.getInputLayer().get(i)
                     .setValue(nextRealDouble(-1000.0, 1000.0));
@@ -115,8 +120,8 @@ public class NeuralNetworkTests {
 
     @Test
     public void connectionsTest() {
-        int[] hiddenLayersSizes = {100, 100, 100};
-        NeuralNetwork neuralNetwork = new FCSNeuralNetwork(10, hiddenLayersSizes, 10);
+        List<Integer> hiddenLayersSizes = asList(100, 100, 100);
+        NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(10, hiddenLayersSizes, 10);
         List<InputNeuron> inputLayer = neuralNetwork.getInputLayer();
         List<List<CalculableNeuron>> hiddenLayers = neuralNetwork.getHiddenLayers();
         List<CalculableNeuron> outputLayer = neuralNetwork.getOutputLayer();

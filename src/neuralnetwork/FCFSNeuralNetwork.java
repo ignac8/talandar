@@ -13,7 +13,7 @@ import static util.RandomUtils.nextGaussian;
 public final class FCFSNeuralNetwork extends NeuralNetwork {
 
     //random neural network constructor
-    public FCFSNeuralNetwork(int inputLayerSize, int[] hiddenLayerSizes, int outputLayerSize, double std, double mean) {
+    public FCFSNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize, double std, double mean) {
         this(inputLayerSize, hiddenLayerSizes, outputLayerSize);
         for (CalculableNeuron neuron : outputLayer) {
             neuron.setBias(nextGaussian(std, mean));
@@ -33,14 +33,14 @@ public final class FCFSNeuralNetwork extends NeuralNetwork {
     }
 
     //clear neural network constructor
-    public FCFSNeuralNetwork(int inputLayerSize, int[] hiddenLayerSizes, int outputLayerSize) {
+    public FCFSNeuralNetwork(int inputLayerSize, List<Integer> hiddenLayerSizes, int outputLayerSize) {
         super();
         for (int counter = 0; counter < inputLayerSize; counter++) {
             inputLayer.add(new InputNeuron());
         }
         List<List<Connection>> connectionsList = new ArrayList<>();
         List<CalculableNeuron> hiddenLayer = new ArrayList<>();
-        for (int i = 0; i < hiddenLayerSizes[0]; i++) {
+        for (int i = 0; i < hiddenLayerSizes.get(0); i++) {
             CalculableNeuron neuron = new FastSigmoidNeuron();
             hiddenLayer.add(neuron);
             List<Connection> connections = neuron.getConnections();
@@ -54,14 +54,14 @@ public final class FCFSNeuralNetwork extends NeuralNetwork {
         hiddenLayers.add(hiddenLayer);
         connectionsListList.add(connectionsList);
 
-        for (int i = 1; i < hiddenLayerSizes.length; i++) {
+        for (int i = 1; i < hiddenLayerSizes.size(); i++) {
             hiddenLayer = new ArrayList<>();
             connectionsList = new ArrayList<>();
-            for (int j = 0; j < hiddenLayerSizes[i]; j++) {
+            for (int j = 0; j < hiddenLayerSizes.get(i); j++) {
                 CalculableNeuron neuron = new FastSigmoidNeuron();
                 hiddenLayer.add(neuron);
                 List<Connection> connections = neuron.getConnections();
-                for (int k = 0; k < hiddenLayerSizes[i - 1]; k++) {
+                for (int k = 0; k < hiddenLayerSizes.get(i - 1); k++) {
                     Connection connection = new Connection(hiddenLayers.get(i - 1).get(k));
                     connections.add(connection);
                 }
@@ -76,8 +76,8 @@ public final class FCFSNeuralNetwork extends NeuralNetwork {
             CalculableNeuron neuron = new FastSigmoidNeuron();
             outputLayer.add(neuron);
             List<Connection> connections = neuron.getConnections();
-            for (int j = 0; j < hiddenLayerSizes[hiddenLayerSizes.length - 1]; j++) {
-                Connection connection = new Connection(hiddenLayers.get(hiddenLayerSizes.length - 1).get(j));
+            for (int j = 0; j < hiddenLayerSizes.get(hiddenLayerSizes.size() - 1); j++) {
+                Connection connection = new Connection(hiddenLayers.get(hiddenLayerSizes.size() - 1).get(j));
                 connections.add(connection);
             }
             connectionsList.add(connections);
@@ -88,10 +88,10 @@ public final class FCFSNeuralNetwork extends NeuralNetwork {
     @Override
     public NeuralNetwork copy() {
         List<List<CalculableNeuron>> hiddenLayers = getHiddenLayers();
-        int[] hiddenLayersSizes = new int[hiddenLayers.size()];
+        List<Integer> hiddenLayersSizes = new ArrayList<>(hiddenLayers.size());
         for (int counter = 0; counter < hiddenLayers.size(); counter++) {
             List<CalculableNeuron> hiddenLayer = hiddenLayers.get(counter);
-            hiddenLayersSizes[counter] = hiddenLayer.size();
+            hiddenLayersSizes.set(counter, hiddenLayer.size());
         }
 
         NeuralNetwork newNeuralNetwork = new FCFSNeuralNetwork(inputLayer.size(), hiddenLayersSizes, outputLayer.size());

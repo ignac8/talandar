@@ -1,4 +1,4 @@
-package utils.serializer;
+package util.serializer;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

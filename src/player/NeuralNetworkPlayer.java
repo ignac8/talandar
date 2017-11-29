@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.Double.MAX_VALUE;
-import static java.lang.Double.MIN_VALUE;
 import static java.lang.Math.sqrt;
 
 

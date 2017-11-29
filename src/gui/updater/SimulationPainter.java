@@ -4,9 +4,8 @@ import gui.component.SimulationUI;
 
 public class SimulationPainter implements Runnable {
 
-    private SimulationUI simulationUI = SimulationUI.getInstance();
-
     private static final SimulationPainter INSTANCE = new SimulationPainter();
+    private SimulationUI simulationUI = SimulationUI.getInstance();
 
     private SimulationPainter() {
 
