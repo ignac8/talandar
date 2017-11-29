@@ -2,6 +2,7 @@ import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.SimulationEvaluator;
 import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import jnibwapi.types.UnitType;
+import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import org.junit.Test;
 import player.NeuralNetworkPlayer;
@@ -13,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static util.FileUtils.fromJson;
-import static util.FileUtils.loadFile;
 
 public class FitnessEvaluatorTests {
 
@@ -30,8 +30,13 @@ public class FitnessEvaluatorTests {
         double gapHeight = 40.0;
         double gapWidth = 120.0;
         int numberOfUnitSelections = 10;
+        int inputLayerSize = 5;
+        int outputLayerSize = 15;
+        double std = 1000;
+        double mean = 0;
+        List<Integer> hiddenLayerSizes = asList(10);
 
-        NeuralNetwork neuralNetwork = fromJson(loadFile("testNeuralWeb.json"), NeuralNetwork.class);
+        NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean);
 
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 

@@ -89,9 +89,8 @@ public final class FCFSNeuralNetwork extends NeuralNetwork {
     public NeuralNetwork copy() {
         List<List<CalculableNeuron>> hiddenLayers = getHiddenLayers();
         List<Integer> hiddenLayersSizes = new ArrayList<>(hiddenLayers.size());
-        for (int counter = 0; counter < hiddenLayers.size(); counter++) {
-            List<CalculableNeuron> hiddenLayer = hiddenLayers.get(counter);
-            hiddenLayersSizes.set(counter, hiddenLayer.size());
+        for (List<CalculableNeuron> hiddenLayer : hiddenLayers) {
+            hiddenLayersSizes.add(hiddenLayer.size());
         }
 
         NeuralNetwork newNeuralNetwork = new FCFSNeuralNetwork(inputLayer.size(), hiddenLayersSizes, outputLayer.size());
