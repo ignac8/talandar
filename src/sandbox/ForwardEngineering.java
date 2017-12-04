@@ -5,6 +5,7 @@ import fitnessevaluator.SimulationEvaluator;
 import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
+import neuralnetwork.NHLNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.Player;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static util.FileUtils.saveFile;
 import static util.FileUtils.saveGraphToFile;
 import static util.FileUtils.toJson;
@@ -33,12 +35,12 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
 
-        int passLimit = Integer.MAX_VALUE;
-        int searchTimeLimit = 1 * 10 * 1000;
-        int populationSize = 100;
+        int passLimit = 10000;
+        int searchTimeLimit = Integer.MAX_VALUE;
+        int populationSize = 1000;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
-        int tournamentSize = 5;
+        int tournamentSize = 2;
         double crossoverChance = 0;
         double mutationChance = 0.01;
         double std = 1000;
@@ -50,7 +52,6 @@ public class ForwardEngineering {
         double mapWidth = 640.0;
         double gapHeight = 40.0;
         double gapWidth = 120.0;
-        int numberOfUnitSelections = 1;
 
         List<Integer> hiddenLayerSizes = asList(10);
 
@@ -58,7 +59,9 @@ public class ForwardEngineering {
 
         for (int counter = 0; counter < populationSize; counter++) {
             Individual randomIndividual =
-                    new Individual(new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean));
+                    new Individual(
+                            new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean));
+                            //new NHLNeuralNetwork(inputLayerSize, outputLayerSize, std, mean));
             startingIndividuals.add(randomIndividual);
         }
 
@@ -67,7 +70,7 @@ public class ForwardEngineering {
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = UnitSelectionGenerator.generateUnitSelections();
+                = generateUnitSelections();
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
@@ -91,7 +94,6 @@ public class ForwardEngineering {
         saveFile("testNeuralWeb.json", toJson(result.getNeuralNetwork()));
 
         double totalFitness = 0;
-
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
@@ -99,6 +101,20 @@ public class ForwardEngineering {
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
+            fitnessEvaluator.setUnitSelection(unitSelection);
+            totalFitness += fitnessEvaluator.evaluate();
+        }
+        totalFitness /= allUnitSelections.size();
+        System.out.println("Total fitness equals: " + totalFitness);
+
+        totalFitness = 0;
+        fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
+                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+        neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+        neuralNetwork = result.getNeuralNetwork();
+        neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
+        unitSelections = generateUnitSelections();
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);
             totalFitness += fitnessEvaluator.evaluate();
         }

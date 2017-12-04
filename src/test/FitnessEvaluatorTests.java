@@ -29,7 +29,6 @@ public class FitnessEvaluatorTests {
         double mapWidth = 640.0;
         double gapHeight = 40.0;
         double gapWidth = 120.0;
-        int numberOfUnitSelections = 10;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
         double std = 1000;
@@ -40,10 +39,7 @@ public class FitnessEvaluatorTests {
 
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = generateUnitSelections(numberOfUnitSelections);
-
-        unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
 
         Player firstPlayer = new NeuralNetworkPlayer(0);
         Player secondPlayer = new SimplePlayer(1);
@@ -76,12 +72,10 @@ public class FitnessEvaluatorTests {
         double mapWidth = 640.0;
         double gapHeight = 40.0;
         double gapWidth = 120.0;
-        int numberOfUnitSelections = 10;
 
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = generateUnitSelections(numberOfUnitSelections);
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
 
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 

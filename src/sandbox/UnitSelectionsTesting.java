@@ -39,7 +39,7 @@ public class UnitSelectionsTesting {
         NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
 
         List<NeuralNetwork> neuralNetworks = new ArrayList<>();
-        for (int counter = 0; counter < 100; counter++) {
+        for (int counter = 0; counter < 1000; counter++) {
             NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean);
             neuralNetworks.add(neuralNetwork);
         }
@@ -55,6 +55,24 @@ public class UnitSelectionsTesting {
 
         System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
                 Arrays.asList(Race.values()), Arrays.asList(Quantity.MORE), Arrays.asList(Quantity.MORE))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.TERRAN), Arrays.asList(Quantity.values()), Arrays.asList(Quantity.values()))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.PROTOSS), Arrays.asList(Quantity.values()), Arrays.asList(Quantity.values()))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.ZERG), Arrays.asList(Quantity.values()), Arrays.asList(Quantity.values()))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.TERRAN), Arrays.asList(Quantity.LESS), Arrays.asList(Quantity.LESS))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.PROTOSS), Arrays.asList(Quantity.LESS), Arrays.asList(Quantity.LESS))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.ZERG), Arrays.asList(Quantity.LESS), Arrays.asList(Quantity.LESS))));
     }
 
     private static double calculateFitness(NeuralNetworkPlayer neuralNetworkPlayer,
@@ -63,12 +81,14 @@ public class UnitSelectionsTesting {
                                            List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections) {
         double fitness;
         fitness = 0;
-        for (NeuralNetwork neuralNetwork : neuralNetworks) {
+        for (int counter = 0; counter < neuralNetworks.size(); counter++) {
+            NeuralNetwork neuralNetwork = neuralNetworks.get(counter);
             neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
             for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
                 fitnessEvaluator.setUnitSelection(unitSelection);
                 fitness += fitnessEvaluator.evaluate();
             }
+            System.out.println(counter);
         }
         fitness /= neuralNetworks.size() * unitSelections.size();
         return fitness;

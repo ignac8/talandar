@@ -232,7 +232,7 @@ public final class NeuralNetworkPlayer extends Player {
                 }
 
                 if (unit.getOrder() == null) {
-                    throw new NullPointerException();
+                    throw new NullPointerException("Unit order cannot be null");
                 }
 
                 unit.setOutputId(maxIndex);
