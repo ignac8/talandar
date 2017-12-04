@@ -35,9 +35,9 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
 
-        int passLimit = 10000;
+        int passLimit = 1000;
         int searchTimeLimit = Integer.MAX_VALUE;
-        int populationSize = 1000;
+        int populationSize = 100;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
         int tournamentSize = 2;
