@@ -166,7 +166,7 @@ public class MainForm {
             try {
                 neuralNetwork = fromJson(loadFile(selectedFile.getAbsolutePath()), NeuralNetwork.class);
                 if (neuralNetwork == null) {
-                    throw new Exception();
+                    throw new Exception("Neural network was null");
                 } else {
                     logger.log("File loaded properly");
                 }

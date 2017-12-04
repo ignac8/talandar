@@ -1,28 +1,22 @@
 package sandbox;
 
+import com.google.common.primitives.Ints;
 import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.unitselection.Quantity;
+import fitnessevaluator.unitselection.Race;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
 import util.Pair;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateMirrorUnitSelections;
-import static java.util.Collections.shuffle;
-import static org.jfree.chart.ChartUtilities.saveChartAsPNG;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class UnitSelectionsTesting {
 
@@ -40,64 +34,63 @@ public class UnitSelectionsTesting {
         double gapHeight = 40.0;
         double gapWidth = 120.0;
 
-        List<Integer> hiddenLayerSizes = asList(10);
+        List<Integer> hiddenLayerSizes = Ints.asList(10);
 
         NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
-        NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean);
-        neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
+
+        List<NeuralNetwork> neuralNetworks = new ArrayList<>();
+        for (int counter = 0; counter < 1000; counter++) {
+            NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean);
+            neuralNetworks.add(neuralNetwork);
+        }
 
         SimplePlayer simplePlayer = new SimplePlayer(1);
-
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
-        shuffle(allUnitSelections);
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> mirrorUnitSelections = generateMirrorUnitSelections(allUnitSelections);
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
 
-        XYSeries pop = new XYSeries("Pop");
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateAllUnitSelections()));
 
-        List<Double> allFitness = new ArrayList<>();
-        List<Double> mirrorFitness = new ArrayList<>();
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections()));
 
-        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
-            fitnessEvaluator.setUnitSelection(unitSelection);
-            allFitness.add(fitnessEvaluator.evaluate());
-        }
-        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : mirrorUnitSelections) {
-            fitnessEvaluator.setUnitSelection(unitSelection);
-            mirrorFitness.add(fitnessEvaluator.evaluate());
-        }
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.values()), Arrays.asList(Quantity.MORE), Arrays.asList(Quantity.MORE))));
 
-        for (int i = 1; i <= allUnitSelections.size(); i++) {
-            double fitness = 0;
-            for (int j = 0; j < i; j++) {
-                fitness += allFitness.get(j);
-                fitness += mirrorFitness.get(j);
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.TERRAN), Arrays.asList(Quantity.values()), Arrays.asList(Quantity.values()))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.PROTOSS), Arrays.asList(Quantity.values()), Arrays.asList(Quantity.values()))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.ZERG), Arrays.asList(Quantity.values()), Arrays.asList(Quantity.values()))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.TERRAN), Arrays.asList(Quantity.LESS), Arrays.asList(Quantity.LESS))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.PROTOSS), Arrays.asList(Quantity.LESS), Arrays.asList(Quantity.LESS))));
+
+        System.out.println(calculateFitness(neuralNetworkPlayer, neuralNetworks, fitnessEvaluator, generateUnitSelections(
+                Arrays.asList(Race.ZERG), Arrays.asList(Quantity.LESS), Arrays.asList(Quantity.LESS))));
+    }
+
+    private static double calculateFitness(NeuralNetworkPlayer neuralNetworkPlayer,
+                                           List<NeuralNetwork> neuralNetworks,
+                                           SimulationEvaluator fitnessEvaluator,
+                                           List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections) {
+        double fitness;
+        fitness = 0;
+        for (int counter = 0; counter < neuralNetworks.size(); counter++) {
+            NeuralNetwork neuralNetwork = neuralNetworks.get(counter);
+            neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
+            for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
+                fitnessEvaluator.setUnitSelection(unitSelection);
+                fitness += fitnessEvaluator.evaluate();
             }
-            fitness /= i * 2;
-            pop.add(i, fitness);
+            System.out.println(counter);
         }
-
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(pop);
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Talandar",
-                "Number of unit selections",
-                "Fitness",
-                dataset,
-                PlotOrientation.VERTICAL,
-                true,
-                false,
-                false);
-        File file = new File("graph.png");
-        try {
-            if (file.getParentFile() != null) {
-                file.getParentFile().mkdirs();
-            }
-            saveChartAsPNG(file, chart, 1200, 600);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fitness /= neuralNetworks.size() * unitSelections.size();
+        return fitness;
     }
 }

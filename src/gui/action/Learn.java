@@ -2,7 +2,6 @@ package gui.action;
 
 import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.SimulationEvaluator;
-import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import gui.updater.Logger;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
@@ -26,7 +25,7 @@ import java.util.List;
 
 import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class Learn implements Runnable {
 
@@ -63,7 +62,6 @@ public class Learn implements Runnable {
 
     @Override
     public void run() {
-
         List<Integer> hiddenLayerSizes = asList(hiddenLayerSize);
 
         List<Individual> startingIndividuals = new ArrayList<>();
@@ -77,9 +75,7 @@ public class Learn implements Runnable {
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = generateRandomUnitSelections(numberOfUnitSelections);
-
-        unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
+                = generateUnitSelections(numberOfUnitSelections);
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,

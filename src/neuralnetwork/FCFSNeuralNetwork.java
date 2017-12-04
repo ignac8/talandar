@@ -40,6 +40,16 @@ public final class FCFSNeuralNetwork extends NeuralNetwork {
         }
         List<List<Connection>> connectionsList = new ArrayList<>();
         List<CalculableNeuron> hiddenLayer = new ArrayList<>();
+
+        if (hiddenLayerSizes.isEmpty()) {
+            throw new NullPointerException("This neural network doesn't work with no hidden layers");
+        }
+        for (Integer hiddenLayerSize : hiddenLayerSizes) {
+            if (hiddenLayerSize <= 0) {
+                throw new NullPointerException("Hidden layer cannot be empty");
+            }
+        }
+
         for (int i = 0; i < hiddenLayerSizes.get(0); i++) {
             CalculableNeuron neuron = new FastSigmoidNeuron();
             hiddenLayer.add(neuron);
