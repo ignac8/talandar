@@ -12,6 +12,7 @@ import util.Pair;
 import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class Replay implements Runnable {
 
@@ -32,7 +33,7 @@ public class Replay implements Runnable {
         double totalFitness = 0;
         simulationEvaluator.setGraphics(graphics);
         ((NeuralNetworkPlayer) firstPlayer).setNeuralNetwork(neuralNetwork);
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             simulationEvaluator.setUnitSelection(unitSelection);
             totalFitness += simulationEvaluator.evaluate();

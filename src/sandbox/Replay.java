@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static java.util.Collections.shuffle;
 import static jnibwapi.Map.TILE_SIZE;
 import static util.FileUtils.fromJson;
@@ -32,16 +33,15 @@ public class Replay {
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        Player firstPlayer = new NeuralNetworkPlayer(0);
-        Player secondPlayer = new SimplePlayer(1);
+        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
+        SimplePlayer simplePlayer = new SimplePlayer(1);
 
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
-        ((NeuralNetworkPlayer) (firstPlayer)).setNeuralNetwork(neuralNetwork);
+        neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
 
-
-        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateAllUnitSelections()) {
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateUnitSelections()) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
             fitnessEvaluators.add(fitnessEvaluator);
         }
