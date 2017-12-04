@@ -122,6 +122,10 @@ public class Unit {
         return hitPoints;
     }
 
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
     public int getPlayerId() {
         return playerId;
     }
@@ -143,10 +147,6 @@ public class Unit {
             runAwayPosition = null;
         }
         return runAwayPosition;
-    }
-
-    public void setHitPoints(double hitPoints) {
-        this.hitPoints = hitPoints;
     }
 
 

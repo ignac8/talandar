@@ -13,7 +13,7 @@ import util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -41,7 +41,7 @@ public class FitnessEvaluatorTests {
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = generateRandomUnitSelections(numberOfUnitSelections);
+                = generateUnitSelections(numberOfUnitSelections);
 
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 
@@ -81,7 +81,7 @@ public class FitnessEvaluatorTests {
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = generateRandomUnitSelections(numberOfUnitSelections);
+                = generateUnitSelections(numberOfUnitSelections);
 
         unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
 

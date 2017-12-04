@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.google.common.primitives.Ints.asList;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateRandomUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static util.FileUtils.saveFile;
 import static util.FileUtils.saveGraphToFile;
 import static util.FileUtils.toJson;
@@ -65,9 +65,7 @@ public class LocalSearchSandbox {
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = generateRandomUnitSelections(numberOfUnitSelections);
-
-        unitSelections.addAll(UnitSelectionGenerator.generateMirrorUnitSelections(unitSelections));
+                = generateUnitSelections(numberOfUnitSelections);
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,

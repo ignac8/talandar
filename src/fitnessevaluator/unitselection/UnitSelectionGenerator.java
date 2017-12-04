@@ -7,6 +7,7 @@ import util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.shuffle;
 
 public class UnitSelectionGenerator {
@@ -15,21 +16,17 @@ public class UnitSelectionGenerator {
         JNIBWAPI_LOAD.loadIfNecessary();
     }
 
-    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateRandomUnitSelections(int number) {
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
-        shuffle(allUnitSelections);
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> randomUnitSelections = new ArrayList<>();
-        for (int counter = 0; counter < number && counter < allUnitSelections.size(); counter++) {
-            randomUnitSelections.add(allUnitSelections.get(counter));
-        }
-        return randomUnitSelections;
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateAllUnitSelections() {
+        return generateUnitSelections(asList(Race.values()), asList(Quantity.values()), asList(Quantity.values()));
     }
 
-    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateAllUnitSelections() {
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateUnitSelections(List<Race> races,
+                                                                                                List<Quantity> meleeQuantities,
+                                                                                                List<Quantity> rangedQuantities) {
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = new ArrayList<>();
 
-        List<List<List<UnitType>>> firstPlayerOptions = generatePossibleChoices();
-        List<List<List<UnitType>>> secondPlayerOptions = generatePossibleChoices();
+        List<List<List<UnitType>>> firstPlayerOptions = generatePossibleChoices(races, meleeQuantities, rangedQuantities);
+        List<List<List<UnitType>>> secondPlayerOptions = generatePossibleChoices(races, meleeQuantities, rangedQuantities);
 
         for (List<List<UnitType>> firstPlayerOption : firstPlayerOptions) {
             for (List<List<UnitType>> secondPlayerOption : secondPlayerOptions) {
@@ -41,12 +38,14 @@ public class UnitSelectionGenerator {
         return unitSelections;
     }
 
-    private static List<List<List<UnitType>>> generatePossibleChoices() {
+    private static List<List<List<UnitType>>> generatePossibleChoices(List<Race> races,
+                                                                      List<Quantity> meleeQuantities,
+                                                                      List<Quantity> rangedQuantities) {
         List<List<List<UnitType>>> possibleChoices = new ArrayList<>();
-        for (Race unitRace : Race.values()) {
-            for (Quantity meleeUnitQuantity : Quantity.values()) {
-                for (Quantity rangedUnitQuantity : Quantity.values()) {
-                    List<List<UnitType>> playerUnits = generatePlayerUnits(unitRace, meleeUnitQuantity, rangedUnitQuantity);
+        for (Race race : races) {
+            for (Quantity meleeQuantity : meleeQuantities) {
+                for (Quantity rangedQuantity : rangedQuantities) {
+                    List<List<UnitType>> playerUnits = generatePlayerUnits(race, meleeQuantity, rangedQuantity);
                     if (playerUnits != null) {
                         possibleChoices.add(playerUnits);
                     }
@@ -56,9 +55,9 @@ public class UnitSelectionGenerator {
         return possibleChoices;
     }
 
-    public static List<List<UnitType>> generatePlayerUnits(Race race,
-                                                           Quantity meleeUnitQuantity,
-                                                           Quantity rangedUnitQuantity) {
+    private static List<List<UnitType>> generatePlayerUnits(Race race,
+                                                            Quantity meleeQuantity,
+                                                            Quantity rangedQuantity) {
         List<List<UnitType>> playerUnits = new ArrayList<>();
         playerUnits.add(new ArrayList<>());
         playerUnits.add(new ArrayList<>());
@@ -85,7 +84,7 @@ public class UnitSelectionGenerator {
         int rangedUnitNumber = 0;
 
         //noinspection Duplicates
-        switch (meleeUnitQuantity) {
+        switch (meleeQuantity) {
             case NONE:
                 meleeUnitNumber = 0;
                 break;
@@ -98,7 +97,7 @@ public class UnitSelectionGenerator {
         }
 
         //noinspection Duplicates
-        switch (rangedUnitQuantity) {
+        switch (rangedQuantity) {
             case NONE:
                 rangedUnitNumber = 0;
                 break;
@@ -125,6 +124,10 @@ public class UnitSelectionGenerator {
         return playerUnits;
     }
 
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateUnitSelections() {
+        return generateUnitSelections(asList(Race.values()), asList(Quantity.LESS), asList(Quantity.LESS));
+    }
+
     public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateMirrorUnitSelections(
             List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections) {
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> mirrorUnitSelections = new ArrayList<>();
@@ -133,4 +136,22 @@ public class UnitSelectionGenerator {
         }
         return mirrorUnitSelections;
     }
+
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateUnitSelections(int number) {
+        return generateUnitSelections(number, asList(Race.values()), asList(Quantity.values()), asList(Quantity.values()));
+    }
+
+    public static List<Pair<List<List<UnitType>>, List<List<UnitType>>>> generateUnitSelections(int number,
+                                                                                                List<Race> races,
+                                                                                                List<Quantity> meleeQuantities,
+                                                                                                List<Quantity> rangedQuantities) {
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections(races, meleeQuantities, rangedQuantities);
+        shuffle(unitSelections);
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> randomUnitSelections = new ArrayList<>();
+        for (int counter = 0; counter < number && counter < unitSelections.size(); counter++) {
+            randomUnitSelections.add(unitSelections.get(counter));
+        }
+        return randomUnitSelections;
+    }
+
 }
