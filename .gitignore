@@ -9,3 +9,4 @@ graphs/*
 doc/~$*
 doc/~*.tmp
 .idea/kotlinc.xml
+neuralNetworks/*

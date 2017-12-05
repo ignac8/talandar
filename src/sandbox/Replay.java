@@ -5,14 +5,12 @@ import fitnessevaluator.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;
-import player.Player;
 import player.SimplePlayer;
 import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static java.util.Collections.shuffle;
 import static jnibwapi.Map.TILE_SIZE;

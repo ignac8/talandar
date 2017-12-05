@@ -2,7 +2,6 @@ package sandbox;
 
 import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.SimulationEvaluator;
-import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import player.NeuralNetworkPlayer;
@@ -36,7 +35,7 @@ public class LocalSearchSandbox {
         int populationSize = 1;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
-        double std = 1000;
+        double std = 1;
         double mean = 0;
         boolean graphics = false;
         double simulationTimeStep = 1.0;
@@ -46,10 +45,10 @@ public class LocalSearchSandbox {
         double gapHeight = 40.0;
         double gapWidth = 120.0;
         int neighbourSize = 1;
-        double decTemp = 0.999;
+        double decTemp = 0.925;
         double modifier = 10;
 
-        List<Integer> hiddenLayerSizes = asList(5);
+        List<Integer> hiddenLayerSizes = asList(10);
 
         List<Individual> startingIndividuals = new ArrayList<>();
 
@@ -79,10 +78,11 @@ public class LocalSearchSandbox {
                 new NeuronMutation(1, new GaussianAdditionMutator(std, mean)), decTemp, modifier, populationSize));
         solver.setOperators(operators);
 
-        Result result = solver.solve(startingIndividuals);
+        solver.setIndividuals(startingIndividuals);
+        Result result = solver.call();
 
         saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs\\testNeuralWeb.png");
-        saveFile("testNeuralWeb.json", toJson(result.getNeuralNetwork()));
+        saveFile("testNeuralWeb.json", toJson(result.getIndividual().getNeuralNetwork()));
 
         double totalFitness = 0;
 
@@ -90,7 +90,7 @@ public class LocalSearchSandbox {
                 simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, firstPlayer, secondPlayer);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
-        neuralNetworkPlayer.setNeuralNetwork(result.getNeuralNetwork());
+        neuralNetworkPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);

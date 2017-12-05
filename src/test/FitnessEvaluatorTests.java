@@ -1,6 +1,5 @@
 import fitnessevaluator.FitnessEvaluator;
 import fitnessevaluator.SimulationEvaluator;
-import fitnessevaluator.unitselection.UnitSelectionGenerator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;

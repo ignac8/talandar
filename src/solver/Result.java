@@ -1,21 +1,18 @@
 package solver;
 
-import neuralnetwork.NeuralNetwork;
-
 import java.util.List;
 
 public class Result {
-    private NeuralNetwork neuralNetwork;
+    private Individual individual;
     private List<PopulationFitnessStatistic> populationFitnessStatistics;
 
-    public Result(NeuralNetwork neuralNetwork, List<PopulationFitnessStatistic> populationFitnessStatistics) {
-        this.neuralNetwork = neuralNetwork;
+    public Result(Individual individual, List<PopulationFitnessStatistic> populationFitnessStatistics) {
+        this.individual = individual;
         this.populationFitnessStatistics = populationFitnessStatistics;
     }
 
-    public NeuralNetwork getNeuralNetwork() {
-
-        return neuralNetwork;
+    public Individual getIndividual() {
+        return individual;
     }
 
     public List<PopulationFitnessStatistic> getPopulationFitnessStatistics() {

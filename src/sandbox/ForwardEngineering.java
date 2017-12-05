@@ -13,7 +13,7 @@ import solver.Result;
 import solver.Solver;
 import solver.operator.Operator;
 import solver.operator.crossover.NeuronCrossover;
-import solver.operator.crossover.crosser.AverageCrosser;
+import solver.operator.crossover.crosser.SwapCrosser;
 import solver.operator.mutation.NeuronMutation;
 import solver.operator.mutation.mutator.GaussianMutator;
 import solver.operator.selection.TournamentSelection;
@@ -32,15 +32,15 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
 
-        int passLimit = 1000;
+        int passLimit = 10000;
         int searchTimeLimit = Integer.MAX_VALUE;
-        int populationSize = 100;
+        int populationSize = 10;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
         int tournamentSize = 2;
-        double crossoverChance = 0;
+        double crossoverChance = 0.1;
         double mutationChance = 0.01;
-        double std = 1000;
+        double std = 1;
         double mean = 0;
         boolean graphics = false;
         double simulationTimeStep = 1.0;
@@ -58,7 +58,6 @@ public class ForwardEngineering {
             Individual randomIndividual =
                     new Individual(
                             new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean));
-                            //new NHLNeuralNetwork(inputLayerSize, outputLayerSize, std, mean));
             startingIndividuals.add(randomIndividual);
         }
 
@@ -80,20 +79,21 @@ public class ForwardEngineering {
 
         List<Operator> operators = new ArrayList<>();
         operators.add(new TournamentSelection(tournamentSize));
-        operators.add(new NeuronCrossover(crossoverChance, new AverageCrosser()));
+        operators.add(new NeuronCrossover(crossoverChance, new SwapCrosser()));
         operators.add(new NeuronMutation(mutationChance, new GaussianMutator(std, mean)));
 
         solver.setOperators(operators);
 
-        Result result = solver.solve(startingIndividuals);
+        solver.setIndividuals(startingIndividuals);
+        Result result = solver.call();
 
         saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs\\testNeuralWeb.png");
-        saveFile("testNeuralWeb.json", toJson(result.getNeuralNetwork()));
+        saveFile("testNeuralWeb.json", toJson(result.getIndividual().getNeuralNetwork()));
 
         double totalFitness;
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
-        NeuralNetwork neuralNetwork = result.getNeuralNetwork();
+        NeuralNetwork neuralNetwork = result.getIndividual().getNeuralNetwork();
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
 
         totalFitness = 0;

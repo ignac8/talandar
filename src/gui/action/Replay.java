@@ -11,7 +11,6 @@ import util.Pair;
 
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class Replay implements Runnable {

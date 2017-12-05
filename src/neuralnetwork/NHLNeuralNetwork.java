@@ -3,12 +3,10 @@ package neuralnetwork;
 import neuralnetwork.neuron.CalculableNeuron;
 import neuralnetwork.neuron.ConstantNeuron;
 import neuralnetwork.neuron.FastSigmoidNeuron;
-import neuralnetwork.neuron.LinearNeuron;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Collections.emptyList;
 import static util.RandomUtils.nextGaussian;
 
 //No hidden layers neural network

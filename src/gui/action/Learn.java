@@ -94,13 +94,14 @@ public class Learn implements Runnable {
 
         solver.setOperators(operators);
 
-        result = solver.solve(startingIndividuals);
+        solver.setIndividuals(startingIndividuals);
+        result = solver.call();
         double totalFitness = 0;
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
-        neuralNetworkPlayer.setNeuralNetwork(result.getNeuralNetwork());
+        neuralNetworkPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);

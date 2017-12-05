@@ -6,10 +6,11 @@ import solver.operator.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import static java.lang.System.currentTimeMillis;
 
-public class Solver {
+public class Solver implements Callable<Result> {
 
     private List<Operator> operators;
     private int passLimit;
@@ -19,6 +20,7 @@ public class Solver {
     private List<PopulationFitnessStatistic> populationFitnessStatistics;
     private List<FitnessEvaluator> fitnessEvaluators;
     private int passCount;
+    private List<Individual> individuals;
 
     public Solver(int passLimit, long timeLimit, List<FitnessEvaluator> fitnessEvaluators) {
         this.populationFitnessStatistics = new ArrayList<>();
@@ -28,7 +30,7 @@ public class Solver {
         this.fitnessEvaluators = fitnessEvaluators;
     }
 
-    public Result solve(List<Individual> individuals) {
+    public Result call() {
         this.passCount = 0;
         evaluate(individuals);
         while (!done()) {
@@ -38,7 +40,7 @@ public class Solver {
             evaluate(individuals);
             populationFitnessStatistics.add(new PopulationFitnessStatistic(individuals));
         }
-        return new Result(bestIndividual.getNeuralNetwork(), populationFitnessStatistics);
+        return new Result(bestIndividual, populationFitnessStatistics);
     }
 
     public void evaluate(List<Individual> individuals) {
@@ -64,5 +66,9 @@ public class Solver {
 
     public void setOperators(List<Operator> operators) {
         this.operators = operators;
+    }
+
+    public void setIndividuals(List<Individual> individuals) {
+        this.individuals = individuals;
     }
 }

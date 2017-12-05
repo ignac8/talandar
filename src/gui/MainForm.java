@@ -179,7 +179,7 @@ public class MainForm {
     private void saveNeuralNetwork() {
         Result result = learn.getResult();
         if (result != null) {
-            neuralNetwork = result.getNeuralNetwork();
+            neuralNetwork = result.getIndividual().getNeuralNetwork();
         }
         if (neuralNetwork == null) {
             logger.log("There is no neural network ready yet!");
@@ -211,7 +211,7 @@ public class MainForm {
     private void runSimulation() {
         Result result = learn.getResult();
         if (result != null) {
-            neuralNetwork = result.getNeuralNetwork();
+            neuralNetwork = result.getIndividual().getNeuralNetwork();
         }
         if (neuralNetwork == null) {
             logger.log("Please select neural network first");
