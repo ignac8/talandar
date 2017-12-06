@@ -18,12 +18,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static java.nio.file.Files.*;
+import static java.nio.file.Files.createDirectories;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.newBufferedReader;
+import static java.nio.file.Files.newBufferedWriter;
+import static java.nio.file.Files.notExists;
 import static org.jfree.chart.ChartUtilities.saveChartAsPNG;
 
 public class FileUtils {
@@ -51,7 +54,10 @@ public class FileUtils {
     public static void saveFile(String filePath, String fileContent) {
         try {
             Path path = Paths.get(filePath);
-            createDirectories(path.getParent());
+            Path pathParent = path.getParent();
+            if (pathParent != null) {
+                createDirectories(pathParent);
+            }
             if (notExists(path)) {
                 createFile(path);
             }
