@@ -32,12 +32,12 @@ public class Replay implements Runnable {
         double totalFitness = 0;
         simulationEvaluator.setGraphics(graphics);
         ((NeuralNetworkPlayer) firstPlayer).setNeuralNetwork(neuralNetwork);
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateUnitSelections();
-        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             simulationEvaluator.setUnitSelection(unitSelection);
             totalFitness += simulationEvaluator.evaluate();
         }
-        totalFitness /= allUnitSelections.size();
+        totalFitness /= unitSelections.size();
         logger.log("Total fitness equals: " + totalFitness);
     }
 

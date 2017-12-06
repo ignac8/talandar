@@ -43,7 +43,7 @@ public class Research {
         int passLimit = 10000;
         int searchTimeLimit = Integer.MAX_VALUE;
         int inputLayerSize = 5;
-        int outputLayerSize = 15;
+        int outputLayerSize = 14;
         int tournamentSize = 2;
         double std = 1;
         double mean = 0;
@@ -136,10 +136,10 @@ public class Research {
 
                         taskCounter++;
 
-                        long remainingTime = (System.currentTimeMillis() - startTime)  * (numberOfTasks - taskCounter) / taskCounter / 1000 ;
+                        long remainingTime = (System.currentTimeMillis() - startTime) * (numberOfTasks - taskCounter) / taskCounter / 1000;
 
                         long days = remainingTime / 60 / 60 / 24;
-                        long hours = remainingTime/ 60 / 60 % 24;
+                        long hours = remainingTime / 60 / 60 % 24;
                         long minutes = remainingTime / 60 % 60;
                         long seconds = remainingTime % 60;
 

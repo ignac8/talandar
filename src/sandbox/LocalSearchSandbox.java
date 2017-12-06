@@ -34,7 +34,7 @@ public class LocalSearchSandbox {
         int searchTimeLimit = 600 * 1 * 1000;
         int populationSize = 1;
         int inputLayerSize = 5;
-        int outputLayerSize = 15;
+        int outputLayerSize = 14;
         double std = 1;
         double mean = 0;
         boolean graphics = false;

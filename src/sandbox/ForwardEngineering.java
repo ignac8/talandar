@@ -32,11 +32,11 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
 
-        int passLimit = 10000;
+        int passLimit = 100;
         int searchTimeLimit = Integer.MAX_VALUE;
         int populationSize = 100;
         int inputLayerSize = 5;
-        int outputLayerSize = 15;
+        int outputLayerSize = 14;
         int tournamentSize = 2;
         double crossoverChance = 0.4;
         double mutationChance = 0.001;

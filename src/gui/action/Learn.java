@@ -14,9 +14,8 @@ import solver.Solver;
 import solver.operator.Operator;
 import solver.operator.crossover.NeuronCrossover;
 import solver.operator.crossover.crosser.SwapCrosser;
-import solver.operator.mutation.BiasMutation;
-import solver.operator.mutation.WeightMutation;
-import solver.operator.mutation.mutator.GaussianAdditionMutator;
+import solver.operator.mutation.NeuronMutation;
+import solver.operator.mutation.mutator.GaussianMutator;
 import solver.operator.selection.TournamentSelection;
 import util.Pair;
 
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.primitives.Ints.asList;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class Learn implements Runnable {
@@ -39,7 +37,7 @@ public class Learn implements Runnable {
     private double gapHeight = 40.0;
     private double gapWidth = 120.0;
     private int inputLayerSize = 5;
-    private int outputLayerSize = 15;
+    private int outputLayerSize = 14;
 
     private Result result;
 
@@ -49,15 +47,9 @@ public class Learn implements Runnable {
     private int populationSize;
     private int tournamentSize;
     private double crossoverChance;
-    private double weightMutationChance;
-    private double biasMutationChance;
-    private double initialStd;
-    private double initialMean;
-    private double weightStd;
-    private double weightMean;
-    private double biasStd;
-    private double biasMean;
-    private int numberOfUnitSelections;
+    private double mutationChance;
+    private double std;
+    private double mean;
     private int hiddenLayerSize;
 
     @Override
@@ -68,14 +60,13 @@ public class Learn implements Runnable {
         for (int counter = 0; counter < populationSize; counter++) {
             Individual randomIndividual =
                     new Individual(new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes,
-                            outputLayerSize, initialStd, initialMean));
+                            outputLayerSize, std, mean));
             startingIndividuals.add(randomIndividual);
         }
 
         List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
 
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
-                = generateUnitSelections(numberOfUnitSelections);
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
@@ -89,8 +80,7 @@ public class Learn implements Runnable {
         List<Operator> operators = new ArrayList<>();
         operators.add(new TournamentSelection(tournamentSize));
         operators.add(new NeuronCrossover(crossoverChance, new SwapCrosser()));
-        operators.add(new WeightMutation(weightMutationChance, new GaussianAdditionMutator(weightStd, weightMean)));
-        operators.add(new BiasMutation(biasMutationChance, new GaussianAdditionMutator(biasStd, biasMean)));
+        operators.add(new NeuronMutation(mutationChance, new GaussianMutator(std, mean)));
 
         solver.setOperators(operators);
 
@@ -102,21 +92,92 @@ public class Learn implements Runnable {
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
         NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
         neuralNetworkPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
-        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
+        for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);
             totalFitness += fitnessEvaluator.evaluate();
         }
-        totalFitness /= allUnitSelections.size();
+        totalFitness /= unitSelections.size();
         logger.log("Total fitness equals: " + totalFitness);
     }
 
-    public void setGraphics(boolean graphics) {
-        this.graphics = graphics;
+    public double getSimulationTimeStep() {
+        return simulationTimeStep;
+    }
+
+    public void setSimulationTimeStep(double simulationTimeStep) {
+        this.simulationTimeStep = simulationTimeStep;
+    }
+
+    public double getSimulationTimeLimit() {
+        return simulationTimeLimit;
+    }
+
+    public void setSimulationTimeLimit(double simulationTimeLimit) {
+        this.simulationTimeLimit = simulationTimeLimit;
+    }
+
+    public double getMapHeight() {
+        return mapHeight;
+    }
+
+    public void setMapHeight(double mapHeight) {
+        this.mapHeight = mapHeight;
+    }
+
+    public double getMapWidth() {
+        return mapWidth;
+    }
+
+    public void setMapWidth(double mapWidth) {
+        this.mapWidth = mapWidth;
+    }
+
+    public double getGapHeight() {
+        return gapHeight;
+    }
+
+    public void setGapHeight(double gapHeight) {
+        this.gapHeight = gapHeight;
+    }
+
+    public double getGapWidth() {
+        return gapWidth;
+    }
+
+    public void setGapWidth(double gapWidth) {
+        this.gapWidth = gapWidth;
+    }
+
+    public int getInputLayerSize() {
+        return inputLayerSize;
+    }
+
+    public void setInputLayerSize(int inputLayerSize) {
+        this.inputLayerSize = inputLayerSize;
+    }
+
+    public int getOutputLayerSize() {
+        return outputLayerSize;
+    }
+
+    public void setOutputLayerSize(int outputLayerSize) {
+        this.outputLayerSize = outputLayerSize;
     }
 
     public Result getResult() {
         return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
+    public boolean isGraphics() {
+        return graphics;
+    }
+
+    public void setGraphics(boolean graphics) {
+        this.graphics = graphics;
     }
 
     public void setPassLimit(int passLimit) {
@@ -139,40 +200,16 @@ public class Learn implements Runnable {
         this.crossoverChance = crossoverChance;
     }
 
-    public void setWeightMutationChance(double weightMutationChance) {
-        this.weightMutationChance = weightMutationChance;
+    public void setMutationChance(double mutationChance) {
+        this.mutationChance = mutationChance;
     }
 
-    public void setBiasMutationChance(double biasMutationChance) {
-        this.biasMutationChance = biasMutationChance;
+    public void setStd(double std) {
+        this.std = std;
     }
 
-    public void setInitialStd(double initialStd) {
-        this.initialStd = initialStd;
-    }
-
-    public void setInitialMean(double initialMean) {
-        this.initialMean = initialMean;
-    }
-
-    public void setWeightStd(double weightStd) {
-        this.weightStd = weightStd;
-    }
-
-    public void setWeightMean(double weightMean) {
-        this.weightMean = weightMean;
-    }
-
-    public void setBiasStd(double biasStd) {
-        this.biasStd = biasStd;
-    }
-
-    public void setBiasMean(double biasMean) {
-        this.biasMean = biasMean;
-    }
-
-    public void setNumberOfUnitSelections(int numberOfUnitSelections) {
-        this.numberOfUnitSelections = numberOfUnitSelections;
+    public void setMean(double mean) {
+        this.mean = mean;
     }
 
     public void setHiddenLayerSize(int hiddenLayerSize) {

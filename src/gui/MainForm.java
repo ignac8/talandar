@@ -43,29 +43,17 @@ public class MainForm {
     private JLabel populationSizeLabel;
     private JLabel tournamentSizeLabel;
     private JLabel crossoverChanceLabel;
-    private JLabel weightMutationChanceLabel;
-    private JLabel biasMutationChanceLabel;
-    private JLabel initialStandardDeviationLabel;
-    private JLabel initialMeanLabel;
-    private JLabel weightStandardDeviationLabel;
-    private JLabel weightMeanLabel;
-    private JLabel biasStandardDeviationLabel;
-    private JLabel biasMeanLabel;
-    private JLabel numberOfUnitSelectionsLabel;
+    private JLabel mutationChanceLabel;
+    private JLabel standardDeviationLabel;
+    private JLabel meanLabel;
     private JLabel hiddenLayerSizeLabel;
     private JTextField passLimitTextField;
     private JTextField searchTimeLimitTextField;
     private JTextField populationSizeTextField;
     private JTextField tournamentSizeTextField;
     private JTextField crossOverChanceTextField;
-    private JTextField weightMutationChanceTextField;
-    private JTextField biasMutationChanceTextField;
-    private JTextField initialMeanTextField;
-    private JTextField weightStandardDeviationTextField;
-    private JTextField weightMeanTextField;
-    private JTextField biasStandardDeviationTextField;
-    private JTextField biasMeanTextField;
-    private JTextField numberOfUnitSelectionsTextField;
+    private JTextField mutationChanceTextField;
+    private JTextField meanTextField;
     private JTextField hiddenLayerSizeTextField;
     private JButton loadNeuralNetworkButton;
     private JButton saveNeuralNetworkToButton;
@@ -75,11 +63,10 @@ public class MainForm {
     private JTextArea loggerTextArea;
     private JCheckBox withGraphicsCheckBox;
     private JButton saveGraphToFileButton;
-    private JTextField initialStandardDeviationTextField;
+    private JTextField standardDeviationTextField;
     private JButton resetToDefaultValuesButton;
     private ExecutorService actionExecutorService = newSingleThreadExecutor();
     private Logger logger;
-    //private SimulationPainter simulationPainter;
     private NeuralNetwork neuralNetwork;
     private JFileChooser fileChooser = new JFileChooser();
     private DateTimeFormatter dateTimeFormatter = ofPattern("yyyy'_'MM'_'dd'_'HH'_'mm'_'ss'_'");
@@ -90,22 +77,15 @@ public class MainForm {
     private int populationSize;
     private int tournamentSize;
     private double crossoverChance;
-    private double weightMutationChance;
-    private double biasMutationChance;
-    private double initialStd;
-    private double initialMean;
-    private double weightStd;
-    private double weightMean;
-    private double biasStd;
-    private double biasMean;
-    private int numberOfUnitSelections;
+    private double mutationChance;
+    private double std;
+    private double mean;
     private int hiddenLayerSize;
 
     public MainForm() {
         prepareNativeLook();
         resetToDefaultValues();
         prepareLogger();
-        //prepareSimulationPainter();
         prepareMethodListeners();
     }
 
@@ -121,20 +101,14 @@ public class MainForm {
     }
 
     private void resetToDefaultValues() {
-        passLimitTextField.setText(String.valueOf(Integer.MAX_VALUE));
-        searchTimeLimitTextField.setText(String.valueOf(30 * 1000));
+        passLimitTextField.setText(String.valueOf(1000));
+        searchTimeLimitTextField.setText(String.valueOf(Integer.MAX_VALUE));
         populationSizeTextField.setText(String.valueOf(100));
-        tournamentSizeTextField.setText(String.valueOf(3));
-        crossOverChanceTextField.setText(String.valueOf(0.85));
-        weightMutationChanceTextField.setText(String.valueOf(0.05));
-        biasMutationChanceTextField.setText(String.valueOf(0.05));
-        initialStandardDeviationTextField.setText(String.valueOf(10.0));
-        initialMeanTextField.setText(String.valueOf(0.0));
-        weightStandardDeviationTextField.setText(String.valueOf(1.0));
-        weightMeanTextField.setText(String.valueOf(0.0));
-        biasStandardDeviationTextField.setText(String.valueOf(1.0));
-        biasMeanTextField.setText(String.valueOf(0.0));
-        numberOfUnitSelectionsTextField.setText(String.valueOf(10));
+        tournamentSizeTextField.setText(String.valueOf(2));
+        crossOverChanceTextField.setText(String.valueOf(0.40));
+        mutationChanceTextField.setText(String.valueOf(0.01));
+        standardDeviationTextField.setText(String.valueOf(10.0));
+        meanTextField.setText(String.valueOf(0.0));
         hiddenLayerSizeTextField.setText(String.valueOf(10));
     }
 
@@ -143,11 +117,6 @@ public class MainForm {
         logger.setLoggerTextArea(loggerTextArea);
         newScheduledThreadPool(1).scheduleAtFixedRate(logger, 0, 100, MILLISECONDS);
     }
-
-//    private void prepareSimulationPainter() {
-//        simulationPainter = SimulationPainter.getInstance();
-//        newScheduledThreadPool(1).scheduleAtFixedRate(simulationPainter, 0, 1000 / 42, MILLISECONDS);
-//    }
 
     private void prepareMethodListeners() {
         resetToDefaultValuesButton.addActionListener(e -> resetToDefaultValues());
@@ -231,15 +200,9 @@ public class MainForm {
             learn.setPopulationSize(populationSize);
             learn.setTournamentSize(tournamentSize);
             learn.setCrossoverChance(crossoverChance);
-            learn.setWeightMutationChance(weightMutationChance);
-            learn.setBiasMutationChance(biasMutationChance);
-            learn.setInitialStd(initialStd);
-            learn.setInitialMean(initialMean);
-            learn.setWeightStd(weightStd);
-            learn.setWeightMean(weightMean);
-            learn.setBiasStd(biasStd);
-            learn.setBiasMean(biasMean);
-            learn.setNumberOfUnitSelections(numberOfUnitSelections);
+            learn.setMutationChance(mutationChance);
+            learn.setStd(std);
+            learn.setMean(mean);
             learn.setHiddenLayerSize(hiddenLayerSize);
             actionExecutorService.submit(learn);
         }
@@ -299,69 +262,25 @@ public class MainForm {
             fieldsValid = false;
         }
         try {
-            weightMutationChance = Double.valueOf(weightMutationChanceTextField.getText());
-            if (weightMutationChance < 0.0) {
-                logger.log("Weight mutation chance is too small!");
+            mutationChance = Double.valueOf(mutationChanceTextField.getText());
+            if (mutationChance < 0.0) {
+                logger.log("Mutation chance is too small!");
                 fieldsValid = false;
             }
         } catch (Exception exception) {
-            logger.log("Invalid of format of weight mutation chance!");
+            logger.log("Invalid of format of mutation chance!");
             fieldsValid = false;
         }
         try {
-            biasMutationChance = Double.valueOf(biasMutationChanceTextField.getText());
-            if (biasMutationChance < 0.0) {
-                logger.log("Bias mutation chance is too small!");
-                fieldsValid = false;
-            }
+            std = Double.valueOf(standardDeviationTextField.getText());
         } catch (Exception exception) {
-            logger.log("Invalid of format of bias mutation chance!");
+            logger.log("Invalid of format of standard deviation!");
             fieldsValid = false;
         }
         try {
-            initialStd = Double.valueOf(initialStandardDeviationTextField.getText());
+            mean = Double.valueOf(meanTextField.getText());
         } catch (Exception exception) {
-            logger.log("Invalid of format of initial standard deviation!");
-            fieldsValid = false;
-        }
-        try {
-            initialMean = Double.valueOf(initialMeanTextField.getText());
-        } catch (Exception exception) {
-            logger.log("Invalid of format of initial mean!");
-            fieldsValid = false;
-        }
-        try {
-            weightStd = Double.valueOf(weightStandardDeviationTextField.getText());
-        } catch (Exception exception) {
-            logger.log("Invalid of format of weight standard deviation!");
-            fieldsValid = false;
-        }
-        try {
-            weightMean = Double.valueOf(weightMeanTextField.getText());
-        } catch (Exception exception) {
-            logger.log("Invalid of format of weight mean!");
-            fieldsValid = false;
-        }
-        try {
-            biasStd = Double.valueOf(biasStandardDeviationTextField.getText());
-        } catch (Exception exception) {
-            logger.log("Invalid of format of bias standard deviation!");
-            fieldsValid = false;
-        }
-        try {
-            biasMean = Double.valueOf(biasMeanTextField.getText());
-        } catch (Exception exception) {
-            logger.log("Invalid of format of bias mean!");
-            fieldsValid = false;
-        }
-        try {
-            numberOfUnitSelections = Integer.valueOf(numberOfUnitSelectionsTextField.getText());
-            if (numberOfUnitSelections <= 0) {
-                logger.log("Number of unit selections is too small!");
-                fieldsValid = false;
-            }
-        } catch (Exception exception) {
-            logger.log("Invalid of format of number of unit selections!");
+            logger.log("Invalid of format of mean!");
             fieldsValid = false;
         }
         try {

@@ -70,7 +70,7 @@ public final class NeuralNetworkPlayer extends Player {
                 Position runAwayPosition = getRunawayPosition(unit, simulationState, closestEnemyUnitPosition);
                 double time = simulationState.getTime();
 
-                inputLayer.get(0).setValue(unit.getHitPoints());
+                inputLayer.get(0).setValue(unit.getHitPoints() + unit.getShields());
                 inputLayer.get(1).setValue(sqrt(unitType.getGroundWeapon().getMaxRange()));
                 inputLayer.get(2).setValue(sqrt(closestEnemyUnitType.getGroundWeapon().getMaxRange()));
                 inputLayer.get(3).setValue(sqrt(position.getDistance(closestEnemyUnitPosition)));
@@ -179,14 +179,6 @@ public final class NeuralNetworkPlayer extends Player {
                         break;
 
                     case 9:
-                        if (unit.canAttack(lowestHpEnemyUnit)) {
-                            unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
-                        } else {
-                            unit.setOrder(new MoveOrder(unit, lowestHpEnemyUnitPosition));
-                        }
-                        break;
-
-                    case 10:
                         if (unit.canAttack(closestEnemyUnit)) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
@@ -194,7 +186,7 @@ public final class NeuralNetworkPlayer extends Player {
                         }
                         break;
 
-                    case 11:
+                    case 10:
                         if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
@@ -202,7 +194,7 @@ public final class NeuralNetworkPlayer extends Player {
                         }
                         break;
 
-                    case 12:
+                    case 11:
                         if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {
@@ -210,7 +202,7 @@ public final class NeuralNetworkPlayer extends Player {
                         }
                         break;
 
-                    case 13:
+                    case 12:
                         if (unit.canAttack(lowestHpEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, lowestHpEnemyUnit));
                         } else {
@@ -218,7 +210,7 @@ public final class NeuralNetworkPlayer extends Player {
                         }
                         break;
 
-                    case 14:
+                    case 13:
                         if (unit.canAttack(closestEnemyUnit) && unit.getCooldownTime() <= time) {
                             unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
                         } else {

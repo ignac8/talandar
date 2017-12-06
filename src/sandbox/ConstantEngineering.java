@@ -11,14 +11,14 @@ import util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class ConstantEngineering {
 
     public static void main(String... args) {
 
         int inputLayerSize = 1000;
-        int outputLayerSize = 15;
+        int outputLayerSize = 14;
         int value = 1;
         boolean graphics = false;
         double simulationTimeStep = 1.0;
@@ -37,17 +37,17 @@ public class ConstantEngineering {
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
 
         for (int counter = 0; counter < neuralNetworks.size(); counter++) {
             NeuralNetwork neuralNetwork = neuralNetworks.get(counter);
             neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
             double totalFitness = 0;
-            for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
+            for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
                 fitnessEvaluator.setUnitSelection(unitSelection);
                 totalFitness += fitnessEvaluator.evaluate();
             }
-            totalFitness /= allUnitSelections.size();
+            totalFitness /= unitSelections.size();
             System.out.println("Total fitness for run: " + counter + " equals: " + totalFitness);
         }
     }

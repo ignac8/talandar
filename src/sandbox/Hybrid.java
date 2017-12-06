@@ -35,7 +35,7 @@ public class Hybrid {
         int passLimit = 10000;
         int searchTimeLimit = 600 * 1 * 1000;
         int inputLayerSize = 5;
-        int outputLayerSize = 15;
+        int outputLayerSize = 14;
         double std = 1;
         double mean = 0;
         boolean graphics = false;

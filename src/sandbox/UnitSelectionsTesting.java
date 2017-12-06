@@ -23,7 +23,7 @@ public class UnitSelectionsTesting {
     public static void main(String... args) {
 
         int inputLayerSize = 5;
-        int outputLayerSize = 15;
+        int outputLayerSize = 14;
         double std = 1000;
         double mean = 0;
         boolean graphics = false;
