@@ -34,12 +34,12 @@ public class ForwardEngineering {
 
         int passLimit = 10000;
         int searchTimeLimit = Integer.MAX_VALUE;
-        int populationSize = 10;
+        int populationSize = 100;
         int inputLayerSize = 5;
         int outputLayerSize = 15;
         int tournamentSize = 2;
-        double crossoverChance = 0.1;
-        double mutationChance = 0.01;
+        double crossoverChance = 0.4;
+        double mutationChance = 0.001;
         double std = 1;
         double mean = 0;
         boolean graphics = false;

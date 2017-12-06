@@ -74,8 +74,10 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
         Map<Integer, Unit> units = finalState.getUnits();
 
         for (Unit unit : units.values()) {
-            double unitWorth = unitWorthBasic(unit);
-            double adjustedUnitWorth = unitWorthModifier(unit) * unitWorth;
+            double unitWorth = (double) (unit.getUnitType().getMineralPrice() + 2 * unit.getUnitType().getGasPrice());
+            double currentDurability = unit.getHitPoints() + unit.getShields();
+            int maxDurability = unit.getUnitType().getMaxHitPoints() + unit.getUnitType().getMaxShields();
+            double adjustedUnitWorth = pow((currentDurability / maxDurability), 0.75) * unitWorth;
             switch (unit.getPlayerId()) {
                 case 0:
                     playerFitness += adjustedUnitWorth;
@@ -108,16 +110,6 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
             }
         }
         return state;
-    }
-
-    private double unitWorthBasic(Unit unit) {
-        return unit.getUnitType().getMineralPrice() + 2 * unit.getUnitType().getGasPrice();
-    }
-
-    private double unitWorthModifier(Unit unit) {
-        double currentDurability = unit.getHitPoints() + unit.getShields();
-        int maxDurability = unit.getUnitType().getMaxHitPoints() + unit.getUnitType().getMaxShields();
-        return pow((currentDurability / maxDurability), 0.75);
     }
 
     public Player getFirstPlayer() {

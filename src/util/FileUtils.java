@@ -16,12 +16,14 @@ import util.serializer.NeuralNetworkSerializer;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import static java.nio.file.Files.*;
 import static org.jfree.chart.ChartUtilities.saveChartAsPNG;
 
 public class FileUtils {
@@ -37,7 +39,7 @@ public class FileUtils {
 
     public static String loadFile(String filePath) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
+            BufferedReader reader = newBufferedReader(Paths.get(filePath));
             String fileContent = reader.readLine();
             return fileContent;
         } catch (IOException e) {
@@ -48,11 +50,12 @@ public class FileUtils {
 
     public static void saveFile(String filePath, String fileContent) {
         try {
-            File file = new File(filePath);
-            if (file.getParentFile() != null) {
-                file.getParentFile().mkdirs();
+            Path path = Paths.get(filePath);
+            createDirectories(path.getParent());
+            if (notExists(path)) {
+                createFile(path);
             }
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            BufferedWriter writer = newBufferedWriter(path);
             writer.write(fileContent);
             writer.close();
         } catch (IOException e) {

@@ -66,7 +66,7 @@ public class Research {
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
         Vector<Future<Result>> futures = new Vector<>(numberOfTasks);
 
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("results.json"));
+        BufferedWriter writer = Files.newBufferedWriter(Paths.get("results.csv"));
 
         for (double crossoverChance : crossoverChances) {
             for (double mutationChance : mutationChances) {
@@ -112,26 +112,38 @@ public class Research {
             }
         }
 
-        int threadCounter = 0;
+        long startTime = System.currentTimeMillis();
+        int taskCounter = 0;
         for (double crossoverChance : crossoverChances) {
             for (double mutationChance : mutationChances) {
                 for (int populationSize : populationSizes) {
                     for (int numberOfRetry = 0; numberOfRetry < numberOfRetries; numberOfRetry++) {
-                        Result result = futures.get(threadCounter).get();
+                        Result result = futures.get(taskCounter).get();
                         String name = String.join(",",
                                 Double.toString(crossoverChance),
                                 Double.toString(mutationChance),
                                 Integer.toString(populationSize),
                                 Integer.toString(numberOfRetry));
-                        saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs\\" + name + ".png");
-                        saveFile("neuralNetworks\\" + name + ".json", toJson(result.getIndividual().getNeuralNetwork()));
+                        saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs/" + name + ".png");
+                        saveFile("neuralNetworks/" + name + ".json", toJson(result.getIndividual().getNeuralNetwork()));
                         double totalFitness = result.getIndividual().getFitness();
-                        String textResult = String.join(",", Integer.toString(threadCounter), name, Double.toString(totalFitness));
+                        String textResult = String.join(",", Integer.toString(taskCounter), name, Double.toString(totalFitness));
                         System.out.println(textResult);
+
                         writer.write(textResult);
                         writer.newLine();
                         writer.flush();
-                        threadCounter++;
+
+                        taskCounter++;
+
+                        long remainingTime = (System.currentTimeMillis() - startTime)  * (numberOfTasks - taskCounter) / taskCounter / 1000 ;
+
+                        long days = remainingTime / 60 / 60 / 24;
+                        long hours = remainingTime/ 60 / 60 % 24;
+                        long minutes = remainingTime / 60 % 60;
+                        long seconds = remainingTime % 60;
+
+                        System.out.println(String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds));
                     }
                 }
             }
@@ -139,5 +151,6 @@ public class Research {
 
         writer.close();
         executorService.shutdown();
+
     }
 }

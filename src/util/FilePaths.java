@@ -1,17 +1,17 @@
 package util;
 
 public class FilePaths {
-    public static final String RES = "res\\";
+    public static final String RES = "res/";
 
-    public static final String DATA = "data\\";
+    public static final String DATA = "data/";
 
-    public static final String ARRAYS = "arrays\\";
+    public static final String ARRAYS = "arrays/";
 
-    public static final String GRAPHS = "graphs\\";
+    public static final String GRAPHS = "graphs/";
 
-    public static final String CLASSES = "classes\\";
+    public static final String CLASSES = "classes/";
 
-    public static final String RESULTS = "results\\";
+    public static final String RESULTS = "results/";
 
     public static final String JSON = ".json";
 
