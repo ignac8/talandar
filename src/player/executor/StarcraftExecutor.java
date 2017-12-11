@@ -16,7 +16,6 @@ import static jnibwapi.Position.PosType.PIXEL;
 
 public class StarcraftExecutor implements Executor<JNIBWAPI, Unit, Position> {
 
-    private Map<Unit, Position> moveOrders = new HashMap<>();
     private Map<Unit, Unit> attackOrders = new HashMap<>();
 
     @Override
@@ -81,25 +80,20 @@ public class StarcraftExecutor implements Executor<JNIBWAPI, Unit, Position> {
 
     @Override
     public void setAttackOrder(Unit unit, Unit enemyUnit) {
-        if (attackOrders.containsKey(unit)) {
+        if (!attackOrders.containsKey(unit)) {
             Unit attackOrder = attackOrders.get(unit);
             if (!Objects.equals(attackOrder, enemyUnit)) {
                 unit.attack(enemyUnit, false);
                 attackOrders.put(unit, enemyUnit);
-                moveOrders.remove(unit);
             }
         }
     }
 
     @Override
     public void setMoveOrder(Unit unit, Position position) {
-        if (moveOrders.containsKey(unit)) {
-            Position moverOrder = moveOrders.get(unit);
-            if (!Objects.equals(moverOrder, position)) {
-                unit.move(position, true);
-                moveOrders.put(unit, position);
-                attackOrders.remove(unit);
-            }
+        if (!unit.isStartingAttack() && !unit.isAttackFrame()) {
+            unit.move(position, false);
+            attackOrders.remove(unit);
         }
     }
 
@@ -160,8 +154,8 @@ public class StarcraftExecutor implements Executor<JNIBWAPI, Unit, Position> {
     }
 
     @Override
-    public double getWeaponCooldown(Unit unit) {
-        return unit.getGroundWeaponCooldown();
+    public boolean isOnWeaponCooldown(JNIBWAPI jnibwapi, Unit unit) {
+        return unit.getGroundWeaponCooldown() > 0;
     }
 
     public Position getRunAwayPositionFromAll(Unit unit, JNIBWAPI jnibwapi) {

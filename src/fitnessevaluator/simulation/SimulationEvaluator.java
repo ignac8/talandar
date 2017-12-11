@@ -1,6 +1,7 @@
 package fitnessevaluator.simulation;
 
 import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.GameResult;
 import jnibwapi.types.UnitType;
 import player.Player;
 import simulation.Position;
@@ -44,7 +45,7 @@ public class SimulationEvaluator extends FitnessEvaluator<Unit> {
         this.secondPlayer = secondPlayer;
     }
 
-    protected Collection<Unit> playGame() {
+    protected GameResult<Unit> playGame() {
         try {
             SimulationState state = new SimulationState(mapWidth, mapHeight);
             state = putUnits(state, false, unitSelection.getLeft());
@@ -52,7 +53,8 @@ public class SimulationEvaluator extends FitnessEvaluator<Unit> {
             List<Player<SimulationState, Unit, Position>> playerList = Arrays.asList(firstPlayer, secondPlayer);
             Simulation simulation = new Simulation(state, playerList, graphics, timeStep, timeLimit);
             SimulationState simulationState = simulation.play();
-            return simulationState.getUnits().values();
+            Collection<Unit> units = simulationState.getUnits().values();
+            return new GameResult<>(units, units);
         } catch (Exception e) {
             e.printStackTrace();
         }

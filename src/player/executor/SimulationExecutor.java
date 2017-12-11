@@ -104,7 +104,7 @@ public class SimulationExecutor implements Executor<SimulationState, Unit, Posit
     }
 
     @Override
-    public double getWeaponCooldown(Unit unit) {
-        return unit.getCooldownTime();
+    public boolean isOnWeaponCooldown(SimulationState simulationState, Unit unit) {
+        return simulationState.getTime() < unit.getCooldownTime();
     }
 }

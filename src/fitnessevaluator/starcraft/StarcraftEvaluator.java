@@ -1,12 +1,14 @@
 package fitnessevaluator.starcraft;
 
 import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.GameResult;
 import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.Position;
 import jnibwapi.Unit;
 import player.NeuralNetworkPlayer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIEventListener, Runnable {
@@ -33,14 +35,18 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
     }
 
     @Override
-    protected Collection<Unit> playGame() {
+    protected GameResult<Unit> playGame() {
         while (!isGameInProgress()) {
 
+        }
+        Collection<Unit> startingUnits = new ArrayList<>();
+        for (Unit unit : jnibwapi.getAllUnits()) {
+            startingUnits.add(unit.clone());
         }
         while (isGameInProgress()) {
 
         }
-        return jnibwapi.getAllUnits();
+        return new GameResult<>(startingUnits, jnibwapi.getAllUnits());
     }
 
     private synchronized boolean isGameInProgress() {
@@ -93,6 +99,10 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
     public void matchStart() {
         setGameInProgress(true);
         jnibwapi.enablePerfectInformation();
+        jnibwapi.setLatCom(false);
+        jnibwapi.setCommandOptimizationLevel(0);
+        jnibwapi.setFrameSkip(0);
+        jnibwapi.drawTargets(true);
         //jnibwapi.enableUserInput();
         jnibwapi.sendText("war aint what it used to be");
         jnibwapi.sendText("black sheep wall");

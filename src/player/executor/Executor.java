@@ -1,5 +1,6 @@
 package player.executor;
 
+import jnibwapi.Unit;
 import jnibwapi.types.UnitType;
 
 import java.util.Collection;
@@ -36,5 +37,5 @@ public interface Executor<State, Unit, Position> {
 
     double getDistance(Position position, Position enemyPosition);
 
-    double getWeaponCooldown(Unit unit);
+    boolean isOnWeaponCooldown(State state, Unit unit);
 }

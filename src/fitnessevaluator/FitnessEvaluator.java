@@ -1,26 +1,24 @@
 package fitnessevaluator;
 
-import java.util.Collection;
-
 import static java.lang.Math.pow;
 
 public abstract class FitnessEvaluator<Unit> {
 
     public double evaluate() {
-        Collection<Unit> units = playGame();
-        double fitness = rateGame(units);
+        GameResult<Unit> gameResult = playGame();
+        double fitness = rateGame(gameResult);
         return fitness;
     }
 
-    protected abstract Collection<Unit> playGame();
+    protected abstract GameResult<Unit> playGame();
 
-    private double rateGame(Collection<Unit> units) {
+    private double rateGame(GameResult<Unit> gameResult) {
         double playerFitness = 0;
         double playerMaxFitness = 0;
         double enemyFitness = 0;
         double enemyMaxFitness = 0;
 
-        for (Unit unit : units) {
+        for (Unit unit : gameResult.getCurrentUnits()) {
             double unitWorth = getMineralPrice(unit) + 2 * getGasPrice(unit);
             double currentDurability = getHitPoints(unit) + getShields(unit);
             double maxDurability = getMaxHitPoints(unit) + getMaxShields(unit);
@@ -28,10 +26,19 @@ public abstract class FitnessEvaluator<Unit> {
             switch (getPlayerId(unit)) {
                 case 0:
                     playerFitness += adjustedUnitWorth;
-                    playerMaxFitness += unitWorth;
                     break;
                 case 1:
                     enemyFitness += adjustedUnitWorth;
+                    break;
+            }
+        }
+        for (Unit unit : gameResult.getStartingUnits()) {
+            double unitWorth = getMineralPrice(unit) + 2 * getGasPrice(unit);
+            switch (getPlayerId(unit)) {
+                case 0:
+                    playerMaxFitness += unitWorth;
+                    break;
+                case 1:
                     enemyMaxFitness += unitWorth;
                     break;
             }
