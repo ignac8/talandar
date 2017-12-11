@@ -4,8 +4,11 @@ import fitnessevaluator.simulation.SimulationEvaluator;
 import gui.updater.Logger;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -25,8 +28,8 @@ import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.g
 
 public class Learn implements Runnable {
 
-    private NeuralNetworkSimulationPlayer neuralNetworkSimulationPlayer = new NeuralNetworkSimulationPlayer(0);
-    private SimpleSimulationPlayer simpleSimulationPlayer = new SimpleSimulationPlayer(1);
+    private NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer;
+    private SimplePlayer<SimulationState, Unit, Position> simplePlayer;
     private Logger logger = Logger.getInstance();
     private double simulationTimeStep = 1.0;
     private double simulationTimeLimit = 10000;
@@ -36,9 +39,7 @@ public class Learn implements Runnable {
     private double gapWidth = 120.0;
     private int inputLayerSize = 5;
     private int outputLayerSize = 14;
-
     private Result result;
-
     private boolean graphics;
     private int passLimit;
     private int searchTimeLimit;
@@ -68,7 +69,7 @@ public class Learn implements Runnable {
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkSimulationPlayer, simpleSimulationPlayer);
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
             simulationEvaluators.add(fitnessEvaluator);
         }
@@ -87,8 +88,8 @@ public class Learn implements Runnable {
         double totalFitness = 0;
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
-                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkSimulationPlayer, simpleSimulationPlayer);
-        neuralNetworkSimulationPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
+                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
+        neuralNetworkPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);
             totalFitness += fitnessEvaluator.evaluate();

@@ -3,8 +3,12 @@ package sandbox;
 import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -56,15 +60,15 @@ public class LocalSearchSandbox {
             startingIndividuals.add(randomIndividual);
         }
 
-        NeuralNetworkSimulationPlayer neuralNetworkSimulationPlayer = new NeuralNetworkSimulationPlayer(0);
-        SimpleSimulationPlayer simpleSimulationPlayer = new SimpleSimulationPlayer(1);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
         List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkSimulationPlayer, simpleSimulationPlayer);
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
             simulationEvaluators.add(fitnessEvaluator);
         }
@@ -86,8 +90,8 @@ public class LocalSearchSandbox {
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth,
-                gapHeight, gapWidth, neuralNetworkSimulationPlayer, simpleSimulationPlayer);
-        neuralNetworkSimulationPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
+                gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
+        neuralNetworkPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);

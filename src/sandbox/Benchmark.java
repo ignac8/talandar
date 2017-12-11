@@ -3,13 +3,17 @@ package sandbox;
 import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import util.Pair;
 
 import java.util.List;
 
-import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static jnibwapi.Map.TILE_SIZE;
 import static util.FileUtils.fromJson;
 import static util.FileUtils.loadFile;
@@ -28,14 +32,14 @@ public class Benchmark {
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        NeuralNetworkSimulationPlayer neuralNetworkSimulationPlayer = new NeuralNetworkSimulationPlayer(0);
-        SimpleSimulationPlayer simpleSimulationPlayer = new SimpleSimulationPlayer(1);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         double totalFitness = 0;
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
-                gapHeight, gapWidth, neuralNetworkSimulationPlayer, simpleSimulationPlayer);
-        neuralNetworkSimulationPlayer.setNeuralNetwork(bestOne);
-        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
+                gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
+        neuralNetworkPlayer.setNeuralNetwork(bestOne);
+        List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);
             totalFitness += fitnessEvaluator.evaluate();

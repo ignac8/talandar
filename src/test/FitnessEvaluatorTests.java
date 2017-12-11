@@ -4,9 +4,13 @@ import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
-import player.simulation.SimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.Player;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -32,13 +36,13 @@ public class FitnessEvaluatorTests {
 
         NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean);
 
-        NeuralNetworkSimulationPlayer neuralNetworkSimulationPlayer = new NeuralNetworkSimulationPlayer(0);
-        neuralNetworkSimulationPlayer.setNeuralNetwork(neuralNetwork);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
 
-        testAgainstSimplePlayer(neuralNetworkSimulationPlayer);
+        testAgainstSimplePlayer(neuralNetworkPlayer);
     }
 
-    private void testAgainstSimplePlayer(SimulationPlayer firstSimulationPlayer) {
+    private void testAgainstSimplePlayer(Player<SimulationState, Unit, Position> firstPlayer) {
         boolean graphics = false;
         double simulationTimeStep = 1.0;
         double simulationTimeLimit = Double.MAX_VALUE;
@@ -49,11 +53,11 @@ public class FitnessEvaluatorTests {
 
         List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
-        SimulationPlayer secondSimulationPlayer = new SimpleSimulationPlayer(1);
+        SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstSimulationPlayer, secondSimulationPlayer);
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
             simulationEvaluators.add(fitnessEvaluator);
         }
@@ -70,8 +74,8 @@ public class FitnessEvaluatorTests {
 
     @Test
     public void consistentResultsTestForSimplePlayer() {
-        SimulationPlayer firstSimulationPlayer = new SimpleSimulationPlayer(0);
-        testAgainstSimplePlayer(firstSimulationPlayer);
+        SimplePlayer<SimulationState, Unit, Position> firstPlayer = PlayerFactory.getSimulationSimplePlayer(0);
+        testAgainstSimplePlayer(firstPlayer);
     }
 
     @Test
@@ -89,11 +93,11 @@ public class FitnessEvaluatorTests {
         double gapWidth = 120.0;
         List<Integer> hiddenLayerSizes = asList(10);
 
-        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
-        SimulationPlayer simpleSimulationPlayer = new SimpleSimulationPlayer(1);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        Player<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simpleSimulationPlayer);
+                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
 
         double oldFitness = 0;

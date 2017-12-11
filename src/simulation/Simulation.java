@@ -1,7 +1,7 @@
 package simulation;
 
 import gui.component.SimulationUI;
-import player.simulation.SimulationPlayer;
+import player.Player;
 import simulation.bridge.JNIBWAPI_LOAD;
 import simulation.order.Order;
 
@@ -18,15 +18,15 @@ public class Simulation {
     }
 
     private SimulationState currentSimulationState;
-    private List<SimulationPlayer> simulationPlayers;
+    private List<Player<SimulationState, Unit, Position>> players;
     private boolean displayed;
     private double timeStep;
     private double timeLimit;
 
-    public Simulation(SimulationState currentSimulationState, List<SimulationPlayer> simulationPlayers, boolean displayed,
+    public Simulation(SimulationState currentSimulationState, List<Player<SimulationState, Unit, Position>> players, boolean displayed,
                       double timeStep, double timeLimit) {
         this.currentSimulationState = currentSimulationState;
-        this.simulationPlayers = simulationPlayers;
+        this.players = players;
         this.displayed = displayed;
         this.timeStep = timeStep;
         this.timeLimit = timeLimit;
@@ -36,8 +36,8 @@ public class Simulation {
         while (!finished()) {
             SimulationState nextSimulationState = currentSimulationState.copy();
             nextSimulationState.setTime(nextSimulationState.getTime() + timeStep);
-            for (SimulationPlayer simulationPlayer : simulationPlayers) {
-                simulationPlayer.giveOrders(currentSimulationState);
+            for (Player<SimulationState, Unit, Position> player : players) {
+                player.giveOrders(currentSimulationState);
             }
             for (Unit unit : currentSimulationState.getUnits().values()) {
                 Order order = unit.getOrder();

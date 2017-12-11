@@ -2,7 +2,7 @@ package fitnessevaluator.simulation;
 
 import fitnessevaluator.FitnessEvaluator;
 import jnibwapi.types.UnitType;
-import player.simulation.SimulationPlayer;
+import player.Player;
 import simulation.Position;
 import simulation.Simulation;
 import simulation.SimulationState;
@@ -27,12 +27,12 @@ public class SimulationEvaluator extends FitnessEvaluator<Unit> {
     private double mapWidth;
     private double gapHeight;
     private double gapWidth;
-    private SimulationPlayer firstSimulationPlayer;
-    private SimulationPlayer secondSimulationPlayer;
+    private Player<SimulationState, Unit, Position> firstPlayer;
+    private Player<SimulationState, Unit, Position> secondPlayer;
     private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
 
     public SimulationEvaluator(boolean graphics, double timeStep, double timeLimit, double mapHeight, double mapWidth,
-                               double gapHeight, double gapWidth, SimulationPlayer firstSimulationPlayer, SimulationPlayer secondSimulationPlayer) {
+                               double gapHeight, double gapWidth, Player<SimulationState, Unit, Position> firstPlayer, Player<SimulationState, Unit, Position> secondPlayer) {
         this.graphics = graphics;
         this.timeStep = timeStep;
         this.timeLimit = timeLimit;
@@ -40,8 +40,8 @@ public class SimulationEvaluator extends FitnessEvaluator<Unit> {
         this.mapWidth = mapWidth;
         this.gapHeight = gapHeight;
         this.gapWidth = gapWidth;
-        this.firstSimulationPlayer = firstSimulationPlayer;
-        this.secondSimulationPlayer = secondSimulationPlayer;
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
     }
 
     protected Collection<Unit> playGame() {
@@ -49,8 +49,8 @@ public class SimulationEvaluator extends FitnessEvaluator<Unit> {
             SimulationState state = new SimulationState(mapWidth, mapHeight);
             state = putUnits(state, false, unitSelection.getLeft());
             state = putUnits(state, true, unitSelection.getRight());
-            List<SimulationPlayer> simulationPlayerList = Arrays.asList(firstSimulationPlayer, secondSimulationPlayer);
-            Simulation simulation = new Simulation(state, simulationPlayerList, graphics, timeStep, timeLimit);
+            List<Player<SimulationState, Unit, Position>> playerList = Arrays.asList(firstPlayer, secondPlayer);
+            Simulation simulation = new Simulation(state, playerList, graphics, timeStep, timeLimit);
             SimulationState simulationState = simulation.play();
             return simulationState.getUnits().values();
         } catch (Exception e) {
@@ -113,12 +113,12 @@ public class SimulationEvaluator extends FitnessEvaluator<Unit> {
         return state;
     }
 
-    public SimulationPlayer getFirstSimulationPlayer() {
-        return firstSimulationPlayer;
+    public Player<SimulationState, Unit, Position> getFirstPlayer() {
+        return firstPlayer;
     }
 
-    public SimulationPlayer getSecondSimulationPlayer() {
-        return secondSimulationPlayer;
+    public Player<SimulationState, Unit, Position> getSecondPlayer() {
+        return secondPlayer;
     }
 
     public void setUnitSelection(Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection) {

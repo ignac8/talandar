@@ -5,8 +5,9 @@ import com.google.common.primitives.Ints;
 import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -79,8 +80,8 @@ public class Research {
                             startingIndividuals.add(randomIndividual);
                         }
 
-                        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
-                        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
+                        NeuralNetworkPlayer neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+                        SimplePlayer simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
                         List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
 
                         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections

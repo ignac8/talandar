@@ -5,8 +5,12 @@ import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -31,9 +35,9 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
 
-        int passLimit = 100;
+        int passLimit = 1000;
         int searchTimeLimit = Integer.MAX_VALUE;
-        int populationSize = 100;
+        int populationSize = 10;
         int inputLayerSize = 5;
         int outputLayerSize = 14;
         int tournamentSize = 2;
@@ -60,8 +64,8 @@ public class ForwardEngineering {
             startingIndividuals.add(randomIndividual);
         }
 
-        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
-        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
         List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections

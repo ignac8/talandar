@@ -4,8 +4,12 @@ import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.ConstantNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -32,8 +36,8 @@ public class ConstantEngineering {
         for (int counter = 0; counter < outputLayerSize; counter++) {
             neuralNetworks.add(new ConstantNeuralNetwork(inputLayerSize, outputLayerSize, counter, value));
         }
-        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
-        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);

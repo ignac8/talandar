@@ -7,8 +7,9 @@ import fitnessevaluator.simulation.unitselection.Race;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class UnitSelectionsTesting {
 
         List<Integer> hiddenLayerSizes = Ints.asList(10);
 
-        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
+        NeuralNetworkPlayer neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
 
         List<NeuralNetwork> neuralNetworks = new ArrayList<>();
         for (int counter = 0; counter < 1000; counter++) {
@@ -44,7 +45,7 @@ public class UnitSelectionsTesting {
             neuralNetworks.add(neuralNetwork);
         }
 
-        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
+        SimplePlayer simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
@@ -75,7 +76,7 @@ public class UnitSelectionsTesting {
                 Arrays.asList(Race.ZERG), Arrays.asList(Quantity.LESS), Arrays.asList(Quantity.LESS))));
     }
 
-    private static double calculateFitness(NeuralNetworkSimulationPlayer neuralNetworkPlayer,
+    private static double calculateFitness(NeuralNetworkPlayer neuralNetworkPlayer,
                                            List<NeuralNetwork> neuralNetworks,
                                            SimulationEvaluator fitnessEvaluator,
                                            List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections) {

@@ -135,13 +135,13 @@ public class Unit {
         double enemyPositionY = enemyPosition.getY();
         double positionX = position.getX();
         double positionY = position.getY();
-        Position runAwayPosition = new Position(enemyPositionX - positionX, enemyPositionY - positionY);
+        Position runAwayPosition = new Position(positionX - (enemyPositionX - positionX), positionY - (enemyPositionY - positionY));
         double distance = runAwayPosition.getDistance(enemyPosition);
         double speed = unitType.getTopSpeed();
         if (Double.isFinite(distance) && distance > 0) {
             if (distance < speed) {
                 double multiplier = speed / distance;
-                runAwayPosition = new Position(enemyPositionX * multiplier - positionX, enemyPositionY * multiplier - positionY);
+                runAwayPosition = new Position(positionX - multiplier * (enemyPositionX - positionX), positionY - multiplier * (enemyPositionY - positionY));
             }
         } else {
             runAwayPosition = null;

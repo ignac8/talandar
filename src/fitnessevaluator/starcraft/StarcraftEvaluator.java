@@ -5,7 +5,7 @@ import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.Position;
 import jnibwapi.Unit;
-import player.starcraft.StarcraftPlayer;
+import player.NeuralNetworkPlayer;
 
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
     private static StarcraftEvaluator instance;
     private JNIBWAPI jnibwapi;
     private boolean gameInProgress = false;
-    private StarcraftPlayer starcraftPlayer;
+    private NeuralNetworkPlayer<JNIBWAPI, Unit, Position> neuralNetworkPlayer;
 
     private StarcraftEvaluator() {
         jnibwapi = new JNIBWAPI(this, false, true);
@@ -28,8 +28,8 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
         return instance;
     }
 
-    public void setStarcraftPlayer(StarcraftPlayer starcraftPlayer) {
-        this.starcraftPlayer = starcraftPlayer;
+    public void setNeuralNetworkPlayer(NeuralNetworkPlayer<JNIBWAPI, Unit, Position> neuralNetworkPlayer) {
+        this.neuralNetworkPlayer = neuralNetworkPlayer;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
         if (!isGameInProgress()) {
             matchStart();
         } else {
-            starcraftPlayer.giveOrders(jnibwapi);
+            neuralNetworkPlayer.giveOrders(jnibwapi);
         }
     }
 

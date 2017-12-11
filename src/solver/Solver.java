@@ -1,7 +1,7 @@
 package solver;
 
 import fitnessevaluator.simulation.SimulationEvaluator;
-import player.simulation.NeuralNetworkSimulationPlayer;
+import player.NeuralNetworkPlayer;
 import solver.operator.Operator;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class Solver implements Callable<Result> {
         for (Individual individual : individuals) {
             double fitness = 0;
             for (SimulationEvaluator simulationEvaluator : simulationEvaluators) {
-                NeuralNetworkSimulationPlayer neuralNetworkPlayer = (NeuralNetworkSimulationPlayer) (simulationEvaluator.getFirstSimulationPlayer());
+                NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (simulationEvaluator.getFirstPlayer());
                 neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
                 fitness += simulationEvaluator.evaluate();
             }

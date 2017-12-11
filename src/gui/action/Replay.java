@@ -4,8 +4,12 @@ import fitnessevaluator.simulation.SimulationEvaluator;
 import gui.updater.Logger;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import util.Pair;
 
 import java.util.List;
@@ -18,19 +22,20 @@ public class Replay implements Runnable {
     private double mapWidth = 640.0;
     private double gapHeight = 40.0;
     private double gapWidth = 120.0;
-    private NeuralNetworkSimulationPlayer neuralNetworkSimulationPlayer = new NeuralNetworkSimulationPlayer(0);
-    private SimpleSimulationPlayer simpleSimulationPlayer = new SimpleSimulationPlayer(1);
+    private NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+    private SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
     private NeuralNetwork neuralNetwork;
     private boolean graphics;
     private Logger logger = Logger.getInstance();
     private SimulationEvaluator simulationEvaluator = new SimulationEvaluator(graphics, 1, 10000,
-            mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkSimulationPlayer, simpleSimulationPlayer);
+            mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
+
 
     @Override
     public void run() {
         double totalFitness = 0;
         simulationEvaluator.setGraphics(graphics);
-        neuralNetworkSimulationPlayer.setNeuralNetwork(neuralNetwork);
+        neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             simulationEvaluator.setUnitSelection(unitSelection);

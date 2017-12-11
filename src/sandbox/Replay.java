@@ -3,8 +3,9 @@ package sandbox;
 import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.simulation.NeuralNetworkSimulationPlayer;
-import player.simulation.SimpleSimulationPlayer;
+import player.NeuralNetworkPlayer;
+import player.SimplePlayer;
+import player.factory.PlayerFactory;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ public class Replay {
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
-        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
+        NeuralNetworkPlayer neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        SimplePlayer simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
