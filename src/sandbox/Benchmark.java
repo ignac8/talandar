@@ -1,16 +1,15 @@
 package sandbox;
 
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.NeuralNetworkPlayer;
-import player.Player;
-import player.SimplePlayer;
+import player.simulation.NeuralNetworkSimulationPlayer;
+import player.simulation.SimpleSimulationPlayer;
 import util.Pair;
 
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
 import static jnibwapi.Map.TILE_SIZE;
 import static util.FileUtils.fromJson;
 import static util.FileUtils.loadFile;
@@ -19,7 +18,7 @@ public class Benchmark {
 
     public static void main(String... args) {
 
-        String fileName = "testNeuralWeb.json";
+        String fileName = "best-0.4,0.001,100,9.json";
         String json = loadFile(fileName);
         NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
         boolean graphics = false;
@@ -29,14 +28,13 @@ public class Benchmark {
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        Player firstPlayer = new NeuralNetworkPlayer(0);
-        Player secondPlayer = new SimplePlayer(1);
+        NeuralNetworkSimulationPlayer neuralNetworkSimulationPlayer = new NeuralNetworkSimulationPlayer(0);
+        SimpleSimulationPlayer simpleSimulationPlayer = new SimpleSimulationPlayer(1);
 
         double totalFitness = 0;
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep, simulationTimeLimit, mapHeight, mapWidth,
-                gapHeight, gapWidth, firstPlayer, secondPlayer);
-        NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
-        neuralNetworkPlayer.setNeuralNetwork(bestOne);
+                gapHeight, gapWidth, neuralNetworkSimulationPlayer, simpleSimulationPlayer);
+        neuralNetworkSimulationPlayer.setNeuralNetwork(bestOne);
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateAllUnitSelections();
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : allUnitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);

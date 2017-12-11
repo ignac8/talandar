@@ -1,17 +1,17 @@
 package sandbox;
 
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.ConstantNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
-import player.NeuralNetworkPlayer;
-import player.SimplePlayer;
+import player.simulation.NeuralNetworkSimulationPlayer;
+import player.simulation.SimpleSimulationPlayer;
 import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class ConstantEngineering {
 
@@ -32,8 +32,8 @@ public class ConstantEngineering {
         for (int counter = 0; counter < outputLayerSize; counter++) {
             neuralNetworks.add(new ConstantNeuralNetwork(inputLayerSize, outputLayerSize, counter, value));
         }
-        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
-        SimplePlayer simplePlayer = new SimplePlayer(1);
+        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
+        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth,
                 gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);

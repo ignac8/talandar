@@ -1,16 +1,12 @@
-package player;
+package player.simulation;
 
 import simulation.SimulationState;
 
-public abstract class Player {
+public abstract class SimulationPlayer {
     protected int playerId;
 
-    public Player(int playerId) {
+    public SimulationPlayer(int playerId) {
         this.playerId = playerId;
-    }
-
-    public int getPlayerId() {
-        return playerId;
     }
 
     public abstract void giveOrders(SimulationState simulationState);

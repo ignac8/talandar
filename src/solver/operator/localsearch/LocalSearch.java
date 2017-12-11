@@ -26,8 +26,7 @@ public class LocalSearch implements Operator {
     @Override
     public List<Individual> call(List<Individual> individuals) {
         List<List<Individual>> listOfNeighbours = new ArrayList<>();
-        for (int counter = 0; counter < individuals.size(); counter++) {
-            Individual individual = individuals.get(counter);
+        for (Individual individual : individuals) {
             List<Individual> neighbours = generateRandomNeighbours(individual, size);
             solver.evaluate(neighbours);
             listOfNeighbours.add(neighbours);

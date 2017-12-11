@@ -1,6 +1,6 @@
 package sandbox;
 
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
@@ -9,8 +9,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import player.NeuralNetworkPlayer;
-import player.SimplePlayer;
+import player.simulation.NeuralNetworkSimulationPlayer;
+import player.simulation.SimpleSimulationPlayer;
 import util.Pair;
 
 import java.io.File;
@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.primitives.Ints.asList;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateMirrorUnitSelections;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateMirrorUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static java.util.Collections.shuffle;
 import static org.jfree.chart.ChartUtilities.saveChartAsPNG;
 
@@ -42,11 +42,11 @@ public class GraphUnitSelectionsTesting {
 
         List<Integer> hiddenLayerSizes = asList(10);
 
-        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
+        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
         NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean);
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
 
-        SimplePlayer simplePlayer = new SimplePlayer(1);
+        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> allUnitSelections = generateUnitSelections();
         shuffle(allUnitSelections);

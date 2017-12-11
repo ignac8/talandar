@@ -2,12 +2,11 @@ package sandbox;
 
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
-import player.NeuralNetworkPlayer;
-import player.SimplePlayer;
+import player.simulation.NeuralNetworkSimulationPlayer;
+import player.simulation.SimpleSimulationPlayer;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -31,7 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static util.FileUtils.saveFile;
 import static util.FileUtils.saveGraphToFile;
 import static util.FileUtils.toJson;
@@ -80,9 +79,9 @@ public class Research {
                             startingIndividuals.add(randomIndividual);
                         }
 
-                        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
-                        SimplePlayer simplePlayer = new SimplePlayer(1);
-                        List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
+                        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
+                        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
+                        List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
 
                         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
                                 = generateUnitSelections();
@@ -91,10 +90,10 @@ public class Research {
                             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                                     simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
                             fitnessEvaluator.setUnitSelection(unitSelection);
-                            fitnessEvaluators.add(fitnessEvaluator);
+                            simulationEvaluators.add(fitnessEvaluator);
                         }
 
-                        Solver solver = new Solver(passLimit, searchTimeLimit, fitnessEvaluators);
+                        Solver solver = new Solver(passLimit, searchTimeLimit, simulationEvaluators);
 
                         List<Operator> operators = new ArrayList<>();
                         operators.add(new TournamentSelection(tournamentSize));

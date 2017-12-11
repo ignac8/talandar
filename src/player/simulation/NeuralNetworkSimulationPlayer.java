@@ -1,4 +1,4 @@
-package player;
+package player.simulation;
 
 
 import jnibwapi.types.UnitType;
@@ -18,11 +18,11 @@ import static java.lang.Double.MAX_VALUE;
 import static java.lang.Math.sqrt;
 
 
-public final class NeuralNetworkPlayer extends Player {
+public final class NeuralNetworkSimulationPlayer extends SimulationPlayer {
 
     private NeuralNetwork neuralNetwork;
 
-    public NeuralNetworkPlayer(int id) {
+    public NeuralNetworkSimulationPlayer(int id) {
         super(id);
     }
 

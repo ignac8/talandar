@@ -1,4 +1,4 @@
-package player;
+package player.simulation;
 
 
 import simulation.SimulationState;
@@ -6,9 +6,9 @@ import simulation.Unit;
 import simulation.order.AttackOrder;
 import simulation.order.MoveOrder;
 
-public final class SimplePlayer extends Player {
+public final class SimpleSimulationPlayer extends SimulationPlayer {
 
-    public SimplePlayer(int playerId) {
+    public SimpleSimulationPlayer(int playerId) {
         super(playerId);
     }
 

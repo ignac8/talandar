@@ -1,17 +1,16 @@
 package sandbox;
 
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.NeuralNetwork;
-import player.NeuralNetworkPlayer;
-import player.SimplePlayer;
+import player.simulation.NeuralNetworkSimulationPlayer;
+import player.simulation.SimpleSimulationPlayer;
 import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static java.util.Collections.shuffle;
 import static jnibwapi.Map.TILE_SIZE;
 import static util.FileUtils.fromJson;
@@ -31,28 +30,27 @@ public class Replay {
         int mapWidth = TILE_SIZE * 20;
         int gapHeight = 40;
         int gapWidth = 120;
-        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
-        SimplePlayer simplePlayer = new SimplePlayer(1);
+        NeuralNetworkSimulationPlayer neuralNetworkPlayer = new NeuralNetworkSimulationPlayer(0);
+        SimpleSimulationPlayer simplePlayer = new SimpleSimulationPlayer(1);
 
-        List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
+        List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : generateUnitSelections()) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                     simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
-            fitnessEvaluators.add(fitnessEvaluator);
+            simulationEvaluators.add(fitnessEvaluator);
         }
 
-        while (true) {
-            shuffle(fitnessEvaluators);
-            for (FitnessEvaluator fitnessEvaluator : fitnessEvaluators) {
-                try {
-                    fitnessEvaluator.evaluate();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        shuffle(simulationEvaluators);
+        for (SimulationEvaluator simulationEvaluator : simulationEvaluators) {
+            try {
+                simulationEvaluator.evaluate();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+
     }
 }
