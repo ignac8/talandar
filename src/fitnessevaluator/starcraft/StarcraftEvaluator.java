@@ -6,7 +6,7 @@ import jnibwapi.BWAPIEventListener;
 import jnibwapi.JNIBWAPI;
 import jnibwapi.Position;
 import jnibwapi.Unit;
-import player.NeuralNetworkPlayer;
+import player.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,7 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
     private static StarcraftEvaluator instance;
     private JNIBWAPI jnibwapi;
     private boolean gameInProgress = false;
-    private NeuralNetworkPlayer<JNIBWAPI, Unit, Position> neuralNetworkPlayer;
+    private Player<JNIBWAPI, Unit, Position> player;
 
     private StarcraftEvaluator() {
         jnibwapi = new JNIBWAPI(this, false, true);
@@ -30,8 +30,8 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
         return instance;
     }
 
-    public void setNeuralNetworkPlayer(NeuralNetworkPlayer<JNIBWAPI, Unit, Position> neuralNetworkPlayer) {
-        this.neuralNetworkPlayer = neuralNetworkPlayer;
+    public void setPlayer(Player<JNIBWAPI, Unit, Position> player) {
+        this.player = player;
     }
 
     @Override
@@ -103,9 +103,11 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
         jnibwapi.setCommandOptimizationLevel(0);
         jnibwapi.setFrameSkip(0);
         jnibwapi.drawTargets(true);
-        //jnibwapi.enableUserInput();
+        jnibwapi.enableUserInput();
+        jnibwapi.setGameSpeed(0);
         jnibwapi.sendText("war aint what it used to be");
         jnibwapi.sendText("black sheep wall");
+        System.out.println(jnibwapi.getMap().getFileName());
     }
 
     @Override
@@ -113,7 +115,7 @@ public class StarcraftEvaluator extends FitnessEvaluator<Unit> implements BWAPIE
         if (!isGameInProgress()) {
             matchStart();
         } else {
-            neuralNetworkPlayer.giveOrders(jnibwapi);
+            player.giveOrders(jnibwapi);
         }
     }
 

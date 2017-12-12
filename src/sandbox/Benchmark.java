@@ -22,7 +22,7 @@ public class Benchmark {
 
     public static void main(String... args) {
 
-        String fileName = "best-0.4,0.001,100,9.json";
+        String fileName = "best-0.1,0.001,1000,3.json";
         String json = loadFile(fileName);
         NeuralNetwork bestOne = fromJson(json, NeuralNetwork.class);
         boolean graphics = false;

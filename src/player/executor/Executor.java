@@ -1,6 +1,5 @@
 package player.executor;
 
-import jnibwapi.Unit;
 import jnibwapi.types.UnitType;
 
 import java.util.Collection;
