@@ -1,5 +1,4 @@
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
@@ -8,13 +7,17 @@ import org.junit.Test;
 import player.NeuralNetworkPlayer;
 import player.Player;
 import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -33,14 +36,13 @@ public class FitnessEvaluatorTests {
 
         NeuralNetwork neuralNetwork = new FCFSNeuralNetwork(inputLayerSize, hiddenLayerSizes, outputLayerSize, std, mean);
 
-        Player firstPlayer = new NeuralNetworkPlayer(0);
-        NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (firstPlayer);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
         neuralNetworkPlayer.setNeuralNetwork(neuralNetwork);
 
-        testAgainstSimplePlayer(firstPlayer);
+        testAgainstSimplePlayer(neuralNetworkPlayer);
     }
 
-    private void testAgainstSimplePlayer(Player firstPlayer) {
+    private void testAgainstSimplePlayer(Player<SimulationState, Unit, Position> firstPlayer) {
         boolean graphics = false;
         double simulationTimeStep = 1.0;
         double simulationTimeLimit = Double.MAX_VALUE;
@@ -49,21 +51,21 @@ public class FitnessEvaluatorTests {
         double gapHeight = 40.0;
         double gapWidth = 120.0;
 
-        List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
+        List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
-        Player secondPlayer = new SimplePlayer(1);
+        SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
-            fitnessEvaluators.add(fitnessEvaluator);
+            simulationEvaluators.add(fitnessEvaluator);
         }
 
-        for (FitnessEvaluator fitnessEvaluator : fitnessEvaluators) {
-            double previousFitness = fitnessEvaluator.evaluate();
+        for (SimulationEvaluator simulationEvaluator : simulationEvaluators) {
+            double previousFitness = simulationEvaluator.evaluate();
             for (int counter = 0; counter < 1000; counter++) {
-                double currentFitness = fitnessEvaluator.evaluate();
+                double currentFitness = simulationEvaluator.evaluate();
                 assertThat(currentFitness, is(previousFitness));
                 previousFitness = currentFitness;
             }
@@ -72,7 +74,7 @@ public class FitnessEvaluatorTests {
 
     @Test
     public void consistentResultsTestForSimplePlayer() {
-        Player firstPlayer = new SimplePlayer(0);
+        SimplePlayer<SimulationState, Unit, Position> firstPlayer = PlayerFactory.getSimulationSimplePlayer(0);
         testAgainstSimplePlayer(firstPlayer);
     }
 
@@ -91,8 +93,8 @@ public class FitnessEvaluatorTests {
         double gapWidth = 120.0;
         List<Integer> hiddenLayerSizes = asList(10);
 
-        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
-        Player simplePlayer = new SimplePlayer(1);
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        Player<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);

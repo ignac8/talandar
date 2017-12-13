@@ -1,13 +1,14 @@
 package gui.action;
 
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import gui.updater.Logger;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import player.NeuralNetworkPlayer;
-import player.Player;
 import player.SimplePlayer;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -23,12 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.primitives.Ints.asList;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class Learn implements Runnable {
 
-    private Player firstPlayer = new NeuralNetworkPlayer(0);
-    private Player secondPlayer = new SimplePlayer(1);
+    private NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer;
+    private SimplePlayer<SimulationState, Unit, Position> simplePlayer;
     private Logger logger = Logger.getInstance();
     private double simulationTimeStep = 1.0;
     private double simulationTimeLimit = 10000;
@@ -38,9 +39,7 @@ public class Learn implements Runnable {
     private double gapWidth = 120.0;
     private int inputLayerSize = 5;
     private int outputLayerSize = 14;
-
     private Result result;
-
     private boolean graphics;
     private int passLimit;
     private int searchTimeLimit;
@@ -64,18 +63,18 @@ public class Learn implements Runnable {
             startingIndividuals.add(randomIndividual);
         }
 
-        List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
+        List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections = generateUnitSelections();
 
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
-                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
+                    simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
-            fitnessEvaluators.add(fitnessEvaluator);
+            simulationEvaluators.add(fitnessEvaluator);
         }
 
-        Solver solver = new Solver(passLimit, searchTimeLimit, fitnessEvaluators);
+        Solver solver = new Solver(passLimit, searchTimeLimit, simulationEvaluators);
 
         List<Operator> operators = new ArrayList<>();
         operators.add(new TournamentSelection(tournamentSize));
@@ -89,8 +88,7 @@ public class Learn implements Runnable {
         double totalFitness = 0;
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(false, simulationTimeStep,
-                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, firstPlayer, secondPlayer);
-        NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+                simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
         neuralNetworkPlayer.setNeuralNetwork(result.getIndividual().getNeuralNetwork());
         for (Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection : unitSelections) {
             fitnessEvaluator.setUnitSelection(unitSelection);

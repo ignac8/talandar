@@ -1,13 +1,16 @@
 package sandbox;
 
 import com.google.common.primitives.Ints;
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
+import player.factory.PlayerFactory;
+import simulation.Position;
+import simulation.SimulationState;
+import simulation.Unit;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -22,8 +25,8 @@ import util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static util.FileUtils.saveFile;
 import static util.FileUtils.saveGraphToFile;
 import static util.FileUtils.toJson;
@@ -32,9 +35,9 @@ public class ForwardEngineering {
 
     public static void main(String... args) {
 
-        int passLimit = 100;
+        int passLimit = 1000;
         int searchTimeLimit = Integer.MAX_VALUE;
-        int populationSize = 100;
+        int populationSize = 10;
         int inputLayerSize = 5;
         int outputLayerSize = 14;
         int tournamentSize = 2;
@@ -61,9 +64,9 @@ public class ForwardEngineering {
             startingIndividuals.add(randomIndividual);
         }
 
-        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
-        SimplePlayer simplePlayer = new SimplePlayer(1);
-        List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
+        NeuralNetworkPlayer<SimulationState, Unit, Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+        SimplePlayer<SimulationState, Unit, Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
+        List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
 
         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
                 = generateUnitSelections();
@@ -72,10 +75,10 @@ public class ForwardEngineering {
             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                     simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
             fitnessEvaluator.setUnitSelection(unitSelection);
-            fitnessEvaluators.add(fitnessEvaluator);
+            simulationEvaluators.add(fitnessEvaluator);
         }
 
-        Solver solver = new Solver(passLimit, searchTimeLimit, fitnessEvaluators);
+        Solver solver = new Solver(passLimit, searchTimeLimit, simulationEvaluators);
 
         List<Operator> operators = new ArrayList<>();
         operators.add(new TournamentSelection(tournamentSize));

@@ -1,22 +1,23 @@
 package sandbox;
 
 import com.google.common.primitives.Ints;
-import fitnessevaluator.SimulationEvaluator;
-import fitnessevaluator.unitselection.Quantity;
-import fitnessevaluator.unitselection.Race;
+import fitnessevaluator.simulation.SimulationEvaluator;
+import fitnessevaluator.simulation.unitselection.Quantity;
+import fitnessevaluator.simulation.unitselection.Race;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import neuralnetwork.NeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
+import player.factory.PlayerFactory;
 import util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateAllUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 
 public class UnitSelectionsTesting {
 
@@ -36,7 +37,7 @@ public class UnitSelectionsTesting {
 
         List<Integer> hiddenLayerSizes = Ints.asList(10);
 
-        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
+        NeuralNetworkPlayer neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
 
         List<NeuralNetwork> neuralNetworks = new ArrayList<>();
         for (int counter = 0; counter < 1000; counter++) {
@@ -44,7 +45,7 @@ public class UnitSelectionsTesting {
             neuralNetworks.add(neuralNetwork);
         }
 
-        SimplePlayer simplePlayer = new SimplePlayer(1);
+        SimplePlayer simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
 
         SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                 simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);

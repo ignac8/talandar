@@ -1300,10 +1300,10 @@ public class Unit implements Cloneable {
     public Unit clone() {
         /*
          * Safe to use clone for this class because it has only primitive fields and a reference to
-		 * BWAPI, which should be shallow-copied. Beware when using equals or == with cloned Units
-		 * as they will be considered equal (and not ==) regardless of any changes in their
-		 * properties over time.
-		 */
+         * BWAPI, which should be shallow-copied. Beware when using equals or == with cloned Units
+         * as they will be considered equal (and not ==) regardless of any changes in their
+         * properties over time.
+         */
         try {
             return (Unit) super.clone();
         } catch (CloneNotSupportedException e) {

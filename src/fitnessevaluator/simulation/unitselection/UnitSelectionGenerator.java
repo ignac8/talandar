@@ -1,4 +1,4 @@
-package fitnessevaluator.unitselection;
+package fitnessevaluator.simulation.unitselection;
 
 import jnibwapi.types.UnitType;
 import simulation.bridge.JNIBWAPI_LOAD;

@@ -1,6 +1,6 @@
 package solver;
 
-import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import player.NeuralNetworkPlayer;
 import solver.operator.Operator;
 
@@ -18,16 +18,16 @@ public class Solver implements Callable<Result> {
     private long timeLimit;
     private Individual bestIndividual;
     private List<PopulationFitnessStatistic> populationFitnessStatistics;
-    private List<FitnessEvaluator> fitnessEvaluators;
+    private List<SimulationEvaluator> simulationEvaluators;
     private int passCount;
     private List<Individual> individuals;
 
-    public Solver(int passLimit, long timeLimit, List<FitnessEvaluator> fitnessEvaluators) {
+    public Solver(int passLimit, long timeLimit, List<SimulationEvaluator> simulationEvaluators) {
         this.populationFitnessStatistics = new ArrayList<>();
         this.timeStart = currentTimeMillis();
         this.passLimit = passLimit;
         this.timeLimit = timeLimit;
-        this.fitnessEvaluators = fitnessEvaluators;
+        this.simulationEvaluators = simulationEvaluators;
     }
 
     public Result call() {
@@ -46,12 +46,12 @@ public class Solver implements Callable<Result> {
     public void evaluate(List<Individual> individuals) {
         for (Individual individual : individuals) {
             double fitness = 0;
-            for (FitnessEvaluator fitnessEvaluator : fitnessEvaluators) {
-                NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (fitnessEvaluator.getFirstPlayer());
+            for (SimulationEvaluator simulationEvaluator : simulationEvaluators) {
+                NeuralNetworkPlayer neuralNetworkPlayer = (NeuralNetworkPlayer) (simulationEvaluator.getFirstPlayer());
                 neuralNetworkPlayer.setNeuralNetwork(individual.getNeuralNetwork());
-                fitness += fitnessEvaluator.evaluate();
+                fitness += simulationEvaluator.evaluate();
             }
-            fitness /= fitnessEvaluators.size();
+            fitness /= simulationEvaluators.size();
             individual.setFitness(fitness);
             if (bestIndividual == null || individual.getFitness() > bestIndividual.getFitness()) {
                 bestIndividual = individual.copy();

@@ -1,5 +1,7 @@
-package fitnessevaluator;
+package fitnessevaluator.simulation;
 
+import fitnessevaluator.FitnessEvaluator;
+import fitnessevaluator.GameResult;
 import jnibwapi.types.UnitType;
 import player.Player;
 import simulation.Position;
@@ -10,12 +12,10 @@ import simulation.bridge.JNIBWAPI_LOAD;
 import util.Pair;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-import static java.lang.Math.pow;
-
-public class SimulationEvaluator implements FitnessEvaluator<Player> {
+public class SimulationEvaluator extends FitnessEvaluator<Unit> {
 
     static {
         JNIBWAPI_LOAD.loadIfNecessary();
@@ -28,12 +28,12 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
     private double mapWidth;
     private double gapHeight;
     private double gapWidth;
-    private Player firstPlayer;
-    private Player secondPlayer;
+    private Player<SimulationState, Unit, Position> firstPlayer;
+    private Player<SimulationState, Unit, Position> secondPlayer;
     private Pair<List<List<UnitType>>, List<List<UnitType>>> unitSelection;
 
     public SimulationEvaluator(boolean graphics, double timeStep, double timeLimit, double mapHeight, double mapWidth,
-                               double gapHeight, double gapWidth, Player firstPlayer, Player secondPlayer) {
+                               double gapHeight, double gapWidth, Player<SimulationState, Unit, Position> firstPlayer, Player<SimulationState, Unit, Position> secondPlayer) {
         this.graphics = graphics;
         this.timeStep = timeStep;
         this.timeLimit = timeLimit;
@@ -45,52 +45,55 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
         this.secondPlayer = secondPlayer;
     }
 
-    public double evaluate() {
-        SimulationState finalState = playGame();
-        double fitness = rateGame(finalState);
-        return fitness;
-    }
-
-    private SimulationState playGame() {
+    protected GameResult<Unit> playGame() {
         try {
             SimulationState state = new SimulationState(mapWidth, mapHeight);
             state = putUnits(state, false, unitSelection.getLeft());
             state = putUnits(state, true, unitSelection.getRight());
-            List<Player> playerList = Arrays.asList(firstPlayer, secondPlayer);
+            List<Player<SimulationState, Unit, Position>> playerList = Arrays.asList(firstPlayer, secondPlayer);
             Simulation simulation = new Simulation(state, playerList, graphics, timeStep, timeLimit);
-            return simulation.play();
+            SimulationState simulationState = simulation.play();
+            Collection<Unit> units = simulationState.getUnits().values();
+            return new GameResult<>(units, units);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private double rateGame(SimulationState finalState) {
-        double playerFitness = 0;
-        double playerMaxFitness = 0;
-        double enemyFitness = 0;
-        double enemyMaxFitness = 0;
+    @Override
+    protected double getMineralPrice(Unit unit) {
+        return unit.getUnitType().getMineralPrice();
+    }
 
-        Map<Integer, Unit> units = finalState.getUnits();
+    @Override
+    protected double getGasPrice(Unit unit) {
+        return unit.getUnitType().getGasPrice();
+    }
 
-        for (Unit unit : units.values()) {
-            double unitWorth = (double) (unit.getUnitType().getMineralPrice() + 2 * unit.getUnitType().getGasPrice());
-            double currentDurability = unit.getHitPoints() + unit.getShields();
-            int maxDurability = unit.getUnitType().getMaxHitPoints() + unit.getUnitType().getMaxShields();
-            double adjustedUnitWorth = pow((currentDurability / maxDurability), 0.75) * unitWorth;
-            switch (unit.getPlayerId()) {
-                case 0:
-                    playerFitness += adjustedUnitWorth;
-                    playerMaxFitness += unitWorth;
-                    break;
-                case 1:
-                    enemyFitness += adjustedUnitWorth;
-                    enemyMaxFitness += unitWorth;
-                    break;
-            }
-        }
-        double result = playerFitness / playerMaxFitness - enemyFitness / enemyMaxFitness;
-        return result;
+    @Override
+    protected double getHitPoints(Unit unit) {
+        return unit.getHitPoints();
+    }
+
+    @Override
+    protected double getShields(Unit unit) {
+        return unit.getShields();
+    }
+
+    @Override
+    protected double getMaxHitPoints(Unit unit) {
+        return unit.getUnitType().getMaxHitPoints();
+    }
+
+    @Override
+    protected double getMaxShields(Unit unit) {
+        return unit.getUnitType().getMaxShields();
+    }
+
+    @Override
+    protected int getPlayerId(Unit unit) {
+        return unit.getPlayerId();
     }
 
     private SimulationState putUnits(SimulationState state, boolean secondPlayer, List<List<UnitType>> unitTypes) {
@@ -112,11 +115,11 @@ public class SimulationEvaluator implements FitnessEvaluator<Player> {
         return state;
     }
 
-    public Player getFirstPlayer() {
+    public Player<SimulationState, Unit, Position> getFirstPlayer() {
         return firstPlayer;
     }
 
-    public Player getSecondPlayer() {
+    public Player<SimulationState, Unit, Position> getSecondPlayer() {
         return secondPlayer;
     }
 

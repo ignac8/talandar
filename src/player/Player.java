@@ -1,18 +1,16 @@
 package player;
 
-import simulation.SimulationState;
+import player.executor.Executor;
 
-public abstract class Player {
+public abstract class Player<State, Unit, Position> {
+
+    protected Executor<State, Unit, Position> executor;
     protected int playerId;
 
-    public Player(int playerId) {
+    public Player(Executor<State, Unit, Position> executor, int playerId) {
+        this.executor = executor;
         this.playerId = playerId;
     }
 
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    public abstract void giveOrders(SimulationState simulationState);
-
+    public abstract void giveOrders(State state);
 }

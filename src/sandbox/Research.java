@@ -2,12 +2,12 @@ package sandbox;
 
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-import fitnessevaluator.FitnessEvaluator;
-import fitnessevaluator.SimulationEvaluator;
+import fitnessevaluator.simulation.SimulationEvaluator;
 import jnibwapi.types.UnitType;
 import neuralnetwork.FCFSNeuralNetwork;
 import player.NeuralNetworkPlayer;
 import player.SimplePlayer;
+import player.factory.PlayerFactory;
 import solver.Individual;
 import solver.Result;
 import solver.Solver;
@@ -30,8 +30,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import static fitnessevaluator.unitselection.UnitSelectionGenerator.generateUnitSelections;
+import static fitnessevaluator.simulation.unitselection.UnitSelectionGenerator.generateUnitSelections;
 import static util.FileUtils.saveFile;
 import static util.FileUtils.saveGraphToFile;
 import static util.FileUtils.toJson;
@@ -80,9 +82,9 @@ public class Research {
                             startingIndividuals.add(randomIndividual);
                         }
 
-                        NeuralNetworkPlayer neuralNetworkPlayer = new NeuralNetworkPlayer(0);
-                        SimplePlayer simplePlayer = new SimplePlayer(1);
-                        List<FitnessEvaluator> fitnessEvaluators = new ArrayList<>();
+                        NeuralNetworkPlayer<simulation.SimulationState, simulation.Unit, simulation.Position> neuralNetworkPlayer = PlayerFactory.getSimulationNeuralNetworkPlayer(0);
+                        SimplePlayer<simulation.SimulationState, simulation.Unit, simulation.Position> simplePlayer = PlayerFactory.getSimulationSimplePlayer(1);
+                        List<SimulationEvaluator> simulationEvaluators = new ArrayList<>();
 
                         List<Pair<List<List<UnitType>>, List<List<UnitType>>>> unitSelections
                                 = generateUnitSelections();
@@ -91,10 +93,10 @@ public class Research {
                             SimulationEvaluator fitnessEvaluator = new SimulationEvaluator(graphics, simulationTimeStep,
                                     simulationTimeLimit, mapHeight, mapWidth, gapHeight, gapWidth, neuralNetworkPlayer, simplePlayer);
                             fitnessEvaluator.setUnitSelection(unitSelection);
-                            fitnessEvaluators.add(fitnessEvaluator);
+                            simulationEvaluators.add(fitnessEvaluator);
                         }
 
-                        Solver solver = new Solver(passLimit, searchTimeLimit, fitnessEvaluators);
+                        Solver solver = new Solver(passLimit, searchTimeLimit, simulationEvaluators);
 
                         List<Operator> operators = new ArrayList<>();
                         operators.add(new TournamentSelection(tournamentSize));
@@ -118,21 +120,26 @@ public class Research {
             for (double mutationChance : mutationChances) {
                 for (int populationSize : populationSizes) {
                     for (int numberOfRetry = 0; numberOfRetry < numberOfRetries; numberOfRetry++) {
-                        Result result = futures.get(taskCounter).get();
-                        String name = String.join(",",
-                                Double.toString(crossoverChance),
-                                Double.toString(mutationChance),
-                                Integer.toString(populationSize),
-                                Integer.toString(numberOfRetry));
-                        saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs/" + name + ".png");
-                        saveFile("neuralNetworks/" + name + ".json", toJson(result.getIndividual().getNeuralNetwork()));
-                        double totalFitness = result.getIndividual().getFitness();
-                        String textResult = String.join(",", Integer.toString(taskCounter), name, Double.toString(totalFitness));
-                        System.out.println(textResult);
+                        try {
+                            Result result = futures.get(taskCounter).get(10, TimeUnit.MINUTES);
+                            String name = String.join(",",
+                                    Double.toString(crossoverChance),
+                                    Double.toString(mutationChance),
+                                    Integer.toString(populationSize),
+                                    Integer.toString(numberOfRetry));
+                            saveGraphToFile(result.getPopulationFitnessStatistics(), "graphs/" + name + ".png");
+                            saveFile("neuralNetworks/" + name + ".json", toJson(result.getIndividual().getNeuralNetwork()));
+                            double totalFitness = result.getIndividual().getFitness();
+                            String textResult = String.join(",", Integer.toString(taskCounter), name, Double.toString(totalFitness));
+                            System.out.println(textResult);
 
-                        writer.write(textResult);
-                        writer.newLine();
-                        writer.flush();
+                            writer.write(textResult);
+                            writer.newLine();
+                            writer.flush();
+
+                        } catch (TimeoutException e) {
+                            System.out.println("Thread hung up! Why? I don't know :(");
+                        }
 
                         taskCounter++;
 

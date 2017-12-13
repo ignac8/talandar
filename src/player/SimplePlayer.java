@@ -1,26 +1,22 @@
 package player;
 
+import player.executor.Executor;
 
-import simulation.SimulationState;
-import simulation.Unit;
-import simulation.order.AttackOrder;
-import simulation.order.MoveOrder;
+public class SimplePlayer<State, Unit, Position> extends Player<State, Unit, Position> {
 
-public final class SimplePlayer extends Player {
-
-    public SimplePlayer(int playerId) {
-        super(playerId);
+    public SimplePlayer(Executor<State, Unit, Position> executor, int playerId) {
+        super(executor, playerId);
     }
 
     @Override
-    public void giveOrders(SimulationState simulationState) {
-        for (Unit unit : simulationState.getUnits().values()) {
-            if (unit.getPlayerId() == playerId && unit.getHitPoints() > 0) {
-                Unit closestEnemyUnit = simulationState.getClosestEnemyUnit(unit);
-                if (unit.canAttack(closestEnemyUnit)) {
-                    unit.setOrder(new AttackOrder(unit, closestEnemyUnit));
+    public void giveOrders(State state) {
+        for (Unit unit : executor.getUnits(state)) {
+            if (executor.isPlayerUnit(unit, playerId) && executor.getHitPoints(unit) > 0) {
+                Unit closestEnemyUnit = executor.getClosestEnemyUnit(unit, state);
+                if (executor.canAttack(unit, closestEnemyUnit)) {
+                    executor.setAttackOrder(unit, closestEnemyUnit);
                 } else {
-                    unit.setOrder(new MoveOrder(unit, closestEnemyUnit.getPosition()));
+                    executor.setMoveOrder(unit, executor.getPosition(closestEnemyUnit));
                 }
             }
         }
